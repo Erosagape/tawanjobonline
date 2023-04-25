@@ -1,36 +1,59 @@
 ﻿@Code
     ViewData("Title") = "Yearly"
     Dim arr = "[""Period"",""Import"",""Export""]"
+    Dim c = 0
     For Each row In ViewBag.JobCountMonthly
+        c += 1
         arr &= ","
         arr &= "['" & row.JobYear & "/" & row.JobMonth.ToString("00") & "'," & row.JobCountIM & "," & row.JobCountEX & "]"
     Next
+    If c = 0 Then
+        arr &= ",['N/A',0,0]"
+    End If
+    c = 0
     Dim yearList = From data In DirectCast(ViewBag.JobCountMonthly, IEnumerable)
                    Select data.JobYear Distinct
 
     Dim arrAIE = "[""Period"",""Import"",""Export""]"
     For Each row In ViewBag.AdvSumMonthly
+        c += 1
         arrAIE &= ","
         arrAIE &= "['" & row.PayYear & "/" & row.PayMonth.ToString("00") & "'," & row.SumPaymentIM & "," & row.SumPaymentEX & "]"
     Next
-
+    If c = 0 Then
+        arrAIE &= ",['N/A',0,0]"
+    End If
+    c = 0
     Dim arrRIE = "[""Period"",""Import"",""Export""]"
     For Each row In ViewBag.RcpSumMonthly
+        c += 1
         arrRIE &= ","
         arrRIE &= "['" & row.RcpYear & "/" & row.RcpMonth.ToString("00") & "'," & row.SumReceiveIM & "," & row.SumReceiveEX & "]"
     Next
-
+    If c = 0 Then
+        arrRIE &= ",['N/A',0,0]"
+    End If
+    c = 0
     Dim arrRA = "[""Period"",""Receive"",""Payment""]"
     For Each row In ViewBag.SumAdvRcpMonthly
+        c += 1
         arrRA &= ","
         arrRA &= "['" & row.FiscalYear & "/" & row.FiscalMonth.ToString("00") & "'," & row.TotalReceive & "," & row.TotalAdvance & "]"
     Next
-
+    If c = 0 Then
+        arrRA &= "['N/A',0,0]"
+    End If
+    c = 0
     Dim arrBal = "[""Period"",""Cash Balance""]"
     For Each row In ViewBag.SumAdvRcpMonthly
+        c += 1
         arrBal &= ","
         arrBal &= "['" & row.FiscalYear & "/" & row.FiscalMonth.ToString("00") & "'," & row.TotalReceive - row.TotalAdvance & "]"
     Next
+    If c = 0 Then
+        arrBal &= "['N/A',0,0]"
+    End If
+    c = 0
 End Code
 <div class="container">
     <h2>Job Volume Yearly</h2>

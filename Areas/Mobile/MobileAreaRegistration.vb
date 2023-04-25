@@ -13,7 +13,7 @@ Namespace Areas.Mobile
             context.MapRoute(
                 "Mobile_default",
                 "Mobile/{controller}/{action}/{id}",
-                New With {.action = "Index", .id = UrlParameter.Optional}
+                New With {.action = "Index", .id = UrlParameter.Optional, .controller = "Login"}
             )
         End Sub
     End Class

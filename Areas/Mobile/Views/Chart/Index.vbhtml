@@ -58,6 +58,18 @@
     Dim jobOnClearing = jobOnWorking.Where(Function(e) e.CloseJobBy <> "")
     Dim totalJobOnClearingIM = jobOnClearing.Where(Function(e) e.JobType = 1).Count
     Dim totalJobOnClearingEX = jobOnClearing.Where(Function(e) e.JobType <> 1).Count
+
+    Dim jobByType = ViewBag.JobByType
+    Dim arr = "[""Type"",""Import"",""Export""]"
+    Dim c = 0
+    For Each row In ViewBag.JobByType
+        c += 1
+        arr &= ","
+        arr &= "['" & row.ShipByName & "'," & row.CountIM & "," & row.CountEX & "]"
+    Next
+    If c = 0 Then
+        arr &= ",['N/A',0,0]"
+    End If
 End Code
 <div class="container">
     <div class="row">
@@ -69,6 +81,7 @@ End Code
         <div class="col-6">
             <h2>Active Job</h2>
             <input type="button" data-toggle="modal" data-target="#modCancel" value="Show Cancel" class="btn btn-danger" />
+            <div id="chartVol5"></div>
             <div id="chartVol"></div>
             <div class="modal fade" id="modCancel" role="dialog">
                 <div class="modal-dialog-lg">
@@ -76,7 +89,7 @@ End Code
                         <div class="modal-header">
                             <input type="button" data-dismiss="modal" class="btn btn-danger" value="Close" />
                         </div>
-                        <div class="modal-body container">                            
+                        <div class="modal-body container">
                             <b>Job Cancelled</b>
                             <div class="row">
                                 <div class="col-6">
@@ -123,14 +136,14 @@ End Code
     <div class="row">
         <div class="col-6">
             <h2>In Process </h2><input type="button" data-toggle="modal" data-target="#modPrepare" value="Show Details" class="btn btn-success" />
-            <div id = "chartVol1" ></div>
-                <div class="modal fade" id="modPrepare" role="dialog">
+            <div id="chartVol1"></div>
+            <div class="modal fade" id="modPrepare" role="dialog">
                 <div class="modal-dialog-lg">
                     <div class="modal-content">
                         <div class="modal-header">
                             <input type="button" data-dismiss="modal" class="btn btn-danger" value="Close" />
                         </div>
-                        <div class="modal-body container">                            
+                        <div class="modal-body container">
                             <b>Job In Process</b>
                             <ul class="list-group">
                                 <li><a href="#tbPreparing">Preparing</a> <span class="badge-red">@jobOnPrepare.Where(Function(e) e.DeclareNumber = "").Count</span></li>
@@ -224,7 +237,7 @@ End Code
                                             </tfoot>
                                         </table>
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -377,20 +390,23 @@ End Code
             ["Delivering",@totalJobOnDeliveringIM+@totalJobOnDeliveringEX],
             ["Delivered",@totalJobOnClearingIM+@totalJobOnClearingEX]
         ];
+        var arr5 = [@Html.Raw(arr)];
 
         var dataVol0 = google.visualization.arrayToDataTable(arr0);
         var dataVol1 = google.visualization.arrayToDataTable(arr1);
         var dataVol2 = google.visualization.arrayToDataTable(arr2);
         var dataVol3 = google.visualization.arrayToDataTable(arr3);
         var dataVol4 = google.visualization.arrayToDataTable(arr4);
+        var dataVol5 = google.visualization.arrayToDataTable(arr5);
+
         //chart total job
         var optionsJob = {
-            title: 'Total',
-            chartArea: { width: '50%' },
+            title :'Total',
+chartArea: { width :'50%' },
             isStacked: true,
             hAxis: {
                 title: 'Total Job',
-                minValue: 0,
+minValue: 0,
             },
             vAxis: {
                 title: 'Status'
@@ -398,16 +414,16 @@ End Code
         };
 
         var chart = new google.visualization.BarChart(document.getElementById('chartJob'));
-        chart.draw(dataVol0,optionsJob);
+        chart.draw(dataVol0, optionsJob);
 
         var volOptions = {
-            pieHole: 0.4,
+            pieHole:    0.4,
             colors: GetColorStatus()
         };
         //chart active job
         var chartVol = new google.visualization.PieChart(document.getElementById('chartVol'));
         google.visualization.events.addListener(chartVol, 'select', function (e) {
-            if (chartVol.getSelection() != null &&
+            if(chartVol.getSelection()!= null &&
                 chartVol.getSelection()[0] != null &&
                 chartVol.getSelection()[0]['row'] != null &&
                 chartVol.getSelection().length > 0) {
@@ -420,12 +436,12 @@ End Code
         chartVol4.draw(dataVol4, volOptions);
 
         var options = {
-            title: 'Total Clearance',
-            chartArea: { width: '50%' },
+            title :'Total Clearance',
+chartArea: { width :'50%' },
             isStacked: true,
             hAxis: {
                 title: 'Total Clearance',
-                minValue: 0
+minValue: 0
             },
             vAxis: {
                 title: 'Job Type'
@@ -435,12 +451,12 @@ End Code
         chartVol2.draw(dataVol2, options);
 
         var options2 = {
-            title: 'Total Preparation',
-            chartArea: { width: '50%' },
+            title :'Total Preparation',
+chartArea: { width :'50%' },
             isStacked: true,
             hAxis: {
                 title: 'Total Preparation',
-                minValue: 0
+minValue: 0
             },
             vAxis: {
                 title: 'Job Type'
@@ -449,6 +465,22 @@ End Code
 
         var chartVol3 = new google.visualization.BarChart(document.getElementById('chartVol1'));
         chartVol3.draw(dataVol3, options2);
+
+        var optionsJob2 = {
+            title: 'Total',
+            chartArea: { width: '50%' },
+            isStacked: true,
+            hAxis: {
+                title: 'Total Job',
+                minValue: 0,
+            },
+            vAxis: {
+                title: 'Type Shipment'
+            }
+        };
+
+        var chart5 = new google.visualization.BarChart(document.getElementById('chartVol5'));
+        chart5.draw(dataVol5, optionsJob2);
     }
     function GetColorStatus() {
         return [
@@ -464,5 +496,4 @@ End Code
             { color: 'olive', visibleInLegend: true },
         ];
     }
-
 </script>

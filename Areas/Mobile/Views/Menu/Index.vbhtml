@@ -4,8 +4,11 @@
 End Code
 
 <h2>Welcome @ViewBag.UserID</h2>
-<a href="@Url.Action("Index", "Chart")">Status Chart</a>
+<a href="@Url.Action("Index", "Chart")">Total Job</a>
 @If role = "S" Then
+    @<br>@<a href="@Url.Action("Yearly", "Chart")">Year Summary</a>
+    @<br>@<a href="@Url.Action("Finance", "Chart")">Cash Flow</a>
+    @<br>@<a href="@Url.Action("Loading", "Chart")">Loading Job</a>
     @<br>@<a href="">List Booking</a>
     @<br>@<a href="">Create Booking</a>
 End If

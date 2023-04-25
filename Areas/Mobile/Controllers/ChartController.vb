@@ -31,30 +31,55 @@ Namespace Areas.Mobile.Controllers
             Return View("Index")
         End Function
         Sub PopulateJobData(sqlw As String)
-            Dim oJob = New CJobOrder(ViewBag.JobConn).GetData(sqlw).AsEnumerable()
+            If sqlw = "" Then
+                sqlw = " WHERE "
+            Else
+                sqlw = sqlw & " AND "
+            End If
             Select Case ViewBag.UserRole
                 Case "S"
-                    Dim oJobFilter = From job In oJob
-                                     Where job.CSCode.Equals(ViewBag.UserID) Or job.ManagerCode.Equals(ViewBag.UserID) Or "3,4,5".Contains(ViewBag.UserPosition) = False
-                                     Select job
+                    Dim oJobFilter = New CJobOrder(ViewBag.JobConn).GetData(sqlw & String.Format(" (CSCode='{0}' OR NOT CHARINDEX('{1}','3,4,5')>0)", ViewBag.UserID, ViewBag.UserPosition))
 
-                    ViewBag.JobList = oJobFilter.ToList()
+                    ViewBag.JobList = oJobFilter
+                    Dim oJobGroup = From job In oJobFilter
+                                    Join sby In New CConfig(ViewBag.JobConn).GetData(" WHERE ConfigCode='SHIP_BY' ")
+                                        On Convert.ToInt32(job.ShipBy) Equals Convert.ToInt32(sby.ConfigKey)
+                                    Where job.JobStatus <> 99
+                                    Group By job.ShipBy, ShipByName = sby.ConfigValue
+                                        Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEX = Count(job.JobType = 1)
+                                    Order By ShipByName
+                    ViewBag.JobByType = oJobGroup.ToList()
                 Case "C"
+
                     Dim oCust = New CCompany(ViewBag.JobConn).GetData(String.Format(" WHERE LoginName='{0}'", ViewBag.UserID))
                     Dim oCustCode = If(oCust.Count > 0, oCust(0).CustCode, "")
                     Dim oCustBranch = If(oCust.Count > 0, oCust(0).Branch, "")
-                    Dim oJobFilter = From job In oJob
-                                     Where (job.CustCode.Equals(oCustCode) And job.CustBranch.Equals(oCustBranch))
-                                     Select job
+                    Dim oJobFilter = New CJobOrder(ViewBag.JobConn).GetData(sqlw & String.Format(" (CustCode='{0}' AND CustBranch='{1}')", oCustCode, oCustBranch))
 
-                    ViewBag.JobList = oJobFilter.ToList()
+                    ViewBag.JobList = oJobFilter
+                    Dim oJobGroup = From job In oJobFilter
+                                    Join sby In New CConfig(ViewBag.JobConn).GetData(" WHERE ConfigCode='SHIP_BY' ")
+                                        On Convert.ToInt32(job.ShipBy) Equals Convert.ToInt32(sby.ConfigKey)
+                                    Where job.JobStatus <> 99
+                                    Group By job.ShipBy, ShipByName = sby.ConfigValue
+                                        Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEX = Count(job.JobType = 1)
+                                    Order By ShipByName
+                    ViewBag.JobByType = oJobGroup.ToList()
                 Case "V"
                     Dim oVend = New CVender(ViewBag.JobConn).GetData(String.Format(" WHERE LoginName='{0}'", ViewBag.UserID))
                     Dim oVenCode = If(oVend.Count > 0, oVend(0).VenCode, "")
-                    Dim oJobFilter = From job In oJob
-                                     Where (job.AgentCode.Equals(oVenCode) Or job.ForwarderCode.Equals(oVenCode))
-                                     Select job
-                    ViewBag.JobList = oJobFilter.ToList()
+                    Dim oJobFilter = New CJobOrder(ViewBag.JobConn).GetData(sqlw & String.Format(" (AgentCode='{0}' OR ForwarderCode='{0}')", oVenCode))
+
+                    ViewBag.JobList = oJobFilter
+
+                    Dim oJobGroup = From job In oJobFilter
+                                    Join sby In New CConfig(ViewBag.JobConn).GetData(" WHERE ConfigCode='SHIP_BY' ")
+                                        On Convert.ToInt32(job.ShipBy) Equals Convert.ToInt32(sby.ConfigKey)
+                                    Where job.JobStatus <> 99
+                                    Group By job.ShipBy, ShipByName = sby.ConfigValue
+                                        Into DataSource = Group, CountIM = Count(job.JobType = 1), CountEX = Count(job.JobType = 1)
+                                    Order By ShipByName
+                    ViewBag.JobByType = oJobGroup.ToList()
             End Select
         End Sub
         Function Yearly() As ActionResult
@@ -146,11 +171,17 @@ Namespace Areas.Mobile.Controllers
             ViewBag.SumAdvRcpMonthly = advrcpCompare
         End Sub
         Sub PopulateJobYearly(sqlw As String)
-            Dim oJob = New CJobOrder(ViewBag.JobConn).GetData(sqlw).AsEnumerable()
+            If sqlw = "" Then
+                sqlw = " WHERE "
+            Else
+                sqlw = sqlw & " AND "
+            End If
             Select Case ViewBag.UserRole
                 Case "S"
+
+                    Dim oJob = New CJobOrder(ViewBag.JobConn).GetData(sqlw & String.Format(" (CSCode='{0}' OR NOT CHARINDEX('{1}','3,4,5')>0)", ViewBag.UserID, ViewBag.UserPosition))
+
                     Dim oJobFilter = From job In oJob
-                                     Where job.CSCode.Equals(ViewBag.UserID) Or job.ManagerCode.Equals(ViewBag.UserID) Or "3,4,5".Contains(ViewBag.UserPosition) = False
                                      Order By job.DocDate.Year, job.DocDate.Month
                                      Group By JobYear = job.DocDate.Year, JobMonth = job.DocDate.Month
                                      Into DataSource = Group, JobCountIM = Count(job.JobType = 1), JobCountEX = Count(job.JobType <> 1)
@@ -160,8 +191,8 @@ Namespace Areas.Mobile.Controllers
                     Dim oCust = New CCompany(ViewBag.JobConn).GetData(String.Format(" WHERE LoginName='{0}'", ViewBag.UserID))
                     Dim oCustCode = If(oCust.Count > 0, oCust(0).CustCode, "")
                     Dim oCustBranch = If(oCust.Count > 0, oCust(0).Branch, "")
+                    Dim oJob = New CJobOrder(ViewBag.JobConn).GetData(sqlw & String.Format(" (CustCode='{0}' AND CustBranch='{1}')", oCustCode, oCustBranch))
                     Dim oJobFilter = From job In oJob
-                                     Where (job.CustCode.Equals(oCustCode) And job.CustBranch.Equals(oCustBranch))
                                      Order By job.DocDate.Year, job.DocDate.Month
                                      Group By JobYear = job.DocDate.Year, JobMonth = job.DocDate.Month
                                      Into DataSource = Group, JobCountIM = Count(job.JobType = 1), JobCountEX = Count(job.JobType <> 1)
@@ -170,8 +201,8 @@ Namespace Areas.Mobile.Controllers
                 Case "V"
                     Dim oVend = New CVender(ViewBag.JobConn).GetData(String.Format(" WHERE LoginName='{0}'", ViewBag.UserID))
                     Dim oVenCode = If(oVend.Count > 0, oVend(0).VenCode, "")
+                    Dim oJob = New CJobOrder(ViewBag.JobConn).GetData(sqlw & String.Format(" (AgentCode='{0}' OR ForwarderCode='{0}')", oVenCode))
                     Dim oJobFilter = From job In oJob
-                                     Where (job.AgentCode.Equals(oVenCode) Or job.ForwarderCode.Equals(oVenCode))
                                      Order By job.DocDate.Year, job.DocDate.Month
                                      Group By JobYear = job.DocDate.Year, JobMonth = job.DocDate.Month
                                      Into DataSource = Group, JobCountIM = Count(job.JobType = 1), JobCountEX = Count(job.JobType <> 1)
@@ -356,16 +387,30 @@ Namespace Areas.Mobile.Controllers
                             Into SumExpense = Sum(d.AdvNet + d.Charge50Tavi), SumReceive = Sum(0)
                           Order By DueDate
 
+            Dim oAdvVend = From d In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE AdvNo NOT IN(select AdvNo from Job_AdvHeader where DocStatus=99)")
+                           Join h In oAdvHdr On String.Concat(d.BranchCode, d.AdvNo) Equals String.Concat(h.BranchCode, h.AdvNo)
+                           Join v In New CVender(ViewBag.JobConn).GetData("") On d.VenCode Equals v.VenCode
+                           Group By VenderName = v.TName
+                                Into SumExpense = Sum(d.AdvNet + d.Charge50Tavi)
+                           Order By VenderName
+            ViewBag.SumVendDaily = oAdvVend
+
             Dim oInvHdr = New CInvHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DueDate='{0}' AND NOT CancelProve<>''", atDate))
             Dim oInvDtl = From d In New CInvDetail(ViewBag.JobConn).GetData(" WHERE DocNo NOT IN(SELECT DocNo from Job_InvoiceHeader WHERE DueDate is null OR CancelProve<>'')")
                           Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
-                          Where h.CancelProve.ToString() = ""
                           Group By h.DueDate
                               Into SumExpense = Sum(0), SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
                           Order By DueDate
 
-            ViewBag.SumInvDue = oInvDtl.ToList()
-            ViewBag.SumPayDue = oAdvDtl.ToList()
+            Dim oInvCust = From d In New CInvDetail(ViewBag.JobConn).GetData(" WHERE DocNo NOT IN(SELECT DocNo from Job_InvoiceHeader WHERE DueDate is null OR CancelProve<>'')")
+                           Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
+                           Join c In New CCompany(ViewBag.JobConn).GetData("") On String.Concat(h.BillToCustCode, h.BillToCustBranch) Equals String.Concat(c.CustCode, c.Branch)
+                           Group By CustName = c.NameThai
+                               Into SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
+                           Order By CustName
+
+            ViewBag.SumCustDaily = oInvCust
+
             Dim sumDue As List(Of DuePaymentSummary) = New List(Of DuePaymentSummary)
             For Each d In oInvDtl.ToList()
                 Dim o As New DuePaymentSummary
@@ -426,6 +471,7 @@ Namespace Areas.Mobile.Controllers
         End Sub
         Sub PopulateReceivablesDaily(atDate As String)
             Dim oBillHdr = New CBillHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DuePaymentDate='{0}' AND NOT CancelProve<>''", atDate))
+            Dim oBillHdrMonth = New CBillHeader(ViewBag.JobConn).GetData(String.Format(" WHERE Year(DuePaymentDate)={0} AND Month(DuePaymentDate)={1} AND NOT CancelProve<>''", Convert.ToDateTime(atDate).Year, Convert.ToDateTime(atDate).Month))
             Dim oBillDtl = New CBillDetail(ViewBag.JobConn).GetData(" WHERE BillAcceptNo not in(select BillAcceptNo from Job_BillAcceptHeader where CancelProve<>'')")
             Dim oBillAll = From h In oBillHdr
                            Join d In oBillDtl
@@ -435,7 +481,16 @@ Namespace Areas.Mobile.Controllers
                            Group By CustName = c.NameThai
                                Into DataSource = Group, TotalInvoice = Sum(d.AmtTotal + d.AmtWH)
 
+            Dim oBillMonth = From h In oBillHdrMonth
+                             Join d In oBillDtl
+                              On String.Concat(h.BranchCode, h.BillAcceptNo) Equals String.Concat(d.BranchCode, d.BillAcceptNo)
+                             Join c In New CCompany(ViewBag.JobConn).GetData("")
+                               On String.Concat(h.CustCode, h.CustBranch) Equals String.Concat(c.CustCode, c.Branch)
+                             Group By CustName = c.NameThai
+                               Into DataSource = Group, TotalInvoice = Sum(d.AmtTotal + d.AmtWH)
+
             ViewBag.ARToday = oBillAll.ToList()
+            ViewBag.ARMonth = oBillMonth.ToList()
         End Sub
         Sub PopulateReceivablesWeekly(atDate As String)
             Dim oBillHdrLastWeek = New CBillHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DuePaymentDate>=DATEADD(day,-7,'{0}') AND DuePaymentDate<'{0}' AND NOT CancelProve<>''", atDate))
@@ -457,6 +512,7 @@ Namespace Areas.Mobile.Controllers
 
         Sub PopulatePayablesDaily(atDate As String)
             Dim oPayHdr = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocDate='{0}' AND NOT CancelProve<>''", atDate))
+            Dim oPayHdrMonth = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE Year(DocDate)={0} AND Month(DocDate)={1} AND NOT CancelProve<>''", Convert.ToDateTime(atDate).Year, Convert.ToDateTime(atDate).Month))
             Dim oPayDtl = New CPayDetail(ViewBag.JobConn).GetData(" WHERE DocNo not in(select DocNo from Job_PaymentHeader WHERE CancelProve<>'')")
             Dim oPayAll = From h In oPayHdr
                           Join d In oPayDtl
@@ -465,7 +521,16 @@ Namespace Areas.Mobile.Controllers
                               On h.VenCode Equals v.VenCode
                           Group By VenderName = v.TName
                               Into DataSource = Group, TotalPayment = Sum(d.Total + d.AmtWHT)
+
+            Dim oPayMonth = From h In oPayHdrMonth
+                            Join d In oPayDtl
+                              On String.Concat(h.BranchCode, h.DocNo) Equals String.Concat(d.BranchCode, d.DocNo)
+                            Join v In New CVender(ViewBag.JobConn).GetData("")
+                              On h.VenCode Equals v.VenCode
+                            Group By VenderName = v.TName
+                              Into DataSource = Group, TotalPayment = Sum(d.Total + d.AmtWHT)
             ViewBag.APToday = oPayAll.ToList()
+            ViewBag.APMonth = oPayMonth.ToList()
         End Sub
         Sub PopulatePayablesWeekly(atDate As String)
             Dim oPayHdrLastWeek = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocDate>=DATEADD(day,-7,'{0}') AND DocDate<'{0}' AND NOT CancelProve<>''", atDate))

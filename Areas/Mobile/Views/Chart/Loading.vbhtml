@@ -1,20 +1,35 @@
 ﻿@Code
     ViewData("Title") = "Loading"
+    Dim c = 0
     Dim arrToday = "[""Release Port"",""Import"",""Export""]"
     For Each row In ViewBag.JobToday
+        c += 1
         arrToday &= ","
         arrToday &= "['" & row.ClearPort & "'," & row.CountIM & "," & row.CountEX & "]"
     Next
+    If c = 0 Then
+        arrToday &= ",['N/A',0,0]"
+    End If
     Dim arrLastWeek = "[""ETD/ETA Date"",""Import"",""Export""]"
+    c = 0
     For Each row In ViewBag.JobLastWeek
+        c += 1
         arrLastWeek &= ","
         arrLastWeek &= "['" & Convert.ToDateTime(row.ImExDate).ToString("dd/MM/yyyy") & "'," & row.CountIM & "," & row.CountEX & "]"
     Next
+    If c = 0 Then
+        arrLastWeek &= ",['N/A',0,0]"
+    End If
     Dim arrNextWeek = "[""ETD/ETA Date"",""Import"",""Export""]"
+    c = 0
     For Each row In ViewBag.JobNextWeek
+        c += 1
         arrNextWeek &= ","
         arrNextWeek &= "['" & Convert.ToDateTime(row.ImExDate).ToString("dd/MM/yyyy") & "'," & row.CountIM & "," & row.CountEX & "]"
     Next
+    If c = 0 Then
+        arrNextWeek &= ",['N/A',0,0]"
+    End If
 End Code
 <form class="container" method="post" action="">
     <b>At Date</b> 
