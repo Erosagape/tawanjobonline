@@ -88,7 +88,7 @@ End Code
                 </thead>
                 <tbody>
                     @For Each row In ViewBag.SumCashDaily
-                        @<tr>
+                        @<tr style="background-color:greenyellow">
                             <td>@Convert.ToDateTime(row.DueDate).ToString("dd/MM/yyyy")</td>
                             <td>@row.TotalExpense</td>
                             <td>@row.TotalReceive</td>

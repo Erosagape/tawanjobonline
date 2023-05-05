@@ -391,7 +391,7 @@ Namespace Areas.Mobile.Controllers
                            Join h In oAdvHdr On String.Concat(d.BranchCode, d.AdvNo) Equals String.Concat(h.BranchCode, h.AdvNo)
                            Join v In New CVender(ViewBag.JobConn).GetData("") On d.VenCode Equals v.VenCode
                            Group By VenderName = v.TName
-                                Into SumExpense = Sum(d.AdvNet + d.Charge50Tavi)
+                                Into DataSource = Group, SumExpense = Sum(d.AdvNet + d.Charge50Tavi)
                            Order By VenderName
             ViewBag.SumVendDaily = oAdvVend
 
@@ -406,7 +406,7 @@ Namespace Areas.Mobile.Controllers
                            Join h In oInvHdr On String.Concat(d.BranchCode, d.DocNo) Equals String.Concat(h.BranchCode, h.DocNo)
                            Join c In New CCompany(ViewBag.JobConn).GetData("") On String.Concat(h.BillToCustCode, h.BillToCustBranch) Equals String.Concat(c.CustCode, c.Branch)
                            Group By CustName = c.NameThai
-                               Into SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
+                               Into DataSource = Group, SumReceive = Sum(d.TotalAmt + d.Amt50Tavi)
                            Order By CustName
 
             ViewBag.SumCustDaily = oInvCust
