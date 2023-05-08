@@ -3172,7 +3172,8 @@ AND DocNo=h.DocNo
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
 ISNULL(s.NameThai,'(N/A)') as Description 
-from Job_ClearDetail b 
+from Job_ClearDetail b inner join Job_InvoiceHeader i 
+on b.BranchCode=i.BranchCode and b.LinkBillNo=i.DocNo
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 and b.ClrNo=a.ClrNo and b.BNet>0 
 inner join Job_SrvSingle s
@@ -3207,15 +3208,16 @@ ORDER BY s.IsExpense
             tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.UsedAmount ELSE 0 END) as '" & prefix & "<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
         Next
         Dim mSql = "
-SELECT j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
-e.NameEng as 'Customer',i.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
+SELECT i.DocNo as InvoiceNo,i.DocDate as InvoiceDate,j.DocDate,j.DutyDate,b.JobNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
+e.NameEng as 'Customer',c.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer,
 SUM(CASE WHEN s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCollect,
 SUM(CASE WHEN s.IsCredit=1 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumAdvance,
 SUM(CASE WHEN s.IsCredit=0 AND s.IsExpense=0 THEN b.UsedAmount ELSE 0 END) as SumCharge,
-SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as SumCost,
-{1}
+SUM(CASE WHEN s.IsExpense=1 THEN b.UsedAmount ELSE 0 END) as SumCost
+,{1}
 FROM Job_ClearDetail b
+INNER JOIN Job_Invoiceheader i ON b.BranchCode=i.BranchCode AND b.LinkBillNo=i.DocNo
 INNER JOIN Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 AND b.ClrNo= a.ClrNo
 INNER JOIN Job_SrvSingle s ON b.SICode=s.SICode
@@ -3223,10 +3225,10 @@ INNER JOIN Job_Order j ON b.BranchCode=j.BranchCode AND b.JobNo=j.JNo
 LEFT JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.JobType=jt.JobType
 LEFT JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FROM MAs_Config WHERE ConfigCode='SHIP_BY') sb ON j.ShipBy=sb.ShipBy
 LEFT JOIN Mas_Company e ON e.CustCode=j.CustCode AND e.Branch=j.CustBranch
-LEFT JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) i ON i.CustCode=j.consigneecode
+LEFT JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  Mas_Company GROUP BY CustCode) c ON c.CustCode=j.consigneecode
 LEFT JOIN Mas_Vender t ON j.ForwarderCode=t.VenCode
 WHERE a.DocStatus<>99 AND b.BNet>0 AND j.JobStatus<>99 {0}
-GROUP BY j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,i.NameEng,j.DeliveryTo,j.InvProduct,t.TName,j.InvNo,j.HAWB,
+GROUP BY i.DocNo,i.DocDate,j.DocDate,j.DutyDate,b.JobNo,jt.JobTypeName,sb.ShipByName,e.NameEng,c.NameEng,j.DeliveryTo,j.InvProduct,t.TName,j.InvNo,j.HAWB,
 j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate,j.TotalContainer 
 ORDER BY j.DocDate,b.JobNo
 "

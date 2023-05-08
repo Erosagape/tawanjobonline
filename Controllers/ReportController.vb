@@ -356,7 +356,7 @@ ORDER BY rc.CustTName,rc.ReceiptDate,rc.ReceiptNo"
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "SELECT inv.DocNo,inv.DocDate,inv.SDescription,inv.Amt,inv.AmtVat,inv.AmtCredit,inv.Amt50Tavi,inv.TotalInv,inv.CreditNet,inv.ReceivedNet,inv.ReceiptNo,inv.LastVoucher FROM (" & SQLSelectInvReport(sqlW) & ") inv ORDER BY inv.DocDate,inv.DocNo"
                     Case "INVDETAIL"
-                        sqlW = GetSQLCommand(cliteria, "iv.DocDate", "iv.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
+                        sqlW = GetSQLCommand(cliteria, "i.DocDate", "i.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectClearingTotal(sqlW)
                     Case "INVSTATUS"
@@ -1449,7 +1449,8 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectAdvanceTotalJob(sqlW)
                     Case "JOBDETAIL"
-                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
+                        'sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
+                        sqlW = GetSQLCommand(cliteria, "i.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectClearingTotal(sqlW)
                     Case "JOBDETAILSUM"
