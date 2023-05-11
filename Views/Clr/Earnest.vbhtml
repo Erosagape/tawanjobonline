@@ -324,7 +324,7 @@ End Code
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
-            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 3);
+            CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Jobs', response, 4);
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Clear By', response, 2);
@@ -461,7 +461,7 @@ End Code
         }
         let jsonString = JSON.stringify({ data: dataApp });
         $.ajax({
-            url: "@Url.Action("ReceiveEarnest", "Clr")" + '&Type=Y',
+            url: "@Url.Action("ReceiveEarnest", "Clr")",
             type: "POST",
             contentType: "application/json",
             data: jsonString,
@@ -518,8 +518,7 @@ End Code
                 if ($('#txtCustCode').val()!=='') {
                     w += '&Cust=' + $('#txtCustCode').val();
                 }
-                SetGridJob(path, '#tbJob', '#frmSearchJob', w, ReadBooking);
-                //SetGridTransport(path, '#tbJob', '#frmSearchJob', w, ReadBooking);
+                SetGridTransport(path, '#tbJob', '#frmSearchJob', w, ReadBooking);
                 break;
         }
     }
@@ -576,7 +575,7 @@ End Code
     function ShowExpense(dr) {
         RemoveData(dr);
         $('#txtClrNo').val(dr.AdvNO == '' ? dr.ClrNo : dr.AdvNO);
-        $('#txtItemNo').val(dr.AdvNO == '' ? dr.ItemNo : dr.AdvItemNo);
+        $('#txtItemNo').val(dr.AdvItemNo);
         $('#txtSlipNo').val(dr.SlipNO);
         $('#txtExpCode').val('');
         $('#txtCTN_NO').val('');
@@ -898,7 +897,7 @@ End Code
             CmpBranch:'',
             PaidAmount:CNum(Math.abs($('#txtTotalNet').val())),
             TotalAmount: CNum(Math.abs($('#txtTotalNet').val())),
-            acType: $('#cboRefType').val()
+            acType: $('#txtDocacType').val()
         };
         let jsonText = JSON.stringify({ data:[ obj ]});
         //ShowMessage(jsonText);
@@ -912,11 +911,7 @@ End Code
                     if ($('#txtExpSum').val() > 0) {
                         SaveClearHeader(response.result.data);
                     }
-                    window.open(path + 'Acc/voucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + response.result.data);
-
-
                     ApproveData(response.result.data);
-                    
                     return;
                 }
                 ShowMessage(response.result.msg);

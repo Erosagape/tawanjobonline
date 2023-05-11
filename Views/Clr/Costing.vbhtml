@@ -214,7 +214,7 @@ End Code
                     if (d[i].LinkItem==0) {
                         html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ',' + "'" + d[i].LinkBillNo + "'" + ',' + d[i].LinkItem + ')"/></td>';
                     } else {
-                        html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ',' + "'" + d[i].ShippingRemark + "'"+')"/></td>';
+                        html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ',' + "'" + d[i].ShippingRemark + "'" + ')"/></td>';
                     }
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
                     html += '<td>'+d[i].SICode+'</td>';
@@ -270,12 +270,13 @@ End Code
             CloseWait();
         });
     }
-    function OpenInvoice(branch, code, type) {
-
+    function OpenInvoice(branch, code,type) {
         switch (type) {
-            case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+            case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                 break;
-            case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+            case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                break;
+            case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                 break;
             default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
         }

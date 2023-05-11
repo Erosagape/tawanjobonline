@@ -231,7 +231,7 @@ End Code
         <br />
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
-        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+        ตำแหน่ง <input type="text" id="txtTaxPosition" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
         ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
 </div>
@@ -272,6 +272,7 @@ End Code
             ReportCode: row.REPORTCODE,
             ReportCliteria: html
         }
+
         let str = JSON.stringify(params);
         $.ajax({
             url: path + 'Acc/GetWHTaxReport',
@@ -286,11 +287,21 @@ End Code
                 }
                 if (res.result.length > 0) {
                     var tb = res.result[0];
-                    $('#lblIDCard1').text(tb.IDCard1);
-                    $('#lblTaxNumber1').text(tb.TaxNumber1);
-                    $('#lblBranch1').val('00'+CCode(tb.Branch1));
-                    $('#lblTName1').text(tb.TName1);
-                    $('#lblTAddress1').text(tb.TAddress1);
+                    //$('#lblIDCard1').text(tb.IDCard1);
+                    $('#lblTaxNumber1').text('@ViewBag.PROFILE_TAXNUMBER');
+                    $('#lblBranch1').val('@ViewBag.PROFILE_TAXBRANCH');
+                    $('#lblTName1').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
+                    $('#lblTAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN');
+                    if (params.ReportCode == 'PRD53A') {
+                        $('#txtTaxPosition').val('กระทำการแทน');
+                    } else {
+                        $('#txtTaxPosition').val('@ViewBag.TaxPosition');
+                    }
+                    //$('#lblIDCard1').text(tb.IDCard1);
+                    //$('#lblTaxNumber1').text(tb.TaxNumber1);
+                    //$('#lblBranch1').val('00'+CCode(tb.Branch1));
+                    //$('#lblTName1').text(tb.TName1);
+                    //$('#lblTAddress1').text(tb.TAddress1);
                     $('#txtTaxYear').val(tb.TaxYear + 543);
                     $('#chkMo' + tb.TaxMonth).prop('checked', true);
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
@@ -301,10 +312,10 @@ End Code
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 4) {
+                    if (d > 7) {
                         let r = 1;
-                        for (let i = 5; i <= d; i++) {
-                            if (r == 5 || i == d) {
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8 || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {

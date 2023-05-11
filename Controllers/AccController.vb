@@ -2364,7 +2364,6 @@ ORDER BY a.TName1
 
                 Dim oHead = New CInvHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim oDet = New CInvDetail(GetSession("ConnJob")).GetData(tSqlw)
-
                 Dim jsonH As String = ""
                 Dim jsonD As String = ""
                 Dim jsonC As String = ""

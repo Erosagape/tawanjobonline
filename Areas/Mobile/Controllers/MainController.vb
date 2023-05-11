@@ -1,7 +1,7 @@
 ﻿Imports System.Web.Mvc
 
 Namespace Areas.Mobile.Controllers
-    Public Class MenuController
+    Public Class MainController
         Inherits MController
         ' GET: Mobile/Menu
         Function Index() As ActionResult

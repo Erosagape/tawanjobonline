@@ -63,8 +63,8 @@ End Code
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
                         <th class="desktop">BillTo</th>
-                        <th class="desktop">Remark</th>
-                        <th>BillAcceptNo</th>
+                        <th>Remark</th>
+                        <th class="desktop">BillAcceptNo</th>
                         <th class="desktop">Cust.Adv</th>
                         <th class="desktop">Advance</th>
                         <th class="desktop">Charge</th>
@@ -163,12 +163,6 @@ End Code
                                 </div>
                                 <textarea id="txtBillAddress" style="width:100%" class="form-control-lg" disabled></textarea>
                             </p>
-                            <div>
-                                <div>
-                                    <label id="lblRefNo">Ref.No</label>
-                                    :<br /><input type="text" id="txtRefNo" class="form-control" />
-                                </div>
-                            </div>
                             <div style="display:flex;flex-direction:row">
                                 <div style="flex:1">
                                     <label id="lblBillAcceptNo">Bill.No</label>
@@ -255,11 +249,11 @@ End Code
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
                             </p>
-                            <label id="lblRemark">Remark</label>
+                            <label id="lblRemark">Remark</label><br/>
                             :
-                            <input type="text" id="txtRemark1" class="form-control" />
-                            <input type="text" id="txtRemark2" class="form-control" />
-                            <input type="text" id="txtRemark3" class="form-control" />
+                            Shipper : <input type="text" id="txtRemark1" class="form-control" />
+                            Consignee : <input type="text" id="txtRemark2" class="form-control" />
+                            Note : <input type="text" id="txtRemark3" class="form-control" />
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
                             <input type="text" id="txtRemark6" class="form-control" />
@@ -334,7 +328,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblDExchangeRate">Exc.Rate</label>
                                     <br />
-                                    <input type="text" id="txtDExchangeRate" class="form-control" onchange="CalNetAmount()" />
+                                    <input type="text" id="txtDExchangeRate" class="form-control" onchange="CalForeignDetail()" />
                                 </div>
                                 <div style="flex:2">
                                     <label id="lblDiscountType">Discount</label>
@@ -604,18 +598,6 @@ End Code
                 row = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 row_d = {};
                 ReadData();
-                console.log(row);
-                //if (row.ShippingRemark === "IVD-" || row.ShippingRemark === "IVC-") {
-                //    //ShowDetailDC(row.BranchCode, row.DocNo);
-                //    $.get(path + 'clr/getclearingreport?job=' + row.RefNo + '&Branch=' + row.BranchCode, function (clr) {
-                //        let clrd = clr.data.filter((data) => {
-                //            return data.LinkBillNo == row.DocNo;
-                //        });
-                //        console.log(clrd);
-                //    })
-                //} else {
-                //    ShowDetail(row.BranchCode, row.DocNo);
-                //}
                 ShowDetail(row.BranchCode, row.DocNo);
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
@@ -632,24 +614,19 @@ End Code
     }
     function PrintData() {
         let code = row.DocNo;
-        console.log(code);
-        if (code !== 'code') {
+        if (code !== '') {
             let branch = row.BranchCode;
             switch (row.ShippingRemark) {
-                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
-                case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                    break;
+                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
                 default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
             }
-
         }
     }
-    function ShowDetailDC(branch, code) {
-        $('#tbDetail').DataTable().clear().draw();
-      
-    }
-
     function ShowDetail(branch, code) {
         $('#tbDetail').DataTable().clear().draw();
         $.get(path + 'Acc/GetInvDetail?branch=' + branch + '&code=' + code, function (r) {
@@ -786,9 +763,7 @@ End Code
             row_d.SRemark = $('#txtSRemark').val();
             row_d.CurrencyCode = $('#txtDCurrencyCode').val();
             row_d.ExchangeRate = $('#txtDExchangeRate').val();
-            row_d.UnitPrice = CNum($('#txtUnitPrice').val());
             row_d.FUnitPrice = CNum($('#txtFUnitPrice').val());
-            row_d.Amt = CNum($('#txtAmt').val());
             row_d.FAmt = CNum($('#txtFAmt').val());
             row_d.DiscountType = $('#txtDiscountType').val();
             row_d.DiscountPerc = CNum($('#txtDiscountPerc').val());
@@ -800,7 +775,6 @@ End Code
             row_d.FTotalAmt = CNum($('#txtFTotalAmt').val());
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
-            row_d.Qty = $('#txtQty').val();
             row_d.QtyUnit = $('#txtQtyUnit').val();
             row_d.IsTaxCharge = $('#txtIsTaxCharge').val();
             row_d.Is50Tavi = $('#txtIs50Tavi').val();
@@ -882,7 +856,7 @@ End Code
             PrintedBy:row.PrintedBy,
             PrintedDate:CDateEN(row.PrintedDate),
             PrintedTime:row.PrintedTime,
-            RefNo: $('#txtRefNo').val(),
+            RefNo: row.RefNo,
             VATRate:CDbl($('#txtVATRate').val(),0),
             TotalAdvance:CNum($('#txtTotalAdvance').val()),
             TotalCharge:CNum($('#txtTotalCharge').val()),
@@ -972,7 +946,6 @@ End Code
     function ReadData() {
         $('#txtInvNo').val(row.DocNo);
         $('#txtDocNo').val(row.DocNo);
-        $('#txtRefNo').val(row.RefNo);
         $('#txtDocDate').val(CDateEN(row.DocDate));
         $('#txtDCustCode').val(row.CustCode);
         $('#txtDCustBranch').val(row.CustBranch);

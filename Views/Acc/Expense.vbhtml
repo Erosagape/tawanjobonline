@@ -15,7 +15,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <b id="lblDocNo" ondblclick="SaveHeader()">Expenses No:</b>
+                <b id="lblDocNo">Expenses No:</b>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtDocNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -137,7 +137,7 @@ End Code
                         <label id="lblApprTime">Time:</label>
                         <input type="text" id="txtApproveTime" style="width:80px" disabled />
                         <br />
-                        <label>Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
+                        <label ondblclick="SaveHeader()">Ref#</label> <input type="text" id="txtApproveRef" style="width:250px" />
                     </div>
                     <div class="col-sm-4" style="border-style:solid;border-width:1px">
                         <label id="lblPayment">Payment By</label>
@@ -298,7 +298,7 @@ End Code
                                     <label id="lblContNo">Container No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtContainerNo" class="form-control"/>
+                                        <input type="text" id="txtContainerNo" class="form-control" disabled />
                                         <button class="btn btn-default" id="btnSelPrice" onclick="SearchData('transportprice')">Select Price</button>
                                     </div>                                    
                                 </div>
@@ -495,7 +495,7 @@ End Code
         }
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
-            //$('#txtRefNo').attr('disabled', 'disabled');
+            $('#txtRefNo').attr('disabled', 'disabled');
             $('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
@@ -658,7 +658,7 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'PAYMENT_TYPE=#txtPayType|CH';
+        let lists = 'PAYMENT_TYPE=#txtPayType|CA';
         loadCombos(path, lists);
 
         LoadService();
@@ -893,7 +893,7 @@ End Code
             $('#txtRefNo').val('');
             $('#txtPoNo').val('');
         }
-        $('#txtPayType').val('CH');
+        $('#txtPayType').val('CA');
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();
@@ -1050,7 +1050,7 @@ End Code
             $('#txtClrItemNo').val(dt.ClrItemNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
             if (dt.ClrItemNo > 0 || dt.AdvItemNo > 0) {
-                //$('#btnUpdate').attr('disabled', 'disabled');
+                $('#btnUpdate').attr('disabled', 'disabled');
             }
             return;
         }
@@ -1272,7 +1272,7 @@ End Code
     function ReadService(dt) {
         if (dt != undefined) {
             $('#txtSICode').val(dt.SICode);
-            $('#txtSDescription').val(dt.NameEng);
+            $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
             if (dt.IsTaxCharge == 1) {
@@ -1371,11 +1371,11 @@ End Code
         if (b == false) {
             $('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');
-            //$('#btnUpdate').attr('disabled', 'disabled');
+            $('#btnUpdate').attr('disabled', 'disabled');
         } else {
             $('#btnSave').removeAttr('disabled');
             $('#btnDel').removeAttr('disabled');
-            //$('#btnUpdate').removeAttr('disabled');
+            $('#btnUpdate').removeAttr('disabled');
         }
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
         if (userRights.indexOf('I') < 0) $('#btnAdd').attr('disabled', 'disabled');

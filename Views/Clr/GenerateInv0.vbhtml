@@ -102,11 +102,9 @@ End Code
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
-                                    <option value="IVT-">Internal</option>
-                                    <option value="IVF-">Consold</option>
-                                    <option value="IVD-">CN Oversea</option>
-                                    <option value="IVC-">DN Oversea</option>
-                                    <option value="IVA-">Advance</option>
+                                    <option value="IVT-">Transport</option>
+                                    <option value="IVF-">Frieght</option>
+                                    <option value="IVD-">Debit Note</option>
                                 </select>
 
                             </div>
@@ -1047,7 +1045,7 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
-	    $('#btnGen').attr('disabled','disabled');
+	$('#btnGen').attr('disabled','disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {

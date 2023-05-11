@@ -213,7 +213,6 @@ End Code
                                     <th class="all">Net</th>
                                 </tr>
                             </thead>
-			    <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -278,17 +277,6 @@ End Code
     let dtl = [];
     let list = [];
     let docno = '';
-	 $('#tbHeader tbody').on('click', 'tr',function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
-            });
     //$(document).ready(function () {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
@@ -557,7 +545,18 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-           
+            $('#tbHeader tbody').on('click', 'tr',function () {
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    RemoveData(data); //callback function from caller
+                    return;
+                }
+                $(this).addClass('selected');
+		alert('click');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                AddData(data); //callback function from caller
+            });
         });
     }
     function SetStatusInput(d, bl, ctl) {

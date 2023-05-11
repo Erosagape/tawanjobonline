@@ -222,7 +222,7 @@ End Code
                                 <label id="lblPaymentTime">Time:</label>
                                 <input type="text" id="txtPaymentTime" style="width:80px" disabled />
                                 <br />
-                                <label id="lblPaymentRef" ondblclick="OpenVoucher()">Payment Ref:</label>
+                                <label id="lblPaymentRef">Payment Ref:</label>
                                 <input type="text" id="txtPaymentRef" style="width:200px" disabled />
                             </div>
                             <div class="col-sm-4" style="border-style:solid;border-width:1px;color:red">
@@ -1484,15 +1484,15 @@ End Code
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
             $('#txtApproveTime').val(ShowTime(dt.ApproveTime));
 
-            $('#txtAdvCash').val(CDbl(dt.AdvCash,4));
-            $('#txtAdvChq').val(CDbl(dt.AdvChq, 4));
-            $('#txtAdvChqCash').val(CDbl(dt.AdvChqCash,4));
-            $('#txtAdvCred').val(CDbl(dt.AdvCred,4));
+            $('#txtAdvCash').val(CDbl(dt.AdvCash,2));
+            $('#txtAdvChq').val(CDbl(dt.AdvChq, 2));
+            $('#txtAdvChqCash').val(CDbl(dt.AdvChqCash,2));
+            $('#txtAdvCred').val(CDbl(dt.AdvCred,2));
 
-            $('#txtAdvAmount').val(CDbl(Number(CDbl(dt.TotalAdvance,4))-Number(CDbl(dt.TotalVAT,4))+Number(CDbl(dt.Total50Tavi,4)),4));
-            $('#txtVatAmount').val(CDbl(dt.TotalVAT,4));
-            $('#txtWhtAmount').val(CDbl(dt.Total50Tavi,4));
-            $('#txtTotalAmount').val(CDbl((dt.TotalAdvance),4));
+            $('#txtAdvAmount').val(CDbl(Number(CDbl(dt.TotalAdvance,2))-Number(CDbl(dt.TotalVAT,2))+Number(CDbl(dt.Total50Tavi,2)),3));
+            $('#txtVatAmount').val(CDbl(dt.TotalVAT,3));
+            $('#txtWhtAmount').val(CDbl(dt.Total50Tavi,3));
+            $('#txtTotalAmount').val(CDbl((dt.TotalAdvance),3));
 
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
@@ -1778,7 +1778,6 @@ End Code
         return (filter.length > 0);
     }
     function ReadAdvDetail(dt) {
-        console.log(dt)
         let tb=$('#tbDetail').DataTable({
             data:dt,
             selected: true, //ให้สามารถเลือกแถวได้
@@ -1793,31 +1792,31 @@ End Code
                 {
                     data: "UnitPrice", title: "Price",
                     render: function (data) {
-                        return ShowNumber(data, 4);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "AdvAmount", title: "Amount",
                     render: function (data) {
-                        return ShowNumber(data, 4);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 4);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "Charge50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 4);
+                        return ShowNumber(data, 3);
                     }
                 },
                 {
                     data: "AdvNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 4);
+                        return ShowNumber(data, 3);
                     }
                 }
             ],
@@ -1932,7 +1931,7 @@ End Code
             }
             $('#txtAdvQty').val(dt.AdvQty);
             $('#txtExcRate').val(dt.ExchangeRate);
-            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,4));
+            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
             CalAmount();
             $('#txtRemark').val(dt.TRemark);
             $('#txt50Tavi').val(dt.Doc50Tavi);
@@ -1941,10 +1940,10 @@ End Code
             $('#txtVatType').val(dt.IsChargeVAT);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Rate50Tavi);
-            $('#txtAMT').val(CDbl(dt.AdvAmount,4));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,4));
-            $('#txtWHT').val(CDbl(dt.Charge50Tavi,4));
-            $('#txtNET').val(CDbl(dt.AdvNet,4));
+            $('#txtAMT').val(CDbl(dt.AdvAmount,3));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
+            $('#txtWHT').val(CDbl(dt.Charge50Tavi,3));
+            $('#txtNET').val(CDbl(dt.AdvNet,3));
             $('#txtVenCode').val(dt.VenCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate > 0 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
@@ -2413,16 +2412,16 @@ End Code
         return;
     }
     function SumTotal() {
-        let cash = CDbl($('#txtAdvCash').val(),4);
-        let chq = CDbl($('#txtAdvChq').val(),4);
-        let chqcash = CDbl($('#txtAdvChqCash').val(),4);
-        let cred = CDbl($('#txtAdvCred').val(),4);
-        return CDbl(Number(cash) + Number(chq) + Number(chqcash) + Number(cred),4);
+        let cash = CDbl($('#txtAdvCash').val(),3);
+        let chq = CDbl($('#txtAdvChq').val(),3);
+        let chqcash = CDbl($('#txtAdvChqCash').val(),3);
+        let cred = CDbl($('#txtAdvCred').val(),3);
+        return CDbl(Number(cash) + Number(chq) + Number(chqcash) + Number(cred),3);
     }
     function GetTotal() {
         let total = SumTotal();
-        let sum = CNum($('#txtTotalAmount').val());
-        return CDbl(sum / CNum($('#txtExchangeRate').val()) - total,4);
+        let sum = CDbl($('#txtTotalAmount').val(),3);
+        return CDbl(sum / CNum($('#txtExchangeRate').val()) - total,3);
     }
     function CalAmount() {
         $('#txtAMT').val(0);
@@ -2447,12 +2446,12 @@ End Code
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),4);
-        let vat = CDbl($('#txtVAT').val(),4);
-        let wht = CDbl($('#txtWHT').val(), 4);
+        let amt = CDbl($('#txtAMT').val(),3);
+        let vat = CDbl($('#txtVAT').val(),3);
+        let wht = CDbl($('#txtWHT').val(), 3);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),4));
-        $('#txtAMT').val(CDbl(amt,4));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),3));
+        $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
@@ -2460,27 +2459,27 @@ End Code
             type = '1';
             $('#txtVatType').val(type);
         }
-        let amt = CDbl($('#txtAMT').val(),4);
+        let amt = CDbl($('#txtAMT').val(),2);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 3);
         }
-        let vatrate = CDbl($('#txtVATRate').val(),4);
-        let whtrate = CDbl($('#txtWHTRate').val(),4);
+        let vatrate = CDbl($('#txtVATRate').val(),2);
+        let whtrate = CDbl($('#txtWHTRate').val(),2);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
             let base = amt * 100 / (100 + Number(vatrate));
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
-            $('#txtAMT').val(CDbl(CNum(base),4));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 4));
+            $('#txtAMT').val(CDbl(CNum(base),3));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 3));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(4),4));
-        $('#txtWHT').val(CDbl(wht.toFixed(4),4));
+        $('#txtVAT').val(CDbl(vat.toFixed(4),3));
+        $('#txtWHT').val(CDbl(wht.toFixed(4),3));
         CalTotal();
     }
     function GetExchangeRate() {
@@ -2622,8 +2621,5 @@ End Code
     }
     function PrintClear() {
         window.open(path + 'Adv/FormClrAdv?branch=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val());
-    }
-    function OpenVoucher() {
-        window.open(path + 'Acc/Voucher?branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtPaymentRef').val());
     }
 </script>

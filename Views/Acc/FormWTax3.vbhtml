@@ -232,7 +232,7 @@ End Code
         <br />
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
-        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
+        ตำแหน่ง <input type="text" style="border-style:none;text-align:center" id="txtTaxPosition" value="@ViewBag.TaxPosition" /> <br>
         ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
 </div>
@@ -273,6 +273,7 @@ End Code
             ReportCode: row.REPORTCODE,
             ReportCliteria: html
         }
+
         let str = JSON.stringify(params);
         $.ajax({
             url: path + 'Acc/GetWHTaxReport',
@@ -286,6 +287,11 @@ End Code
                     return;
                 }
                 if (res.result.length > 0) {
+                    if (params.ReportCode == 'PRD3A') {
+                        $('#txtTaxPosition').val('กระทำการแทน');
+                    } else {
+                        $('#txtTaxPosition').val('@ViewBag.TaxPosition');
+                    }
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
@@ -302,10 +308,10 @@ End Code
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 4) {
+                    if (d > 7) {
                         let r = 1;
-                        for (let i = 5; i <= d; i++) {
-                            if (r == 5 || i == d) {
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8 || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {

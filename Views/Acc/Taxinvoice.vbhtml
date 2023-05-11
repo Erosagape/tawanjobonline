@@ -29,8 +29,9 @@ End Code
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="REC">Receipt</option>
-                <option value="RCV">Receipt Internal</option>
+                <option value="RCV">Receipt Advance</option>
+                <option value="RET">Receipt Transport</option>
+                <option value="DNR">Debit Note Receipt</option>
             </select>
         </div>
         <div class="col-sm-2">
@@ -173,7 +174,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblFTotalNet">Total Foreign</label>
                                     <br />
-                                    <input type="text" id="txtFTotalNet" class="form-control"  />
+                                    <input type="text" id="txtFTotalNet" class="form-control" disabled />
                                 </div>
                             </div>
                             <div style="display:flex">
@@ -192,19 +193,19 @@ End Code
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
                             <div>
                                 <label id="lblReceiveRef">Voucher Ref:</label>
-                                <br /><input type="text" id="txtReceiveRef" class="form-control"  />
+                                <br /><input type="text" id="txtReceiveRef" class="form-control" disabled />
                             </div>
                             <div>
                                 <label id="lblReceiveDate">Receive Date:</label>
-                                <br /><input type="date" id="txtReceiveDate" class="form-control"  />
+                                <br /><input type="date" id="txtReceiveDate" class="form-control" disabled />
                             </div>
                             <div>
                                 <label id="lblReceiveTime">Receive Time:</label>
-                                <br /><input type="text" id="txtReceiveTime" class="form-control"  />
+                                <br /><input type="text" id="txtReceiveTime" class="form-control" disabled />
                             </div>
                             <div>
                                 <label id="lblReceiveBy">Receive By:</label>
-                                <br /><input type="text" id="txtReceiveBy" class="form-control"  />
+                                <br /><input type="text" id="txtReceiveBy" class="form-control" disabled />
                             </div>
                         </div>
                     </div>
@@ -212,7 +213,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-4">
                                 <label id="lblEmpCode">Create By:</label>
-                                <br /> <input type="text" id="txtEmpCode" class="form-control"  />
+                                <br /> <input type="text" id="txtEmpCode" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblPrintedDate">Print Date:</label>
@@ -247,7 +248,7 @@ End Code
                             <br /> <input type="text" id="txtCancelProve" class="form-control" disabled />
                         </div>
                     </div>
-                    @*<b>Receive Remarks:</b>
+                    <b>Receive Remarks:</b>
                     <div class="row">
                         <div class="col-sm-3">
                             CASH:
@@ -267,6 +268,13 @@ End Code
                             <br />
                             <div style="display:flex">
                                 <input type="text" id="txtCashRef" class="form-control" />
+                            </div>
+                        </div>
+  			<div class="col-sm-2">
+                            DATE:
+                            <br />
+                            <div style="display:flex">
+                                <input type="text" id="txtCashDate" class="form-control" />
                             </div>
                         </div>
                     </div>
@@ -292,6 +300,11 @@ End Code
                                 <input type="checkbox" id="chkTransfer" onclick="SetTransfer()" /><b> TRANSFER</b>
                             </div>                            
                         </div>
+			<div class="col-sm-2">
+                            DATE:
+                            <br />
+                            <input type="text" id="txtChqDate" class="form-control" />
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2">
@@ -302,7 +315,7 @@ End Code
                             <br/>
                             <button class="btn btn-primary" onclick="SetRemark()">Set Remark</button>
                         </div>
-                    </div>*@
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <div style="float:left">
@@ -391,7 +404,7 @@ End Code
                                         <label id="lblAmt">Amount</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)"  />
+                                        <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -411,7 +424,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblIsTaxCharge">VAT</label>                                        
                                     <br />
-                                    <select id="txtIsTaxCharge" class="form-control dropdown" >
+                                    <select id="txtIsTaxCharge" class="form-control dropdown" disabled>
                                         <option value="0">NO</option>
                                         <option value="1">EX</option>
                                         <option value="2">IN</option>
@@ -432,7 +445,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblFAmtVAT">VAT (F)</label>                                        
                                     <br />
-                                    <input type="number" id="txtFAmtVAT" class="form-control"  />
+                                    <input type="number" id="txtFAmtVAT" class="form-control" disabled />
                                 </div>
                             </div>
                         </div>
@@ -441,7 +454,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblIs50Tavi">WH-TAX</label>                                        
                                     <br />
-                                    <select id="txtIs50Tavi" class="form-control dropdown" >
+                                    <select id="txtIs50Tavi" class="form-control dropdown" disabled>
                                         <option value="0">NO</option>
                                         <option value="1">YES</option>
                                     </select>
@@ -461,7 +474,7 @@ End Code
                                 <div style="flex:1">
                                     <label id="lblFAmt50Tavi">WHT (F)</label>                                        
                                     <br />
-                                    <input type="number" id="txtFAmt50Tavi" class="form-control"  />
+                                    <input type="number" id="txtFAmt50Tavi" class="form-control" disabled />
                                 </div>
                             </div>
                         </div>
@@ -472,7 +485,7 @@ End Code
                                         <label id="lblNet">Net</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()"  />
+                                        <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -482,7 +495,7 @@ End Code
                                         <label id="lblFNet">Net (F)</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtFNet" class="form-control"  />
+                                        <input type="number" id="txtFNet" class="form-control" disabled />
                                     </div>
                                 </div>
                             </div>
@@ -492,19 +505,19 @@ End Code
                         <div class="row">
                             <div class="col-sm-3">
                                 <label id="lblCashAmount">Cash</label>
-                                <br /><input type="number" id="txtCashAmount" class="form-control"  />
+                                <br /><input type="number" id="txtCashAmount" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblTransferAmount">Transfer</label>
-                                <br /><input type="number" id="txtTransferAmount" class="form-control"  />
+                                <br /><input type="number" id="txtTransferAmount" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblChequeAmount">Cheque</label>
-                                <br /><input type="number" id="txtChequeAmount" class="form-control"  />
+                                <br /><input type="number" id="txtChequeAmount" class="form-control" disabled />
                             </div>
                             <div class="col-sm-3">
                                 <label id="lblCreditAmount">Credit</label>
-                                <br /><input type="number" id="txtCreditAmount" class="form-control"  />
+                                <br /><input type="number" id="txtCreditAmount" class="form-control" disabled />
                             </div>
                         </div>
                         <div class="row">
@@ -656,7 +669,15 @@ End Code
         let code = row.ReceiptNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
+            switch (row.ReceiptType) {
+		case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "RCV": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=RCV', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
+            }
         }
     }
     function ShowHeader() {
@@ -1116,15 +1137,22 @@ End Code
         str += ':' + $('#txtCashAmt').val();
         str += ':' + $('#txtCashBank').val();
         str += ':' + $('#txtCashRef').val();
+	str += ':' + $('#txtCashDate').val();
         str += ';CHQ';
         str += ':' + $('#txtChqAmt').val();
         str += ':' + $('#txtChqBank').val();
         str += ':' + $('#txtChqRef').val();
+	str += ':' + $('#txtChqDate').val();
+	if($('#chkTransfer').prop('checked')){
+		str += ':TRANSFER' ;
+	}else{
+		str += ':CHEQUE' ;
+	}
         str += ';CHG';
         str += ':' + $('#txtBankChg').val();
         $('#txtTRemark').val(str);
     }
     function SetTransfer() {
-        $('#txtChqRef').val('TRANSFER');
+       // $('#txtChqRef').val('TRANSFER');
     }
 </script>

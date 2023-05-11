@@ -62,11 +62,20 @@ End Code
     #header, #details td, th {
         border-right: 1px solid black;
         border-left: 1px solid black;
+        padding: 5px;
+    }
+
+    #summary td, th {
+        padding: 10px 5px;
+    }
+
+    #signature td {
+        padding: 5px;
     }
 </style>
 <div class="center bold">
     <br />
-    <label style="font-size:16px">DEBIT NOTE</label>
+    <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
 
 <div style="display:flex;width:98%">
@@ -238,39 +247,71 @@ End Code
 
     </tbody>
 </table>
-
+<p>
+    Remark:
+    <label id="remark"></label>
+</p>
+<br />
 <table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%">
-    <thead>
+    <thead id="header">
         <tr class="upperLine underLine">
-            <th class="bold align-top underLine" colspan="2" style="width:70%">DESCRIPTION</th>
-            <th class="center bold underLine">AMOUNT</th>
+            <th class="bold align-top underLine" rowspan="2" style="width:20%">DESCRIPTION</th>
+            <th class="center bold underLine" rowspan="2" style="width:10%">CONT</th>
+            <th class="center bold underLine" rowspan="2" style="width:10%">RATE</th>
+            <th class="center bold underLine" rowspan="2" style="width:10%">Curr.</th>
+            <th class="center bold underLine" rowspan="2" style="width:10%">QTYs</th>
+            <th class="center bold underLine" rowspan="2" style="width:10%">UOM</th>
+            <th class="center bold underLine" colspan="2" style="width:10%">AMOUNT IN THB</th>
         </tr>
-        @*<tr class="upperLine">
-                <th class="center bold underLine">W/T</th>
-                <th class="center bold underLine">QTYs</th>
-                <th class="center bold underLine">UOM</th>
-                <th class="center bold underLine">Curr.</th>
-                <th class="center bold underLine">Exc.</th>
-                <th class="center bold underLine">@@ UNIT</th>
-                <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
-                <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
-                <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
-            </tr>*@
+        <tr class="upperLine">
+            @*<th class="center bold underLine">W/T</th>*@
+            @*<th class="center bold underLine">Exc.</th>*@
+            <th style="width: 10%; border: 1px black solid; border-collapse: collapse" class="center bold">ADVANCE</th>
+            <th style="width: 10%; border: 1px black solid; border-collapse: collapse" class="center bold">TRANSPORT</th>
+            @*<th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>*@
+        </tr>
     </thead>
     <tbody id="details">
     </tbody>
-    <tbody id="summary" class="upperLine">
+    <tbody id="summary" style="border-top:1px black solid">
         <tr>
-            <td colspan="2" style="text-align:right">TOTAL</td>
-            <td id="totalNet" style="text-align:right" class="vborder underLine"></td>
+            <td colspan="4"></td>
+            <td colspan="2" style="text-align:right">AMOUNT</td>
+            <td style="text-align:right" id="sumAdv"></td>
+            <td style="text-align:right" id="sumSrv"></td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align:right">LESS(-)</td>
-            <td style="text-align:right" class="vborder underLine"></td>
+            <td colspan="3"></td>
+            <td colspan="3" style="text-align:right">ภาษีมูลค่าเพิ่ม 7% = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:1px black solid" id="sumVat"> </td>
         </tr>
         <tr>
-            <td colspan="2" style="text-align:right;font-weight:bold">GRAND TOTAL</td>
-            <td id="grandTotal" style="text-align:right" class="vborder underLine"></td>
+            <td colspan="3"></td>
+            <td colspan="3" style="text-align:right">TOTAL = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:double" id="totalNet"> </td>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+            <td colspan="3" style="text-align:right">กรุณาหักภาษี ณ ที่จ่าย 1% เป็นจำนวนเงิน = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:1px black solid" id="sumWHTax"> </td>
+        </tr>
+        <tr>
+            <td colspan="3"></td>
+            <td colspan="3" style="text-align:right">GRAND TOTAL = </td>
+            <td></td>
+            <td style="text-align:right;border-bottom:double" id="grandTotalNet"> </td>
+        </tr>
+        <tr>
+            <td>ยอดที่ต้องชำระทั้งสิ้น = </td>
+            <td id="totalPay"></td>
+            <td>บาท</td>
+        </tr>
+        <tr>
+            <td style="text-align:right">Total amount in words : </td>
+            <td id="bahtText" style="text-align:center" colspan="5"></td>
         </tr>
     </tbody>
 </table>
@@ -283,7 +324,7 @@ End Code
                 <td class="center underLine">W/T AMT</td>
                 <td id="amountLbl" class="right">AMOUNT:</td>
                 <td style="width:60px;" id="advanceAmount" class="right"></td>
-                <td style="width:60px;" id="nonVatAmount" class="right" style="width:5em"></td>
+                <td style="width:60px;" id="nonVatAmount" class="right" ></td>
                 <td style="width:60px;" id="vatAmount" class="right"></td>
             </tr>
             <tr>
@@ -326,10 +367,7 @@ End Code
     </table>*@
 <br>
 
-<p>
-    Remark:
-    <label id="remark"></label>
-</p>
+
 <br />
 <br />
 <table class="table" style="width:100%">
@@ -351,61 +389,6 @@ End Code
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
     </tr>
-</table>
-<b>
-    <br />
-    1. PLEASE ADVISE YOUR CONFIRMATION BEFORE CLEAR BALANCE
-    <br />
-    2. PLEASE PAY TO OUR BANK:
-    <br />
-</b>
-BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
-<table style="width:100%">
-    <tbody>
-        <tr>
-            <td colspan="2">ACCOUNT NAME </td>
-            <td>: UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.</td>
-        </tr>
-        <tr>
-            <td colspan="2">BANK NAME & ADDRESS</td>
-            <td>KASITKORN BANK PUBLIC CO.,LTD. HEAD OFFICE</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>RATBURANA ROAD BANKOK 10140 THAILAND</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>CABLE ADDRESS "FARMERS BANGKOK"</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TELEX NO TH 82542 TH 84798</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>CONTACT : OVERSEAS MONEY TRANSFER DIVSION</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TEL : 02-4701444,02-4701429-40</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TANANIN PHETBURI TATANAI BRANCH</td>
-        </tr>
-        <tr>
-            <td style="color:transparent">___________</td>
-            <td style="">ACCOUNT No. </td>
-            <td>028-109-641-9</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>SWIFT BANK CODE </td>
-            <td>: KASITHBK</td>
-        </tr>
-    </tbody>
-
 </table>
 
 <script type="text/javascript">
@@ -495,20 +478,18 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
             let totalRows = 10;
             let blankRows = totalRows - d.length;
             for (let row of d) {
-
                 html += '        <tr>';
-                html += '            <td class="" style="border-right-color: transparent;">' + row.SDescription + ' #' + row.ExpSlipNO + '</td>';
-                html += '            <td>' + row.CurrencyCode + ShowNumber(row.FUnitPrice, 2) + '/' + ShowNumber(row.Qty, 3) + ' ' + row.QtyUnit + '</td>';
-                html += '            <td class="right">'+ row.CurrencyCode + ShowNumber(row.Amt, 2)  + '</td>';
-
+                html += '            <td class="">' + row.SDescription + '</td>';
+                html += '            <td class="">' + row.CTN_NO + '</td>';
+                //html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO +  '</td>';
                 //html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                //html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
-                //html += '            <td class="right">' + row.QtyUnit+'</td>';
-                //html += '            <td class="right">' + row.CurrencyCode + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.FUnitPrice, 2) + '</td>';
+                html += '            <td class="right">' + row.CurrencyCode + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
+                html += '            <td class="right">' + row.QtyUnit+'</td>';
                 //html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-                //html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
-                //html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
-                //html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt+row.AmtVat, 2):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
                 //html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
                 adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
@@ -517,8 +498,7 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
                 } else {
                     nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                 }
-
-                switch (row.Rate50Tavi - 0) {
+                switch (row.Rate50Tavi-0) {
                     case 1:
                         sumWht1 += row.Amt50Tavi;
                         sumbaseWht1 += row.Amt;
@@ -537,28 +517,36 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
             }
             for (let i = 1; i <= blankRows; i++) {
                 html += '        <tr>';
-                html += '            <td style="border-right-color: transparent;"><br/></td>';
+                html += '            <td><br/></td>';
+                html += '            <td><br/></td>';
                 html += '            <td class="right"></td>';
                 html += '            <td class="right"></td>';
-                //html += '            <td class="center"></td>';
-                //html += '            <td class="right"></td>';
-                //html += '            <td class="right"></td>';
-                //html += '            <td class="right"></td>';
+                html += '            <td class="center"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
                 //html += '            <td class="right"></td>';
                 //html += '            <td class="right"></td>';
                 //html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
-            $('#gross1').text(ShowNumber(sumbaseWht1, 2));
-            $('#wtAmt1').text(ShowNumber(sumWht1, 2));
-            $('#gross3').text(ShowNumber(sumbaseWht3, 2));
-            $('#wtAmt3').text(ShowNumber(sumWht3, 2));
-            $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
-            $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+            //$('#gross1').text(ShowNumber(sumbaseWht1, 2));
+            $('#sumWHTax').text(ShowNumber(sumWht1, 2));
+            //$('#gross3').text(ShowNumber(sumbaseWht3, 2));
+            //$('#wtAmt3').text(ShowNumber(sumWht3, 2));
+            //$('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
+            //$('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
 
-            $("#advanceAmount").text(ShowNumber(adv,2));
-            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
-            $("#vatAmount").text(ShowNumber(vat, 2));
+            $("#sumAdv").text(ShowNumber(adv,2));
+            $("#sumSrv").text(ShowNumber(nonVat, 2));
+            $("#sumVat").text(ShowNumber(vat, 2));
+            $("#totalNet").text(ShowNumber(adv + nonVat + vat , 2));
+            $("#grandTotalNet").text(ShowNumber(adv + nonVat + vat - sumWht1, 2));
+            $("#totalPay").text(ShowNumber(adv +nonVat + vat - sumWht1, 2));
+            $("#bahtText").text(CNumThai(CDbl(adv +nonVat + vat- sumWht1, 2)));
+
+
+
             $('#details').html(html);
             $("#valueAddedTax").text(ShowNumber(h.TotalVAT, 2));
             $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
@@ -567,10 +555,6 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
-            $("#bahtText").text(CNumEng(CDbl(h.TotalNet, 2)));
-
-            $("#totalNet").text(h.CurrencyCode+" "+ShowNumber(nonVat, 2));
-            $("#grandTotal").text(h.CurrencyCode + " " +ShowNumber(nonVat, 2));
 
 
 

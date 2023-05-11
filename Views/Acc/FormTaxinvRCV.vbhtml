@@ -15,13 +15,9 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
-
-    .border{
-        border:1px black solid;
-    }
 </style>
 <div style="text-align:center;width:100%">
-    <h2><label id="lblDocType">RECEIPT DEBIT NOTE</label></h2>
+    <h2><label id="lblDocType">TAX-INVOICE</label></h2>
 </div>
 <!--
 <div style="display:flex;">
@@ -39,86 +35,70 @@ End Code
 -->
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
-<div style="display:flex;">
+<div style="display:flex;padding:5px">
     <div style="flex:3;border:1px solid black;border-radius:5px;">
         NAME : <label id="lblCustName"></label><br />
         ADDRESS : <label id="lblCustAddr"></label><br />
         TAX-ID : <lable id="lblCustTax"></lable>
     </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
+    <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px">
         NO. : <label id="lblReceiptNo"></label><br />
         ISSUE DATE : <label id="lblReceiptDate"></label><br />
     </div>
 </div>
 
-<table  style="width:100%; margin-top:5px" class="text-center">
-    <thead class="border">
-        <!--<tr style="background-color:lightblue;">-->
-        @*<th height="40" width="60">INV.NO.</th>*@
-        <!--<th width="150">DESCRIPTION</th>-->
-        @*<th width="60">JOB</th>*@
-        <!--<th width="20">QTY</th>
+<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
+    <thead>
+        <tr style="background-color:lightblue;">
+            @*<th height="40" width="60">INV.NO.</th>*@
+            <th width="150">DESCRIPTION</th>
+            @*<th width="60">JOB</th>*@
+            <th width="20">QTY</th>
             <th width="20">CURR</th>
             <th width="20">EXC</th>
             <th width="50">TOTAL</th>
-            <th width="60">SERVICE</th>
+            @*<th width="60">SERVICE</th>
             <th width="30">VAT</th>
-            <th width="30">WHT</th>
+            <th width="30">WHT</th>*@
             <th width="50">ADVANCE</th>
-        </tr>-->
-        <tr>
-            <th colspan="2">DESCRIPTION</th>
-            <th style="border-left:1px black solid">AMOUNT</th>
         </tr>
     </thead>
-    <tbody id="tbDetail" class="border"></tbody>
-    <!--<tr>-->
-    @*<td rowspan="4" colspan="5">
+    <tbody id="tbDetail"></tbody>
+    @*<tr>
+        <td rowspan="4" colspan="5">
             TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB)
             <br />
             <label id="lblFTotalNet"></label>
-        </td>*@
-    <!--<td colspan="2" style="text-align:right;">TOTAL ADVANCE (THB)</td>
+        </td>
+        <td colspan="3" style="text-align:right;">TOTAL ADVANCE (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalAdv"></label>
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="text-align:right;">TOTAL AMOUNT (THB)</td>
+        <td colspan="3" style="text-align:right;">TOTAL AMOUNT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalBeforeVAT"></label>
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="text-align:right;">TOTAL VAT (THB)</td>
+        <td colspan="3" style="text-align:right;">TOTAL VAT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalVAT"></label>
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="text-align:right;">TOTAL RECEIPT (THB)</td>
+        <td colspan="3" style="text-align:right;">TOTAL RECEIPT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalAfterVAT"></label>
         </td>
-    </tr>
+    </tr>*@
     <tr>
-        <td colspan="5" > <div style="display:flex;"><div style="width: 30%">Total amount in words </div><div id="lblTotalText" style="text-align:center"></div></div></td>
-        <td colspan="3" style="text-align:right;">TOTAL NET (THB)</td>
-        <td style="background-color:lightblue;text-align:right;">
+        <td colspan="3" > <div style="display:flex;"><div style="width: 30%">Total amount in words </div><div id="lblTotalText" style="text-align:center"></div></div></td>
+        <td colspan="2" style="text-align:right;">TOTAL NET (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">     
             <label id="lblTotalNet"></label>
         </td>
-    </tr>-->
-    <tr>
-        <td style="text-align:right" colspan="2">TOTAL</td>
-        <td id="lblFTotalNet" style="text-align:right" class="border"></td>
-    </tr>
-    <tr>
-        <td style="text-align:right" colspan="2">LESS (-)</td>
-        <td class="border"></td>
-    </tr>
-    <tr>
-        <td style="text-align:right;font-weight:bold" colspan="2">GRAND TOTAL</td>
-        <td id="lblFGrandTotalNet" style="text-align:right;font-weight:bold" class="border"></td>
     </tr>
 </table>
 <p>
@@ -182,17 +162,17 @@ End Code
     });
     function ShowData(dt) {
         let h = dt[0];
-        //switch (h.ReceiptType) {
-        //    case 'TAX':
-        //        $('#lblDocType').text('TAX-INVOICE/RECEIPT');
-        //        break;
-        //    case 'SRV':
-        //        $('#lblDocType').text('TAX-INVOICE');
-        //        break;
-        //    default:
-        //        $('#lblDocType').text('RECEIPT');
-        //        break;
-        //}
+        switch (h.ReceiptType) {
+            case 'TAX':
+                $('#lblDocType').text('TAX-INVOICE/RECEIPT');
+                break;
+            case 'SRV':
+                $('#lblDocType').text('TAX-INVOICE');
+                break;
+            default:
+                $('#lblDocType').text('RECEIPT ADVANCE');
+                break;
+        }
         //$('#lblCustCode').text(h.CustCode);
         if (h.UsedLanguage == 'TH') {
 	        if(Number(h.BillToCustBranch)==0) {
@@ -227,21 +207,15 @@ End Code
             html = '<tr>';
             //html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
             html += '<td>' + d.SDescription + '</td>';
-            html += '<td>' + d.DCurrencyCode + " " + ShowNumber(d.FAmt / d.Qty) + "/" + ShowNumber(d.Qty,3) + " " + d.QtyUnit + '</td>';
-            html += '<td style="text-align:right;border-left:1px black solid"  >' + d.DCurrencyCode + " " + ShowNumber(d.FAmt, 2) + '</td>';
-
-            
             //html += '<td style="text-align:center">' + d.JobNo + '</td>';
-
-
-            //html += '<td style="text-align:center">' + h.Qty + '</td>';
-            //html += '<td style="text-align:center">' + h.CurrencyCode + '</td>';
-            //html += '<td style="text-align:center">' + h.DExchangeRate + '</td>';
-            //html += '<td style="text-align:right">' + ShowNumber(fnet,2) +'</td>';
+            html += '<td style="text-align:center">' + h.Qty + '</td>';
+            html += '<td style="text-align:center">' + h.CurrencyCode + '</td>';
+            html += '<td style="text-align:center">' + h.DExchangeRate + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(fnet,2) +'</td>';
             //html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvAmt,2):'0.00') + '</td>';
             //html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'0.00') + '</td>';
             //html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
-            //html += '<td style="text-align:right">' + (d.AmtCharge > 0 ? '0.00' : ShowNumber(d.InvTotal, 2)) + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtAdvance > 0 ?  ShowNumber(d.AmtAdvance, 2):'') + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
@@ -250,22 +224,21 @@ End Code
 
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-            } else {
+            }
+            if (d.AmtAdvance > 0)  {
                 adv += Number(d.InvTotal);
             }
             total += Number(d.InvAmt) + Number(d.InvVAT);
-            totalf += d.FAmt;
+            totalf += fnet;
         }
-        $('#tbDetail').append('<tr>><td></td><td><br><br><br><br><br><br><br><br></td><td style="text-align:right;border-left:1px black solid" ></td></tr>');
-        //$('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
-        //$('#lblTotalVAT').text(ShowNumber(vat, 2));
-        //$('#lblTotalAfterVAT').text(ShowNumber(service+vat, 2));
-        //$('#lblTotalAdv').text(ShowNumber(adv, 2));
-        //$('#lblTotalNet').text(ShowNumber(service +adv+ vat - wht, 2));
-        //$('#lblCurrencyCode').text(h.CurrencyCode);
-        //$('#lblExchangeRate').text(h.ExchangeRate);
-        $('#lblFTotalNet').text(h.CurrencyCode + " " + ShowNumber(totalf, 2));
-        $('#lblFGrandTotalNet').text(h.CurrencyCode + " " + ShowNumber(totalf, 2));
+        $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
+        $('#lblTotalVAT').text(ShowNumber(vat, 2));
+        $('#lblTotalAfterVAT').text(ShowNumber(service+vat, 2));
+        $('#lblTotalAdv').text(ShowNumber(adv, 2));
+        $('#lblTotalNet').text(ShowNumber(service +adv+ vat - wht, 2));
+        $('#lblCurrencyCode').text(h.CurrencyCode);
+        $('#lblExchangeRate').text(h.ExchangeRate);
+        $('#lblFTotalNet').text(ShowNumber(totalf, 2) + ' ' + h.CurrencyCode);
 
         if (h.UsedLanguage == 'TH') {
             $('#lblTotalText').text(CNumThai(CDbl((service + adv + vat - wht),2)));

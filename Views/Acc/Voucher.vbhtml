@@ -9,13 +9,13 @@ End Code
                     <label id="lblBranch">Branch:</label>                    
                     <br />
                     <div style="display:flex;flex-direction:row">
-                        <input type="text" class="form-control" id="txtBranchCode" style="width:15%" readonly />
+                        <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
                         <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
-                        <input type="text" class="form-control" id="txtBranchName" style="width:65%" readonly />
+                        <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <b id="linkControlNo" ondblclick="SaveData()">Reference No:</b>
+                    <b id="linkControlNo">Reference No:</b>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtControlNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -58,43 +58,43 @@ End Code
                             <u><b id="linkPay">Payment</b></u>
                             <br />
                             <label id="lblPayCash">Cash</label>
-                             : <input type="text" id="txtPayCash" readonly />
+                             : <input type="text" id="txtPayCash" disabled />
                             <br />
                             <label id="lblPayChq">Cheque</label>
-                             : <input type="text" id="txtPayChq" readonly />
+                             : <input type="text" id="txtPayChq" disabled />
                             <br />
                             <label id="lblPayCred">Credit</label>
-                             : <input type="text" id="txtPayCred" readonly />
+                             : <input type="text" id="txtPayCred" disabled />
                         </div>
                         <div class="col-sm-3">
                             <u><b id="linkRcv">Receive</b></u>
                             <br />
                             <label id="lblRcvCash">Cash</label>
-                             : <input type="text" id="txtRcvCash" readonly />
+                             : <input type="text" id="txtRcvCash" disabled />
                             <br />
                             <label id="lblRcvChq">Cheque</label>
-                             : <input type="text" id="txtRcvChq" readonly />
+                             : <input type="text" id="txtRcvChq" disabled />
                             <br />
                             <label id="lblRcvCred">Credit</label>
-                             : <input type="text" id="txtRcvCred" readonly />
+                             : <input type="text" id="txtRcvCred" disabled />
                         </div>
                         <div class="col-sm-3">
                             <u><b id="linkSum">Sum</b></u>
                             <br />
                             <label id="lblSumPay">Payment</label>
-                             : <input type="text" id="txtPaySum" readonly />
+                             : <input type="text" id="txtPaySum" disabled />
                             <br />
                             <label id="lblSumRcv">Receive</label>
-                             : <input type="text" id="txtRcvSum" readonly />
+                             : <input type="text" id="txtRcvSum" disabled />
                         </div>
                         <div class="col-sm-3">
                             <u><b id="linkTotal">Total</b></u>
                             <br />
                             <label id="lblTotalPR">Voucher</label>
-                            : <input type="text" id="txtPRSum" readonly />
+                            : <input type="text" id="txtPRSum" disabled />
                             <br />
                             <label id="lblTotalDoc">Document</label>
-                             : <input type="text" id="txtDocSum" readonly />
+                             : <input type="text" id="txtDocSum" disabled />
                         </div>
                     </div>
 
@@ -142,12 +142,12 @@ End Code
                 <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <label id="lblRecBy">Record By</label>
                     <br />
-                    <input type="text" id="txtRecUser" style="width:250px" readonly />
+                    <input type="text" id="txtRecUser" style="width:250px" disabled />
                     <br />
                     <label id="lblRecDate">Date:</label>                    
-                    <input type="date" id="txtRecDate" readonly />
+                    <input type="date" id="txtRecDate" disabled />
                     <label id="lblRecTime">Time:</label>                    
-                    <input type="text" id="txtRecTime" style="width:80px" readonly />
+                    <input type="text" id="txtRecTime" style="width:80px" disabled />
                 </div>
                 <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <input type="checkbox" id="chkPosted" />
@@ -155,12 +155,12 @@ End Code
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
                     <br />
                     <label id="lblPostDate">Date:</label>
-                    <input type="date" id="txtPostedDate" />
+                    <input type="date" id="txtPostedDate" disabled />
                     <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                     <br />
                     <label id="lblPostRefNo" for="txtPostRefNo">Post Ref#</label><br />
-                    <input type="text" id="txtPostRefNo" style="width:250px" />
+                    <input type="text" id="txtPostRefNo" style="width:250px" disabled />
                 </div>
                 <div class="col-md-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
@@ -561,9 +561,9 @@ End Code
         let credfld = 'CreditAmount';
         let sumval = Number($('#txtCashAmount').val()) + Number($('#txtChqAmount').val()) + Number($('#txtCreditAmount').val());
 
-        //$('#txt' + cashfld).attr('disabled', 'disabled');
-        //$('#txt' + credfld).attr('disabled', 'disabled');
-        //$('#txt' + chqfld).attr('disabled', 'disabled');
+        $('#txt' + cashfld).attr('disabled', 'disabled');
+        $('#txt' + credfld).attr('disabled', 'disabled');
+        $('#txt' + chqfld).attr('disabled', 'disabled');
         $('#dvChqInfo').show();
         $('#dvBookInfo').hide();
         switch (typ) {
@@ -571,14 +571,14 @@ End Code
                 $('#txt' + chqfld).val(0);
                 $('#txt' + cashfld).val(0);
                 $('#txt' + credfld).val(sumval);
-                //$('#txt' + credfld).removeAttr('disabled');
+                $('#txt' + credfld).removeAttr('disabled');
                 $('#dvChqInfo').hide();
                 break;
             case 'CA':
                 $('#txt' + chqfld).val(0);
                 $('#txt' + credfld).val(0);
                 $('#txt' + cashfld).val(sumval);
-                //$('#txt' + cashfld).removeAttr('disabled');
+                $('#txt' + cashfld).removeAttr('disabled');
                 $('#dvChqInfo').hide();
                 $('#dvBookInfo').show();
                 break;
@@ -586,13 +586,13 @@ End Code
                 $('#txt' + cashfld).val(0);
                 $('#txt' + credfld).val(0);
                 $('#txt' + chqfld).val(sumval);
-                //$('#txt' + chqfld).removeAttr('disabled');
+                $('#txt' + chqfld).removeAttr('disabled');
                 break;
             case 'CH':
                 $('#txt' + cashfld).val(0);
                 $('#txt' + credfld).val(0);
                 $('#txt' + chqfld).val(sumval);
-                //$('#txt' + chqfld).removeAttr('disabled');
+                $('#txt' + chqfld).removeAttr('disabled');
                 $('#dvBookInfo').show();
                 break;
             default:
@@ -749,11 +749,10 @@ End Code
     }
     function SetApprove(b) {
         if (b == true) {
-            //$('#txtPostRefNo').val(chkmode ? $('#txtPostRefNo').val() : '');
+            $('#txtPostRefNo').val(chkmode ? $('#txtPostRefNo').val() : '');
             $('#txtPostedBy').val(chkmode ? user : '');
-            //$('#txtPostedDate').val(chkmode ? CDateEN(GetToday()) : '');
+            $('#txtPostedDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
-            SaveData();
             return;
         }
         ShowMessage('You are not allow to do this',true);
@@ -816,9 +815,9 @@ End Code
         $('#txtControlNo').val('');
         $('#txtVoucherDate').val('');
         $('#txtTRemark').val('');
-        $('#txtRecUser').val('@ViewBag.User');
-        $('#txtRecDate').val(GetToday());
-        $('#txtRecTime').val(GetTime());
+        $('#txtRecUser').val('');
+        $('#txtRecDate').val('');
+        $('#txtRecTime').val('');
         $('#chkPosted').prop('checked',false);
         $('#txtPostedBy').val('');
         $('#txtPostedDate').val('');

@@ -31,7 +31,7 @@ End Code
             </div>
             <div class="col-sm-1">
                 <br />
-                <input type="checkbox" id="chkNoEarnest" />&nbsp; NO EARNEST
+                <input type="checkbox" id="chkNoEarnest" checked />&nbsp; NO EARNEST
             </div>
         </div>
         <div class="row">
@@ -54,7 +54,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" /> Select All
+                <input type="checkbox" id="chkSelectAll" checked /> Select All
             </div>
         </div>
         <div class="row">
@@ -93,7 +93,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-4" style="display:flex">
                             <div style="flex:1">
-                                <label id="lblInvDate">Invoice Date :</label>
+                                <label id="lblInvDate" >Invoice Date :</label>
                                 <br />
                                 <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             </div>
@@ -102,11 +102,9 @@ End Code
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
                                     <option value="IVS-">Service</option>
-                                    <option value="IVT-">Internal</option>
-                                    <option value="IVF-">Consold</option>
-                                    <option value="IVC-">CN Oversea</option>
-                                    <option value="IVD-">DN Oversea</option>
-                                    <option value="IVA-">Advance</option>
+                                    <option value="IVT-">Transport</option>
+                                    <option value="IVF-">Freight</option>
+				                    <option value="IVD-">Debit Note</option>
                                 </select>
 
                             </div>
@@ -258,12 +256,12 @@ End Code
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                            <br />
+                            <br/>
                             Remark :
-                            <br />
-                            <input type="text" id="txtRemark1" class="form-control" /><br />
-                            <input type="text" id="txtRemark2" class="form-control" /><br />
-                            <input type="text" id="txtRemark3" class="form-control" /><br />
+                            <br/>
+                            <b>Shipper</b> : <input type="text" id="txtRemark1" class="form-control" /><br />
+                            <b>Consignee</b> : <input type="text" id="txtRemark2" class="form-control" /><br />
+                            Note : <input type="text" id="txtRemark3" class="form-control" /><br />
                             <input type="text" id="txtRemark4" class="form-control" /><br />
                             <input type="text" id="txtRemark5" class="form-control" /><br />
                             <input type="text" id="txtRemark6" class="form-control" /><br />
@@ -361,14 +359,7 @@ End Code
                                 <td style="width:10%">
                                     Item No:
                                     <br />
-                                    @*<input type="text" class="form-control" id="txtItemNo" disabled />*@
-                                    <input type="text" class="form-control" id="txtItemNo" />
-                                </td>
-                                <td style="width:10%">
-                                    <br />
-                                    <a href="#" class="btn btn-default" id="btnSplit" onclick="MoveTo()">
-                                        <b id="linkUpdate">Move To</b>
-                                    </a>
+                                    <input type="text" class="form-control" id="txtItemNo" disabled />
                                 </td>
                                 <td style="width:10%">
                                     <br />
@@ -400,11 +391,6 @@ End Code
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
     const license = '@ViewBag.LICENSE_NAME';
-    if (license.indexOf('TRANSPORT') >= 0) {
-        $('#cboDocType').val('IVT-');
-    } else {
-        $('#cboDocType').val('IVS-');
-    }
     let arr = [];
     let arr_split = {};
     let arr_clr = [];
@@ -445,15 +431,6 @@ End Code
     }
     //});
     SetEvents();
-
-    function allowDrop(ev) {
-        ev.preventDefault();
-        //console.log("During Test");
-    }
-    function drag(ev) {
-        ev.dataTransfer.setData("text", ev.target.id);
-        console.log("test");
-    }
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
             jt = $('#cboJobType').val();
@@ -590,26 +567,22 @@ End Code
                 pageLength: 100,
                 createdRow: function (row, data, index) {
                     if ($('#chkSelectAll').prop('checked')) {
-                        if (CheckValidate(data)) {
-                            $(row).addClass('selected');
-                            AddData(data);
-                        }
+                        $(row).addClass('selected')
+                        AddData(data);
                     }
                 },
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
             });
             $('#tbHeader tbody').on('click', 'tr', function () {
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
-                    data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                     RemoveData(data); //callback function from caller
                     return;
                 }
-                if (CheckValidate(data)) {
-                    $(this).addClass('selected');
-                    AddData(data); //callback function from caller
-                }
+                $(this).addClass('selected');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                AddData(data); //callback function from caller
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let clearno = $(this).find('td:eq(1)').text();
@@ -633,17 +606,17 @@ End Code
         let totalsumdisc = 0;
 
         for (let obj of arr) {
-            totaladv += (obj.AmtAdvance > 0 ? CNum(CDbl(obj.AmtAdvance,2)) : 0);
-            totalcharge += (obj.AmtCharge > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-            totalcost += CNum(CDbl(obj.AmtCost,2));
+            totaladv += (obj.AmtAdvance > 0 ? CNum(CDbl(obj.AmtAdvance,3)) : 0);
+            totalcharge += (obj.AmtCharge > 0 ? CNum(CDbl(obj.AmtCharge,3)) : 0);
+            totalcost += CNum(CDbl(obj.AmtCost,3));
             if (CNum(obj.AmtCharge) > 0) {
-                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-                totalvat += CNum(CDbl(obj.AmtVat,2));
-                total50tavi += CNum(CDbl(obj.Amt50Tavi,2));
+                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,3)) : 0);
+                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,3)) : 0);
+                totalvat += CNum(CDbl(obj.AmtVat,3));
+                total50tavi += CNum(CDbl(obj.Amt50Tavi,3));
             }
-            totalnet += CNum(CDbl(obj.AmtNet,2));
-            totalsumdisc += CNum(CDbl(obj.AmtDiscount,2));
+            totalnet += CNum(CDbl(obj.AmtNet,3));
+            totalsumdisc += CNum(CDbl(obj.AmtDiscount,3));
         }
         for (let c of chq) {
             totalcustadv += CNum(CDbl(c.ChqAmount,2));
@@ -693,7 +666,6 @@ End Code
             return d.AmtCharge > 0 || d.AmtAdvance > 0;
         });
         for (let o of arr_sel) {
-
             iRow += 1;
             o.ItemNo = iRow;
         }
@@ -757,26 +729,6 @@ End Code
             }
             ],
         });
-        $('#tbDetail tbody tr').each(function () {
-            $(this).prop("draggable", "true");
-            //$(this).on("dragstart", "drag");
-            this.addEventListener("dragstart", function (event) {
-                // store a ref. on the dragged elem
-                console.log("dragstart:" + event.target);
-
-            }, false);
-            this.addEventListener("dragover", function (event) {
-                // store a ref. on the dragged elem
-                console.log("dragover:"+event.target);
-                allowDrop(event);
-            }, false);
-            this.addEventListener("dragstart", function (event) {
-                // store a ref. on the dragged elem
-                console.log("dragstart:" + event.target);
-                drag(event);
-            }, false);
-        });
-       // draggable = "true" ondragstart = "drag(event)"
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'button', function () {
             let data = GetSelect('#tbDetail', this); //read current row selected
@@ -1025,11 +977,11 @@ End Code
             $('#dvEditor').modal('show');
         }
     }
-    function AddData(o) {        
+    function AddData(o) {
         let idx = arr.indexOf(o);
         if (idx < 0) {
             arr.push(o);
-        }        
+        }
     }
     function RemoveData(o) {
         let idx = arr.indexOf(o);
@@ -1051,7 +1003,6 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
-        $('#btnGen').attr('disabled', 'disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {
@@ -1124,9 +1075,9 @@ End Code
                     if (chq.length > 0) {
                         SaveCheque(response.result.data);
                     }
-                    //if ($('#txtDocNo').val() == '') {
+                    if ($('#txtDocNo').val() == '') {
                         SaveDetail(response.result.data);
-                    //}
+                    }
                     ShowMessage(response.result.data);
                     $('#dvCreate').modal('hide');
 
@@ -1190,13 +1141,12 @@ End Code
         });
     }
     function DeleteDetail() {
-        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val())
-            .done(function (r) {
-                //if (r.invdetail.data !== null) {
-                SaveHeader();
-                //SaveDetail($('#txtDocNo').val());
-                //}
-            })
+        $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+            //if (r.invdetail.data !== null) {
+            SaveHeader();
+            SaveDetail($('#txtDocNo').val());
+            //}
+        });
     }
     function SaveDetail(docno) {
         $('#txtDocNo').val(docno);
@@ -1345,31 +1295,31 @@ End Code
                     SDescription: obj.SDescription,
                     ExpSlipNO: obj.ExpSlipNO,
                     SRemark: obj.SRemark,
-                    CurrencyCode: obj.CurrencyCode,
-                    ExchangeRate: obj.ExchangeRate,
+                    CurrencyCode: $('#txtCurrencyCode').val(),
+                    ExchangeRate: $('#txtExchangeRate').val(),
                     Qty: CNum(obj.Qty),
                     QtyUnit: obj.QtyUnit,
                     UnitPrice: obj.UnitPrice,
-                    FUnitPrice: obj.FUnitPrice,
+                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
                     Amt: CDbl(obj.Amt,2),
-                    FAmt: CDbl(obj.FAmt, 2),
+                    FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
                     DiscountPerc: obj.DiscountPerc,
                     AmtDiscount: CDbl(obj.AmtDiscount,2),
-                    FAmtDiscount: CDbl(obj.FAmtDiscount, 2),
+                    FAmtDiscount: CDbl(obj.AmtDiscount / CNum($('#txtExchangeRate').val()), 2),
                     Is50Tavi: obj.Is50Tavi,
                     Rate50Tavi: obj.Rate50Tavi,
-                    Amt50Tavi: CDbl(obj.Amt50Tavi,2),
+                    Amt50Tavi: CDbl(obj.Amt50Tavi,3),
                     IsTaxCharge: obj.IsTaxCharge,
-                    AmtVat: CDbl(obj.AmtVat,2),
-                    TotalAmt: CDbl(obj.TotalAmt,2),
-                    FTotalAmt: CDbl(obj.FTotalAmt, 2),
-                    AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance,2) : 0),
-                    AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge,2) : 0),
-                    CurrencyCodeCredit: obj.CurrencyCode,
-                    ExchangeRateCredit: obj.ExchangeRate,
-                    AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
-                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum(obj.ExchangeRate), 2) : 0),
+                    AmtVat: CDbl(obj.AmtVat,3),
+                    TotalAmt: CDbl(obj.AmtNet,3),
+                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
+                    AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),3) : 0),
+                    AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),3) : 0),
+                    CurrencyCodeCredit: $('#txtCurrencyCode').val(),
+                    ExchangeRateCredit: $('#txtExchangeRate').val(),
+                    AmtCredit: (creditamt >0 ? CDbl(creditamt,3) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {
@@ -1418,12 +1368,15 @@ End Code
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
             switch ($('#cboDocType').val()) {
+                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                    break;
                 case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
-                case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
-                    break;
-                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code , '_blank');
             }
+            
         }
     }
     function MergeData() {
@@ -1450,6 +1403,7 @@ End Code
             rowProcess +=1;
             if (currCode !== obj.SICode) {
                 if (currCode !== '') {
+                    clearList = clearList.substr(0, clearList.length - 1);
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
@@ -1480,15 +1434,17 @@ End Code
                 key.AmtCredit+= CNum(obj.AmtCredit);
                 key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate), 2);
             }
-            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
-                clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo+',')) < 0) {
+                //clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+                clearList += (obj.ClrNo + '/' + obj.ClrItemNo) +',';
             }
             if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
             }
-            if (rowProcess==arr_sel.length) {
+            if (rowProcess == arr_sel.length) {
+                clearList = clearList.substr(0, clearList.length - 1);
                 key.ClrNo = '';
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
@@ -1501,6 +1457,7 @@ End Code
         arr = arr_new;
         CalSummary();
     }
+
     function ClearVariable() {
         arr = [];
         arr_split = {};
@@ -1623,26 +1580,6 @@ End Code
 
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
-    function MoveTo() {
-        let arr_cost = arr.filter(function (d) {
-            return d.AmtCost > 0;
-        });
-        //console.log(arr_split);
-        arr_split.ItemNo = $('#txtItemNo').val();
-        //console.log(arr_split);
-        let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge > 0 || d.AmtAdvance > 0;
-        });
-
-        sortData(arr_sel, 'ItemNo', 'asc');
-        console.log(arr_sel);
-        for (let v of arr_cost) {
-            arr_sel.push(v);
-        }
-        arr = arr_sel;
-        CalSummary();
-        $('#dvEditor').modal('hide');
-    }
     function MoveUp() {
         let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
@@ -1652,9 +1589,6 @@ End Code
         });
         //sortData(arr_sel, 'ItemNo', 'asc');
         let idx = arr_sel.indexOf(arr_split);
-        console.log(arr_sel);
-        console.log("--------");
-        console.log(arr_split);
         if (idx <= 0 || idx > (arr_sel.length - 1) || arr_sel[idx - 1].ItemNo == 0) {
             alert('cannot move up');
         } else {
@@ -1694,70 +1628,5 @@ End Code
             $('#dvEditor').modal('hide');
             CalSummary();
         }
-    }
-    function CheckValidate(o) {
-        let chk = true;
-        let msg = '';
-        if (o.ClearPortNo == '' || o.ClearPortNo == null) {
-            chk = false;
-            msg +='Discharge Port in job not found<br/>';
-        }
-        if (o.PortName == '' || o.PortName == null) {
-            chk = false;
-            msg += 'Loading Port in job not found<br/>';
-        }
-        if (o.DeclareNumber == '' || o.DeclareNumber == null) {
-            chk = false;
-            msg += 'Declare Number in job not found<br/>';
-        }
-        if (o.BookingNo == '' || o.BookingNo == null) {
-            chk = false;
-            msg += 'Booking No in job not found<br/>';
-        }
-        if (o.HAWB == '' || o.HAWB == null) {
-            chk = false;
-            msg += 'House BL/AWB in job not found<br/>';
-        }
-        if (o.MAWB == '' || o.MAWB == null) {
-            chk = false;
-            msg += 'Master BL/AWB in job not found<br/>';
-        }
-        if (o.Measurement == '' || o.Measurement == null) {
-            chk = false;
-            msg += 'Measurement in job not found<br/>';
-        }
-        if (o.VesselName == '' || o.VesselName == null) {
-            chk = false;
-            msg += 'Vessel Name in job not found<br/>';
-        }
-        if (o.TotalGW == 0 || o.TotalGW == null) {
-            chk = false;
-            msg += 'Gross Weight in job not found<br/>';
-        }
-        if (o.CustRefNO == '' || o.CustRefNO == null) {
-            chk = false;
-            msg += 'Customer PO in job not found<br/>';
-        }
-        if (o.TotalContainer == '' || o.TotalContainer == null) {
-            chk = false;
-            msg += 'Total Container in job not found<br/>';
-        }
-        if (o.ForwarderCode == '' || o.ForwarderCode == null) {
-            chk = false;
-            msg += 'Carrier in job not found<br/>';
-        }
-        if (o.ETDDate == '' || o.ETDDate == null) {
-            chk = false;
-            msg += 'ETD in job not found<br/>';
-        }
-        if (o.ETADate == '' || o.ETADate == null) {
-            chk = false;
-            msg += 'ETA in job not found<br/>';
-        }
-        if (msg != '') {
-            msg = 'Please check Job : ' + o.JobNo +'<br/>'+ msg;
-            ShowMessage(msg, true);
-        }
-        return chk;
     }
 </script>

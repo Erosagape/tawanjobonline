@@ -187,8 +187,9 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Areas\Mobile\Controllers\ChartController.vb" />
+    <Compile Include="Areas\Mobile\Controllers\CreateController.vb" />
     <Compile Include="Areas\Mobile\Controllers\LoginController.vb" />
-    <Compile Include="Areas\Mobile\Controllers\MenuController.vb" />
+    <Compile Include="Areas\Mobile\Controllers\MainController.vb" />
     <Compile Include="Areas\Mobile\Data\MController.vb" />
     <Compile Include="Areas\Mobile\MobileAreaRegistration.vb" />
     <Compile Include="Controllers\AccController.vb" />
@@ -493,12 +494,13 @@
     <Content Include="Areas\Mobile\Views\_ViewStart.vbhtml" />
     <Content Include="Areas\Mobile\Views\Shared\_Layout.vbhtml" />
     <Content Include="Areas\Mobile\Views\Login\Index.vbhtml" />
-    <Content Include="Areas\Mobile\Views\Menu\Index.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Main\Index.vbhtml" />
     <Content Include="Areas\Mobile\Views\Login\Verification.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Index.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Yearly.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Loading.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Finance.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Index.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

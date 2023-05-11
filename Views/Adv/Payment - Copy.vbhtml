@@ -1,5 +1,5 @@
 ﻿@Code
-    ViewBag.Title = "Expense Payment"
+    ViewBag.Title = "Advance Payment"
 End Code
 <style>
     @@media only screen and ( max-width:600px ) {
@@ -17,9 +17,9 @@ End Code
     <div class="container">
         <input type="hidden" id="txtControlNo" />
         <ul id="myTabs" class="nav nav-tabs">
-            <li class="active"><a id="linkTab1" data-toggle="tab" href="#tab1">Select document</a></li>
-            <li><a id="linkTab2" data-toggle="tab" href="#tab2">Payment Info</a></li>
-            <li><a id="linkTab3" data-toggle="tab" href="#tab3">Payment Details</a></li>
+            <li class="active"><a data-toggle="tab" href="#tab1" id="linkTab1">Select document</a></li>
+            <li><a data-toggle="tab" href="#tab2" id="linkTab2">Payment Info</a></li>
+            <li><a data-toggle="tab" href="#tab3" id="linkTab3">Payment Details</a></li>
         </ul>
         <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
             <option id="optTab1" value="#tab1" selected>STEP 1 - Select Document</option>
@@ -29,7 +29,7 @@ End Code
         <div class="tab-content">
             <div id="tab1" class="tab-pane fade in active">
                 <div class="row">
-                    <div class="col-sm-4">                        
+                    <div class="col-sm-4">
                         <label id="lblBranch">Branch</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
@@ -38,17 +38,39 @@ End Code
                             <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                         </div>
                     </div>
-                    <div class="col-sm-4">
-                        <label id="lblDateFrom">Due Date From:</label>
-                        <input type="date" class="form-control" id="txtDocDateF" />
+                    <div class="col-sm-2">
+                        <label id="lblJobType">Job Type:</label><br />
+                        <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
                     </div>
-                    <div class="col-sm-4">
-                        <label id="lblDateTo">Due Date To:</label>
-                        <input type="date" class="form-control" id="txtDocDateT" />
+                    <div class="col-sm-2">
+                        <label id="lblShipBy">Ship By:</label>
+                        <br />
+                        <select id="cboShipBy" class="form-control dropdown"></select>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
+                    <div class="col-sm-6">
+                        <label id="lblReqBy">Request By :</label>
+                        <br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" class="form-control" id="txtReqBy" style="width:100px" />
+                            <button id="btnBrowseEmp2" class="btn btn-default" onclick="SearchData('reqby')">...</button>
+                            <input type="text" id="txtReqName" class="form-control" style="width:100%" disabled />
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <label id="lblAdvFor">Advance For :</label>
+                        <br />
+                        <div style="display:flex;flex-direction:row">
+                            <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
+                            <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
+                            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+                            <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
                         <label id="lblCurrency">Request Currency :</label>
                         <br />
                         <div style="display:flex;flex-direction:row">
@@ -57,19 +79,20 @@ End Code
                             <input type="text" class="form-control" id="txtCurrencyName" style="width:100%" disabled />
                         </div>
                     </div>
-                    <div class="col-sm-6">
-                        <label id="lblPayFor">Payment For :</label>
+                    <div class="col-sm-2">
+                        <label id="lblDateFrom">Request Date From:</label>
                         <br />
-                        <div style="display:flex;flex-direction:row">
-                            <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-                            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('vender')">...</button>
-                            <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
-                        </div>
+                        <input type="date" class="form-control" id="txtAdvDateF" />
+                    </div>
+                    <div class="col-sm-2">
+                        <label id="lblDateTo">Request Date To:</label>
+                        <br />
+                        <input type="date" class="form-control" id="txtAdvDateT" />
                     </div>
                     <div class="col-sm-2">
                         <br />
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
-                            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSeacrh">Search</b>
+                            <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
                     </div>
                 </div>
@@ -78,25 +101,35 @@ End Code
                         <table id="tbHeader" class="table table-responsive">
                             <thead>
                                 <tr>
-                                    <th>DocNo</th>
-                                    <th class="desktop">DocDate</th>
-                                    <th class="desktop">VenCode</th>
-                                    <th class="desktop">EmpCode</th>
-                                    <th class="all">Ref</th>
-                                    <th class="desktop">PoNo</th>
-                                    <th class="desktop">Amount</th>
-                                    <th class="desktop">WT</th>
-                                    <th class="desktop">VAT</th>
-                                    <th class="all">NET</th>
+                                    <th>Adv.No</th>
+                                    <th class="desktop">Req.date</th>
+                                    <th>Job No</th>
+                                    <th class="desktop">Inv.No</th>
+                                    <th class="desktop">customer</th>
+                                    <th class="desktop">Cash/Transfer</th>
+                                    <th class="desktop">Company Chq</th>
+                                    <th class="desktop">Customer Chq</th>
+                                    <th class="desktop">Credit</th>
+                                    <th class="all">Total</th>
+                                    <th class="all">W-Tax</th>
+                                    <th class="desktop">Req.By</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <label id="lblListAppr">Payment Document :</label>                        
+                    <div class="col-sm-4">
+                        <label id="lblListAppr">Payment Document :</label>
                         <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblSumAppr">Payment Total :</label>
+                        <br /><input type="number" id="txtTotalApprove" class="form-control" value="" disabled />
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblSumAll">Request Total :</label>
+                        <br /><input type="number" id="txtTotalAll" class="form-control" value="" disabled />
                     </div>
                 </div>
             </div>
@@ -119,7 +152,7 @@ End Code
                         </table>
                         <br />
                         <label id="lblRefNoCA">Trans.No:</label>
-                        <input type="text" id="txtRefNoCash" class="form-control" value="" />
+                        <input type="text" id="txtRefNoCash" class="form-control" value="" ondblclick="AutoGenRef()" />
                         <br />
                         <label id="lblTranDateCA">Trans.Date:</label>
                         <input type="date" id="txtCashTranDate" class="form-control" disabled />
@@ -130,7 +163,7 @@ End Code
                         <select id="cboBankCash" class="form-control"></select>
                         <label id="lblBranchCA">To Branch:</label>
                         <input type="text" id="txtBankBranchCash" class="form-control" />
-                        <label id="lblPayCA">Pay To:</label>
+                        <label id="lblPayCA" onclick="SearchData('emp1')">Pay To:</label>
                         <input type="text" id="txtCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeCash" />
@@ -165,7 +198,7 @@ End Code
                         <select id="cboBankChqCash" class="form-control"></select>
                         <label id="lblBranchCH">Chq Branch:</label>
                         <input type="text" id="txtBankBranchChqCash" class="form-control" />
-                        <label id="lblPayCH">Pay To:</label>
+                        <label id="lblPayCH" onclick="SearchData('emp2')">Pay To:</label>
                         <input type="text" id="txtChqCashPayTo" class="form-control" />
                         <br />
                         <input type="hidden" id="fldBankCodeChqCash" />
@@ -174,6 +207,7 @@ End Code
                     <div class="col-sm-3 table-bordered" id="dvChq">
                         <b id="linkChqCust">Customer Chq : </b><input type="text" id="txtAdvChq" class="form-control" value="" />
                         <br />
+                        <input type="hidden" id="txtBookChq" class="form-control" value="" />
                         <a id="lblRefNoCU" href="../acc/cheque" target="_blank">Chq No:</a><input type="text" id="txtRefNoChq" class="form-control" value="" disabled />
                         <input type="button" class="btn" id="btnBrowseChq" value="..." onclick="SearchData('chequecust')" />
                         <br />
@@ -187,7 +221,7 @@ End Code
                         <select id="cboBankChq" class="form-control"></select>
                         <label id="lblBranchCU">Issue Branch:</label>
                         <input type="text" id="txtBankBranchChq" class="form-control" />
-                        <label id="lblPayCU">Pay To:</label>
+                        <label id="lblPayCU" onclick="SearchData('emp3')">Pay To:</label>
                         <input type="text" id="txtChqPayTo" class="form-control" />
                         <br />
                     </div>
@@ -199,7 +233,7 @@ End Code
                             <br />
                             <label id="lblTranDateCR">Ref Date:</label>
                             <input type="date" id="txtCredTranDate" class="form-control" />
-                            <label id="lblPayCR">Pay To:</label>
+                            <label id="lblPayCR" onclick="SearchData('emp4')">Pay To:</label>
                             <input type="text" id="txtCredPayTo" class="form-control" />
                         </div>
                         <div style="background-color:greenyellow;padding:10px 10px 10px 10px;margin:10px 10px 10px 10px;">
@@ -257,6 +291,7 @@ End Code
             </div>
         </div>
     </div>
+    <div id="dvLOVs"></div>
     <did id="frmSearchChq" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -279,13 +314,12 @@ End Code
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
             </div>
         </div>
     </did>
 </div>
-<div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -293,13 +327,32 @@ End Code
     let arr = [];
     let list = [];
     let docno = '';
+    let jt = '';
+    let sumall = 0;
+    let sumpay = 0;
     //$(document).ready(function () {
-    SetEvents();
+        SetEvents();
     //});
     function ChangeTab(id) {
         $('#myTabs a[href="' + id + '"]').tab('show');
     }
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
     function SetEvents() {
+        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
+        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtAdvDateF').val(GetFirstDayOfMonth());
+        $('#txtAdvDateT').val(GetLastDayOfMonth());
+        //Combos
+        let lists = 'JOB_TYPE=#cboJobType';
+        lists += ',SHIP_BY=#cboShipBy';
+        loadCombos(path, lists);
 
         let cbos = ['#cboBankCash', '#cboBankChqCash', '#cboBankChq'];
         loadBank(cbos, path);
@@ -307,10 +360,6 @@ End Code
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
 
-        $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
-        $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-        $('#txtDocDateF').val(GetFirstDayOfMonth());
-        $('#txtDocDateT').val(GetLastDayOfMonth());
         //Events
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
@@ -332,6 +381,12 @@ End Code
                 CallBackQueryBookAccount(path, $('#txtBranchCode').val(), $('#txtBookChqCash').val(), ReadBookChq);
             }
         });
+        $('#txtReqBy').focusout(function (event) {
+            if (true) {
+                $('#txtReqName').val('');
+                ShowUser(path, $('#txtReqBy').val(), '#txtReqName');
+            }
+        });
         $('#txtCurrencyCode').focusout(function (event) {
             if (true) {
                 $('#txtCurrencyName').val('');
@@ -349,13 +404,17 @@ End Code
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
 
-            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
+            CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             CreateLOV(dv, '#frmSearchReq', '#tbReq', 'Request By', response, 2);
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 2);
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Account Receivables', response, 5);
+            CreateLOV(dv, '#frmSearchEmpCA', '#tbEmpCA', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCU', '#tbEmpCU', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCH', '#tbEmpCH', 'Employee', response, 2);
+            CreateLOV(dv, '#frmSearchEmpCR', '#tbEmpCR', 'Employee', response, 2);
         });
     }
     function ClearData() {
@@ -363,12 +422,13 @@ End Code
         $('#txtBookCash').val('');
         $('#txtRefNoCash').val('');
         $('#txtCashTranDate').val(CDateEN(GetToday()));
-        $('#txtCashTranTime').val('');
+        $('#txtCashTranTime').val(ShowTime(GetTime()));
         $('#cboBankCash').val('');
         $('#txtBankBranchCash').val('');
         $('#txtCashPayTo').val('');
         $('#txtAdvChqCash').val('');
         $('#txtBookChqCash').val('');
+        $('#txtBookChq').val('');
         $('#txtRefNoChqCash').val('');
         $('#txtChqCashTranDate').val('');
         $('#chkStatusChq').prop('checked', false);
@@ -398,85 +458,119 @@ End Code
         docno = '';
 
         let w = '';
-        if ($('#txtVenCode').val() !== "") {
-            w = w + '&vencode=' + $('#txtVenCode').val();
+        if ($('#txtReqBy').val() !== "") {
+            w = w + '&reqby=' + $('#txtReqBy').val();
         }
-        if ($('#txtDocDateF').val() !== "") {
-            w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
+        if ($('#txtCustCode').val() !== "") {
+            w = w + '&custcode=' + $('#txtCustCode').val();
         }
-        if ($('#txtDocDateT').val() !== "") {
-            w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
+        if ($('#txtCustBranch').val() !== "") {
+            w = w + '&custbranch=' + $('#txtCustBranch').val();
+        }
+        if ($('#cboJobType').val() !== "") {
+            w = w + '&jtype=' + $('#cboJobType').val();
+        }
+        if ($('#cboShipBy').val() !== "") {
+            w = w + '&sby=' + $('#cboShipBy').val();
+        }
+        if ($('#txtAdvDateF').val() !== "") {
+            w = w + '&DateFrom=' + CDateEN($('#txtAdvDateF').val());
+        }
+        if ($('#txtAdvDateT').val() !== "") {
+            w = w + '&DateTo=' + CDateEN($('#txtAdvDateT').val());
         }
         w = w + '&currency=' + $('#txtCurrencyCode').val();
-        w = w + '&Type=NOPAY&Status=A';
-        $.get(path + 'acc/getpayment?branch=' + $('#txtBranchCode').val() + w, function (r) {
-            if (r.payment.header.length == 0) {
+        //w = w + '&Show=NOPAY';
+	w = w + '&Status=2';
+        $.get(path + 'adv/getadvancegrid?branchcode=' + $('#txtBranchCode').val() + w, function (r) {
+            if (r.adv.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.payment.header;
+            sumpay=0;
+            sumall=0;
+            let h = r.adv.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
-                    { data: "DocNo", title: "Pay.No" },
+                    { data: "AdvNo", title: "Advance No" },
                     {
-                        data: "DocDate", title: "Due Date",
+                        data: "AdvDate", title: "Request date ",
                         render: function (data) {
                             return CDateEN(data);
                         }
                     },
-                    { data: "VenCode", title: "Vender" },
-                    { data: "ContactName", title: "Contact" },
-                    { data: "RefNo", title: "Ref.No" },
-                    { data: "PoNo", title: "PO.No" },
+                    { data: "JobNo", title: "Job Number" },
+                    { data: "CustInvNo", title: "InvNo" },
+                    { data: "CustCode", title: "Customer" },
                     {
-                        data: "TotalExpense", title: "Amount",
+                        data: "AdvCashCal", title: "Cash/Transfer",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
-                        data: "TotalVAT", title: "VAT",
+                        data: "AdvChqCashCal", title: "Company Chq",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
-                        data: "TotalTax", title: "Tax",
+                        data: "AdvChqCal", title: "Customer Chq",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {
-                        data: "TotalNet", title: "Net",
+                        data: "AdvCredCal", title: "Credit",
                         render: function (data) {
-                            return ShowNumber(data,2);
+                            return ShowNumber(data, 2);
                         }
-                    }
+                    },
+                    {
+                        data: "TotalAdvance", title: "Total",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    {
+                        data: "Total50Tavi", title: "W/T Amt",
+                        render: function (data) {
+                            return ShowNumber(data, 2);
+                        }
+                    },
+                    { data: "EmpCode", title: "Request By" }
                 ],
-                responsive: true,
+                responsive:true,
                 destroy: true
-                , pageLength: 100
+                , pageLength: 100,
+                createdRow: function (row, data, index) {
+		  sumall+=Number(data.TotalAdvance);
+$('#txtTotalAll').val(CDbl(sumall,2));
+                }
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
+
             $('#tbHeader tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
                     let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
+                    sumpay-=Number(data.TotalAdvance);
+                    RemoveData(data); //callback function from caller		
                     return;
                 }
                 $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                sumpay+=Number(data.TotalAdvance);
                 AddData(data); //callback function from caller
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo,'','');
+                window.open(path + 'adv/index?BranchCode=' + data.BranchCode + '&AdvNo=' + data.AdvNo,'','');
             });
         });
     }
@@ -507,37 +601,87 @@ End Code
     function ShowSummary() {
         let tot = 0;
         let cash = 0;
-        let chqcash = 0;
+        let chq = 0;
         let chqcust = 0;
         let cred = 0;
         let wtax = 0;
         let doc = '';
         list = [];
-
+	
         for (let i = 0; i < arr.length; i++) {
-
             let o = arr[i];
-            wtax += (o.TotalTax > 0 ? o.TotalTax : 0);
-            tot += (o.TotalExpense > 0 ? o.TotalExpense+o.TotalVAT : 0);
-            cash += (o.PayType == 'CA' ? o.TotalNet : 0);
-            chqcash += (o.PayType == 'CH' ? o.TotalNet : 0);
-            chqcust += (o.PayType == 'CU' ? o.TotalNet : 0);
-            cred += (o.PayType =='CR' ? o.TotalNet : 0);
-            doc += (doc != '' ? ',' : '') + o.DocNo;
-            if (o.TotalNet > 0) {
+            wtax += (o.Total50Tavi > 0 ? o.Total50Tavi : 0);
+            tot += (o.TotalAdvance > 0 ? o.TotalAdvance+o.Total50Tavi : 0);
+            cash += (o.AdvCash > 0 ? o.AdvCashCal : 0);
+            chq += (o.AdvChqCash > 0 ? o.AdvChqCashCal : 0);
+            chqcust += (o.AdvChq > 0 ? o.AdvChqCal : 0);
+            cred += (o.AdvCred > 0 ? o.AdvCredCal : 0);
+            doc += (doc != '' ? ',' : '') + o.AdvNo;
+            if (o.AdvCash > 0) {
                 let obj = {
                     BranchCode: $('#txtBranchCode').val(),
                     ControlNo: null,
                     ItemNo: i + 1,
-                    DocType: 'PAY',
-                    DocNo: o.DocNo,
-                    DocDate: CDateEN(o.DocDate),
-                    CmpType: 'V',
-                    CmpCode: o.VenCode,
-                    CmpBranch: '',
-                    PaidAmount: CDbl(o.TotalNet, 2),
-                    TotalAmount: CDbl(CNum(o.TotalExpense)+CNum(o.TotalVAT), 2),
-                    acType:o.PayType
+                    DocType: 'ADV',
+                    DocNo: o.AdvNo,
+                    DocDate:  CDateEN(o.AdvDate),
+                    CmpType: 'C',
+                    CmpCode: o.CustCode,
+                    CmpBranch: o.CustBranch,
+                    PaidAmount: CDbl(o.AdvCashCal, 2),
+                    TotalAmount: CDbl((o.TotalAdvance), 2),
+                    acType:'CA'
+                };
+                list.push(obj);
+            }
+            if (o.AdvChqCash > 0) {
+                let obj = {
+                    BranchCode: $('#txtBranchCode').val(),
+                    ControlNo: null,
+                    ItemNo: i + 1,
+                    DocType: 'ADV',
+                    DocNo: o.AdvNo,
+                    DocDate:  CDateEN(o.AdvDate),
+                    CmpType: 'C',
+                    CmpCode: o.CustCode,
+                    CmpBranch: o.CustBranch,
+                    PaidAmount: CDbl(o.AdvChqCashCal, 2),
+                    TotalAmount: CDbl((o.TotalAdvance), 2),
+                    acType:'CH'
+                };
+                list.push(obj);
+            }
+            if (o.AdvChq > 0) {
+                let obj = {
+                    BranchCode: $('#txtBranchCode').val(),
+                    ControlNo: null,
+                    ItemNo: i + 1,
+                    DocType: 'ADV',
+                    DocNo: o.AdvNo,
+                    DocDate:  CDateEN(o.AdvDate),
+                    CmpType: 'C',
+                    CmpCode: o.CustCode,
+                    CmpBranch: o.CustBranch,
+                    PaidAmount: CDbl(o.AdvChqCal, 2),
+                    TotalAmount: CDbl((o.TotalAdvance), 2),
+                    acType:'CU'
+                };
+                list.push(obj);
+            }
+            if (o.AdvCred > 0) {
+                let obj = {
+                    BranchCode: $('#txtBranchCode').val(),
+                    ControlNo: null,
+                    ItemNo: i + 1,
+                    DocType: 'ADV',
+                    DocNo: o.AdvNo,
+                    DocDate:  CDateEN(o.AdvDate),
+                    CmpType: 'C',
+                    CmpCode: o.CustCode,
+                    CmpBranch: o.CustBranch,
+                    PaidAmount: CDbl(o.AdvCredCal, 2),
+                    TotalAmount: CDbl((o.TotalAdvance), 2),
+                    acType:'CR'
                 };
                 list.push(obj);
             }
@@ -558,14 +702,16 @@ End Code
                 { data: "CmpType", title: "For" },
                 { data: "CmpCode", title: "Customer" },
                 { data: "CmpBranch", title: "Branch" },
-                { data: "TotalAmount", title: "Doc.Total",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
+                {
+                    data: "TotalAmount", title: "Doc.Total",
+                    render: function (data) {
+                        return ShowNumber(data,2);
                     }
                 },
-                { data: "PaidAmount", title: "Paid",
-                            render: function (data) {
-                                return ShowNumber(data, 2);
+                {
+                    data: "PaidAmount", title: "Paid",
+                    render: function (data) {
+                        return ShowNumber(data,2);
                     }
                 }
             ],
@@ -576,27 +722,28 @@ End Code
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
 
         SetStatusInput('#dvCash', (cash > 0 ? true : false), '#txtAdvCash');
-        $('#txtAdvCash').val(CDbl(cash, 2));
+        $('#txtAdvCash').val(CDbl(cash, 4));
 
-        SetStatusInput('#dvChqCash', (chqcash > 0 ? true : false), '#txtAdvChqCash');
-        $('#txtAdvChqCash').val(CDbl(chqcash, 2));
+        SetStatusInput('#dvChqCash', (chq > 0 ? true : false), '#txtAdvChqCash');
+        $('#txtAdvChqCash').val(CDbl(chq, 4));
 
         SetStatusInput('#dvChq', (chqcust > 0 ? true : false), '#txtAdvChq');
-        $('#txtAdvChq').val(CDbl(chqcust, 2));
+        $('#txtAdvChq').val(CDbl(chqcust, 4));
         $('#txtRefNoChq').attr('disabled', 'disabled');
 
         SetStatusInput('#dvCred', (cred > 0 ? true : false), '#txtAdvCred');
-        $('#txtAdvCred').val(CDbl(cred, 2));
+        $('#txtAdvCred').val(CDbl(cred, 4));
 
-        $('#txtSumApprove').val(CDbl(tot, 2));
-        $('#txtSumWHTax').val(CDbl(wtax, 2));
+        $('#txtSumApprove').val(CDbl(tot, 4));
+        $('#txtSumWHTax').val(CDbl(wtax, 4));
 
         $('#txtListApprove').val(doc);
+        $('#txtTotalApprove').val(CDbl(sumpay,2));
         $('#txtTRemark').val(doc);
     }
     function GetSumPayment(type) {
         let filter_data = arr.filter(function (data) {
-            return data.PayType == type;
+            return data[type] > 0
         });
         let filter_sum = {
             sumamount: 0,
@@ -610,15 +757,15 @@ End Code
             totalnet: 0
         };
         for (let i = 0; i < filter_data.length; i++) {
-            filter_sum.currencycode = filter_data[i].CurrencyCode;
+            filter_sum.currencycode = filter_data[i].SubCurrency;
             filter_sum.exchangerate = filter_data[i].ExchangeRate;
-            filter_sum.sumamount += Number(filter_data[i].TotalExpense);
-            filter_sum.totalamount += Number(filter_data[i].TotalExpense + filter_data[i].TotalVAT);
+            filter_sum.sumamount += Number(filter_data[i][type]);
+            filter_sum.totalamount += Number(filter_data[i].BaseAmount);
             filter_sum.totalnet += Number(filter_data[i].TotalNet);
-            filter_sum.vatinc += Number(0);
-            filter_sum.vatexc += Number(filter_data[i].TotalVAT);
-            filter_sum.whtinc += Number(0);
-            filter_sum.whtexc += Number(filter_data[i].TotalTax);
+            filter_sum.vatinc += Number(filter_data[i].VATInc);
+            filter_sum.vatexc += Number(filter_data[i].VATExc);
+            filter_sum.whtinc += Number(filter_data[i].WHTInc);
+            filter_sum.whtexc += Number(filter_data[i].WHTExc);
         }
         return filter_sum;
     }
@@ -627,10 +774,10 @@ End Code
         let i = 0;
         if ($('#txtAdvCash').val() > 0) {
             i = i + 1;
-            let sum_cash = GetSumPayment('CA');
+            let sum_cash = GetSumPayment('AdvCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -659,23 +806,24 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankCash').val(),
                 RecvBranch: $('#txtBankBranchCash').val(),
-                acType : 'CA'
+                acType: 'CA',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChq').val() > 0) {
             i = i + 1;
-            let sum_chq = GetSumPayment('CU');
+            let sum_chq = GetSumPayment('AdvChq');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
                 ChqNo: $('#txtRefNoChq').val(),
-                BookCode: '',
+                BookCode: $('#txtBookChq').val(),
                 BankCode: '',
                 BankBranch: '',
-                ChqDate: CDateEN($('#txtChqTranDate').val()),
+                ChqDate:  CDateEN($('#txtChqTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: CNum($('#txtAdvChq').val()),
                 CreditAmount: 0,
@@ -696,15 +844,16 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChq').val(),
                 RecvBranch: $('#txtBankBranchChq').val(),
-                acType: 'CU'
+                acType: 'CU',
+                ForJNo:''
             });
         }
         if ($('#txtAdvChqCash').val() > 0) {
             i = i + 1;
-            let sum_chqcash = GetSumPayment('CH');
+            let sum_chqcash = GetSumPayment('AdvChqCash');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -712,7 +861,7 @@ End Code
                 BookCode: $('#txtBookChqCash').val(),
                 BankCode: $('#fldBankCodeChqCash').val(),
                 BankBranch: $('#fldBankBranchChqCash').val(),
-                ChqDate: CDateEN($('#txtChqCashTranDate').val()),
+                ChqDate:  CDateEN($('#txtChqCashTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: CNum($('#txtAdvChqCash').val()),
                 CreditAmount: 0,
@@ -733,15 +882,16 @@ End Code
                 SICode: '',
                 RecvBank: $('#cboBankChqCash').val(),
                 RecvBranch: $('#txtBankBranchChqCash').val(),
-                acType: 'CH'
+                acType: 'CH',
+                ForJNo:''
             });
         }
         if ($('#txtAdvCred').val() > 0) {
             i = i + 1;
-            let sum_cr = GetSumPayment('CR');
+            let sum_cr = GetSumPayment('AdvCred');
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: 'P',
@@ -749,7 +899,7 @@ End Code
                 BookCode: '',
                 BankCode: '',
                 BankBranch: '',
-                ChqDate: CDateEN($('#txtCredTranDate').val()),
+                ChqDate:  CDateEN($('#txtCredTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: 0,
                 CreditAmount: CNum($('#txtAdvCred').val()),
@@ -794,27 +944,11 @@ End Code
             ShowMessage('No data to approve',true);
         }
     }
-    function SaveClearing() {
-        if (list.length > 0) {
-            let str = '';
-            for (let i = 0; i < list.length; i++) {
-                let o = list[i];
-                str += (str !== '' ? ',' : '') + o.DocNo;
-            }
-            $.get(path + 'clr/setclrbypay?branch=' + $('#txtBranchCode').val() + '&ref=' + docno + '&code=' + str + '&status=Y')
-                .done(function (r) {
-                    alert(r.clr.result);
-                })
-                .error(function (e) {
-                    alert(e);
-                });
-        }
-    }
     function SaveDetail() {
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -823,11 +957,8 @@ End Code
                 contentType: "application/json",
                 data: jsonString,
                 success: function (response) {
-                    if (response.result.data !== null) {
-                        //SaveClearing();                        
-                        PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
-                        SetGridAdv(false);
-                        ShowMessage(response.result.msg);
+                    if (response.result.data != null) {
+                        UpdateAdvance(response.result.data);
                     }
                 },
                 error: function (e) {
@@ -835,6 +966,34 @@ End Code
                 }
             });
         }
+    }
+    function UpdateAdvance(cno) {
+        let msg = "Payment " + cno + " Complete";
+
+        let dataApp = [];
+        dataApp.push(user + '|' + cno);
+        for (let i = 0; i < list.length; i++) {
+            dataApp.push(list[i].BranchCode + '|' + list[i].DocNo);
+        }
+
+        let jsonString = JSON.stringify({ data: dataApp });
+        $.ajax({
+            url: "@Url.Action("PaymentAdvance", "Adv")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonString,
+            success: function (response) {
+                response ? ShowMessage(msg) : ShowMessage("Cannot Payment");
+                if (response) {
+                    PrintVoucher($('#txtBranchCode').val(), $('#txtControlNo').val());
+                }
+                $('#btnSave').removeAttr('disabled');
+                SetGridAdv(false);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
     }
     function ApproveData() {
         if (arr.length < 0) {
@@ -844,14 +1003,15 @@ End Code
         if (CheckBalance() == false) {
             return;
         }
+        $('#btnSave').attr('disabled', 'disabled');
         let oHeader = {
             BranchCode: $('#txtBranchCode').val(),
             ControlNo: '',
-            VoucherDate: CDateEN($('#txtPaymentDate').val()),
+            VoucherDate:  CDateEN($('#txtPaymentDate').val()),
             TRemark: $('#txtTRemark').val(),
             RecUser: user,
-            RecDate: CDateEN(GetToday()),
-            RecTime: CDateEN(GetTime()),
+            RecDate:  CDateEN(GetToday()),
+            RecTime:  CDateEN(GetTime()),
             PostedBy: '',
             PostedDate: '',
             PostedTime: '',
@@ -890,8 +1050,11 @@ End Code
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
-            case 'vender':
-                SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
+            case 'reqby':
+                SetGridUser(path, '#tbReq', '#frmSearchReq', ReadReqBy);
+                break;
+            case 'customer':
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
             case 'cashacc':
                 SetGridBookAccount(path, '#tbBookCash', '#frmSearchBookCash', ReadBookCash);
@@ -904,7 +1067,7 @@ End Code
                 break;
             case 'chequecust':
                 if (type == 'chequecust') {
-                    SetGridCheque(path, '#tbChq', '#frmSearchChq', '?cancel=N& type=CU & branch=' + $('#txtBranchCode').val(), ReadCheque);
+                    SetGridCheque(path, '#tbChq', '#frmSearchChq', '?cancel=N&type=CU&branch=' + $('#txtBranchCode').val(), ReadCheque);
                 } else {
                     SetGridCheque(path, '#tbChq', '#frmSearchChq', '?cancel=N&type=CH&branch=' + $('#txtBranchCode').val(), ReadCheque);
                 }
@@ -912,12 +1075,41 @@ End Code
             case 'document':
                 SetGridDocument(path, '#tbDoc', '#frmSearchDoc', '?type=R&branch=' + $('#txtBranchCode').val(), ReadDocument);
                 break;
+            case 'emp1':
+                SetGridEmployee(path, '#tbEmpCA', '#frmSearchEmpCA', ReadEmpCA);
+                break;
+            case 'emp2':
+                SetGridEmployee(path, '#tbEmpCH', '#frmSearchEmpCH', ReadEmpCH);
+                break;
+            case 'emp3':
+                SetGridEmployee(path, '#tbEmpCU', '#frmSearchEmpCU', ReadEmpCU);
+                break;
+            case 'emp4':
+                SetGridEmployee(path, '#tbEmpCR', '#frmSearchEmpCR', ReadEmpCR);
+                break;
+
         }
     }
+    function ReadEmpCA(dt) {
+        $('#txtCashPayTo').val(dt.Name);
+        $('#txtBankBranchCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCH(dt) {
+        $('#txtChqCashPayTo').val(dt.Name);
+        $('#txtBankBranchChqCash').val(dt.AccountNumber);
+    }
+    function ReadEmpCU(dt) {
+        $('#txtChqPayTo').val(dt.Name);
+        $('#txtBankBranchChq').val(dt.AccountNumber);
+    }
+    function ReadEmpCR(dt) {
+        $('#txtCredPayTo').val(dt.Name);
+    }
+
     function ReadDocument(dt) {
         let crAmt = Number($('#txtAdvCred').val());
         if (dt.AmountRemain < crAmt) {
-            ShowMessage('Balance is not enough to payment',true);
+            ShowMessage('Balance not enough to payment',true);
             return;
         }
         $('#txtRefNoCred').val(dt.DocNo);
@@ -925,11 +1117,12 @@ End Code
     function ReadCheque(dt) {
         let chqAmt = dt.acType == 'CU' ? Number($('#txtAdvChq').val()) : Number($('#txtAdvChqCash').val());
         if (dt.AmountRemain < chqAmt) {
-            ShowMessage('Balance is not enough to payment',true);
+            ShowMessage('Balance not enough to payment',true);
             return;
         }
+        $('#txtBookChq').val(dt.BookCode);
         $('#txtRefNoChq').val(dt.ChqNo);
-        $('#txtChqTranDate').val(CDateEN(dt.ChqDate));
+        $('#txtChqTranDate').val( CDateEN(dt.ChqDate));
         $('#chkIsLocal').prop('checked', dt.IsLocal == 1 ? true : false);
         $('#txtChqPayTo').val(dt.PayChqTo);
         $('#cboBankChq').val(dt.RecvBank);
@@ -964,20 +1157,25 @@ End Code
         });
 
     }
+    function ReadReqBy(dt) {
+        $('#txtReqBy').val(dt.UserID);
+        $('#txtReqName').val(dt.TName);
+    }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
     }
-    function ReadVender(dt) {
-        $('#txtVenCode').val(dt.VenCode);
-        ShowVender(path, dt.VenCode, '#txtVenName');
+    function ReadCustomer(dt) {
+        $('#txtCustCode').val(dt.CustCode);
+        $('#txtCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
     }
     function CheckBalance() {
         if ($('#txtBookCash').val() == $('#txtBookChqCash').val()) {
             let amtChk = Number($('#txtAdvCash').val()) + Number($('#txtAdvChqCash').val());
             let amtBal = Number($('#txtCashBal').val());
             if (amtBal < amtChk) {
-                ShowMessage('Balance is not enough to payment',true);
+                ShowMessage('Balance not enough to payment',true);
                 return false;
             }
         }
@@ -985,7 +1183,7 @@ End Code
         if (amtChk > 0) {
             let amtBal = Number($('#txtCashBal').val());
             if (amtBal < amtChk) {
-                ShowMessage('Balance is not enough to payment',true);
+                ShowMessage('Balance not enough to payment',true);
                 return false;
             } else {
                 if ($('#txtBookCash').val() == '') {
@@ -1005,7 +1203,7 @@ End Code
         if (amtChk > 0) {
             let amtBal = CNum($('#txtChqCashBal').val());
             if (amtBal < amtChk) {
-                ShowMessage('Balance is not enough to payment',true);
+                ShowMessage('Balance not enough to payment',true);
                 return false
             } else {
                 if ($('#txtBookChqCash').val() == '') {
@@ -1046,8 +1244,8 @@ End Code
                     $('#txtChqTranDate').focus();
                     return false;
                 } else {
-                    if ($('#cboBankChq').val() == '' || $('#txtBankBranchChq').val() == '') {
-                        ShowMessage('Please input bank and branch',true);
+                    if ($('#cboBankChq').val() == '') {
+                        ShowMessage('Please input bank',true);
                         $('#cboBankChq').focus();
                         return false;
                     }
@@ -1073,5 +1271,7 @@ End Code
     function PrintVoucher(br, cno) {
         window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
-
+    function AutoGenRef() {
+        $('#txtRefNoCash').val('CA'+'@DateTime.Now.ToString("yyyyMMddHHmmss")');
+    }
 </script>

@@ -5,7 +5,7 @@ End Code
 <style>
 
     * {
-        font-size: 11px;
+        font-size: 10px;
     }
 
     body {
@@ -59,17 +59,18 @@ End Code
         width: 100%;
     }
 
-    #main td ,th{
+    #main td, th {
         border-right: 1px solid black;
         border-left: 1px solid black;
-    } 
+    }
 </style>
 <div class="center bold">
-    <br/>
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
-
-<div style="display:flex;width:98%" >
+<div class="right bold">
+    <label style="font-size:16px" id="lblCopy">**ORIGINAL**</label>
+</div>
+<div style="display:flex;width:98%">
     <div style="flex:60%" class="curveBorder">
         <table class="table table-borderless">
             <tbody>
@@ -86,22 +87,22 @@ End Code
                         <label id="billName"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billAddress1"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billAddress2"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billContactInfo"></label>
                     </td>
                 </tr>
-		
+
             </tbody>
         </table>
     </div>
@@ -157,95 +158,96 @@ End Code
 
     <tbody>
         <tr>
-            <td><label id="destinyLbl">POL/ POD</label></td>
-            <td>:</td>
-            <td>
-                <label id="portfrom"></label>&nbsp; 
-                <label id="origin"></label>
-                to <label id="portto"></label>&nbsp; <label id="destiny"></label>
-            </td>
-
-            <td><label id="jobNoLbl">JOB NO.</label></td>
-            <td>:</td>
-            <td><label id="jobNo"></label></td>
-
             <td></td>
             <td></td>
-            <td></td>
-        </tr>
+            <td><label id=""></label></td>
 
-        <tr>
-            <td><label id="vesselLbl">VESSEL/VOYAGE</label></td>
-            <td>:</td>
-            <td><label id="vessel">SINAR SOLO V. 936N</label></td>
-
-            <td><label id="etdLbl">ETD</label></td>
-            <td>:</td>
-            <td><label id="etd"></label></td>
-
-            <td><label id="etaLbl">ETA</label></td>
-            <td>:</td>
-            <td><label id="eta"></label></td>
-        </tr>
-
-        <tr>
-            <td><label id="hblNoLbl">H-B/L NO.</label></td>
-            <td>:</td>
-            <td><label id="hblNo"></label></td>
-
-            <td><label id="quantityLbl">QUANTITY</label></td>
-            <td>:</td>
-            <td><label id="quantity"></label></td>
-
-            <td><label id="totpkgLbl">TOTAL</label></td>
-            <td>:</td>
-            <td><label id="totpkg"></label></td>
-        </tr>
-
-        <tr>
-            <td><label id="newBlNoLbl">BOOKING NO</label></td>
-            <td>:</td>
-            <td><label id="newBlNo"></label></td>
-
-            <td><label id="weightLbl">WEIGHT</label></td>
-            <td>:</td>
-            <td><label id="weight"></label></td>
-
-        </tr>
-
-        <tr>
-            <td><label id="containerNoLbl">CONTANER NO.</label></td>
-            <td>:</td>
-            <td><div id="containerNo"></div></td>
-
-           
-		<td><label id="totalctnLbl">TOTAL CONTAINER</label></td>
-            <td>:</td>
-            <td><label id="totalctn"></label></td>
-        </tr>
-
-        <tr>
-            <td><label id="custInvNoLbl">CUST INV NO.</label></td>
-            <td>:</td>
-            <td><label id="custInvNo"></label></td>
-
-            <td><label id="refLbl">REF.</label></td>
+            <td><label >Reference No.</label></td>
             <td>:</td>
             <td><label id="ref"></label></td>
         </tr>
-
         <tr>
-            <td><label id="declLbl">DECL.NO</label></td>
+            <td>ผู้ส่งออก/Shipper</td>
+            <td>:</td>
+            <td><label id="shipper"></label></td>
+
+            <td><label id="jobNoLbl">BOP JOB NO.</label></td>
+            <td>:</td>
+            <td><label id="jobNo"></label></td>
+        </tr>
+        <tr>
+            <td>ผู้นำเข้า/Consignee</td>
+            <td>:</td>
+            <td><label id="consignee"></label></td>
+
+            <td>Quotation Ref</td>
+            <td>:</td>
+            <td><label id="qno"></label></td>
+        </tr>
+        <tr>
+            <td>เลขที่ใบขน/Entry No</td>
             <td>:</td>
             <td><label id="decl"></label></td>
-            <td><label id="consLbl">FOR:</label></td>
+
+            <td>เลขที่อ้างอิง/Customer Ref</td>
             <td>:</td>
-            <td><label id="cons"></label></td>
+            <td><label id="custInvNo"></label></td>
         </tr>
+        <tr>
+            <td>สินค้า/Commodity</td>
+            <td>:</td>
+            <td><label id="commodity"></label></td>
+
+            <td>จำนวน/Packages</td>
+            <td>:</td>
+            <td><label id="quantity"></label></td>
+        </tr>
+        <tr>
+            <td>FCL/LCL</td>
+            <td>:</td>
+            <td><label id="totalctn"></label></td>
+
+            <td>HAWB</td>
+            <td>:</td>
+            <td><label id="hawb"></label></td>
+
+            <td>MAWB</td>
+            <td>:</td>
+            <td><label id="mawb"></label></td>
+        </tr>
+        <tr>
+            <td>ยานพาหนะ/Voy</td>
+            <td>:</td>
+            <td><label id="vessel"></label></td>
+
+            <td>วันนำเข้า/ETA</td>
+            <td>:</td>
+            <td><label id="eta"></label></td>
+        </tr>
+        <tr>
+            <td>ท่าต้นทาง/Pol</td>
+            <td>:</td>
+            <td><label id="portfrom"></label></td>
+
+            <td>สถานที่ส่ง/Delivery To</td>
+            <td>:</td>
+            <td><label id=""></label></td>
+
+        </tr>
+        <tr>
+            <td>Mail To</td>
+            <td>:</td>
+            <td><label id="portfrom"></label></td>
+
+            <td>Term of Payment</td>
+            <td>:</td>
+            <td><label id=""></label></td>
+        </tr>
+      
     </tbody>
 </table>
 
-<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%" >
+<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%">
     <thead>
         <tr class="upperLine underLine">
             <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
@@ -276,7 +278,7 @@ End Code
             <td class="center underLine">W/T AMT</td>
             <td id="amountLbl" class="right">AMOUNT:</td>
             <td style="width:60px;" id="advanceAmount" class="right"></td>
-            <td style="width:60px;" id="nonVatAmount" class="right" style="width:5em"></td>
+            <td style="width:5em;" id="nonVatAmount" class="right"></td>
             <td style="width:60px;" id="vatAmount" class="right"></td>
         </tr>
         <tr>
@@ -335,48 +337,53 @@ End Code
         </tr>
     </tbody>
 </table>
-<br>
-<p>
+<div>
     TOTAL AMOUNT IN WORDS:
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
-</p>
-<p>
-   Remark:
-   <label id="remark"></label>
-</p>
-<br /><br />
-      <table class="table" style="width:100%">
-          <tr>
-              <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
-
-              <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
-
-              <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
-
-          </tr>
-          <tr>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
-          </tr>
-          <tr>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
-          </tr>
-      </table>
-
+</div>
+<div>
+<br/>
+    <label id="remark"></label>
+</div>
+<br>
+<table class="table" style="width:100%">
+    <tr>
+	<td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Prepared By </td>
+        <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
+        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>       
+    </tr>
+    <tr>
+	<td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
+        <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /> _________________________________________</td>
+        <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /> _________________________________________</td>
+        
+    </tr>
+    <tr>
+	<td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        
+    </tr>
+</table>
+<br>
+Please make payment by crossed cheque with "A/C PAYEE ONLY" TO BOP EXPRESS CO.,LTD.<br/>
+Or bank transfer to account "BOP EXPRESS CO.,LTD."<br/>
+A/C No.466-1-07285-2 Bank: TMB BANK PUBLIC COMPANY LIMITED Sriracha Branch.<br/>
+A/C No.354-2-54700-7 Bank: Kasikorn Bank,Laemchabang Branch.<br/>
+A/C No.491-1-13902-0 Bank: Krungsri Bank,Laemchabang Branch.<br/>
+A/C No.653-290641-9  Bank: Siam Commercial Bank,Laemchabang Branch.<br/>
+<br>
+REMARK<br>
+1.if the description on this invoice is incorrect. Please contact our office within 7 day otherwise no correction<br>
+2.Interest rate of 0.75% per month will be charged on all overdue accounts. <br>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
 
-    if(confirm("show company header?")==false){
-	    $('#imgLogo').css('display','none');
-	    $('#divCompany').css('display','none');
-	    $('#dvCompAddr').css('display','none');
-	    $('#dvCompLogo').css('height','90px');
+    if(confirm("OK For Original Or Copy")==false){
+    	$('#lblCopy').text('**COPY**');
     }
 
     $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
@@ -390,66 +397,83 @@ End Code
 
                 let addr = '';
                 addr += b.EAddress1 + '<br/>' + b.EAddress2;
-                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
+                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : 0' + b.Branch;
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
-                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : 0' + b.Branch);
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(ShowDate(h.DueDate));
+                $("#id").text(h.BillToCustCode);
 	        });
-            $("#id").text(h.CustCode);
-            //$("#billName").text(c.NameEng);
-            //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
-            //console.log(c.EAddress1);
+           
             $("#invoiceNo").text(h.DocNo);
-            //let date = new Date();
-            //date.setMonth(date.getMonth()+1);
-            //let tmpInvNo = "inv-"+(date.getFullYear()-2000)+(date.getMonth()<10?"0"+date.getMonth():date.getMonth())+h.DocNo.substring(6,12);
-            //$("#invoiceNo").text(tmpInvNo);
             $("#invoiceDate").text(ShowDate(h.DocDate));
-            //$("#crTerm").text(c.CreditLimit);
-            //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
-            //$("#destiny").text("PASIR GUDANG-BANGKOK");
-            $("#remark").text(h.Remark1);
-            $("#empcode").text(h.EmpCode);
+            $("#shipper").text(h.Remark1);
+            $("#consignee").text(h.Remark2);
+            $("#remark").text(h.Remark3);
+	    $.get(path + 'Master/GetUser?Code=' + h.EmpCode)
+            .done(function (r) {
+                if (r.user.data.length > 0) {
+                    let b = r.user.data[0];
+                    $('#empcode').text(b.EName);
+                }
+            });
             $("#createDate").text(ShowDate(h.CreateDate));
-            
-            if (j.ShipBy == 1) {
-                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
+	    if (j.ShipBy == 1) {
+                //ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
+		$.get(path + 'Master/GetInterPort?Code=' + j.InvInterPort+ '&Key=' + j.InvFCountry)
+             	.done(function (r) {
+            		if (r.interport.data.length > 0) {
+                		let b = r.interport.data[0];
+                		$('#portfrom').text(b.PortName?b.PortName+" ":"");
+            		}
+             	});
             } else {
-                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
+                //ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
                 ShowCountry(path, j.InvFCountry, '#origin');
   		ShowCountry(path, j.InvCountry, '#destiny');
+		$.get(path + 'Master/GetInterPort?Code=' + j.InvInterPort+ '&Key=' + j.InvCountry)
+             	.done(function (r) {
+            		if (r.interport.data.length > 0) {
+                		let b = r.interport.data[0];
+                		$('#portto').text(b.PortName?b.PortName+" ":"");
+            		}
+             	});
             }
             $("#jobNo").text(j.JNo);
             $("#vessel").text(j.VesselName);
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
-            $("#hblNo").text(j.HAWB);
+            $("#hawb").text(j.HAWB);
+            $("#mawb").text(j.MAWB);
+            $("#commodity").text(j.InvProduct);
+            
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
             $("#totpkg").text(j.TotalQty + " PACKAGE");
             $("#newBlNo").text(j.BookingNo);
-            $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
-	$("#totalctn").text(j.TotalContainer);
-	$("#decl").text(j.DeclareNumber);
+            $("#weight").text(ShowNumber(j.TotalGW,3) + ' ' + j.GWUnit);
+	        $("#totalctn").text(j.TotalContainer);
+            $("#decl").text(j.DeclareNumber);
+
+
             //$("#volume").text(j.Measurement);
  		//<td><label id="volumeLbl">VOLUME</label></td>
             //<td>:</td>
             //<td><label id="volume"></label></td>
             $("#custInvNo").text(j.InvNo);
-            //$("#ref").text(j.CustRefNO);
-	        $.get(path + 'Master/GetCompany?Code='+h.CustCode+'&Branch='+h.CustBranch).done(function (r) {
-                let b = r.company.data[0];
-                $("#ref").text(b.NameEng);
-	        });
+            $("#ref").text(j.CustRefNO);
+            $('#blno').text(j.BLNo);
+            $("#qno").text(j.QNo);
+            
 
-            ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');
+            //ShowCustomerEN(path, j.CustCode, j.CustBranch, '#shipper');
+            //ShowCustomerEN(path, j.Consigneecode,'0000', '#consignee');
             ShowVender(path, j.ForwarderCode, '#carrier');
-            ShowContainer(j.BranchCode, j.JNo);
-		
+            //ShowContainer(j.BranchCode, j.JNo);
+
             let d = r.invoice.detail[0];
             let html = '';
             let adv = 0;
@@ -468,22 +492,23 @@ End Code
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + '</td>';
                 html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.ExchangeRate,4) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice,2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
-                html += '            <td class="right">' + (!row.AmtAdvance &&row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt,2):''):'') + '</td>';
+                html += '            <td class="right">' + (!row.AmtAdvance &&row.AmtVat>0?ShowNumber(row.Amt,2) : '') + '</td>';
                 html += '        </tr>';
-                adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
-                if (!row.AmtAdvance) {
+                if (row.AmtAdvance) {
+                    adv += ((row.Amt) * row.ExchangeRate.toFixed(4)+ row.AmtVat);
+                } else {
                     if (row.AmtVat > 0) {
                         vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
                         varFromSrv += row.AmtVat;
                     } else {
-                        nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                        nonVat += row.AmtCharge* row.ExchangeRate.toFixed(4) ;
                     }
                     switch (row.Rate50Tavi - 0) {
                         case 1:
@@ -517,24 +542,24 @@ End Code
                 html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
-            $('#gross1').text(ShowNumber(sumbaseWht1, 2));
-            $('#wtAmt1').text(ShowNumber(sumWht1, 2));
-            $('#gross3').text(ShowNumber(sumbaseWht3, 2));
-            $('#wtAmt3').text(ShowNumber(sumWht3, 2));
-            $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
-            $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+            $('#gross1').text(ShowNumber(sumbaseWht1,2));
+            $('#wtAmt1').text(ShowNumber(sumWht1,2));
+            $('#gross3').text(ShowNumber(sumbaseWht3,2));
+            $('#wtAmt3').text(ShowNumber(sumWht3,2));
+            $('#gross1_5').text(ShowNumber(sumbaseWht1_5,2));
+            $('#wtAmt1_5').text(ShowNumber(sumWht1_5,2));
 
             $("#advanceAmount").text(ShowNumber(adv,2));
-            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
-            $("#vatAmount").text(ShowNumber(vat, 2));
+            $("#nonVatAmount").text(ShowNumber(nonVat,2));
+            $("#vatAmount").text(ShowNumber(vat,2));
             $('#details').html(html);
             $("#valueAddedTax").text(ShowNumber(varFromSrv,2));
-            $("#totalAmount").text(ShowNumber(adv+vat + h.TotalVAT, 2));
-            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
-            $("#netAmount").text(ShowNumber(adv + vat + nonVat + h.TotalVAT - h.Total50Tavi, 2));
-            $("#custAdv").text(ShowNumber(h.TotalCustAdv, 2));
-            $("#grandTotal").text(ShowNumber((adv + vat + nonVat + h.TotalVAT - h.Total50Tavi)-h.TotalCustAdv, 2));
-            
+            $("#totalAmount").text(ShowNumber(adv+nonVat +vat + h.TotalVAT,2));
+            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi,2));
+            $("#netAmount").text(ShowNumber(adv + vat + nonVat + h.TotalVAT - h.Total50Tavi,2));
+            $("#custAdv").text(ShowNumber(h.TotalCustAdv,2));
+            $("#grandTotal").text(ShowNumber((adv + vat + nonVat + h.TotalVAT - h.Total50Tavi)-h.TotalCustAdv,2));
+
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");

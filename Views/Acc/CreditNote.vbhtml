@@ -110,10 +110,8 @@ End Code
                                 <label id="lblDocType">Document Type:</label>
                                 <br />
                                 <select id="txtDocType" class="form-control dropdown">
-                                    <option value="0">Credit Note (Internal)</option>
-                                    <option value="1">Debit Note (Internal)</option>
-                                    <option value="2">Credit Note (External)</option>
-                                    <option value="3">Debit Note (External)</option>
+                                    <option value="0">Credit Note</option>
+                                    <option value="1">Debit Note</option>
                                 </select>
                             </div>
                         </div>

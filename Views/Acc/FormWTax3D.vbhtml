@@ -1,8 +1,13 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportWhTaxLandscape.vbhtml"
+    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
 End Code
 <style>
-    #pFooter, #dvFooter {
+    * {
+        font-family: AngsanaUPC;
+        font-size: 13px;
+    }
+
+    #pFooter,#dvFooter {
         display: none;
     }
 
@@ -10,15 +15,6 @@ End Code
         text-align: center;
     }
 
-    tbody tr > td {
-        font-size: 12px;
-    }
-    thead tr > td {
-        font-size: 11px;
-    }
-    tfoot tr > td {
-        font-size: 11px;
-    }
     .circle {
         width: 100px; /* ความกว้าง */
         height: 100px; /* ความสูง */
@@ -40,18 +36,13 @@ End Code
             margin: 1px;
             text-align: center;
             line-height: 20px;
-            font-size: 12px;
+            font-size: 7px;
         }
-    table,
-    table tr td,
-    table tr th {
-        page-break-inside: avoid;
-    }
 </style>
-<table style="width:100%;">
+<table>
     <tr>
         <td>
-            <table style="width:100%;">
+            <table style="width:100%">
                 <tr>
                     <td style="width:10%">
                         ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.3</label>
@@ -75,7 +66,7 @@ End Code
     <tr>
         <td id="report">
             <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;display:none;">
-                <thead style="text-align:center;">
+                <thead style="text-align:center">
                     <tr>
                         <td rowspan="3">
                             <p>ลำดับที่</p>
@@ -147,8 +138,8 @@ End Code
                         <td class="text-left" colspan="4">
                             (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                             <br>
-                            <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์<br />
-                            ค่าก่อสร้าง รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด การแข่งขัน การชิงโชค<br /> ค่าจ้างแสดงภาพยนต์ ร้องเพลงดนตรี <br>ค่าจ้างทำของ ค่าโฆษณา ค่าขนส่งสินค้า ฯลฯ
+                            <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์<br/>
+                            ค่าก่อสร้าง รางวัล ส่วนลดหรือประโยชน์ใดๆ เนื่องจากการส่งเสริมการขาย รางวัลในการประกวด การแข่งขัน การชิงโชค ค่าจ้างแสดงภาพยนต์ ร้องเพลงดนตรี ค่าจ้างทำของ ค่าโฆษณา ค่าขนส่งสินค้า ฯลฯ
                             <br>
                             2 เงื่อนไขการหักภาษี ณ ที่จ่ายให้กรอกดังนี้<br>
                             หัก ณ ที่จ่าย กรอก 1<br>
@@ -158,9 +149,9 @@ End Code
                         <td colspan="3" style="text-align:center">
                             <br>
                             ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
-                            (<input readonly type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
-                            ตำแหน่ง <input readonly type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
-                            ยื่นวันที่ <input  readonly type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+                            (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
+                            ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="{2}" /> <br>
+                            ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
                         </td>
                         <td colspan="2">
                             <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
@@ -184,7 +175,6 @@ End Code
         row = JSON.parse(data);
         let obj = JSON.parse(cliteria);
         let html = '';
-
         if (obj.DATEFROM !== '') html += obj.DATEFROM + ',';
         if (obj.DATETO !== '') html += obj.DATETO + ',';
         if (obj.CUSTWHERE !== '') html += obj.CUSTWHERE + ',';
@@ -239,10 +229,10 @@ End Code
                             d += 1;
                         }
                     }
-                    if (d > 4) {
+                    if (d > 7) {
                         let r = 1;
-                        for (let i = 5; i <= d; i++) {
-                            if (r == 5 || i == d) {
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8 || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {
@@ -264,16 +254,20 @@ End Code
                                 template = template.replace('{4}', field4);
                                 template = template.replace('{5}', field5);
 
-                                if ((p == 1 && n == 5) || (((n - 5) % 5) == 0 && p > 1)) {
+                                if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
-
+                                    if (params.ReportCode == 'PRD3AD') {
+                                        htmlFoot = htmlFoot.replace('{2}', 'กระทำการแทน');
+                                    } else {
+                                        htmlFoot = htmlFoot.replace('{2}', '@ViewBag.TaxPosition');
+                                    }
                                     htmlAll = htmlAll.replace('{0}', htmlHead);
                                     htmlAll = htmlAll.replace('{1}', template);
                                     htmlAll = htmlAll.replace('{2}', htmlFoot);
 
                                     if (p > 1) {
-                                        htmlAll = '<div style="width:100%;text-align:right;page-break-before:always"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
+                                        htmlAll = '<div style="width:98%;text-align:right;page-break-before:always"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
                                     }
 
                                     $('#report').append(htmlAll);
@@ -295,11 +289,11 @@ End Code
                             field4 = '';
                             field5 = '';
 
-                            template += '<tr style="height:82px;">';
+                            template += '<tr>';
                             template += '<td>' + n + '</td>';
                             template += '<td>';
                             template += '<p class="text-left">';
-                            template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
+                            template += 'เลขประจำตัวผู้เสียภาษีอากร : ' + r.TaxNumber3;
                             template += '<br />';
                             template += 'ชื่อ : ' + r.TName3;
                             template += '<br />';
@@ -336,13 +330,17 @@ End Code
 
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
-
+                            if (params.ReportCode == 'PRD3AD') {
+                                htmlFoot = htmlFoot.replace('{2}', 'กระทำการแทน');
+                            } else {
+                                htmlFoot = htmlFoot.replace('{2}', '@ViewBag.TaxPosition');
+                            }
                             htmlAll = htmlAll.replace('{0}', htmlHead);
                             htmlAll = htmlAll.replace('{1}', template);
                             htmlAll = htmlAll.replace('{2}', htmlFoot);
 
                             if (p > 1) {
-                                htmlAll = '<div style="width:100%;text-align:right;page-break-before:always;"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
+                                htmlAll = '<div style="width:98%;text-align:right;page-break-before:always;"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
                             }
 
                             $('#report').append(htmlAll);
