@@ -9,37 +9,6 @@ function ShowBranch(path, Branch, ControlID) {
             }
         });
 }
-function ShowJobTypeShipBy(path, jt, sb, js, ControlJT, ControlSB, ControlST) {
-    $(ControlJT).text('');
-    $(ControlSB).text('');
-    if (jt < 10) jt = '0' + jt;
-    if (sb < 10) sb = '0' + sb;
-    $.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key=' + jt)
-        .done(function (r) {
-            let b = r.config.data;
-            if (b.length > 0) {
-                $(ControlJT).text(b[0].ConfigValue);
-            }
-        });
-    $.get(path + 'Config/GetConfig?Code=SHIP_BY&Key=' + sb)
-        .done(function (r) {
-            let b = r.config.data;
-            if (b.length > 0) {
-                $(ControlSB).text(b[0].ConfigValue);
-            }
-        });
-    if (ControlST != "") {
-        $(ControlST).val('');
-        if (js < 10) js = '0' + js;
-        $.get(path + 'Config/GetConfig?Code=JOB_STATUS&Key=' + js)
-            .done(function (r) {
-                let b = r.config.data;
-                if (b.length > 0) {
-                    $(ControlST).text(b[0].ConfigValue);
-                }
-            });
-    }
-}
 function ShowInvUnit(path, unitCode, ControlID) {
     $(ControlID).text(unitCode);
     if (unitCode != "") {
@@ -848,7 +817,7 @@ function LoadReport(path, reportID, obj, lang) {
                             }
                         }
                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0) {
+                        if (textFields.indexOf(key) >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
                             if (IsSummaryColumn(key) == true) {

@@ -37,7 +37,7 @@ table td{
             </tr>
             <tr>
                 <td colspan="2">
-                    <p id="pFooter" style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
                 </td>
             </tr>
         </table>

@@ -345,9 +345,9 @@ End Code
                         }
                     },
                     {
-                        data: null, title: "Charge",
+                        data: "TotalChargeVAT", title: "Charge",
                         render: function (data) {
-                            return ShowNumber((Number(data.TotalChargeNonVAT)+Number(data.TotalChargeVAT)), 2);
+                            return ShowNumber(data, 2);
                         }
                     },
                     {

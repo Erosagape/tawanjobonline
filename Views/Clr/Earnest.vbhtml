@@ -49,32 +49,6 @@ End Code
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-4">
-                <label id="lblVenCode">Vender :</label>
-                <br />
-                <div style="display:flex;flex-direction:row">
-                    <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
-                    <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
-                    <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <label id="lblCustCode">Customer :</label>
-                <br />
-                <div style="display:flex;flex-direction:row">
-                    <input type="text" id="txtCustCode" class="form-control" style="width:130px" />
-                    <input type="text" id="txtCustBranch" class="form-control" style="width:70px" />
-                    <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
-                    <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
-                </div>
-            </div>
-            <div class="col-sm-2">
-                Job No
-                <br />
-                <input type="text" class="form-control" id="txtJNo" />
-            </div>
-        </div>
         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridClr(true)">
             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
         </a>
@@ -317,24 +291,28 @@ End Code
             }
         });
         //3 Fields Show
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
-            CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
-            CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            //Customers
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Clear By', response, 2);
+            //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+            //Services
             CreateLOV(dv, '#frmSearchServ', '#tbServ', 'Service Code', response, 2);
             CreateLOV(dv, '#frmSearchExp', '#tbExp', 'Service Code', response, 2);
+            //Unit
             CreateLOV(dv, '#frmSearchUnit', '#tbUnit', 'Service Unit', response, 2);
+            //bank
             CreateLOV(dv, '#frmSearchBank', '#tbBank', 'Bank', response, 2);
+            //book account
             CreateLOV(dv, '#frmSearchBook', '#tbBook', 'Book Account', response, 2);
         });
     }
     function SetGridClr(isAlert) {
-        //if ($('#txtSICode').val() === "") {
-        //    ShowMessage('Please input expense code', true);
-        //    return;
-        //}
+        if ($('#txtSICode').val() === "") {
+            ShowMessage('Please input expense code', true);
+            return;
+        }
         arr = [];
         ShowSummary();
 
@@ -342,17 +320,9 @@ End Code
         if ($('#txtClrBy').val() !== "") {
             w = w + '&clrby=' + $('#txtClrBy').val();
         }
+
         if ($('#cboJobType').val() !== "") {
             w = w + '&jtype=' + $('#cboJobType').val();
-        }
-        if ($('#txtJNo').val() !== "") {
-            w = w + '&job=' + $('#txtJNo').val();
-        }
-        if ($('#txtVenCode').val() !== "") {
-            w = w + '&vencode=' + $('#txtVenCode').val();
-        }
-        if ($('#txtCustCode').val() !== "") {
-            w = w + '&custcode=' + $('#txtCustCode').val();
         }
         if ($('#txtClrDateF').val() !== "") {
             w = w + '&DateFrom=' + CDateEN($('#txtClrDateF').val());
@@ -360,9 +330,7 @@ End Code
         if ($('#txtClrDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtClrDateT').val());
         }
-        if ($('#txtSICode').val() !== "") {
-            w = w + '&sicode=' + $('#txtSICode').val();
-        }
+        w = w + '&sicode=' + $('#txtSICode').val();
         w = w + '&Condition=ERN';
         $.get(path + 'clr/getclearingreport?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.data.length == 0) {
@@ -474,12 +442,6 @@ End Code
             case 'reqby':
                 SetGridUser(path, '#tbEmp', '#frmSearchEmp', ReadReqBy);
                 break;
-            case 'vender':
-                SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
-                break;
-            case 'customer':
-                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
-                break;
             case 'servicecode':
                 SetGridSICodeFilter(path,'#tbServ','?Type=E' ,'#frmSearchServ', ReadService);
                 break;
@@ -503,16 +465,6 @@ End Code
                 break;
         }
     }
-    function ReadCustomer(dt) {
-        $('#txtCustCode').val(dt.CustCode);
-        $('#txtCustBranch').val(dt.Branch);
-        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
-    }
-    function ReadVender(dt) {
-        $('#txtVenCode').val(dt.VenCode);
-        ShowVender(path, dt.VenCode, '#txtVenName');
-    }
-
     function ReadReqBy(dt) {
         $('#txtClrBy').val(dt.UserID);
         $('#txtClrByName').val(dt.TName);
@@ -657,10 +609,10 @@ End Code
             ShowMessage('Please select book account', true);
             return;
         }
-        //if ($('#txtRefBank').val() == '') {
-        //    ShowMessage('Please input bank and branch', true);
-        //    return;
-        //}
+        if ($('#txtRefBank').val() == '') {
+            ShowMessage('Please input bank and branch', true);
+            return;
+        }
         if ($('#txtRefDate').val() == '') {
             ShowMessage('Please input reference date', true);
             return;
@@ -816,9 +768,9 @@ End Code
             PRVoucher:'',
             PRType:prType,
             ChqNo:$('#txtRefNo').val(),
-            BookCode: $('#txtRefBook').val(),
-            BankCode: $('#cboRefType').val() == 'CU' ? '' : $('#txtRefBank').val(),
-            BankBranch: $('#cboRefType').val() == 'CU' ? '' : $('#txtRefBranch').val(),
+            BookCode:$('#txtRefBook').val(),
+            BankCode:$('#txtRefBank').val(),
+            BankBranch:$('#txtRefBranch').val(),
             ChqDate:CDateEN($('#txtRefDate').val()),
             CashAmount: ($('#cboRefType').val() == "CA" ? amt : 0),
             ChqAmount: ($('#cboRefType').val() == "CH" || $('#cboRefType').val() == "CU" ? amt : 0),
@@ -838,8 +790,8 @@ End Code
             PayChqTo:'',
             DocNo:$('#txtClrNo').val(),
             SICode:$('#txtSICode').val(),
-            RecvBank: $('#cboRefType').val() == 'CU' ? $('#txtRefBank').val() : $('#txtRecvBank').val(),
-            RecvBranch: $('#cboRefType').val() == 'CU' ? $('#txtRefBranch').val() :  $('#txtRecvBranch').val(),
+            RecvBank:$('#txtRecvBank').val(),
+            RecvBranch: $('#txtRecvBranch').val(),
             acType: $('#cboRefType').val(),
             ForJNo: $('#txtExpJobNo').val()
         };

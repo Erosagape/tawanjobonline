@@ -355,7 +355,7 @@ End Code
             </div>
         </div>
         <div id="dvCommand">
-            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
+            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearForm()">
                 <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkClear">Clear Entry</b>
             </a>
             <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
@@ -376,19 +376,11 @@ End Code
     //$(document).ready(function () {
     let branch = getQueryString("BranchCode");
     let job = getQueryString("JNo");
-    let code = getQueryString("ControlNo");
-    if (branch !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowBranch(path, branch, '#txtBranchName');
-    }
-    if (branch !== '' && code !== '') {
-        $('#txtControlNo').val(code);
-        LoadData();
-    }
     if (branch !== '' && job !== '') {
-        $('#txtTRemark').val('CHQ JOB#' + job);
+        $('#txtBranchCode').val(branch);
         $('#txtForJNo').val(job);
         $('#txtForJNo').attr('disabled', 'disabled');
+        ShowBranch(path, branch, '#txtBranchName');
         CallBackQueryJob(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), ReadJob);        
     } else {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
@@ -522,8 +514,6 @@ End Code
             CreateLOV(dv, '#frmSearchBank', '#tbBank', 'Bank', response, 2);
             //Service Code
             CreateLOV(dv, '#frmSearchExp', '#tbExp', 'Expenses Code', response, 2);
-            //Estimate
-            CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
             //BookAccount
             CreateLOV(dv, '#frmSearchBookAcc', '#tbBookAcc', 'Book Accounts', response, 2);
             //Currency
@@ -579,33 +569,21 @@ End Code
                 break;
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
-                break;            
+                break;
             case 'servicecode':
-                if (job !== '') {
-                    SetGridEstimateCost(path, '#tbEstimate', '?status=NOCLR&Job=' + $('#txtForJNo').val(), '#frmSearchEstimate', ReadEstimate);
-                } else {
-                    SetGridSICode(path, '#tbExp', '', '#frmSearchExp', ReadService);
-                }
+                SetGridSICode(path, '#tbExp','','#frmSearchExp', ReadService);
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
         }
     }
-    function ClearData() {
-        ClearForm();
-        ClearPayment();
-    }
     function ClearForm() {
         //$('#txtBranchCode').val('');
         //$('#txtBranchName').val('');
-        $('#txtControlNo').val(code);
+        $('#txtControlNo').val('');
         $('#txtVoucherDate').val(GetToday());
-        if (job !== '') {
-            $('#txtTRemark').val('CHQ JOB#' + job);
-        } else {
-            $('#txtTRemark').val('');
-        }
+        $('#txtTRemark').val('');
         $('#txtCustCode').val('');
         $('#txtCustBranch').val('');
         $('#txtCustName').val('');
@@ -633,13 +611,9 @@ End Code
         if (userRights.indexOf('E') < 0) {
             $('#btnSave').attr('disabled', 'disabled');
         }
-        //ClearPayment();
+        ClearPayment();
     }
     function AddPayment() {
-        if ($('#txtControlNo').val() == '') {
-            ShowMessage('Please save document before add detail', true);
-            return;
-        }
         if (userRights.indexOf('I') < 0) {
             ShowMessage('You are not allow to add',true);
             return;
@@ -653,9 +627,8 @@ End Code
             ReadHeader(dt.header[0]);
         }
         if (dt.payment.length > 0) {
-            $('#cboPRType').val(dt.payment[0].PRType);
             let data = dt.payment.filter(function (d) {
-                return d.ChqAmount>0
+                return d.PRType=$('#cboPRType').val() && d.ChqAmount>0
             });
             SetGridPayment(data);
         }
@@ -995,7 +968,6 @@ End Code
             contentType: "application/json",
             data: jsonText,
             success: function (response) {
-                ShowMessage(response.result.msg);
                 LoadData();
             },
             error: function (e) {
@@ -1046,12 +1018,6 @@ End Code
             ShowBank(path, dt.BankCode, '#txtBankName');
         }
     }
-    function ReadEstimate(dt) {
-        $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.SDescription);
-        $('#txtChqAmount').val(CDbl(Number(dt.AmtTotal) + Number(dt.AmtWht), 2));
-        CalculateTotal();
-    }   
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
         $('#txtSDescription').val(dt.NameThai);
@@ -1102,7 +1068,7 @@ End Code
             ShowMessage('You are not allow to do this',true);
             return;
         }
-        window.open(path + 'Acc/FormCheque?branchcode=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
+        window.open(path + 'Acc/FormVoucher?branch=' + $('#txtBranchCode').val() + '&controlno=' + $('#txtControlNo').val());
     }
 
 </script>

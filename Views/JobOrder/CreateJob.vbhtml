@@ -127,7 +127,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblHAWB" style="display:block;width:100%;" onclick="CopyFromBooking()">House BL/AWB</label>
+                    <label id="lblHAWB" style="display:block;width:100%;">House BL/AWB</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="14" />
@@ -135,7 +135,7 @@ End Code
             </div>
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <label id="lblMAWB" style="display:block;width:100%;" onclick="CopyFromHouseBL()">Master BL/AWB</label>
+                    <label id="lblMAWB" style="display:block;width:100%;">Master BL/AWB</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="15" />
@@ -164,9 +164,7 @@ End Code
         <div class="row">
             <div class="col-sm-6" style="display:flex">
                 <div style="width:30%">
-                    <a href="../Master/Venders">
-                        <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
-                    </a>
+                    <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
                 </div>
                 <div style="display:flex;width:70%">
                     <input type="text" class="form-control" id="txtAgentCode" style="width:120px" />
@@ -205,9 +203,7 @@ End Code
                 </div>
             </div>
             <div class="col-sm-6">
-                <a href="../Master/InterPort">
-                    <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
-                </a>
+                <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
                 <div style="display:flex;width:100%">
                     <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
                     <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />
@@ -795,12 +791,6 @@ End Code
                 ShowMessage(e,true);
             }
         });
-    }
-    function CopyFromBooking() {
-        $('#txtHAWB').val($('#txtBookingNo').val());
-    }
-    function CopyFromHouseBL() {
-        $('#txtMAWB').val($('#txtHAWB').val());
     }
 </script>
 

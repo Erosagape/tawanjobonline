@@ -1,22 +1,11 @@
-﻿function SetMenu(code,ev) {
-    ShowWait();
-    $.get(path + 'Config/SetMenuType?data=' + code)
-        .done(function () {
-            ev();
-            CloseWait();
-        });
-}
-function OpenMenu(mnuID, newpage = true) {
+﻿function OpenMenu(mnuID) {
     let mnuPath = '';
     switch (mnuID) {
         case 'AccountCode':
             mnuPath = path + 'Master/AccountCode';
             break;
         case 'Dashboard':
-            mnuPath = path + 'Tracking/Dashboard';
-            break;
-        case 'Dashboard2':
-            mnuPath = path + 'Tracking/Dashboard?Type=V2';
+            mnuPath = path + 'Menu/Index?Type=V2';
             break;
         case 'Advance':
             mnuPath = path + 'Acc/Advance';
@@ -213,12 +202,7 @@ function OpenMenu(mnuID, newpage = true) {
     }
     if (userID !== '') {
         if (mnuPath !== '') {
-            //window.location.href = mnuPath;
-            if (newpage == true) {
-                window.open(mnuPath, '', '');
-            } else {
-                window.location.href=mnuPath;
-            }
+            window.location.href = mnuPath;
         }
     } else {
         ShowMessage('Please login first',true);

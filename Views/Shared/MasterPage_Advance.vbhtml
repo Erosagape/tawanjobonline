@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="~/Content/w3.css">
-    <link rel="stylesheet" href="~/Content/font-awesome.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/Content/Site.css">
     <link rel="stylesheet" href="~/Content/bootstrap.min.css">
     <link rel="stylesheet" href="~/Content/bootstrap-select.min.css">
@@ -27,9 +27,9 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-card" style="width:250px;background-color:orangered;color:white">
+        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/ant-logo.png" onclick="SetLogout()" style="width:40%;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70px;height:70px;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" onclick="CheckDatabase()">@ViewBag.LICENSE_NAME</label>
@@ -65,8 +65,6 @@
                     <a href="#" id="mnuMkt2" class="w3-bar-item w3-button" onclick="OpenMenu('AppQuo')">- Approve Quotation</a>
                     <a href="#" id="mnuApp1" class="w3-bar-item w3-button" onclick="OpenMenu('AppAdvance')">- Approve Advance</a>
                     <a href="#" id="mnuApp2" class="w3-bar-item w3-button" onclick="OpenMenu('AppClearing')">- Approve Clearing</a>
-                    <a href="#" id="mnuApp3" class="w3-bar-item w3-button" onclick="OpenMenu('AppExpense')">- Approve Expense</a>
-                    <a href="#" id="mnuApp4" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Approve Transport</a>
                 </div>
                 <div id="mainFin" class="w3-bar-item w3-button" onclick="w3_accordion('mnuFin')">
                     Finance Works
@@ -128,7 +126,6 @@
                     <a href="#" id="mnuCust1" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking1')">- Transport Tracking</a>
                     <a href="#" id="mnuCust3" class="w3-bar-item w3-button" onclick="OpenMenu('Tracking2')">- Shipment Status</a>
                     <a href="#" id="mnuCust2" class="w3-bar-item w3-button" onclick="OpenMenu('CreateJob')">- Shipment Order</a>
-                    <a href="#" id="mnuCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
                 </div>
             </div>
             <div id="dvVenderMenu">
@@ -136,10 +133,8 @@
                     Vender Works
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
-                    <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Loading Info</a>
-                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('AppTransport')">- Transport Approve</a>
-                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Expenses</a>
-                    <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenMenu('Document')">- Documents</a>
+                    <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenMenu('Expense')">- Expenses Entry</a>
+                    <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenMenu('Transport')">- Job Transport</a>
                 </div>
             </div>
         </div>
@@ -219,7 +214,6 @@
                                 <button id="mnuMasG2" class="btn btn-default btn-block" onclick="OpenMenu('Country')">- Country</button>
                                 <button id="mnuMasG3" class="btn btn-default btn-block" onclick="OpenMenu('InterPort')">- Inter Ports</button>
                                 <button id="mnuMasG4" class="btn btn-default btn-block" onclick="OpenMenu('vessel')">- Vessel/Vehicles/Flight</button>
-                                <button id="mnuMasG9" class="btn btn-default btn-block" onclick="OpenMenu('TransportRoute')">- Transport Route</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasG8" class="btn btn-default btn-block" onclick="OpenMenu('Province')">- Province</button>
@@ -276,27 +270,21 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div Class="panel-heading" style="background-color:orangered">
-                    <div Class="panel-title">
-                        <div class="row">
-                            <div class="col-xs-3 col-md-1" style="text-align:center;">
-                                <img id="imgCompany" src="~/Resource/ant-logo.png" style="width:80%;height:50px;background-color:white;" onclick="w3_open();" />
-                            </div>
-                            <div class="col-xs-9 col-md-11">
-                                <div style="display:flex;align-items:center;height:50px">
-                                    <div style="text-align:left;flex:1;">
-                                        <label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label>
-                                        <input type="hidden" id="lblModule" value="@ViewBag.Module" />
-                                    </div>
-                                    <div style="text-align:right;flex:1;">
-                                        <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a>
-                                        <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
-                                            <option value="EN">EN</option>
-                                            <option value="TH">ไทย</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
+                <div Class="panel-heading w3-indigo">
+                    <div Class="panel-title" style="display:flex">
+                        <div style="width:6%;text-align:center">
+                            <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:50px;height:50px" onclick="w3_open();" />
+                        </div>
+                        <div style="margin-left:10px;width:80%">
+                            <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>
+                            <label style="display:none" id="lblModule">@ViewBag.Module</label>
+                        </div>
+                        <div style="float:right;text-align:right;">
+                            <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a><br/>
+                            <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
+                                <option value="EN">EN</option>
+                                <option value="TH">ไทย</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -317,12 +305,10 @@
     let base = '@Url.Content("~")';
     if (userLang !== 'EN' && userLang !== '') {
         $('#cboLanguage').val(userLang);
-        ChangeLanguage(userLang, $('#lblModule').val());
+        ChangeLanguage(userLang, $('#lblModule').text());
     } else {
-        userLang = 'EN';
-        $('#cboLanguage').val(userLang);
+        $('#cboLanguage').val('EN');
     }
-    
     SetEvents();
 
     function ForceLogout() {
@@ -404,7 +390,7 @@
         }
     }
     function SetLogout() {
-        ShowConfirm('Please confirm to log out', function (c) {
+        ShowConfirm('Do you need to log out?', function (c) {
             if (c == true) {
                 ShowWait();
                 $.get(base + 'config/setlogout?group='+ userType +'&code=' + userID)

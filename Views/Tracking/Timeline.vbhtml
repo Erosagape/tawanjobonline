@@ -28,22 +28,17 @@ End Code
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             Inspection Date From:
             <br/>
             <input type="date" id="txtDateFrom" class="form-control" />
         </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             Inspection Date To:
             <br />
             <input type="date" id="txtDateTo" class="form-control" />
         </div>
-        <div class="col-sm-3">
-            Job Number:
-            <br/>
-            <input type="text" id="txtJNo" class="form-control" />
-        </div>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <br />
             <a href="#" class="btn btn-primary" id="btnShow" onclick="RefreshGrid()">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b>Show</b>
@@ -153,7 +148,7 @@ End Code
             }
         }
         if (userGroup=='C') {
-            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust ;
+            url = path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#txtBranchCode').val() + '&CustCode=' + cust;
         }
         $.get(url, function (r) {
             let branch = $('#txtBranchCode').val();
@@ -181,9 +176,6 @@ End Code
             }
             if ($('#txtDateTo').val()!=='') {
                 w += '&DateTo=' + CDateEN($('#txtDateTo').val());
-            }
-            if ($('#txtJNo').val() !== '') {
-                w += '&JNo=' + $('#txtJNo').val();
             }
             $('#dvJobs').html('');
             $.get(path + 'JobOrder/GetJobReport?Branch=' + branch + w)

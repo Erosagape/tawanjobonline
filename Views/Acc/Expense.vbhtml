@@ -1215,7 +1215,7 @@ End Code
                 break;
             case 'transportprice':
                 if (route !== '') {
-                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&id=' + route, ReadPrice);
+                    SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + cust + '&id=' + route, ReadPrice);
                 } else {
                     SetGridTransportPrice(path, '#tbPrice', '#frmSearchPrice', '?Branch=' + $('#txtBranchCode').val() + '&Vend=' + $('#txtVenCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 }
@@ -1286,7 +1286,7 @@ End Code
         if (dt !== undefined) {
             $('#txtSICode').val(dt.SICode);
             $('#txtSICode').change();
-            $('#txtSDescription').val(dt.SDescription + ' (' + dt.Location + ')');
+            $('#txtSDescription').val(dt.SDescription);
             $('#txtSRemark').val(dt.Location);
             $('#txtUnitPrice').val(CDbl(CNum(dt.CostAmount) / CNum($('#txtExchangeRate').val()), 2));
 

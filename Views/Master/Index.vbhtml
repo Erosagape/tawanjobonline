@@ -19,8 +19,7 @@ End Code
     var path = '@Url.Content("~")';
     let user = '@ViewBag.User';
     let userGroup = '@ViewBag.UserGroup';
-    let userPosition = '@ViewBag.UserPosition';
-    let menuStart = '@ViewBag.PROFILE_MENU_TYPE';
+    let userPosition ='@ViewBag.UserPosition';
     if (user !== '') {
         switch (userGroup) {
             case 'S':
@@ -34,11 +33,7 @@ End Code
                         window.location.href = path + 'Tracking/Index';
                         break;
                     default:
-                        if (IsMobile()||menuStart=='W') {
-                            window.location.href = path + 'Menu/Index';
-                        } else {
-                            window.location.href = path + 'Tracking/Dashboard';
-                        }
+                        window.location.href = path + 'Menu/Index';
                         break;
                 }
                 break;
@@ -50,7 +45,4 @@ End Code
                 break;
         }
     }    
-    function IsMobile() {
-        return ((window.innerWidth <= 800) && (window.innerHeight <= 600));
-    }
 </script>

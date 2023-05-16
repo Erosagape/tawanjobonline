@@ -103,12 +103,6 @@ End Code
         <label id="lblSumTotal"></label>
     </div>
 </div>
-<p>
-    PLEASE REMIT TO ACCOUNT NO:<br />999-99999-9<br />
-    "TAWAN TECHNOLOGY CO.,LTD"<br />
-    SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-    THE MALL RAMKAMHAENG BRANCH
-</p>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
@@ -133,7 +127,6 @@ End Code
         $('#lblMVesselName').text(dr.MVesselName);
         $('#lblInvProduct').text(dr.InvProduct);
         $('#lblInvQty').text(dr.InvProductQty);
-        ShowCountry(path, dr.InvCountry, '#lblCountryPort');
         ShowInvUnit(path, dr.InvProductUnit, '#lblInvQtyUnit');
         $('#lblMeasurement').text(dr.Measurement);
         $('#lblBLStatus').text(dr.BookingNo);
@@ -168,21 +161,21 @@ End Code
             html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
             html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
             html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
-            if (r.IsCredit==1) {
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+            if (r.ClrNo == null) {
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
                 html += '<div style="width:20%;text-align:right">0.00</div>';
             } else {
-                html += '<div style="width:20%;text-align:right">0.00</div>';
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal,2)) + '</div>';
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.CostAmount, 2)) + '</div>';
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.ChargeAmount,2)) + '</div>';
             }
             html += '</div>';
-            if (r.IsCredit==0) {
-                totamt += CNum(r.AmountCharge*r.Qty);
+            if (Number(r.ChargeAmount) > 0) {
+                totamt += CNum(r.AmountCharge);
             } else {
-                totcost += CNum(r.AmountCharge*r.Qty);
+                totcost += CNum(r.AmountCharge);
             }
             totvat += CNum(r.AmtVat);
-            total += CNum(r.AmountCharge*r.Qty) + CNum(r.AmtVat);
+            total += CNum(r.AmountCharge) + CNum(r.AmtVat);
         }
         $('#dvDetail').html(html);
         $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));
