@@ -61,7 +61,11 @@ End Code
         <div style="display:flex;flex-direction:column;">
             <div style="display:flex;flex-direction:column;padding:5px 5px 5px 5px;width:50%;align-self:center">
                 <div style="flex:1;text-align:center;align-items:center;border:thin;border-width:thin;border-style:solid;">
-                    B/L NO:<label id="lblHAWB" style="color:red"></label>
+                    MB/L NO:
+                    <label id="lblMAWB" style="color:red"></label>
+                </div>
+                <div style="flex:1;text-align:center;align-items:center;border:thin;border-width:thin;border-style:solid;">
+                    HB/L NO:<label id="lblHAWB" style="color:red"></label>
                 </div>
             </div>
             <div style="text-align:center">
@@ -180,7 +184,7 @@ End Code
 $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            //$('#lblMAWB').text(h.MAWB);
+            $('#lblMAWB').text(h.MAWB);
             $('#lblHAWB').text(h.HAWB);
             $('#lblBLNo').text(h.BLNo);
             $('#lblDeliveryTo').text(h.DeliveryTo);
@@ -246,7 +250,7 @@ $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function 
             let i = 0;
             for (i = 0; i < r.booking.data.length; i++){
                 let htmlTemplate = '<div style="width:100%;display:flex;flex-direction:row;font-size:10px">';
-                htmlTemplate += r.booking.data[i].CTN_NO + '/' + r.booking.data[i].CTN_SIZE + ' #' + r.booking.data[i].SealNumber + ' ' + r.booking.data[i].Measurement + ' M3 ' + r.booking.data[i].ProductQty + ' ' + r.booking.data[i].ProductUnit+ ' ' +h.TransMode;
+                htmlTemplate += r.booking.data[i].CTN_NO + '/' + r.booking.data[i].CTN_SIZE +' #' + r.booking.data[i].SealNumber + '';
                 htmlTemplate += '</div>';
 
                 html += htmlTemplate;

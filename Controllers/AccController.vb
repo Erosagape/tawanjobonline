@@ -812,6 +812,10 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             End Try
         End Function
         Function FormInv() As ActionResult
+            Dim formName = ""
+            If Request.QueryString("Form") IsNot Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             Try
                 If Request.QueryString("branch") IsNot Nothing Then
                     If Request.QueryString("code") IsNot Nothing Then
@@ -829,12 +833,16 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "FormInv", ex.Message, ex.StackTrace, True)
             End Try
-            Return GetView("FormInv")
+            Return GetView("FormInv" & formName)
         End Function
         Function FormBill() As ActionResult
             Return GetView("FormBill")
         End Function
         Function FormRcp() As ActionResult
+            Dim formName = ""
+            If Request.QueryString("Form") IsNot Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             Try
                 If Request.QueryString("branch") IsNot Nothing Then
                     If Request.QueryString("code") IsNot Nothing Then
@@ -853,9 +861,13 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "FormRcp", ex.Message, ex.StackTrace, True)
             End Try
-            Return GetView("FormRcp")
+            Return GetView("FormRcp" & formName)
         End Function
         Function FormTaxInv() As ActionResult
+            Dim formName = ""
+            If Request.QueryString("Form") IsNot Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             Try
                 If Request.QueryString("branch") IsNot Nothing Then
                     If Request.QueryString("code") IsNot Nothing Then
@@ -875,7 +887,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "FormTaxInv", ex.Message, ex.StackTrace, True)
             End Try
 
-            Return GetView("FormTaxInv")
+            Return GetView("FormTaxInv" & formName)
         End Function
         Function FormCreditNote() As ActionResult
             Return GetView("FormCreditNote")
@@ -1271,13 +1283,17 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
             Return GetView("FormExpense")
         End Function
         Function FormVoucher() As ActionResult
+            Dim formName = ""
+            If Request.QueryString("Form") IsNot Nothing Then
+                formName = Request.QueryString("Form")
+            End If
             ViewBag.User = GetSession("CurrUser").ToString()
             Dim AuthorizeStr As String = Main.GetAuthorize(ViewBag.User, "MODULE_ACC", "Voucher")
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
 
-            Return GetView("FormVoucher")
+            Return GetView("FormVoucher" & formName)
         End Function
         Function FormWHTax() As ActionResult
             ViewBag.User = GetSession("CurrUser").ToString()
@@ -2286,8 +2302,13 @@ ORDER BY a.TName1
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
+                        Dim invHeadDefault = GetValueConfig("RUNNING_FORMAT", "INV", invPrefix)
                         If data.DocType = "" Then
-                            data.DocType = GetValueConfig("RUNNING_FORMAT", "INV", invPrefix)
+                            data.DocType = "INV"
+                        End If
+                        Dim invHeadConfig = GetValueConfig("RUNNING_FORMAT", data.DocType, "IVS-")
+                        If invHeadConfig <> invHeadDefault And invHeadConfig <> "" Then
+                            invHeadDefault = invHeadConfig
                         End If
                         If data.DocDate = DateTime.MinValue Then
                             data.DocDate = Today
@@ -2306,8 +2327,9 @@ ORDER BY a.TName1
                         Else
                             fmt = data.DocDate.ToString("yyMM") & "____"
                         End If
-                        data.AddNew(data.DocType & fmt)
+                        data.AddNew(invHeadDefault & fmt)
                     End If
+
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
@@ -2638,6 +2660,7 @@ ORDER BY a.TName1
                         End If
                         data.AddNew(prefix & fmt)
                     End If
+
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND ReceiptNo='{1}' ", data.BranchCode, data.ReceiptNo))
                     Dim json = "{""result"":{""data"":""" & data.ReceiptNo & """,""msg"":""" & msg & """}}"
                     Return Content(json, jsonContent)
