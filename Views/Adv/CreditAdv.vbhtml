@@ -186,7 +186,9 @@ End Code
                             <div id="dvChqInfo">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <label id="lblChqNo">Cheque No</label>
+                                        <a onclick="SearchData('cheque')">
+                                            <label id="lblChqNo">Cheque No</label>
+                                        </a>
                                         <br /><input type="text" id="txtChqNo" class="form-control">
                                     </div>
                                     <div class="col-md-4">
@@ -373,6 +375,7 @@ End Code
     let branch = getQueryString("BranchCode");
     let job = getQueryString("JNo");
     if (branch !== '' && job !== '') {
+        $('#txtTRemark').val('JOB#' + job);
         $('#txtBranchCode').val(branch);
         $('#txtForJNo').val(job);
         $('#txtForJNo').attr('disabled', 'disabled');
@@ -543,8 +546,10 @@ End Code
 
         loadCombos(path,lists)
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
+            //Cheque
+            CreateLOV(dv, '#frmSearchChq', '#tbChq', 'Cheque List', response, 5);
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customer List', response, 3);
             //Venders
@@ -599,6 +604,9 @@ End Code
             case 'branch':
                 SetGridBranch(path, '#tbBranch', '#frmSearchBranch', ReadBranch);
                 break;
+            case 'cheque':
+                SetGridCheque(path, '#tbChq', '#frmSearchChq', '?type=' + $('#cboacType').val() + '&Cancel=N&Branch=' + $('#txtBranchCode').val(), ReadCheque);
+                break;
             case 'controlno':
                 SetGridControl();
                 break;
@@ -621,7 +629,11 @@ End Code
         //$('#txtBranchName').val('');
         $('#txtControlNo').val('');
         $('#txtVoucherDate').val(GetToday());
-        $('#txtTRemark').val('');
+        if (job !== '') {
+            $('#txtTRemark').val('JOB#' + job);
+        } else {
+            $('#txtTRemark').val('');
+        }
         $('#txtCustCode').val('');
         $('#txtCustBranch').val('');
         $('#txtCustName').val('');
@@ -652,6 +664,11 @@ End Code
         ClearPayment();
     }
     function AddPayment() {
+        if ($('#txtControlNo').val() == '') {
+            ShowMessage('Please save document before add detail', true);
+            return;
+        }
+
         if (userRights.indexOf('I') < 0) {
             ShowMessage('You are not allow to add',true);
             return;
@@ -1255,6 +1272,27 @@ End Code
         $('#txtBranchName').val(dt.BrName);
         $('#txtBranchCode').focus();
     }
+    function ReadCheque(dt) {
+        if ($('#cboPRType').val() == 'R') {
+            ShowMessage('You can choose cheque only for payment entry', true);
+            return;
+        }
+        $('#txtChqNo').val(dt.ChqNo);
+        $('#txtChqAmount').val(dt.AmountRemain);
+        $('#txtChqDate').val(CDateEN(dt.ChqDate));
+        $('#cboChqStatus').val(dt.ChqStatus);
+        $('#chkIsLocal').prop('checked', dt.IsLocal = 1 ? true : false);
+        if ($('#cboacType').val() == 'CU') {
+            $('#txtRecvBank').val(dt.RecvBank);
+            $('#txtRecvBranch').val(dt.RecvBranch);
+            ShowBank(path, dt.RecvBank, '#txtRecvBankName');
+        } else {
+            $('#txtBankCode').val(dt.BankCode);
+            $('#txtBankBranch').val(dt.BankBranch);
+            ShowBank(path, dt.BankCode, '#txtBankName');
+        }
+    }
+
     function ReadBank(dt) {
         $('#txtRecvBank').val(dt.Code);
         $('#txtRecvBankName').val(dt.BName);

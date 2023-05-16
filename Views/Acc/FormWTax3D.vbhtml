@@ -230,7 +230,15 @@ End Code
                         }
                     }
                     if (d > 7) {
-                        t = Math.abs(CDbl(Math.round((d - 7) / 8) + 1, 0));
+                        let r = 1;
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8 || i == d) {
+                                t += 1;
+                                r = 1;
+                            } else {
+                                r += 1;
+                            }
+                        }
                     }
                     docno = '';
 

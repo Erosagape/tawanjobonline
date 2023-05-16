@@ -56,15 +56,15 @@ End Code
             <div Class="col-sm-12">
                 <Table id = "tbSummary" Class="table table-responsive">
                     <thead>
-                                            <tr>
-                                            <th> DocNo</th>
-                            <th Class="desktop">DocDate</th>
-                            <th Class="desktop">CustCode</th>
-                            <th Class="desktop">Remark</th>
-                            <th Class="desktop">Service</th>
-                            <th Class="desktop">Vat</th>
-                            <th Class="desktop">Wh-tax</th>
-                            <th Class="all">Net</th>
+                            <tr>
+                            <th class="all"> DocNo</th>
+                            <th class="desktop">DocDate</th>
+                            <th class="desktop">CustCode</th>
+                            <th class="desktop">Remark</th>
+                            <th class="desktop">Service</th>
+                            <th class="desktop">Vat</th>
+                            <th class="desktop">Wh-tax</th>
+                            <th class="all">Net</th>
                         </tr>
                     </thead>
                 </table>
@@ -74,16 +74,16 @@ End Code
             <div Class="col-sm-12">
                 <Table id = "tbHeader" Class="table table-responsive">
                     <thead>
-                                                                                <tr>
-                                                                                <th> DocNo</th>
-                            <th Class="desktop">DocDate</th>
-                            <th Class="desktop">CustCode</th>
-                            <th Class="desktop">Remark</th>
-                            <th Class="all">Desc</th>
-                            <th Class="desktop">Service</th>
-                            <th Class="desktop">Vat</th>
-                            <th Class="desktop">Wh-tax</th>
-                            <th Class="all">Net</th>
+                            <tr>
+                            <th class="all"> DocNo</th>
+                            <th class="desktop">DocDate</th>
+                            <th class="desktop">CustCode</th>
+                            <th class="desktop">Remark</th>
+                            <th class="all">Desc</th>
+                            <th class="desktop">Service</th>
+                            <th class="desktop">Vat</th>
+                            <th class="desktop">Wh-tax</th>
+                            <th class="all">Net</th>
                         </tr>
                     </thead>
                 </table>

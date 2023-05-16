@@ -31,9 +31,6 @@ End Code
     .amount {
         text-align:right;
     }
-    #dvFooter,#pFooter {
-	display:none;
-    }  
 </style>
 <div style="float:left;">
     <b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />
@@ -275,6 +272,7 @@ End Code
     <tr>
         <td colspan="4">
             <b>เงินที่จ่ายเข้า  </b>กองทุนสงเคราะห์ครูโรงเรียนเอกชน <label id="txtTeacherAmt"></label> บาท  กองทุนประกันสังคม <label id="txtSoLicenseAmt"></label> บาท กองทุนสำรองเลี้ยงชีพ <label id="txtSoAccAmount"></label>บาท
+            <br/>เลชที่ประจำตัวนายจ้าง <label id="txtSoTaxNo" style="text-decoration-line:underline"></label>
         </td>
     </tr>
 </table>
@@ -340,7 +338,8 @@ End Code
                     $('#chkFormType' + h.FormType).prop('checked',true);
                     $('#txtTeacherAmt').text(CCurrency(CDbl(h.TeacherAmt,2)));
                     $('#txtSoLicenseAmt').text(CCurrency(CDbl(h.SoLicenseAmount,2)));
-                    $('#txtSoAccAmount').text(CCurrency(CDbl(h.SoAccAmount,2)));
+                    $('#txtSoAccAmount').text(CCurrency(CDbl(h.SoAccAmount, 2)));
+                    $('#txtSoTaxNo').text(h.SoTaxNo);
                     $('#txtPayTaxType').text(h.PayTaxType);
                     $('input:checkbox[name=chkPayTaxType]:checked').prop('checked', false);
                     $('#chkPayTaxType' + h.PayTaxType).prop('checked',true);
@@ -390,7 +389,7 @@ End Code
                     }
                     $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt,2)));
                     $('#txtSumPayTax').text(CCurrency(CDbl(totaltax,2)));
-                    $('#txtPayTaxMoney').text(CNumThai(totaltax));
+                    $('#txtPayTaxMoney').text(CNumThai(CDbl(totaltax,2)));
                 }
             });
         }

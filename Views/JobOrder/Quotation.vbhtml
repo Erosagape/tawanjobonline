@@ -459,6 +459,7 @@ End Code
                                 </div>
                             </div>
                             <div class="col-sm-6">
+                                <input type="hidden" id="txtIsService" value="0" />
                                 <label id="lblVender">Vender</label>
                                 <div style="display:flex">
                                     <input type="text" id="txtVenderCode" class="form-control" style="width:150px" disabled />
@@ -488,7 +489,7 @@ End Code
                             </div>
                             <div class="col-sm-5">
                                 <label id="lblWHT">WHT</label>
-                                <div style="display:flex">
+                                <div style="display:flex">                                    
                                     <select id="txtIsTax" style="width:20%" class="form-control dropdown" onchange="CalVATWHT()">
                                         <option value="0">NO</option>
                                         <option value="1">YES</option>
@@ -1097,6 +1098,7 @@ End Code
         $('#txtVatRate').val('0');
         $('#txtVatAmt').val('0');
         $('#txtIsTax').val('0');
+        $('#txtIsService').val('0');
         $('#txtTaxRate').val('0');
         $('#txtTaxAmt').val('0');
         $('#txtTotalAmt').val('0');
@@ -1330,7 +1332,12 @@ End Code
         $('#txtUnitDiscntAmt').val(CDbl(row_i.UnitDiscntAmt,2));
         $('#txtVenderCode').val(row_i.VenderCode);
         ShowVender(path, row_i.VenderCode, '#txtVenderName');
-        $('#txtVenderCost').val(CDbl(row_i.VenderCost,2));
+        $('#txtVenderCost').val(CDbl(row_i.VenderCost, 2));
+        if (row_i.VenderCost > 0) {
+            $('#txtIsService').val('0');
+        } else {
+            $('#txtIsService').val('1');
+        }
         $('#txtBaseProfit').val(CDbl(row_i.BaseProfit,2));
         $('#txtCommissionType').val((row_i.CommissionPerc > 0 ? '0' : '1'));
         ShowCommission();
@@ -1389,6 +1396,7 @@ End Code
         $('#txtDescriptionThai').val(dt.NameThai);
         $('#txtIsvat').val(dt.IsTaxCharge);
         $('#txtIsTax').val(dt.Is50Tavi);
+        $('#txtIsService').val(dt.IsCredit == 1 || dt.IsExpense == 1 ? '0': '1');
         $('#txtVatRate').val(dt.IsTaxCharge == 1 ? CDbl(@ViewBag.PROFILE_VATRATE* 100, 0) : 0);
         $('#txtTaxRate').val(dt.Rate50Tavi);
         $('#txtUnitCheck').val(dt.UnitCharge);
@@ -1422,7 +1430,10 @@ End Code
     function CalAmount() {
         let rate = CNum($('#txtCurrencyRate').val());
         let charge = CDbl(($('#txtChargeAmt').val() * rate), 2);
-        $('#txtTotalAmt').val(CDbl(charge,2));
+        $('#txtTotalAmt').val(CDbl(charge, 2));
+        if ($('#txtIsService').val() == '0' && CNum($('#txtVenderCost').val())== 0) {
+            $('#txtVenderCost').val(CDbl(charge, 2));
+        }
         CalDiscount();
     }
     function CalDiscount() {

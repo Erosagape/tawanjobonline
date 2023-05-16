@@ -150,7 +150,7 @@ End Code
                         APPROVE.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        PAYMENT.BY
+                        RECEIVED.BY
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
                         POSTED.BY
@@ -237,7 +237,7 @@ End Code
 
         ShowUserSign(path,h.EmpCode, '#lblReqBy');
         ShowUserSign(path,h.ApproveBy, '#lblAppBy');
-        ShowUserSign(path,h.PaymentBy, '#lblPayBy');
+        ShowUserSign(path,h.EmpCode, '#lblPayBy');
 
         $('#lblRequestDate').text(ShowDate(h.AdvDate));
         $('#lblAppDate').text(ShowDate(h.ApproveDate));
@@ -322,8 +322,8 @@ End Code
             } else {
                 strDesc = strDesc + (d.SICode + '<br/>');
             }
-            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(2)) + '<br/>');
-            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(2)) + '<br/>');
+            strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
+            strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
             totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;

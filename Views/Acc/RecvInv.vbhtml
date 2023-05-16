@@ -182,7 +182,6 @@ End Code
                         <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
-			<input type="checkbox" id="chkShowAll" /> Show All
                         <br />
                         <table id="tbSummary" class="table table-responsive" style="display:none">
                             <thead>
@@ -270,13 +269,12 @@ End Code
 </div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
-    var path = '@Url.Content("~")';
-    var user = '@ViewBag.User';
+    const path = '@Url.Content("~")';
+    const user = '@ViewBag.User';
     let arr = [];
     let dtl = [];
     let list = [];
     let docno = '';
-
     //$(document).ready(function () {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
@@ -419,8 +417,7 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-	let typ=$('#chkShowAll').prop('checked') ? 'ALL':'OPEN';
-        $.get(path + 'acc/getinvforreceive?show='+ typ +'&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 $('#tbSummary').DataTable().clear().draw();
@@ -668,13 +665,11 @@ End Code
         let filter_sum = {
             sumamount: 0,
             currencycode : '@ViewBag.PROFILE_CURRENCY',
-            exchangerate : 1,
-	    countdoc:0
+            exchangerate : 1
         };
         for (let i = 0; i < filter_data.length; i++) {
 
-            filter_sum.sumamount += Number(filter_data[i].Net);	
-            filter_sum.countdoc += 1;
+            filter_sum.sumamount += Number(filter_data[i].Net);
         }
         return filter_sum;
     }
@@ -682,7 +677,7 @@ End Code
         let oData = [];
         let i = 0;
         let sum_cash = GetSumPayment('CA');
-        if (sum_cash.countdoc !== 0) {
+        if (sum_cash.sumamount !== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
@@ -719,7 +714,7 @@ End Code
             });
         }
         let sum_chqcash = GetSumPayment('CH');
-        if (sum_chqcash.countdoc !== 0) {
+        if (sum_chqcash.sumamount !== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
@@ -756,7 +751,7 @@ End Code
             });
         }
         let sum_chq = GetSumPayment('CU');
-        if (sum_chq.countdoc !== 0) {
+        if (sum_chq.sumamount !== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
@@ -793,7 +788,7 @@ End Code
             });
         }
         let sum_cr = GetSumPayment('CR');
-        if (sum_cr.countdoc !== 0) {
+        if (sum_cr.sumamount!== 0) {
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),

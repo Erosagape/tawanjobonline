@@ -122,14 +122,6 @@ End Code
         ___/_______/___<br />
     </div>
 </div>
-<p>
-    <b>หมายเหตุ:</b><br />
-    - ค่าใช้จ่ายอื่นๆ ที่ไม่รวมอยู่ในรายการเสนอราคา อาทิ Custom Inspection,Storage Charge,Overtime,Insurance,Unload-Offload<br />
-    ทางบริษัทจะขอเรียกเก็บตามจริง<br />
-    - ค่าใช้จ่ายนี้ยังไม่รวม ค่าดำเนินการขอใบอนุญาตต่างๆ<br />
-    - ค่าใช้จ่ายนี้ยังไม่รวม VAT 7%
-</p>
-
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
