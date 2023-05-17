@@ -211,22 +211,22 @@ Namespace Controllers
             Next
 
             If lst <> "" Then
-                If doctype = "CLR" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99 ", lst)
+                'If doctype = "CLR" Then
+                Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99 ", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.UpdateClearStatus()
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
+                'End If
+                'If doctype = "ADV" Then
+                tSQL = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
+                result = Main.DBExecute(GetSession("ConnJob"), tSQL)
+                If result = "OK" Then
+                    Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
+                    Return New HttpResponseMessage(HttpStatusCode.OK)
                 End If
-                If doctype = "ADV" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
-                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
-                    If result = "OK" Then
-                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
-                        Return New HttpResponseMessage(HttpStatusCode.OK)
-                    End If
-                End If
+                'End If
 
             End If
             Return New HttpResponseMessage(HttpStatusCode.NoContent)
