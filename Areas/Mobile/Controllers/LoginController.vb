@@ -14,7 +14,7 @@ Namespace Areas.Mobile.Controllers
             If Not IsNothing(TempData("UrlReturn")) Then
                 ViewBag.Redirect = TempData("UrlReturn")
             Else
-                ViewBag.Redirect = Url.Action("Index", "Menu")
+                ViewBag.Redirect = Url.Action("Index", "Main")
             End If
             Return View()
         End Function

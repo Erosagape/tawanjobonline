@@ -5,6 +5,7 @@ Namespace Areas.Mobile.Controllers
         Inherits MController
 
         ' GET: Mobile/Chart
+#Region "Get Function"
         Function Index() As ActionResult
             If Not CheckLogin() Then
                 TempData("UrlReturn") = Url.Action("Index", "Chart")
@@ -22,7 +23,7 @@ Namespace Areas.Mobile.Controllers
                 If sqlW <> "" Then
                     sqlW &= " AND "
                 End If
-                sqlW &= dateWhere & " <='" & Request.QueryString("DateFrom") & "'"
+                sqlW &= dateWhere & " <='" & Request.QueryString("DateTo") & "'"
             End If
             If sqlW <> "" Then
                 sqlW = " WHERE " & sqlW
@@ -30,6 +31,162 @@ Namespace Areas.Mobile.Controllers
             PopulateJobData(sqlW)
             Return View("Index")
         End Function
+        Function Yearly() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Yearly", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Dim sqlW = ""
+            Dim dateWhere = "DocDate"
+            If Not IsNothing(Request.QueryString("OnDate")) Then
+                dateWhere = Request.QueryString("OnDate")
+            End If
+            Dim fromYear = ""
+            If Not IsNothing(Request.QueryString("FromYear")) Then
+                fromYear = Request.QueryString("FromYear")
+                sqlW &= dateWhere & " >='" & fromYear & "-01-01'"
+            End If
+            Dim toYear = ""
+            If Not IsNothing(Request.QueryString("ToYear")) Then
+                If sqlW <> "" Then
+                    sqlW &= " AND "
+                End If
+                toYear = Request.QueryString("ToYear")
+                sqlW &= dateWhere & " <='" & toYear & "-12-31'"
+            End If
+            If sqlW <> "" Then
+                sqlW = " WHERE " & sqlW
+            End If
+            PopulateJobYearly(sqlW)
+            PopulateCostYearly(fromYear, toYear)
+            Return View()
+        End Function
+        Function Finance() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Finance", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Dim atDate = DateTime.Today.ToString("yyyy-MM-dd")
+            If Not IsNothing(Request.QueryString("AtDate")) Then
+                atDate = Request.QueryString("AtDate")
+            End If
+            PopulateCashDaily(atDate)
+            PopulateCashWeekly(atDate)
+            PopulateCashMonthly(atDate)
+            PopulatePayablesDaily(atDate)
+            PopulatePayablesWeekly(atDate)
+            PopulateReceivablesDaily(atDate)
+            PopulateReceivablesWeekly(atDate)
+
+            ViewBag.AtDate = atDate
+            Return View()
+        End Function
+        Function Loading() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Loading", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Dim sqlW = ""
+            Dim dateWhere = "DocDate"
+            If Not IsNothing(Request.QueryString("OnDate")) Then
+                dateWhere = Request.QueryString("OnDate")
+            End If
+            Dim atDate = DateTime.Today.ToString("yyyy-MM-dd")
+            If Not IsNothing(TempData("AtDate")) Then
+                atDate = TempData("AtDate")
+            End If
+            ViewBag.AtDate = atDate
+            PopulateJobLoadingMonthly(sqlW, dateWhere, atDate)
+            Return View()
+        End Function
+        Function Advance() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Advance", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Dim sqlW = ""
+            If Not IsNothing(Request.QueryString("DateFrom")) Then
+                ViewBag.DateFrom = Request.QueryString("DateFrom")
+                sqlW &= "{0} >='" & Request.QueryString("DateFrom") & "'"
+            Else
+                ViewBag.DateFrom = ""
+            End If
+            If Not IsNothing(Request.QueryString("DateTo")) Then
+                If sqlW <> "" Then
+                    sqlW &= " AND "
+                End If
+                ViewBag.DateTo = Request.QueryString("DateTo")
+                sqlW &= "{1} <='" & Request.QueryString("DateTo") & "'"
+            Else
+                ViewBag.DateTo = ""
+            End If
+
+            Dim oAdvReq = (From dtl In New CAdvDetail(ViewBag.JobConn).GetData("")
+                           Join hdr In New CAdvHeader(ViewBag.JobConn).GetData(" WHERE DocStatus IN('1','2')" & IIf(sqlW <> "", String.Format(sqlW, " AND AdvDate", "AdvDate"), ""))
+                          On String.Concat(dtl.BranchCode, dtl.AdvNo) Equals String.Concat(hdr.BranchCode, hdr.AdvNo)
+                           Group By hdr.EmpCode
+                              Into DataSource = Group,
+                               SumCash = Sum(If(hdr.AdvCash > 0, dtl.AdvNet + dtl.Charge50Tavi, 0)),
+                               SumChq = Sum(If(hdr.AdvChq > 0, dtl.AdvNet + dtl.Charge50Tavi, 0)),
+                               SumChqCash = Sum(If(hdr.AdvChqCash > 0, dtl.AdvNet + dtl.Charge50Tavi, 0))
+                              ).ToList()
+
+            Dim oAdvUnCleared = (From dtl In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE CONCAT(AdvNo,ItemNo) NOT IN(Select DISTINCT CONCAT(b.AdvNO,b.AdvItemNo) as LinkAdv from Job_ClearDetail b inner join Job_ClearHeader a on b.BranchCode=a.BranchCode AND b.ClrNo=a.ClrNo where b.AdvNO<>'' AND a.DocStatus<>99)")
+                                 Join hdr In New CAdvHeader(ViewBag.JobConn).GetData(" WHERE DocStatus <99 AND DocStatus>2 " & IIf(sqlW <> "", String.Format(sqlW, " AND PaymentDate", "PaymentDate"), ""))
+                          On String.Concat(dtl.BranchCode, dtl.AdvNo) Equals String.Concat(hdr.BranchCode, hdr.AdvNo)
+                                 Group By hdr.EmpCode
+                              Into DataSource = Group,
+                               SumCash = Sum(If(hdr.AdvCash > 0, dtl.AdvNet + dtl.Charge50Tavi, 0)),
+                               SumChq = Sum(If(hdr.AdvChq > 0, dtl.AdvNet + dtl.Charge50Tavi, 0)),
+                               SumChqCash = Sum(If(hdr.AdvChqCash > 0, dtl.AdvNet + dtl.Charge50Tavi, 0))
+                              ).ToList()
+
+            Dim oAdvUnBilled = (From dtl In New CAdvDetail(ViewBag.JobConn).GetData("")
+                                Join hdr In New CAdvHeader(ViewBag.JobConn).GetData(" WHERE DocStatus <99 AND DocStatus>2 " & IIf(sqlW <> "", String.Format(sqlW, " AND PaymentDate", "PaymentDate"), ""))
+                          On String.Concat(dtl.BranchCode, dtl.AdvNo) Equals String.Concat(hdr.BranchCode, hdr.AdvNo)
+                                Join clr In New CClrDetail(ViewBag.JobConn).GetData(" WHERE AdvNO<>'' AND ClrNo NOT IN(SELECT ClrNo FROM Job_ClearHeader where DocStatus=99 )")
+                                On String.Concat(dtl.BranchCode, dtl.AdvNo, dtl.ItemNo) Equals String.Concat(clr.BranchCode, clr.AdvNO, clr.AdvItemNo)
+                                Join srv In New CServiceCode(ViewBag.JobConn).GetData("")
+                                On clr.SICode Equals srv.SICode
+                                Join job In New CJobOrder(ViewBag.JobConn).GetData("")
+                                On String.Concat(clr.BranchCode, clr.JobNo) Equals String.Concat(job.BranchCode, job.JNo)
+                                Where clr.LinkItem = 0 And clr.BNet > 0 And srv.IsExpense = 0
+                                Group By job.CustCode
+                              Into DataSource = Group, SumNet = Sum(clr.BNet), SumWht = Sum(clr.Tax50Tavi)
+                              ).ToList()
+
+            Dim oAdvCleared = (From dtl In New CAdvDetail(ViewBag.JobConn).GetData("")
+                               Join hdr In New CAdvHeader(ViewBag.JobConn).GetData(" WHERE DocStatus <99 AND DocStatus>2 " & IIf(sqlW <> "", String.Format(sqlW, " AND PaymentDate", "PaymentDate"), ""))
+                          On String.Concat(dtl.BranchCode, dtl.AdvNo) Equals String.Concat(hdr.BranchCode, hdr.AdvNo)
+                               Join clr In New CClrDetail(ViewBag.JobConn).GetData(" WHERE AdvNO<>'' AND ClrNo NOT IN(SELECT ClrNo FROM Job_ClearHeader where DocStatus=99 )")
+                                On String.Concat(dtl.BranchCode, dtl.AdvNo, dtl.ItemNo) Equals String.Concat(clr.BranchCode, clr.AdvNO, clr.AdvItemNo)
+                               Join srv In New CServiceCode(ViewBag.JobConn).GetData("")
+                                On clr.SICode Equals srv.SICode
+                               Join job In New CJobOrder(ViewBag.JobConn).GetData("")
+                                On String.Concat(clr.BranchCode, clr.JobNo) Equals String.Concat(job.BranchCode, job.JNo)
+                               Group By job.CustCode
+                              Into DataSource = Group,
+                                   SumBilled = Sum(If(clr.LinkItem > 0 And srv.IsExpense = 0, clr.UsedAmount + clr.ChargeVAT, 0)),
+                                   SumUnBilled = Sum(If(clr.LinkItem = 0 And srv.IsExpense = 0, clr.UsedAmount + clr.ChargeVAT, 0)),
+                                   SumCost = Sum(If(srv.IsExpense = 1, clr.UsedAmount + clr.ChargeVAT, 0))
+                              ).ToList()
+
+            ViewBag.AdvRequest = oAdvReq
+            ViewBag.AdvCleared = oAdvCleared
+            ViewBag.AdvUnCleared = oAdvUnCleared
+            ViewBag.AdvUnBilled = oAdvUnBilled
+            Return View()
+        End Function
+#End Region 'GET Functions
+#Region "Post Function"
+        <HttpPost>
+        <ActionName("Loading")>
+        Function PostLoading(form As FormCollection) As ActionResult
+            TempData("AtDate") = form("atDate")
+            Return RedirectToAction("Loading", "Chart")
+        End Function
+#End Region 'POST Functions
+#Region "Populate Function"
         Sub PopulateJobData(sqlw As String)
             If sqlw = "" Then
                 sqlw = " WHERE "
@@ -82,36 +239,6 @@ Namespace Areas.Mobile.Controllers
                     ViewBag.JobByType = oJobGroup.ToList()
             End Select
         End Sub
-        Function Yearly() As ActionResult
-            If Not CheckLogin() Then
-                TempData("UrlReturn") = Url.Action("Yearly", "Chart")
-                Return RedirectToAction("Index", "Login")
-            End If
-            Dim sqlW = ""
-            Dim dateWhere = "DocDate"
-            If Not IsNothing(Request.QueryString("OnDate")) Then
-                dateWhere = Request.QueryString("OnDate")
-            End If
-            Dim fromYear = ""
-            If Not IsNothing(Request.QueryString("FromYear")) Then
-                fromYear = Request.QueryString("FromYear")
-                sqlW &= dateWhere & " >='" & fromYear & "-01-01'"
-            End If
-            Dim toYear = ""
-            If Not IsNothing(Request.QueryString("ToYear")) Then
-                If sqlW <> "" Then
-                    sqlW &= " AND "
-                End If
-                toYear = Request.QueryString("ToYear")
-                sqlW &= dateWhere & " <='" & toYear & "-12-31'"
-            End If
-            If sqlW <> "" Then
-                sqlW = " WHERE " & sqlW
-            End If
-            PopulateJobYearly(sqlW)
-            PopulateCostYearly(fromYear, toYear)
-            Return View()
-        End Function
         Sub PopulateCostYearly(fromYear As String, toYear As String)
             Dim advD = New CAdvDetail(ViewBag.JobConn).GetData("")
             If fromYear = "" Then fromYear = "0"
@@ -210,51 +337,7 @@ Namespace Areas.Mobile.Controllers
                     ViewBag.JobCountMonthly = oJobFilter.ToList()
             End Select
         End Sub
-        <HttpPost>
-        <ActionName("Loading")>
-        Function PostLoading(form As FormCollection) As ActionResult
-            TempData("AtDate") = form("atDate")
-            Return RedirectToAction("Loading", "Chart")
-        End Function
-        Function Finance() As ActionResult
-            If Not CheckLogin() Then
-                TempData("UrlReturn") = Url.Action("Finance", "Chart")
-                Return RedirectToAction("Index", "Login")
-            End If
-            Dim atDate = DateTime.Today.ToString("yyyy-MM-dd")
-            If Not IsNothing(Request.QueryString("AtDate")) Then
-                atDate = Request.QueryString("AtDate")
-            End If
-            PopulateCashDaily(atDate)
-            PopulateCashWeekly(atDate)
-            PopulateCashMonthly(atDate)
-            PopulatePayablesDaily(atDate)
-            PopulatePayablesWeekly(atDate)
-            PopulateReceivablesDaily(atDate)
-            PopulateReceivablesWeekly(atDate)
-
-            ViewBag.AtDate = atDate
-            Return View()
-        End Function
-        Function Loading() As ActionResult
-            If Not CheckLogin() Then
-                TempData("UrlReturn") = Url.Action("Loading", "Chart")
-                Return RedirectToAction("Index", "Login")
-            End If
-            Dim sqlW = ""
-            Dim dateWhere = "DocDate"
-            If Not IsNothing(Request.QueryString("OnDate")) Then
-                dateWhere = Request.QueryString("OnDate")
-            End If
-            Dim atDate = DateTime.Today.ToString("yyyy-MM-dd")
-            If Not IsNothing(TempData("AtDate")) Then
-                atDate = TempData("AtDate")
-            End If
-            ViewBag.AtDate = atDate
-            PopulateJobLoadingMonthly(sqlW, dateWhere, atDate)
-            Return View()
-        End Function
-        Public Sub PopulateJobLoadingMonthly(sqlw As String, dateWhere As String, atDate As String)
+        Sub PopulateJobLoadingMonthly(sqlw As String, dateWhere As String, atDate As String)
             Dim oJobIMToday = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType=1 AND ETADate='{0}'", atDate))
             Dim oJobEXToday = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType<>1 AND ETDDate='{0}'", atDate))
             Dim oJobIMLastWeek = New CJobOrder(ViewBag.JobConn).GetData(String.Format(" WHERE JobStatus<>99 AND JobType=1 AND ETADate>=DATEADD(week,-1,'{0}') AND ETADate<'{0}'", atDate))
@@ -509,7 +592,6 @@ Namespace Areas.Mobile.Controllers
             ViewBag.ARLastWeek = oBillLastWeek.ToList()
             ViewBag.ARNextWeek = oBillNextWeek.ToList()
         End Sub
-
         Sub PopulatePayablesDaily(atDate As String)
             Dim oPayHdr = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE DocDate='{0}' AND NOT CancelProve<>''", atDate))
             Dim oPayHdrMonth = New CPayHeader(ViewBag.JobConn).GetData(String.Format(" WHERE Year(DocDate)={0} AND Month(DocDate)={1} AND NOT CancelProve<>''", Convert.ToDateTime(atDate).Year, Convert.ToDateTime(atDate).Month))
@@ -549,6 +631,7 @@ Namespace Areas.Mobile.Controllers
             ViewBag.APLastWeek = oPayLastWeek.ToList()
             ViewBag.APNextWeek = oPayNextWeek.ToList()
         End Sub
+#End Region 'Populate Data Functions
     End Class
 
     Public Class DuePaymentSummary

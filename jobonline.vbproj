@@ -60,6 +60,12 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>packages\BouncyCastle.1.8.3.1\lib\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL">
       <HintPath>packages\Google.Protobuf.3.6.1\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -188,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Areas\Mobile\Controllers\ChartController.vb" />
     <Compile Include="Areas\Mobile\Controllers\CreateController.vb" />
+    <Compile Include="Areas\Mobile\Controllers\ListController.vb" />
     <Compile Include="Areas\Mobile\Controllers\LoginController.vb" />
     <Compile Include="Areas\Mobile\Controllers\MainController.vb" />
     <Compile Include="Areas\Mobile\Data\MController.vb" />
@@ -501,6 +508,11 @@
     <Content Include="Areas\Mobile\Views\Chart\Loading.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Finance.vbhtml" />
     <Content Include="Areas\Mobile\Views\Create\Index.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Booking.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Shipment.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Companies.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Company.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Chart\Advance.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

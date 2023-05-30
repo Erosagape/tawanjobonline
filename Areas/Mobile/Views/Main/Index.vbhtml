@@ -20,3 +20,8 @@ End If
     @<br>@<a href="">List Truck Order</a>
     @<br>@<a href="">Create Truck Order</a>
 End If
+<p>
+    Job Connection : @ViewBag.JobConn
+    <br />
+    Master Connection : @ViewBag.MasConn
+</p>

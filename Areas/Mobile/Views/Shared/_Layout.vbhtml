@@ -17,7 +17,7 @@
     <div class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                @Html.ActionLink(ViewBag.Title, "Index", "Menu", New With {.area = "Mobile"}, New With {.class = "navbar-brand"})
+                @Html.ActionLink(ViewBag.Title, "Index", "Main", New With {.area = "Mobile"}, New With {.class = "navbar-brand"})
             </div>
         </div>
     </div>

@@ -1,26 +1,24 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "SHIPPING CLOSING SHEET"
-    ViewBag.Title = "SHIPPING CLOSING SHEET"
+    ViewBag.ReportName = "JOB ACKNOWLEDGEMENT"
+    ViewBag.Title = "Job Acknowledgement"
 End Code
 <style>
-    #tbExpenses td {
-        border: 1px solid black;
-        padding: 4px;
-        font-size:14px;
+    * {
+        font-size:10px;
     }
 </style>
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
             <td colspan="2">
-                <b style="font-size:16px">Job No : </b><input type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
+                <b>Job No : </b><input type="text" style="border:groove;text-align:center" id="txtJNo" value="" />
             </td>
             <td>
-                <b id="JobType" style="font-size:16px;color:blue">Job Type : <label style="font-size:16px" id="lblJobType"></label></b>
+                <b>Job Type : <label id="lblJobType"></label></b>
             </td>
             <td>
-                <b style="font-size:16px">Ship By : <label style="font-size:16px" id="lblShipBy"></label></b>
+                <b>Ship By : <label id="lblShipBy"></label></b>
             </td>
         </tr>
         <tr>
@@ -35,21 +33,36 @@ End Code
             </td>
         </tr>
     </table>
-    <table id="divBillingPlace" width="100%">
+    <table>
         <tr>
-            <td colspan="2" ><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
-            <td colspan="2" ><b>Consignee : </b><label id="lblBillToCustCode"></label> / <div id="lblBillToCustName"></div></td>
+            <td><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
+        </tr>
+        <tr>
+            <td id="dvAddr"></td>
+        </tr>
+        @*<tr>
+            <td><b>Tel : </b><label id="lblTel"></label></td>
+        </tr>
+        <tr>
+            <td><b>Fax : </b><label id="lblFax"></label></td>
+        </tr>
+        <tr>
+            <td><b>Contact : </b><label id="lblContact"></label></td>
+        </tr>
+        *@
+    </table>
+    <table id="divBillingPlace">
+        <tr>
+            <td><b>Consignee : </b><label id="lblBillToCustCode"></label> / <label id="lblBillToCustName"></label></td>
+        </tr>
+        <tr>
+            <td id="dvBillAddr"></td>
         </tr>
     </table>
-    @*<table id="divBillingPlace">
-        <tr>
-           
-        </tr>
-    </table>*@
     <table id="tbInvoiceInfo" width="100%">
         <tr>
             <td colspan="3">
-                <b>INVOICE NO : </b><label id="lblInvNo"></label>
+                <b>COMMERCIAL INV: </b><label id="lblInvNo"></label>
             </td>
             <td>
                 <b>RATE :</b>1 <label id="lblCurrency"></label>=<label id="lblExcRate"></label> THB
@@ -63,7 +76,7 @@ End Code
                 <b>QTY : </b><label id="lblInvQty"></label> <label id="lblInvUnit"></label>
             </td>
             <td>
-                <b>TOTAL : </b><label id="lblInvTotal"></label>
+                <b>AMOUNT : </b><label id="lblInvTotal"></label>
             </td>
         </tr>
         <tr>
@@ -101,8 +114,11 @@ End Code
             <td>
                 <b>CERTIFICATES : </b><label id="lblTaxPrivilege"></label>
             </td>
-            <td colspan="2">
+            <td>
                 <b>DECL.TYPE : </b><label id="lblDeclareType"></label>
+            </td>
+            <td>
+                <b>CUST.REF : </b><label id="lblCustRefNo"></label>
             </td>
         </tr>
         <tr>
@@ -126,7 +142,7 @@ End Code
                 <b>TO : </b><label id="lblToCountry"></label>
             </td>
             <td colspan="2">
-                <b>PORT OF DISCHARGE : </b><label id="lblToPort"></label>
+                <b>PORT OF DELIVERY: </b><label id="lblToPort"></label>
             </td>
         </tr>
         <tr>
@@ -134,7 +150,7 @@ End Code
                 <b>VESSEL/FLIGHT : </b><label id="lblVesselName"></label>
             </td>
             <td colspan="2">
-                <b>AGENT : </b><label id="lblAgentName"></label>
+                <b>CARRIER : </b><label id="lblAgentName"></label>
             </td>
         </tr>
         <tr>
@@ -160,303 +176,38 @@ End Code
             </td>
         </tr>
     </table>
-    <table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:14px">
+    <table id="tbExpenses" style="width:100%;border-collapse:collapse;">
         <thead>
-            <tr style="text-align:center">
-                <td style="width:40%">รายการ</td>
-                <td style="width:15%">ตัดบัตร</td>
-                <td style="width:15%">เงินสด</td>
-                <td style="width:15%">ไม่มีใบเสร็จ</td>
-                <td style="width:15%">มีใบเสร็จ</td>
+            <tr>
+                <th style="border-style:solid;border-width:thin;width:40%">DESCRIPTION</th>
+                <th style="border-style:solid;border-width:thin;width:20%">ADVANCE</th>
+                <th style="border-style:solid;border-width:thin;width:20%">COST</th>
+                <th style="border-style:solid;border-width:thin;width:20%">SERVICE</th>
             </tr>
         </thead>
         <tbody>
+            @Code
+                For i As Integer = 1 To 30
+                    Dim rowid = "row" & i
+                    Dim rowadv = "adv" & i
+                    Dim rowcost = "cost" & i
+                    Dim rowserv = "serv" & i
+                    @<tr>
+                        <td style = "border-style:solid;border-width:thin;" id="@rowid"></td>
+                        <td style = "border-style:solid;border-width:thin; text-align:right;" id="@rowadv"></td>
+                        <td style = "border-style: solid; border-width: thin; text-align: right;" id="@rowcost"></td>
+                        <td style = "border-style: solid; border-width: thin; text-align: right;" id="@rowserv"></td>
+                    </tr>
+                Next
+            End Code
             <tr>
-                <td>ชิปปิ้งทำงาน</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td style="border-style:solid;border-width:thin;"><b>GRAND TOTAL</b><label id="lblJobNo"></label></td>
+                <td style="border-style:solid;border-width:thin;" id="rowTotalAdv"></td>
+                <td style="border-style:solid;border-width:thin;" id="rowTotalCost"></td>
+                <td style="border-style:solid;border-width:thin;" id="rowTotalServ"></td>
             </tr>
-            <tr>
-                <td>ค่านายตรวจ</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>ค่าแรงงาน</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>ค่าเมล์ และแฟกซ์</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>  ค่ารับ D/O</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>ค่าออกหน้าปรตู</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>CUSTOMS FEE / ค่าธรรมเนียม</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>OVERTIME FEE / ค่าล่วงเวลา</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>OVERTIME AGENT / ค่าล่วงเวลาเรือ</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>STORAGE / ค่าโกดัง</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>GATE CHARGES / ค่าผ่านท่า</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>GATE CHARGES / ค่าผ่านท่า</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>PAPERLESS / ค่ายิงใบขน (ลานบรรจุ)</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>PAPERLESS / ค่ายิงใบขน (ลานบรรจุ)</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td style="text-align:center">รวม</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="3" style="text-align:center">ยอดรวมใช้เงินสดไป</td>
-                <td colspan="2"></td>
-            </tr>
-
         </tbody>
     </table>
-    @*<table id="tbExpenses" style="width:100%;border-collapse:collapse;font-size:8px">
-            <thead>
-                <tr>
-                    <th colspan="5" style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเคลียร์พิธีการศุลกากร</th>
-                </tr>
-                <tr>
-                    <th colspan="3" style="border-style:solid;border-width:thin;width:50%">มีใบเสร็จในนามลูกค้า</th>
-                    <th colspan="2" style="border-style:solid;border-width:thin;width:50%">ไม่มีใบเสร็จรับเงินในนามลูกค้า</th>
-                </tr>
-                <tr>
-                    <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                    <th style="border-style:solid;border-width:thin;width:20%">เลขที่ใบเสร็จ</th>
-                    <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
-                    <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                    <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียม Paperless</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าปล่อยเบย์-จัดเรียงสินค้า</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าภาษีอากร</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าปล่อยวาลฟ์</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลากรมศุลกากร</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่ารถตักสินค้า</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาการท่าเรือ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าพิธีการตรวจปล่อย</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาเอเย่นต์</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่านำแรงงานท่าเรือ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าแลก D/O</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าแรงงานคลังขนถ่ายสินค้า</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าเช่าการท่าเรือ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">จำนวน (คน)</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่ามัดจำตู้</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่านายตรวจศุลกากร</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 6ล้อ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 4ล้อ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าผ่านท่า</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ประมง</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าคืนตู้เปล่า</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ อย</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่า Demurrage</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าทำบัตร</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่า Detention</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าจอดรถ</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียมธนาคาร</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่ารับเอกสารทางอีเมล์</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่าซ่อมตู้</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">ค่าเช็คภาษี</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">ค่ายื่น C/O หอการค้า</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                    <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td style="border-style:solid;border-width:thin;">**FOR JOB NUMBER</td>
-                    <td style="border-style:solid;border-width:thin;"><label id="lblJobNo"></label></td>
-                    <td style="border-style:solid;border-width:thin;">ONLY**</td>
-                    <td style="border-style:solid;border-width:thin;"><b>รวมทั้งสิ้น</b></td>
-                    <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                </tr>
-            </tbody>
-        </table>*@
     <table id="tblFooter" style="width:100%">
         <tr>
             <td width="60%" valign="top">
@@ -471,40 +222,16 @@ End Code
             </td>
         </tr>
     </table>
-
-    <div style="display:flex">
-        <div style="width: 20%; font-size: 16px">ลูกค้าจองรถเอง</div>
-        <div style="flex:1;border-bottom:1px black solid"></div>
-    </div>
-    <div style="display:flex">
-        <div style="width: 20%; font-size: 16px">บริษัทรถ</div>
-        <div style="flex:1;border-bottom:1px black solid"></div>
-    </div>
-    <br />
-    <div style="display:flex">
-        <div style="width:20%"></div>
-        <div style="width: 20%; font-size: 16px">ชื่อผู้เบิกเงิน</div>
-        <div style="flex:1;border-bottom:1px black solid"></div>
-        <div style="width:20%"></div>
-    </div>
-    <div style="display:flex">
-        <div style="width:20%"></div>
-        <div style="width: 20%; font-size: 16px">ชื่อผู้รับเงินคืน</div>
-        <div style="flex:1;border-bottom:1px black solid"></div>
-        <div style="width:20%"></div>
-    </div>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-
-$('#imgLogo').css('display','none');
-$('#imgLogoAdd').css('display','inline');
     //$(document).ready(function () {
-        let br = getQueryString('BranchCode');
-        let jno = getQueryString('JNo');
-        if (br != "" && jno != "") {
-            GetJob(br, jno);
-        }
+    let br = getQueryString('BranchCode');
+    let jno = getQueryString('JNo');
+    PopulateGridDetail();
+    if (br != "" && jno != "") {
+        GetJob(br, jno);
+    }
     //});
     function GetJob(Branch, Job) {
         $.get(path+'joborder/getjobsql?branch=' + Branch + '&jno=' + Job)
@@ -537,13 +264,12 @@ $('#imgLogoAdd').css('display','inline');
                     if (r.company.data.length > 0) {
                         var c = r.company.data[0];
                         if (isCons == true) {
-                           //$('#lblBillToCustName').text(c.NameEng + ' Tax Reference :' + c.TaxNumber);
-                            $('#lblBillToCustName').text(c.NameEng );
+                            $('#lblBillToCustName').text(c.NameEng + ' Tax Reference :' + c.TaxNumber);
                             $('#dvBillAddr').html('<b>Address : </b>'
                                 + (c.EAddress1 + ' ' + c.EAddress2).trim());
                         }
                         if (isCons == false) {
-                            $('#lblCustName').text(c.NameThai);
+                            $('#lblCustName').text(c.Title+' '+c.NameThai);
                             $('#dvAddr').html('<b>Address : </b>'
                                 + (c.TAddress1 + ' ' + c.TAddress2).trim());
                             $('#lblTel').text(c.Phone);
@@ -590,6 +316,7 @@ $('#imgLogoAdd').css('display','inline');
         $('#lblDutyAmt').text(j.DutyAmount + ' THB');
         $('#lblTaxPrivilege').text(j.TyClearTaxReson);
         $('#lblShippingCmd').text(j.ShippingCmd);
+        $('#lblCustRefNo').text(j.CustRefNO);
         let str =j.Description.replace(/(?:\r\n|\r|\n)/g, '<br/>');
         $('#lblDescription').html(str);
 
@@ -597,10 +324,6 @@ $('#imgLogoAdd').css('display','inline');
         var sb = j.ShipBy;
         if (jt < 10) jt = '0' + jt;
         if (sb < 10) sb = '0' + sb;
-
-        if (j.JobType) {
-            $('#JobType').css('color','orange');
-        }
         ShowConfig(path, 'JOB_TYPE', jt, '#lblJobType');
         ShowConfig(path, 'SHIP_BY', sb, '#lblShipBy');
 
@@ -612,21 +335,14 @@ $('#imgLogoAdd').css('display','inline');
 
         ShowCountry(path, j.InvFCountry, '#lblFromCountry');
         ShowCountry(path, j.InvCountry, '#lblToCountry');
+        if (j.JobType == '1') {
 
-        $("#lblToPort").text(j.ClearPortNo);
-        ShowInterPort(path, (j.JobType == 1 ? j.InvFCountry : j.InvCountry), j.InvInterPort, '#lblFromPort').then(() => {
-            $.get(path + 'Master/GetCountry?Code=' + (j.JobType == 1 ? j.InvFCountry : j.InvCountry)).done(function (r) {
-                $('#lblFromPort').text(($('#lblFromPort').text() + " ," + r.country.data[0].CTYName).toUpperCase());
-            });
-        });
-
-        //if (j.JobType == '1') {
-        //    ShowInterPort(path,j.InvFCountry, j.InvInterPort, '#lblFromPort');
-        //    ShowReleasePort(path,j.ClearPort, '#lblToPort');
-        //} else {
-        //    ShowInterPort(path,j.InvCountry, j.InvInterPort, '#lblToPort');
-        //    ShowReleasePort(path,j.ClearPort, '#lblFromPort');
-        //}
+            ShowInterPort(path,j.InvFCountry, j.InvInterPort, '#lblFromPort');
+            ShowReleasePort(path,j.ClearPort, '#lblToPort');
+        } else {
+            ShowInterPort(path,j.InvCountry, j.InvInterPort, '#lblToPort');
+            ShowReleasePort(path,j.ClearPort, '#lblFromPort');
+        }
         ShowVender(path,j.ForwarderCode, '#lblAgentName');
         ShowVender(path,j.AgentCode, '#lblTransportName');
 
@@ -636,5 +352,286 @@ $('#imgLogoAdd').css('display','inline');
 
         $('#lblPosition').text('Customer Services');
     }
-
+    function PopulateGridDetail() {
+        $('#row1').text('CUSTOMS TAX');
+        $('#row2').text('D/O CHARGE');
+        $('#row3').text('CONTAINER DEPOSIT');
+        $('#row4').text('CUSTOMS FEE');
+        $('#row5').text('O/T CUSTOMS');
+        $('#row6').text('STORAGE CHARGE');
+        $('#row7').text('DEMURRAGE CHARGE');
+        $('#row8').text('ROYAL FOREST PERMIT');
+        $('#row9').text('PHYTO PERMIT');
+        $('#row10').text('TISI PERMIT');
+        $('#row11').text('MARINE DEPARTMENT PERMIT');
+        $('#row12').text('EXCISE PERMIT');
+        $('#row13').text('DIT PERMIT');
+        $('#row14').text('CUSTOMS INSPECTION CHARGE');
+        $('#row15').text('SHIPPING CHARGE');
+        $('#row16').text('O/T SHIPPING');
+        $('#row17').text('TRANSPORT');
+        $('#row18').text('RETURN CONTAINER');
+        $('#row19').text('SHIPPING BANGPU');
+        $('#row20').text('O/T SHIPPING BANGPU');
+        $('#row21').text('LEAD FZ');
+        $('#row22').text('INSURANCE');
+        $('#row23').text('OCEAN FREIGHT');
+        $('#row24').text('TERMINAL WHARF/EQUIPMENT CHARGE');
+        $('#row25').text('CONTAINER CLEANING/REPAIR');
+        $('#row26').text('B/L FEE/CHANGING D/O');
+        $('#row27').text('DELIVERY HANDLING');
+        $('#row28').text('LIFT ON/LIFT OFF/GATE CHARGE');
+        $('#row29').text('SERVICE/DOCUMENT CHARGE');
+        $('#row30').text('OTHER CHARGE');
+        $.get(path + 'clr/getclearingreport?branch=' + br + '&job=' + jno, function (r) {
+            if (r.data.length > 0) {
+                let sumadv = 0;
+                let sumcost = 0;
+                let sumserv = 0;
+                for (let i = 0; i < r.data.length; i++) {
+                    let d = r.data[i];
+                    let oldval = 0;
+                    switch (d.SICode) {
+                        case 'ADV-042':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv1').text(d.BNet+oldval);
+                            break;
+                        case 'ADV-003':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv2').text(d.BNet+eldval);
+                            break;
+                        case 'ADV-152':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv3').text(d.BNet+oldval);
+                            break;
+                        case 'CST-213':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#cost3').text(d.BNet+oldval);
+                            break;
+                        case 'ADV-011':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv4').text(d.BNet+oldval);
+                            break;
+                        case 'ADV-010':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv5').text(d.BNet+oldval);
+                            break;
+                        case 'ADV-157':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv6').text(d.BNet+oldval);
+                            break;
+                        case 'CST-214':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#cost6').text(d.BNet+oldval);
+                            break;
+                        case 'ADV-043':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#adv7').text(d.BNet+oldval);
+                            break;
+                        case 'SRV-183':
+                            if (CNum($('#adv1').text()) > 0)
+                                oldval = CNum($('#adv1').text());
+                            $('#serv8').text(d.BNet+oldval);
+                            break;
+                        case 'CST-179':
+                            if (CNum($('#cost9').text()) > 0)
+                                oldval = CNum($('#cost9').text());
+                            $('#cost9').text(d.BNet + oldval);
+                            break;
+                        case 'CST-201':
+                            if (CNum($('#cost9').text()) > 0)
+                                oldval = CNum($('#cost9').text());
+                            $('#cost9').text(d.BNet + oldval);
+                            break;
+                        case 'CST-224':
+                            if (CNum($('#cost9').text()) > 0)
+                                oldval = CNum($('#cost9').text());
+                            $('#cost9').text(d.BNet + oldval);
+                            break;
+                        case 'CST-171':
+                            if (CNum($('#cost10').text()) > 0)
+                                oldval = CNum($('#cost10').text());
+                            $('#cost10').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-059':
+                            if (CNum($('#serv10').text()) > 0)
+                                oldval = CNum($('#serv10').text());
+                            $('#serv10').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-044':
+                            if (CNum($('#serv11').text()) > 0)
+                                oldval = CNum($('#serv11').text());
+                            $('#serv11').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-111':
+                            if (CNum($('#serv11').text()) > 0)
+                                oldval = CNum($('#serv11').text());
+                            $('#serv11').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-123':
+                            if (CNum($('#serv11').text()) > 0)
+                                oldval = CNum($('#serv11').text());
+                            $('#serv11').text(d.BNet + oldval);
+                            break;
+                        case 'CST-172':
+                            if (CNum($('#cost12').text()) > 0)
+                                oldval = CNum($('#cost12').text());
+                            $('#cost12').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-120':
+                            if (CNum($('#serv12').text()) > 0)
+                                oldval = CNum($('#serv12').text());
+                            $('#serv12').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-148':
+                            if (CNum($('#serv13').text()) > 0)
+                                oldval = CNum($('#serv13').text());
+                            $('#serv13').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-071':
+                            if (CNum($('#serv14').text()) > 0)
+                                oldval = CNum($('#serv14').text());
+                            $('#serv14').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-163':
+                            if (CNum($('#adv15').text()) > 0)
+                                oldval = CNum($('#adv15').text());
+                            $('#adv15').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-127':
+                            if (CNum($('#serv15').text()) > 0)
+                                oldval = CNum($('#serv15').text());
+                            $('#serv15').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-184':
+                            if (CNum($('#serv16').text()) > 0)
+                                oldval = CNum($('#serv16').text());
+                            $('#serv16').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-209':
+                            if (CNum($('#adv17').text()) > 0)
+                                oldval = CNum($('#adv17').text());
+                            $('#adv17').text(d.BNet + oldval);
+                            break;
+                        case 'CST-148':
+                            if (CNum($('#cost17').text()) > 0)
+                                oldval = CNum($('#cost17').text());
+                            $('#cost17').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-019':
+                            if (CNum($('#serv17').text()) > 0)
+                                oldval = CNum($('#serv17').text());
+                            $('#serv17').text(d.BNet + oldval);
+                            break;
+                        case 'CST-149':
+                            if (CNum($('#cost18').text()) > 0)
+                                oldval = CNum($('#cost18').text());
+                            $('#cost18').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-161':
+                            if (CNum($('#adv18').text()) > 0)
+                                oldval = CNum($('#adv18').text());
+                            $('#adv18').text(d.BNet + oldval);
+                            break;
+                        case 'CST-193':
+                            if (CNum($('#cost19').text()) > 0)
+                                oldval = CNum($('#cost19').text());
+                            $('#cost19').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-269':
+                            if (CNum($('#adv20').text()) > 0)
+                                oldval = CNum($('#adv20').text());
+                            $('#adv20').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-119':
+                            if (CNum($('#serv20').text()) > 0)
+                                oldval = CNum($('#serv20').text());
+                            $('#serv20').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-169':
+                            if (CNum($('#adv22').text()) > 0)
+                                oldval = CNum($('#adv22').text());
+                            $('#adv22').text(d.BNet + oldval);
+                            break;
+                        case 'CST-191':
+                            if (CNum($('#cost22').text()) > 0)
+                                oldval = CNum($('#cost22').text());
+                            $('#cost22').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-163':
+                            if (CNum($('#serv22').text()) > 0)
+                                oldval = CNum($('#serv22').text());
+                            $('#serv22').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-177':
+                            if (CNum($('#adv23').text()) > 0)
+                                oldval = CNum($('#adv23').text());
+                            $('#adv23').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-033':
+                            if (CNum($('#adv24').text()) > 0)
+                                oldval = CNum($('#adv24').text());
+                            $('#adv24').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-166':
+                            if (CNum($('#adv25').text()) > 0)
+                                oldval = CNum($('#adv25').text());
+                            $('#adv25').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-115':
+                            if (CNum($('#serv26').text()) > 0)
+                                oldval = CNum($('#serv26').text());
+                            $('#serv26').text(d.BNet + oldval);
+                            break;
+                        case 'ADV-192':
+                            if (CNum($('#adv27').text()) > 0)
+                                oldval = CNum($('#adv27').text());
+                            $('#adv27').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-180':
+                            if (CNum($('#serv27').text()) > 0)
+                                oldval = CNum($('#serv27').text());
+                            $('#serv27').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-008':
+                            if (CNum($('#serv28').text()) > 0)
+                                oldval = CNum($('#serv28').text());
+                            $('#serv28').text(d.BNet + oldval);
+                            break;
+                        case 'SRV-169':
+                            if (CNum($('#serv29').text()) > 0)
+                                oldval = CNum($('#serv29').text());
+                            $('#serv29').text(d.BNet + oldval);
+                            break;
+                        default:
+                            if (d.IsExpense == 1) {
+                                if (CNum($('#cost30').text()) > 0)
+                                    oldval = CNum($('#cost30').text());
+                                $('#cost30').text(d.BNet + oldval);
+                            } else {
+                                if (d.IsCredit == 1) {
+                                    if (CNum($('#adv30').text()) > 0)
+                                        oldval = CNum($('#adv30').text());
+                                    $('#adv30').text(d.BNet + oldval);
+                                } else {
+                                    if (CNum($('#serv30').text()) > 0)
+                                        oldval = CNum($('#serv30').text());
+                                    $('#serv30').text(d.BNet + oldval);
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        });
+    }
 </script>
