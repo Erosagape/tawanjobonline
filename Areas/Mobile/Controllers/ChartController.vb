@@ -134,7 +134,7 @@ Namespace Areas.Mobile.Controllers
             Dim oAdvUnCleared = (From dtl In New CAdvDetail(ViewBag.JobConn).GetData(" WHERE CONCAT(AdvNo,ItemNo) NOT IN(Select DISTINCT CONCAT(b.AdvNO,b.AdvItemNo) as LinkAdv from Job_ClearDetail b inner join Job_ClearHeader a on b.BranchCode=a.BranchCode AND b.ClrNo=a.ClrNo where b.AdvNO<>'' AND a.DocStatus<>99)")
                                  Join hdr In New CAdvHeader(ViewBag.JobConn).GetData(" WHERE DocStatus <99 AND DocStatus>2 " & IIf(sqlW <> "", String.Format(sqlW, " AND PaymentDate", "PaymentDate"), ""))
                           On String.Concat(dtl.BranchCode, dtl.AdvNo) Equals String.Concat(hdr.BranchCode, hdr.AdvNo)
-                                 Group By hdr.EmpCode
+                                 Group By hdr.AdvBy
                               Into DataSource = Group,
                                SumCash = Sum(If(hdr.AdvCash > 0, dtl.AdvNet + dtl.Charge50Tavi, 0)),
                                SumChq = Sum(If(hdr.AdvChq > 0, dtl.AdvNet + dtl.Charge50Tavi, 0)),
@@ -151,7 +151,7 @@ Namespace Areas.Mobile.Controllers
                                 Join job In New CJobOrder(ViewBag.JobConn).GetData("")
                                 On String.Concat(clr.BranchCode, clr.JobNo) Equals String.Concat(job.BranchCode, job.JNo)
                                 Where clr.LinkItem = 0 And clr.BNet > 0 And srv.IsExpense = 0
-                                Group By job.CustCode
+                                Group By job.CSCode
                               Into DataSource = Group, SumNet = Sum(clr.BNet), SumWht = Sum(clr.Tax50Tavi)
                               ).ToList()
 

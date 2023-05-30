@@ -22,7 +22,7 @@
     c = 0
     For Each row In oAdvUC
         arrAdvUCByEmp &= ","
-        arrAdvUCByEmp &= "[""" & row.EmpCode & """," & row.SumCash & "," & row.SumChq & "," & row.SumChqCash & "]"
+        arrAdvUCByEmp &= "[""" & row.AdvBy & """," & row.SumCash & "," & row.SumChq & "," & row.SumChqCash & "]"
         c += 1
     Next
     If c = 0 Then
@@ -34,7 +34,7 @@
     c = 0
     For Each row In oAdvUB
         arrAdvUB &= ","
-        arrAdvUB &= "[""" & row.CustCode & """," & row.SumNet + row.SumWht & "]"
+        arrAdvUB &= "[""" & row.CSCode & """," & row.SumNet + row.SumWht & "]"
         c += 1
     Next
     If c = 0 Then
@@ -219,7 +219,7 @@ End If
                                             totalChqCash += row.SumChqCash
                                             @<tr style="background-color:aquamarine;font-weight:bold;">
                                                 <td colspan="6">
-                                                    @row.EmpCode
+                                                    @row.AdvBy
                                                 </td>
                                             </tr>
                                             Dim sumamt = 0
@@ -326,7 +326,7 @@ End If
                                         @For each row In ViewBag.AdvUnBilled
                                             @<tr style="background-color:aquamarine;font-weight:bold;">
                                                 <td colspan="6">
-                                                    @row.CustCode
+                                                    @row.CSCode
                                                 </td>
                                             </tr>
                                             Dim sumamt = 0
