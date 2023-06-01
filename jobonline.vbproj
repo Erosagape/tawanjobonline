@@ -513,6 +513,15 @@
     <Content Include="Areas\Mobile\Views\List\Companies.vbhtml" />
     <Content Include="Areas\Mobile\Views\Create\Company.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Advance.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Booking.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Shipment.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Container.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Truck.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Index.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Container.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Truck.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\Quotation.vbhtml" />
+    <Content Include="Areas\Mobile\Views\List\Quotation.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>

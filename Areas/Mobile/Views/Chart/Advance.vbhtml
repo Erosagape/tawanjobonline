@@ -56,19 +56,19 @@ End Code
 <div class="container">
     <p>
         <div class="row">
-            <div class="col">
+            <div class="col-sm-2">
                 Date From
             </div>
-            <div class="col">
+            <div class="col-sm-3">
                 <input type="date" id="dateFrom" value="@ViewBag.DateFrom" />
             </div>
-            <div class="col">
+            <div class="col-sm-2">
                 Date To
             </div>
-            <div class="col">
+            <div class="col-sm-3">
                 <input type="date" id="dateTo" value="@ViewBag.DateTo" />
             </div>
-            <div class="col">
+            <div class="col-sm-2">
                 <input type="button" onclick="RefreshPage()" class="btn btn-success" value="Refresh" />
             </div>
         </div>

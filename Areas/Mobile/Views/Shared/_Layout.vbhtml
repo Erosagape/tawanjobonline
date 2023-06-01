@@ -4,12 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="~/Content/bootstrap.min.css">
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <style>
         * {
-            font-family:Tahoma,'Segoe UI';
-            font-size:medium;
+            font-family: Tahoma,'Segoe UI';
+            font-size: medium;
         }
     </style>
 </head>

@@ -2927,7 +2927,7 @@ GROUP BY c.CustCode,c.NameThai,c.NameEng
             .EstDeliverTime = "1900-01-01 " & Request.Form("EstDeliverTime"),
             .ConfirmChqDate = "1900-01-01 " & Request.Form("ConfirmChqDate"),
             .ClearPort = Request.Form("ClearPort")
-                }
+            }
             If Request.Form("mode") <> "A" And data.JNo <> "" Then
                 Dim chkData = New CJobOrder(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
                 If chkData.Count > 0 Then
