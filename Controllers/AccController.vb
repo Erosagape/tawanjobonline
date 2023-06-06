@@ -4105,5 +4105,9 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
             strUrl = String.Format(strUrl, Request.Form("Branch"), Request.Form("DateFrom"), Request.Form("DateTo"))
             Return Redirect(strUrl)
         End Function
+        Function Worksheet() As ActionResult
+            LoadCompanyProfile()
+            Return View()
+        End Function
     End Class
 End Namespace

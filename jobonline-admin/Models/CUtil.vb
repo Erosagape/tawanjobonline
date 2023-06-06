@@ -50,7 +50,7 @@ Public Class CUtil
                 Using da As New SqlDataAdapter(pSQL, cn)
                     da.Fill(dt)
                 End Using
-                If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)
+                'If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)
             Catch ex As Exception
                 Message = "[ERROR]" & ex.Message
             End Try

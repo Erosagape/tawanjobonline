@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="weblicenseConnection" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Data Source=.\DEVTEST;Initial Catalog=weblicense;User id=sa;Password=4780;Persist Security Info=False</Value>
+      <Value Profile="(Default)">Data Source=.;Initial Catalog=weblicense;User id=sa;Password="9t;yogm8";Persist Security Info=False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

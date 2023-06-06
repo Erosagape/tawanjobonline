@@ -10,6 +10,7 @@
     Dim oJobType = New CConfig(ViewBag.JobConn).GetData(" WHERE ConfigCode='JOB_TYPE'")
     Dim oShipBy = New CConfig(ViewBag.JobConn).GetData(" WHERE ConfigCode='SHIP_BY'")
 End Code
+<a href="@Url.Action("Shipment", "Create")" class="btn btn-success">New Shipment</a>
 <h2>Total @oJob.Count Job(s)<br /></h2>
 <div class="container">
     @Code

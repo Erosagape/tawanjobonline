@@ -157,6 +157,7 @@
     <Compile Include="App_Start\FilterConfig.vb" />
     <Compile Include="App_Start\RouteConfig.vb" />
     <Compile Include="Controllers\AdminController.vb" />
+    <Compile Include="Controllers\BillingController.vb" />
     <Compile Include="Controllers\ConfigController.vb" />
     <Compile Include="Controllers\TestController.vb" />
     <Compile Include="Controllers\UtilController.vb" />
@@ -269,6 +270,7 @@
     <Content Include="Views\Admin\Index.vbhtml" />
     <Content Include="Views\Util\Index.vbhtml" />
     <Content Include="Views\Util\Excel.vbhtml" />
+    <Content Include="Views\Billing\Index.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

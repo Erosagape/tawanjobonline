@@ -932,6 +932,7 @@
     <Content Include="Views\Admin\Test.vbhtml" />
     <Content Include="Views\Report\ImportExcel.vbhtml" />
     <Content Include="Views\Acc\GLProcess.vbhtml" />
+    <Content Include="Views\Acc\WorkSheet.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
