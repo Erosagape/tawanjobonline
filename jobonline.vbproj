@@ -933,6 +933,8 @@
     <Content Include="Views\Report\ImportExcel.vbhtml" />
     <Content Include="Views\Acc\GLProcess.vbhtml" />
     <Content Include="Views\Acc\WorkSheet.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard6.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard5.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
