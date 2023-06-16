@@ -5,7 +5,6 @@
     Dim totalCash = 0
     Dim totalChq = 0
     Dim totalChqCash = 0
-
     Dim c = 0
     For Each row In oAdvR
         arrAdvRByEmp &= ","

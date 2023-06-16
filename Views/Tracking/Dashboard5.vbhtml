@@ -1,20 +1,30 @@
 ﻿@Code
     ViewData("Title") = "Total Containers"
+    Dim beginDate = New Date(Today.Year, Today.Month, 1).ToString("yyyy-MM-dd")
+    If Request.QueryString("BeginDate") IsNot Nothing Then
+        beginDate = Request.QueryString("BeginDate")
+    End If
+    Dim endDate = New Date(Today.Year, Today.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd")
+    If Request.QueryString("EndDate") IsNot Nothing Then
+        endDate = Request.QueryString("EndDate")
+    End If
+
     Dim oSummary = New Dictionary(Of String, Int32)
     If ViewBag.User <> "" Then
         Dim conn = ViewBag.CONNECTION_JOB
         Dim sqlConMultiple = "
 select replace(TotalContainer,' ','') as TotalContainer,count(*) as c From job_order
-where CHARINDEX(',',TotalContainer,0)>0
+where CHARINDEX(',',TotalContainer,0)>0 
+and DocDate>='{0}' and DocDate<='{1}'
 group by replace(TotalContainer,' ','')
 "
         Dim sqlConSingle = "
 select replace(TotalContainer,' ','') as TotalContainer,count(*) as c From job_order
 where CHARINDEX(',',TotalContainer,0)=0
+and DocDate>='{0}' and DocDate<='{1}'
 group by replace(TotalContainer,' ','')
 "
-
-        Using rs = New CUtil(conn).GetTableFromSQL(sqlConSingle)
+        Using rs = New CUtil(conn).GetTableFromSQL(String.Format(sqlConSingle, beginDate, endDate))
             If rs.Rows.Count > 0 Then
                 For Each row In rs.Rows
                     Dim strCon = row("TotalContainer").ToString().ToUpper()
@@ -65,7 +75,7 @@ group by replace(TotalContainer,' ','')
                 Next
             End If
         End Using
-        Using rs = New CUtil(conn).GetTableFromSQL(sqlConMultiple)
+        Using rs = New CUtil(conn).GetTableFromSQL(String.Format(sqlConMultiple, beginDate, endDate))
             If rs.Rows.Count > 0 Then
                 For Each row In rs.Rows
                     Dim strVal = row("TotalContainer").ToString().ToUpper()
@@ -119,7 +129,23 @@ group by replace(TotalContainer,' ','')
             End If
         End Using
     End If
+    Dim arrSummary = ""
 End Code
+<div class="row">
+    <div class="col-sm-3">
+        From Date <br />
+        <input type="date" id="txtDateFrom" class="form-control" value="@beginDate" />
+    </div>
+    <div class="col-sm-3">
+        To Date <br />
+        <input type="date" id="txtDateTo" class="form-control" value="@endDate" />
+    </div>
+    <div class="col-sm-3">
+        <br />
+        <input type="button" class="btn btn-primary" value="Search" onclick="RefreshData()" />
+    </div>
+</div>
+<div id="dvChart"></div>
 <div class="table-responsive">
     <table class="table table-bordered">
         <thead>
@@ -134,16 +160,42 @@ End Code
                               Order By item.Key Ascending
                               Select item
 
+                arrSummary = "[""Unit"",""Qty""]"
                 For Each con In oSorted
+                    arrSummary &= ",[""" & con.Key & """," & con.Value & "]"
                     @<tr>
                         <td>@con.Key</td>
                         <td>@con.Value</td>
                     </tr>
                 Next
+            Else
+                arrSummary = "[""Unit"",""Qty""],[""N/A"",0]"
             End If
         </tbody>
     </table>
 </div>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
+    var arrSummary = [@Html.Raw(arrSummary)];
+    google.charts.load("current", { packages: ["corechart"] });
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+        var data1 = google.visualization.arrayToDataTable(arrSummary);
+
+        var options1 = {
+            width: 600,
+            height: 400,
+            legend: { position: 'top', maxLines: 3 },
+            bar: { groupWidth: '75%' },
+            isStacked: true
+        };
+
+        var chart1 = new google.visualization.BarChart(document.getElementById('dvChart'));
+        chart1.draw(data1, options1);
+    }
+
+    function RefreshData() {
+        window.location.href = path + 'Tracking/Dashboard?Form=5&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
+    }
 </script>
