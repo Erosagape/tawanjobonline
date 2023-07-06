@@ -4,13 +4,14 @@
     If Request.QueryString("BeginDate") IsNot Nothing Then
         beginDate = Request.QueryString("BeginDate")
     End If
+    ViewBag.BeginDate = beginDate
+
     Dim endDate = New Date(Today.Year, Today.Month, 1).AddMonths(1).AddDays(-1).ToString("yyyy-MM-dd")
     If Request.QueryString("EndDate") IsNot Nothing Then
         endDate = Request.QueryString("EndDate")
     End If
-    Dim sqlCash = "
-with s
-as (
+    ViewBag.EndDate = endDate
+    Dim cashQry = "
 select c.VoucherDate, s.acType,s.BookCode,isnull(a.BookName,'เงินสดในมือ') as BookName,c.TRemark,
 (case when s.PRType='R' then s.CashAmount+s.ChqAmount else 0 end) as Debit,
 (case when s.PRType='P' then s.CashAmount+s.ChqAmount else 0 end) as Credit,
@@ -36,9 +37,15 @@ from Job_CashControlSub s inner join Job_CashControl c
 on concat(s.branchcode,s.controlno)=concat(c.branchcode,c.controlno)
 left join Mas_BookAccount a on s.BookCode=a.BookCode
 where not c.CancelProve<>''
+"
+    ViewBag.QueryCash = cashQry
+    Dim sqlCash = "
+with s
+as (
+" & cashQry & "
 )
 select
-acGRoup,BookName,
+acGRoup,BookCode,BookName,
 (CASE WHEN sum(case when VoucherDate<'{0}' then Debit-Credit else 0 end) >0 then
 sum(case when VoucherDate<'{0}' then Debit-Credit else 0 end)
 ELSE 0 END) as BalDR,
@@ -55,128 +62,131 @@ sum(Credit-Debit)
 ELSE 0 END) as NewCR
 from s
 where s.VoucherDate<='{1}'
-group by acGRoup,BookName
+group by acGRoup,BookCode,BookName
 order by acGRoup,BookName
 "
-    Dim sqlAR = "
-with s
-as
-(
+    Dim arQry = "
 select 'A/R Service' as DocGroup,
 h.BranchCode,h.DocNo,'A/R Service - Billing' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.DocDate as DocDate,
 h.TotalCharge as Debit,
 0 as Credit,
 h.RefNo as Remark
 from Job_InvoiceHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 where h.TotalCharge>0
 union
 select 'A/R Service' as DocGroup,
 h.BranchCode,h.DocNo,'A/R Service - Billing Cancelled' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.CancelDate as DocDate,
 0 as Debit,
 h.TotalCharge as Credit,
 h.RefNo as Remark
 from Job_InvoiceHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 where h.TotalCharge>0 and h.CancelProve<>''
 union
 select 'A/R Advance' as DocGroup,
 h.BranchCode,h.DocNo,'A/R Advance - Billing' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.DocDate as DocDate,
 h.TotalAdvance as Debit,
 0 as Credit,
 h.RefNo
 from Job_InvoiceHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 where h.TotalAdvance>0
 union
 select 'A/R Advance' as DocGroup,
 h.BranchCode,h.DocNo,'A/R Advance - Billing Cancelled' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.CancelDate as DocDate,
 0 as Debit,
 h.TotalAdvance as Credit,
 h.RefNo
 from Job_InvoiceHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 where h.TotalAdvance>0 and h.CancelProve<>''
 union
 select 'A/R Service' as DocGroup,
 h.BranchCode,h.ReceiptNo,'A/R Service - Payment' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.ReceiptDate as DocDate,
 0 as Debit,
 sum(d.Amt) as Credit,
 d.InvoiceNo
 from Job_ReceiptHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 inner join Job_ReceiptDetail d
 on CONCAT(h.BranchCode,h.ReceiptNo)=CONCAT(d.BranchCode,d.ReceiptNo)
 inner join Job_InvoiceDetail i
 on CONCAT(d.BranchCode,d.InvoiceNo,d.InvoiceItemNo)=CONCAT(i.BranchCode,i.DocNo,i.ItemNo)
 where i.AmtCharge>0
 group by h.BranchCode,h.ReceiptNo,
-h.CustCode,c.NameThai,h.ReceiptDate,d.InvoiceNo
+h.BillToCustCode,h.BillToCustBranch,c.NameThai,h.ReceiptDate,d.InvoiceNo
 union
 select 'A/R Service' as DocGroup,
 h.BranchCode,h.ReceiptNo,'A/R Service - Payment Cancelled' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.CancelDate as DocDate,
 sum(d.Amt) as Debit,
 0 as Credit,
 d.InvoiceNo
 from Job_ReceiptHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 inner join Job_ReceiptDetail d
 on CONCAT(h.BranchCode,h.ReceiptNo)=CONCAT(d.BranchCode,d.ReceiptNo)
 inner join Job_InvoiceDetail i
 on CONCAT(d.BranchCode,d.InvoiceNo,d.InvoiceItemNo)=CONCAT(i.BranchCode,i.DocNo,i.ItemNo)
 where i.AmtCharge>0 and h.CancelProve<>''
 group by h.BranchCode,h.ReceiptNo,
-h.CustCode,c.NameThai,h.CancelDate,d.InvoiceNo
+h.BillToCustCode,h.BillToCustBranch,c.NameThai,h.CancelDate,d.InvoiceNo
 union
 select 'A/R Advance' as DocGroup,
 h.BranchCode,h.ReceiptNo,'A/R Advance - Payment' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.ReceiptDate as DocDate,
 0 as Debit,
 sum(d.Amt) as Credit,
 d.InvoiceNo
 from Job_ReceiptHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 inner join Job_ReceiptDetail d
 on CONCAT(h.BranchCode,h.ReceiptNo)=CONCAT(d.BranchCode,d.ReceiptNo)
 inner join Job_InvoiceDetail i
 on CONCAT(d.BranchCode,d.InvoiceNo,d.InvoiceItemNo)=CONCAT(i.BranchCode,i.DocNo,i.ItemNo)
 where i.AmtAdvance>0
 group by h.BranchCode,h.ReceiptNo,
-h.CustCode,c.NameThai,h.ReceiptDate,d.InvoiceNo
+h.BillToCustCode,h.BillToCustBranch,c.NameThai,h.ReceiptDate,d.InvoiceNo
 union
 select 'A/R Advance' as DocGroup,
 h.BranchCode,h.ReceiptNo,'A/R Advance - Payment Cancelled' as DocType,
-h.CustCode,c.NameThai as CustTName,
+h.BillToCustCode,h.BillToCustBranch,c.NameThai as CustTName,
 h.CancelDate as DocDate,
 sum(d.Amt) as Debit,
 0 as Credit,
 d.InvoiceNo
 from Job_ReceiptHeader h
-inner join Mas_Company c on CONCAT(h.Custcode,h.CustBranch)=CONCAT(c.CustCode,c.Branch)
+inner join Mas_Company c on CONCAT(h.BillToCustcode,h.BillToCustBranch)=CONCAT(c.CustCode,c.Branch)
 inner join Job_ReceiptDetail d
 on CONCAT(h.BranchCode,h.ReceiptNo)=CONCAT(d.BranchCode,d.ReceiptNo)
 inner join Job_InvoiceDetail i
 on CONCAT(d.BranchCode,d.InvoiceNo,d.InvoiceItemNo)=CONCAT(i.BranchCode,i.DocNo,i.ItemNo)
 where i.AmtAdvance>0 and h.CancelProve<>''
 group by h.BranchCode,h.ReceiptNo,
-h.CustCode,c.NameThai,h.CancelDate,d.InvoiceNo
-
+h.BillToCustCode,h.BillToCustBranch,c.NameThai,h.CancelDate,d.InvoiceNo
+"
+    ViewBag.QueryAR = arQry
+    Dim sqlAR = "
+with s
+as
+(
+" & arQry & "
 )
 select
-DocGroup,CustTName as CustName,
+DocGroup,BillToCustCode,CustTName as CustName,
 (CASE WHEN sum(case when DocDate<'{0}' then Debit-Credit else 0 end) >0 then
 sum(case when DocDate<'{0}' then Debit-Credit else 0 end)
 ELSE 0 END) as BalDR,
@@ -193,12 +203,10 @@ sum(Credit-Debit)
 ELSE 0 END) as NewCR
 from s
 where s.DocDate<='{1}'
-group by DocGroup,CustTName
+group by DocGroup,BillToCustCode,CustTName
 order by DocGroup,CustTName
 "
-    Dim sqlAP = "
-with s as
-(
+    Dim apQry = "
 select 'A/P Setup' as DocGroup,'A/P Billing' as DocType,h.DocDate,h.VenCode,v.TName as VenderName,
 h.RefNo,h.PoNo,0 as Debit,d.Amt as Credit,d.SDescription
 from Job_PaymentHeader h inner join Job_PaymentDetail d
@@ -248,9 +256,16 @@ from Job_AdvHeader a inner join Job_AdvDetail b
 on CONCAT(a.BranchCode,a.AdVNo)=CONCAT(b.BranchCode,b.AdvNo)
 left join Mas_User u on a.EmpCode=u.UserID
 where a.PaymentNo='' and a.PaymentRef<>''
+"
+    ViewBag.QueryAP = apQry
+
+    Dim sqlAP = "
+with s as
+(
+" & apQry & "
 )
 select
-DocGroup,VenderName,
+DocGroup,VenCode,VenderName,
 (CASE WHEN sum(case when DocDate<'{0}' then Debit-Credit else 0 end) >0 then
 sum(case when DocDate<'{0}' then Debit-Credit else 0 end)
 ELSE 0 END) as BalDR,
@@ -267,17 +282,16 @@ sum(Credit-Debit)
 ELSE 0 END) as NewCR
 from s
 where s.DocDate<='{1}'
-group by DocGroup,VenderName
+group by DocGroup,VenCode,VenderName
 order by DocGroup,VenderName
 "
-    Dim sqlPL = "
-with s as (
+    Dim plQry = "
 select 
 isnull(isnull(i.DocDate,d.Date50Tavi),h.ClrDate) as DocDate,
 d.ClrNo,d.SlipNO,d.Remark,d.JobNo,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then d.UsedAmount else 0 end) as Debit,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 0 else d.UsedAmount end) as Credit,
-d.SDescription,s.NameThai as AccountName,
+d.SDescription,d.SICode,s.NameThai as AccountName,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 
 (case when isnull(s.IsCredit,0)=1 then 'Re-imbursement' else 'Expenses' end)
 else 'Income' end) as DocType,
@@ -289,13 +303,32 @@ left join Job_SrvSingle s
 on d.SICode=s.SIcode 
 left join Job_InvoiceHeader i
 on concat(d.BranchCode,d.LinkBillNo)=concat(i.BranchCode,i.DocNo)
+union
+select 
+i.DocDate as DocDate,
+i.DocNo,d.SlipNO,d.Remark,d.JobNo,
+0 as Debit,
+d.UsedAmount as Credit,
+d.SDescription,d.SICode,s.NameThai as AccountName,
+(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 
+(case when isnull(s.IsCredit,0)=1 then 'Re-imbursement' else 'Expenses' end)
+else 'Income' end) as DocType,
+(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 'Expenses' else 'Income' end) as DocGroup
+from Job_ClearDetail d 
+inner join Job_ClearHeader h
+on Concat(d.branchcode,d.clrno)=concat(h.branchcode,h.clrno)
+inner join Job_SrvSingle s
+on d.SICode=s.SIcode 
+inner join Job_InvoiceHeader i
+on concat(d.BranchCode,d.LinkBillNo)=concat(i.BranchCode,i.DocNo)
+where d.LinkBillNo<>'' and s.IsCredit=1
 union 
 select 
 h.CancelDate as DocDate,
 d.ClrNo,d.SlipNO,h.CancelReson,d.JobNo,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 0 else d.UsedAmount end) as Debit,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then d.UsedAmount else 0 end) as Credit,
-d.SDescription,s.NameThai as AccountName,
+d.SDescription,d.SICode,s.NameThai as AccountName,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 
 (case when isnull(s.IsCredit,0)=1 then 'Re-imbursement Cancelled' else 'Expenses Cancelled' end)
 else 'Income Cancelled' end) as DocType,
@@ -306,9 +339,14 @@ on Concat(d.branchcode,d.clrno)=concat(h.branchcode,h.clrno)
 left join Job_SrvSingle s
 on d.SICode=s.SIcode 
 where h.CancelProve<>''
+"
+    ViewBag.QueryPL = plQry
+    Dim sqlPL = "
+with s as (
+" & plQry & "
 )
 select
-DocGroup,AccountName,
+DocGroup,SICode,AccountName,
 (CASE WHEN sum(case when DocDate<'{0}' then Debit-Credit else 0 end) >0 then
 sum(case when DocDate<'{0}' then Debit-Credit else 0 end)
 ELSE 0 END) as BalDR,
@@ -325,7 +363,7 @@ sum(Credit-Debit)
 ELSE 0 END) as NewCR
 from s
 where s.DocDate<='{1}'
-group by DocGroup,AccountName
+group by DocGroup,SICode,AccountName
 order by DocGroup,AccountName
 "
 End Code
@@ -382,6 +420,8 @@ End Code
                     Dim sumAFCredit As Double = 0
                     Dim totalAFDebit As Double = 0
                     Dim totalAFCredit As Double = 0
+                    Dim groupCount = 0
+                    Dim rowCount = 0
                     For Each dr In oCashSum.Rows
                         If acGroup <> dr("acGroup") Then
                             If acGroup <> "" Then
@@ -396,6 +436,7 @@ End Code
                                 </tr>
                             End If
                             acGroup = dr("acGroup")
+                            groupCount += 1
                             sumBFCredit = 0
                             sumBFDebit = 0
                             sumCredit = 0
@@ -421,8 +462,14 @@ End Code
                         totalDebit += Convert.ToDouble(dr("CurrDR"))
                         totalAFCredit += Convert.ToDouble(dr("NewCR"))
                         totalAFDebit += Convert.ToDouble(dr("NewDR"))
+                        rowCount += 1
+                        Dim id = String.Concat("ca", groupCount, rowCount)
+                        TempData("id") = id
                         @<tr>
-                             <td>&nbsp;&nbsp; @dr("BookName")</td>
+                             <td>                                 
+                                 <a onclick="ShowModal('#@id')">&nbsp;&nbsp; @dr("BookCode") / @dr("BookName")</a>
+                                 @Html.Partial("DashBoardSubCash", dr)
+                             </td>
                             <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
                             <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
                             <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
@@ -491,8 +538,10 @@ End Code
                     Dim sumAFCredit As Double = 0
                     Dim totalAFDebit As Double = 0
                     Dim totalAFCredit As Double = 0
+                    Dim groupCount = 0
+                    Dim rowCount = 0
                     For Each dr In oARSum.Rows
-                        If acGroup <> dr("DocGroup") Then
+                        If acGroup <> dr("DocGroup").ToString() Then
                             If acGroup <> "" Then
                                 @<tr style="font-weight:bold;background-color:lightblue;">
                                     <td style="text-align:right;">TOTAL @acGroup</td>
@@ -504,7 +553,8 @@ End Code
                                     <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
                                 </tr>
                             End If
-                            acGroup = dr("DocGroup")
+                            groupCount += 1
+                            acGroup = dr("DocGroup").ToString()
                             sumBFCredit = 0
                             sumBFDebit = 0
                             sumCredit = 0
@@ -530,8 +580,16 @@ End Code
                         totalDebit += Convert.ToDouble(dr("CurrDR"))
                         totalAFCredit += Convert.ToDouble(dr("NewCR"))
                         totalAFDebit += Convert.ToDouble(dr("NewDR"))
+                        rowCount += 1
+                        Dim id = "ar" & groupCount & rowCount
+                        TempData("id") = id
                         @<tr>
-                            <td>&nbsp;&nbsp; @dr("CustName")</td>
+                            <td>
+                                <a onclick="ShowModal('#@id')">
+                                    &nbsp;&nbsp; @dr("CustName")
+                                </a>
+                                @Html.Partial("DashBoardSubAR", dr)
+                </td>
                             <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
                             <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
                             <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
@@ -597,6 +655,8 @@ End Code
                 Dim sumAFCredit As Double = 0
                 Dim totalAFDebit As Double = 0
                 Dim totalAFCredit As Double = 0
+                Dim groupCount = 0
+                Dim rowCount = 0
                 For Each dr In oAPSum.Rows
                     If acGroup <> dr("DocGroup") Then
                         If acGroup <> "" Then
@@ -610,6 +670,7 @@ End Code
                                 <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
                             </tr>
                         End If
+                        groupCount += 1
                         acGroup = dr("DocGroup")
                         sumBFCredit = 0
                         sumBFDebit = 0
@@ -636,15 +697,24 @@ End Code
                     totalDebit += Convert.ToDouble(dr("CurrDR"))
                     totalAFCredit += Convert.ToDouble(dr("NewCR"))
                     totalAFDebit += Convert.ToDouble(dr("NewDR"))
+                    rowCount += 1
+                    Dim id = "ap" & groupCount & rowCount
+                    TempData("id") = id
                     @<tr>
-                        <td>&nbsp;&nbsp; @dr("VenderName")</td>
-                        <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("CurrCR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("NewDR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("NewCR")).ToString("#,##0.00")</td>
-                    </tr>
+    <td>
+        <a onclick="ShowModal('#@id')">
+            &nbsp;&nbsp; @dr("VenderName")
+        </a>
+        @Html.Partial("DashBoardSubAP", dr)
+    </td>
+
+    <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
+    <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
+    <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
+    <td style="text-align: right;">@Convert.ToDouble(dr("CurrCR")).ToString("#,##0.00")</td>
+    <td style="text-align: right;">@Convert.ToDouble(dr("NewDR")).ToString("#,##0.00")</td>
+    <td style="text-align: right;">@Convert.ToDouble(dr("NewCR")).ToString("#,##0.00")</td>
+</tr>
                 Next
                 @<tr style="font-weight:bold;background-color:lightblue">
                     <td style="text-align:right;">TOTAL @acGroup</td>
@@ -703,6 +773,8 @@ End Code
                 Dim sumAFCredit As Double = 0
                 Dim totalAFDebit As Double = 0
                 Dim totalAFCredit As Double = 0
+                Dim groupCount = 0
+                Dim rowCount = 0
                 For Each dr In oPLSum.Rows
                     If acGroup <> dr("DocGroup") Then
                         If acGroup <> "" Then
@@ -716,6 +788,7 @@ End Code
                                 <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
                             </tr>
                         End If
+                        groupCount += 1
                         acGroup = dr("DocGroup")
                         sumBFCredit = 0
                         sumBFDebit = 0
@@ -742,8 +815,16 @@ End Code
                     totalDebit += Convert.ToDouble(dr("CurrDR"))
                     totalAFCredit += Convert.ToDouble(dr("NewCR"))
                     totalAFDebit += Convert.ToDouble(dr("NewDR"))
+                    rowCount += 1
+                    Dim id = "pl" & groupCount & rowCount
+                    TempData("id") = id
                     @<tr>
-                        <td>&nbsp;&nbsp; @dr("AccountName")</td>
+                         <td>
+                             <a onclick="ShowModal('#@id')">
+                                 &nbsp;&nbsp; @dr("AccountName")
+                             </a>
+                             @Html.Partial("DashBoardSubPL", dr)
+                         </td>
                         <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
                         <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
                         <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
@@ -779,5 +860,8 @@ End If
     var path = '@Url.Content("~")';
     function RefreshData() {
         window.location.href = path + 'Tracking/Dashboard?Form=6&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
+    }
+    function ShowModal(id) {
+        $(id).modal('show');
     }
 </script>

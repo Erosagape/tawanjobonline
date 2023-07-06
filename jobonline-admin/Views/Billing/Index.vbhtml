@@ -139,6 +139,8 @@ End Code
             Next
         </tbody>
     </table>
+Else
+    @ViewBag.JobMessage
 End If
 <h2>Total Invoice Issued</h2>
 @If ViewBag.InvList IsNot Nothing Then
@@ -168,6 +170,8 @@ End If
         </tr>
     </tbody>
     </table>
+Else
+    @ViewBag.InvMessage
 End If
 <h2>Total User Used</h2>
 @If ViewBag.LoginList IsNot Nothing Then
@@ -193,6 +197,8 @@ End If
         </tr>
     </tbody>
     </table>
+Else
+    @ViewBag.LoginMessage
 End If
 <h2>Summary</h2>
 <br />

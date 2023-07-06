@@ -81,7 +81,12 @@ group by replace(TotalContainer,' ','')
                     Dim strVal = row("TotalContainer").ToString().ToUpper()
                     For Each strCon In strVal.Split(",")
                         Dim xPos = strCon.IndexOf("X")
-                        Dim jobQty = Convert.ToInt32(row("c"))
+                        Dim jobQty As Int32 = 0
+                        If Int32.TryParse(row("c").ToString(), jobQty) = False Then
+                            Continue For
+                        Else
+                            jobQty = Convert.ToInt32(row("c"))
+                        End If
                         If xPos > 0 Then
                             Dim arrCon = strCon.Split("X")
                             Try

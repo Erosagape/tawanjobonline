@@ -38,16 +38,22 @@ Namespace Controllers
                     Dim oJob = oConn.GetTableFromSQL(String.Format(Request.Form("sqlJob"), Request.Form("onYear"), Request.Form("onMonth")))
                     If oJob.Rows.Count > 0 Then
                         ViewBag.JobList = oJob.AsEnumerable().ToList()
+                    Else
+                        ViewBag.JobMessage = oConn.Message
                     End If
 
                     Dim oInv = oConn.GetTableFromSQL(String.Format(Request.Form("sqlInv"), Request.Form("onYear"), Request.Form("onMonth")))
                     If oInv.Rows.Count > 0 Then
                         ViewBag.InvList = oInv.AsEnumerable().ToList()
+                    Else
+                        ViewBag.InvMessage = oConn.Message
                     End If
 
                     Dim oLogin = oConn.GetTableFromSQL(String.Format(Request.Form("sqlLogin"), Request.Form("onYear"), Request.Form("onMonth"), Request.Form("selCustomer")))
                     If oLogin.Rows.Count > 0 Then
                         ViewBag.LoginList = oLogin.AsEnumerable.ToList()
+                    Else
+                        ViewBag.LoginMessage = oConn.Message
                     End If
                 End If
             End If

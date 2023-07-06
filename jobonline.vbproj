@@ -522,6 +522,7 @@
     <Content Include="Areas\Mobile\Views\List\Truck.vbhtml" />
     <Content Include="Areas\Mobile\Views\Create\Quotation.vbhtml" />
     <Content Include="Areas\Mobile\Views\List\Quotation.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Chart\Costing.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -935,6 +936,12 @@
     <Content Include="Views\Acc\WorkSheet.vbhtml" />
     <Content Include="Views\Tracking\Dashboard6.vbhtml" />
     <Content Include="Views\Tracking\Dashboard5.vbhtml" />
+    <Content Include="Views\Admin\Partial1.vbhtml" />
+    <Content Include="Views\Admin\Partial2.vbhtml" />
+    <Content Include="Views\Tracking\DashboardSubCash.vbhtml" />
+    <Content Include="Views\Tracking\DashboardSubAR.vbhtml" />
+    <Content Include="Views\Tracking\DashboardSubAP.vbhtml" />
+    <Content Include="Views\Tracking\DashboardSubPL.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />

@@ -47,8 +47,11 @@ Public Class CUtil
         Using cn As New SqlConnection(m_ConnStr)
             Try
                 cn.Open()
-                Using da As New SqlDataAdapter(pSQL, cn)
-                    da.Fill(dt)
+                Using cm As New SqlCommand(pSQL, cn)
+                    cm.CommandTimeout = 0
+                    Using da As New SqlDataAdapter(cm)
+                        da.Fill(dt)
+                    End Using
                 End Using
                 'If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)
             Catch ex As Exception

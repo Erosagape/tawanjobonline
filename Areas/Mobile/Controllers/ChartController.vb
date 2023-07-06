@@ -177,6 +177,13 @@ Namespace Areas.Mobile.Controllers
             ViewBag.AdvUnBilled = oAdvUnBilled
             Return View()
         End Function
+        Function Costing() As ActionResult
+            If Not CheckLogin() Then
+                TempData("UrlReturn") = Url.Action("Costing", "Chart")
+                Return RedirectToAction("Index", "Login")
+            End If
+            Return View()
+        End Function
 #End Region 'GET Functions
 #Region "Post Function"
         <HttpPost>
