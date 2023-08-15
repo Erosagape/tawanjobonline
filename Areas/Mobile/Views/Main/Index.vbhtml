@@ -12,6 +12,7 @@ End Code
     @<br>@<a href="@Url.Action("Loading", "Chart")">Loading Job</a>
     @<br>@<a href="@Url.Action("Container", "List")">List Transport</a>
     @<br>@<a href="@Url.Action("Container", "Create")">Create Transport</a>
+    @<br>@<a href="@Url.Action("Shipment", "Create")">Create Shipment</a>
 End If
 @If role = "C" Then
     @<br>@<a href="@Url.Action("Shipment", "List")">List Order</a>

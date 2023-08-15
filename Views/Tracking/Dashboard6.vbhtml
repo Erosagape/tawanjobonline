@@ -286,58 +286,58 @@ group by DocGroup,VenCode,VenderName
 order by DocGroup,VenderName
 "
     Dim plQry = "
-select 
+select
 isnull(isnull(i.DocDate,d.Date50Tavi),h.ClrDate) as DocDate,
 d.ClrNo,d.SlipNO,d.Remark,d.JobNo,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then d.UsedAmount else 0 end) as Debit,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 0 else d.UsedAmount end) as Credit,
 d.SDescription,d.SICode,s.NameThai as AccountName,
-(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 
+(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then
 (case when isnull(s.IsCredit,0)=1 then 'Re-imbursement' else 'Expenses' end)
 else 'Income' end) as DocType,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 'Expenses' else 'Income' end) as DocGroup
-from Job_ClearDetail d 
+from Job_ClearDetail d
 inner join Job_ClearHeader h
 on Concat(d.branchcode,d.clrno)=concat(h.branchcode,h.clrno)
 left join Job_SrvSingle s
-on d.SICode=s.SIcode 
+on d.SICode=s.SIcode
 left join Job_InvoiceHeader i
 on concat(d.BranchCode,d.LinkBillNo)=concat(i.BranchCode,i.DocNo)
 union
-select 
+select
 i.DocDate as DocDate,
 i.DocNo,d.SlipNO,d.Remark,d.JobNo,
 0 as Debit,
 d.UsedAmount as Credit,
 d.SDescription,d.SICode,s.NameThai as AccountName,
-(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 
+(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then
 (case when isnull(s.IsCredit,0)=1 then 'Re-imbursement' else 'Expenses' end)
 else 'Income' end) as DocType,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 'Expenses' else 'Income' end) as DocGroup
-from Job_ClearDetail d 
+from Job_ClearDetail d
 inner join Job_ClearHeader h
 on Concat(d.branchcode,d.clrno)=concat(h.branchcode,h.clrno)
 inner join Job_SrvSingle s
-on d.SICode=s.SIcode 
+on d.SICode=s.SIcode
 inner join Job_InvoiceHeader i
 on concat(d.BranchCode,d.LinkBillNo)=concat(i.BranchCode,i.DocNo)
 where d.LinkBillNo<>'' and s.IsCredit=1
-union 
-select 
+union
+select
 h.CancelDate as DocDate,
 d.ClrNo,d.SlipNO,h.CancelReson,d.JobNo,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 0 else d.UsedAmount end) as Debit,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then d.UsedAmount else 0 end) as Credit,
 d.SDescription,d.SICode,s.NameThai as AccountName,
-(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 
+(case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then
 (case when isnull(s.IsCredit,0)=1 then 'Re-imbursement Cancelled' else 'Expenses Cancelled' end)
 else 'Income Cancelled' end) as DocType,
 (case when isnull(s.IsCredit,0)=1 or isnull(s.IsExpense,0)=1  then 'Expenses' else 'Income' end) as DocGroup
-from Job_ClearDetail d 
+from Job_ClearDetail d
 inner join Job_ClearHeader h
 on Concat(d.branchcode,d.clrno)=concat(h.branchcode,h.clrno)
 left join Job_SrvSingle s
-on d.SICode=s.SIcode 
+on d.SICode=s.SIcode
 where h.CancelProve<>''
 "
     ViewBag.QueryPL = plQry
@@ -386,10 +386,10 @@ End Code
 
     Dim acGroup = ""
     @<div class="table-responsive">
-         <h3>
-             Cash Activities
-         </h3>
-    <table class="table table-bordered">
+        <h3>
+            Cash Activities
+        </h3>
+        <table class="table table-bordered">
             <thead>
                 <tr>
                     <th rowspan="2">Descriptions</th>
@@ -466,8 +466,16 @@ End Code
                         Dim id = String.Concat("ca", groupCount, rowCount)
                         TempData("id") = id
                         @<tr>
-                             <td>                                 
-                                 <a onclick="ShowModal('#@id')">&nbsp;&nbsp; @dr("BookCode") / @dr("BookName")</a>
+                             <td>
+                                 @If dr("CurrDR") > 0 Or dr("CurrCR") > 0 Then
+                                     @<a onclick="ShowModal('#@id')">
+                                        &nbsp;&nbsp; @dr("BookCode") / @dr("BookName")
+                                      </a>
+                                 Else
+                                     @<span>
+                                        &nbsp;&nbsp; @dr("BookCode") / @dr("BookName")
+                                    </span>
+                                 End If
                                  @Html.Partial("DashBoardSubCash", dr)
                              </td>
                             <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
@@ -584,12 +592,18 @@ End Code
                         Dim id = "ar" & groupCount & rowCount
                         TempData("id") = id
                         @<tr>
-                            <td>
-                                <a onclick="ShowModal('#@id')">
-                                    &nbsp;&nbsp; @dr("CustName")
-                                </a>
-                                @Html.Partial("DashBoardSubAR", dr)
-                </td>
+                             <td>
+                                 @If dr("CurrDR") > 0 Or dr("CurrCR") > 0 Then
+                                     @<a onclick="ShowModal('#@id')">
+                                         &nbsp;&nbsp; @dr("CustName")
+                                     </a>
+                                 Else
+                                     @<span>
+                                         &nbsp;&nbsp; @dr("CustName")
+                                     </span>
+                                 End If
+                                 @Html.Partial("DashBoardSubAR", dr)
+                             </td>
                             <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
                             <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
                             <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
@@ -623,238 +637,250 @@ End Code
     acGroup = ""
     Dim oAPSum = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(String.Format(sqlAP, beginDate, endDate))
     @<div class="table-responsive">
-    <h3>Account Payables</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th rowspan="2">Descriptions</th>
-                <th colspan="2">Bring Forward<br />at @beginDate</th>
-                <th colspan="2">Balance</th>
-                <th colspan="2">Carry Forward<br />at @endDate</th>
-            </tr>
-            <tr>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Debit</th>
-                <th>Credit</th>
-            </tr>
-        </thead>
-        <tbody>
-            @If oAPSum.Rows.Count > 0 Then
-                Dim sumBFDebit As Double = 0
-                Dim sumBFCredit As Double = 0
-                Dim totalBFDebit As Double = 0
-                Dim totalBFCredit As Double = 0
-                Dim sumDebit As Double = 0
-                Dim sumCredit As Double = 0
-                Dim totalDebit As Double = 0
-                Dim totalCredit As Double = 0
-                Dim sumAFDebit As Double = 0
-                Dim sumAFCredit As Double = 0
-                Dim totalAFDebit As Double = 0
-                Dim totalAFCredit As Double = 0
-                Dim groupCount = 0
-                Dim rowCount = 0
-                For Each dr In oAPSum.Rows
-                    If acGroup <> dr("DocGroup") Then
-                        If acGroup <> "" Then
-                            @<tr style="font-weight:bold;background-color:lightblue;">
-                                <td style="text-align:right;">TOTAL @acGroup</td>
-                                <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
+        <h3>Account Payables</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th rowspan="2">Descriptions</th>
+                    <th colspan="2">Bring Forward<br />at @beginDate</th>
+                    <th colspan="2">Balance</th>
+                    <th colspan="2">Carry Forward<br />at @endDate</th>
+                </tr>
+                <tr>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @If oAPSum.Rows.Count > 0 Then
+                    Dim sumBFDebit As Double = 0
+                    Dim sumBFCredit As Double = 0
+                    Dim totalBFDebit As Double = 0
+                    Dim totalBFCredit As Double = 0
+                    Dim sumDebit As Double = 0
+                    Dim sumCredit As Double = 0
+                    Dim totalDebit As Double = 0
+                    Dim totalCredit As Double = 0
+                    Dim sumAFDebit As Double = 0
+                    Dim sumAFCredit As Double = 0
+                    Dim totalAFDebit As Double = 0
+                    Dim totalAFCredit As Double = 0
+                    Dim groupCount = 0
+                    Dim rowCount = 0
+                    For Each dr In oAPSum.Rows
+                        If acGroup <> dr("DocGroup") Then
+                            If acGroup <> "" Then
+                                @<tr style="font-weight:bold;background-color:lightblue;">
+                                    <td style="text-align:right;">TOTAL @acGroup</td>
+                                    <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
+                                </tr>
+                            End If
+                            groupCount += 1
+                            acGroup = dr("DocGroup")
+                            sumBFCredit = 0
+                            sumBFDebit = 0
+                            sumCredit = 0
+                            sumDebit = 0
+                            sumAFCredit = 0
+                            sumAFDebit = 0
+                            @<tr>
+                                <td colspan="7" style="font-weight:bold;background-color:lightgreen">
+                                    @acGroup
+                                </td>
                             </tr>
                         End If
-                        groupCount += 1
-                        acGroup = dr("DocGroup")
-                        sumBFCredit = 0
-                        sumBFDebit = 0
-                        sumCredit = 0
-                        sumDebit = 0
-                        sumAFCredit = 0
-                        sumAFDebit = 0
+                        sumBFCredit += Convert.ToDouble(dr("BalCR"))
+                        sumBFDebit += Convert.ToDouble(dr("BalDR"))
+                        sumCredit += Convert.ToDouble(dr("CurrCR"))
+                        sumDebit += Convert.ToDouble(dr("CurrDR"))
+                        sumAFCredit += Convert.ToDouble(dr("NewCR"))
+                        sumAFDebit += Convert.ToDouble(dr("NewDR"))
+
+                        totalBFCredit += Convert.ToDouble(dr("BalCR"))
+                        totalBFDebit += Convert.ToDouble(dr("BalDR"))
+                        totalCredit += Convert.ToDouble(dr("CurrCR"))
+                        totalDebit += Convert.ToDouble(dr("CurrDR"))
+                        totalAFCredit += Convert.ToDouble(dr("NewCR"))
+                        totalAFDebit += Convert.ToDouble(dr("NewDR"))
+                        rowCount += 1
+                        Dim id = "ap" & groupCount & rowCount
+                        TempData("id") = id
                         @<tr>
-                            <td colspan="7" style="font-weight:bold;background-color:lightgreen">
-                                @acGroup
-                            </td>
+                             <td>
+                                 @If dr("CurrDR") > 0 Or dr("CurrCR") > 0 Then
+                                     @<a onclick="ShowModal('#@id')">
+                                         &nbsp;&nbsp; @dr("VenCode") /  @dr("VenderName")
+                                     </a>
+                                 Else
+                                     @<span>
+                                         &nbsp;&nbsp;@dr("VenCode") / @dr("VenderName")
+                                    </span>
+                                 End If
+                                 @Html.Partial("DashBoardSubAP", dr)
+                             </td>
+
+                            <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("CurrCR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("NewDR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("NewCR")).ToString("#,##0.00")</td>
                         </tr>
-                    End If
-                    sumBFCredit += Convert.ToDouble(dr("BalCR"))
-                    sumBFDebit += Convert.ToDouble(dr("BalDR"))
-                    sumCredit += Convert.ToDouble(dr("CurrCR"))
-                    sumDebit += Convert.ToDouble(dr("CurrDR"))
-                    sumAFCredit += Convert.ToDouble(dr("NewCR"))
-                    sumAFDebit += Convert.ToDouble(dr("NewDR"))
-
-                    totalBFCredit += Convert.ToDouble(dr("BalCR"))
-                    totalBFDebit += Convert.ToDouble(dr("BalDR"))
-                    totalCredit += Convert.ToDouble(dr("CurrCR"))
-                    totalDebit += Convert.ToDouble(dr("CurrDR"))
-                    totalAFCredit += Convert.ToDouble(dr("NewCR"))
-                    totalAFDebit += Convert.ToDouble(dr("NewDR"))
-                    rowCount += 1
-                    Dim id = "ap" & groupCount & rowCount
-                    TempData("id") = id
-                    @<tr>
-    <td>
-        <a onclick="ShowModal('#@id')">
-            &nbsp;&nbsp; @dr("VenderName")
-        </a>
-        @Html.Partial("DashBoardSubAP", dr)
-    </td>
-
-    <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
-    <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
-    <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
-    <td style="text-align: right;">@Convert.ToDouble(dr("CurrCR")).ToString("#,##0.00")</td>
-    <td style="text-align: right;">@Convert.ToDouble(dr("NewDR")).ToString("#,##0.00")</td>
-    <td style="text-align: right;">@Convert.ToDouble(dr("NewCR")).ToString("#,##0.00")</td>
-</tr>
-                Next
-                @<tr style="font-weight:bold;background-color:lightblue">
-                    <td style="text-align:right;">TOTAL @acGroup</td>
-                    <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
-                </tr>
-                @<tr style="font-weight:bold;background-color:lightyellow;">
-                    <td>GRAND TOTAL</td>
-                    <td style="text-align:right;padding-left:5px;">@totalBFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalBFCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalAFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalAFCredit.ToString("#,##0.00")</td>
-                </tr>
-            End If
-        </tbody>
-    </table>    
+                    Next
+                    @<tr style="font-weight:bold;background-color:lightblue">
+                        <td style="text-align:right;">TOTAL @acGroup</td>
+                        <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
+                    </tr>
+                    @<tr style="font-weight:bold;background-color:lightyellow;">
+                        <td>GRAND TOTAL</td>
+                        <td style="text-align:right;padding-left:5px;">@totalBFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalBFCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalAFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalAFCredit.ToString("#,##0.00")</td>
+                    </tr>
+                End If
+            </tbody>
+        </table>
     </div>
     acGroup = ""
     Dim oPLSum = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(String.Format(sqlPL, beginDate, endDate))
     @<div class="table-responsive">
-    <h3>Revenue and Expenses</h3>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th rowspan="2">Descriptions</th>
-                <th colspan="2">Bring Forward<br />at @beginDate</th>
-                <th colspan="2">Balance</th>
-                <th colspan="2">Carry Forward<br />at @endDate</th>
-            </tr>
-            <tr>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Debit</th>
-                <th>Credit</th>
-                <th>Debit</th>
-                <th>Credit</th>
-            </tr>
-        </thead>
-        <tbody>
-            @If oPLSum.Rows.Count > 0 Then
-                Dim sumBFDebit As Double = 0
-                Dim sumBFCredit As Double = 0
-                Dim totalBFDebit As Double = 0
-                Dim totalBFCredit As Double = 0
-                Dim sumDebit As Double = 0
-                Dim sumCredit As Double = 0
-                Dim totalDebit As Double = 0
-                Dim totalCredit As Double = 0
-                Dim sumAFDebit As Double = 0
-                Dim sumAFCredit As Double = 0
-                Dim totalAFDebit As Double = 0
-                Dim totalAFCredit As Double = 0
-                Dim groupCount = 0
-                Dim rowCount = 0
-                For Each dr In oPLSum.Rows
-                    If acGroup <> dr("DocGroup") Then
-                        If acGroup <> "" Then
-                            @<tr style="font-weight:bold;background-color:lightblue;">
-                                <td style="text-align:right;">TOTAL @acGroup</td>
-                                <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
-                                <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
+        <h3>Revenue and Expenses</h3>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th rowspan="2">Descriptions</th>
+                    <th colspan="2">Bring Forward<br />at @beginDate</th>
+                    <th colspan="2">Balance</th>
+                    <th colspan="2">Carry Forward<br />at @endDate</th>
+                </tr>
+                <tr>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                    <th>Debit</th>
+                    <th>Credit</th>
+                </tr>
+            </thead>
+            <tbody>
+                @If oPLSum.Rows.Count > 0 Then
+                    Dim sumBFDebit As Double = 0
+                    Dim sumBFCredit As Double = 0
+                    Dim totalBFDebit As Double = 0
+                    Dim totalBFCredit As Double = 0
+                    Dim sumDebit As Double = 0
+                    Dim sumCredit As Double = 0
+                    Dim totalDebit As Double = 0
+                    Dim totalCredit As Double = 0
+                    Dim sumAFDebit As Double = 0
+                    Dim sumAFCredit As Double = 0
+                    Dim totalAFDebit As Double = 0
+                    Dim totalAFCredit As Double = 0
+                    Dim groupCount = 0
+                    Dim rowCount = 0
+                    For Each dr In oPLSum.Rows
+                        If acGroup <> dr("DocGroup") Then
+                            If acGroup <> "" Then
+                                @<tr style="font-weight:bold;background-color:lightblue;">
+                                    <td style="text-align:right;">TOTAL @acGroup</td>
+                                    <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
+                                    <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
+                                </tr>
+                            End If
+                            groupCount += 1
+                            acGroup = dr("DocGroup")
+                            sumBFCredit = 0
+                            sumBFDebit = 0
+                            sumCredit = 0
+                            sumDebit = 0
+                            sumAFCredit = 0
+                            sumAFDebit = 0
+                            @<tr>
+                                <td colspan="7" style="font-weight:bold;background-color:lightgreen">
+                                    @acGroup
+                                </td>
                             </tr>
                         End If
-                        groupCount += 1
-                        acGroup = dr("DocGroup")
-                        sumBFCredit = 0
-                        sumBFDebit = 0
-                        sumCredit = 0
-                        sumDebit = 0
-                        sumAFCredit = 0
-                        sumAFDebit = 0
-                        @<tr>
-                            <td colspan="7" style="font-weight:bold;background-color:lightgreen">
-                                @acGroup
-                            </td>
-                        </tr>
-                    End If
-                    sumBFCredit += Convert.ToDouble(dr("BalCR"))
-                    sumBFDebit += Convert.ToDouble(dr("BalDR"))
-                    sumCredit += Convert.ToDouble(dr("CurrCR"))
-                    sumDebit += Convert.ToDouble(dr("CurrDR"))
-                    sumAFCredit += Convert.ToDouble(dr("NewCR"))
-                    sumAFDebit += Convert.ToDouble(dr("NewDR"))
+                        sumBFCredit += Convert.ToDouble(dr("BalCR"))
+                        sumBFDebit += Convert.ToDouble(dr("BalDR"))
+                        sumCredit += Convert.ToDouble(dr("CurrCR"))
+                        sumDebit += Convert.ToDouble(dr("CurrDR"))
+                        sumAFCredit += Convert.ToDouble(dr("NewCR"))
+                        sumAFDebit += Convert.ToDouble(dr("NewDR"))
 
-                    totalBFCredit += Convert.ToDouble(dr("BalCR"))
-                    totalBFDebit += Convert.ToDouble(dr("BalDR"))
-                    totalCredit += Convert.ToDouble(dr("CurrCR"))
-                    totalDebit += Convert.ToDouble(dr("CurrDR"))
-                    totalAFCredit += Convert.ToDouble(dr("NewCR"))
-                    totalAFDebit += Convert.ToDouble(dr("NewDR"))
-                    rowCount += 1
-                    Dim id = "pl" & groupCount & rowCount
-                    TempData("id") = id
-                    @<tr>
-                         <td>
-                             <a onclick="ShowModal('#@id')">
-                                 &nbsp;&nbsp; @dr("AccountName")
-                             </a>
-                             @Html.Partial("DashBoardSubPL", dr)
-                         </td>
-                        <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("CurrCR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("NewDR")).ToString("#,##0.00")</td>
-                        <td style="text-align: right;">@Convert.ToDouble(dr("NewCR")).ToString("#,##0.00")</td>
+                        totalBFCredit += Convert.ToDouble(dr("BalCR"))
+                        totalBFDebit += Convert.ToDouble(dr("BalDR"))
+                        totalCredit += Convert.ToDouble(dr("CurrCR"))
+                        totalDebit += Convert.ToDouble(dr("CurrDR"))
+                        totalAFCredit += Convert.ToDouble(dr("NewCR"))
+                        totalAFDebit += Convert.ToDouble(dr("NewDR"))
+                        rowCount += 1
+                        Dim id = "pl" & groupCount & rowCount
+                        TempData("id") = id
+                        @<tr>
+                            <td>
+                                @If dr("CurrDR") > 0 Or dr("CurrCR") > 0 Then
+                                    @<a onclick="ShowModal('#@id')">
+                                        &nbsp;&nbsp; @dr("SICode") / @dr("AccountName")
+                                    </a>
+                                Else
+                                    @<span>
+                                        &nbsp;&nbsp;@dr("SICode") / @dr("AccountName")
+                                    </span>
+                                End If
+                                @Html.Partial("DashBoardSubPL", dr)
+                            </td>
+                            <td style="text-align:right;padding-left:5px;">@Convert.ToDouble(dr("BalDR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("BalCR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("CurrDR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("CurrCR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("NewDR")).ToString("#,##0.00")</td>
+                            <td style="text-align: right;">@Convert.ToDouble(dr("NewCR")).ToString("#,##0.00")</td>
+                        </tr>
+                    Next
+                    @<tr style="font-weight:bold;background-color:lightblue">
+                        <td style="text-align:right;">TOTAL @acGroup</td>
+                        <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
                     </tr>
-                Next
-                @<tr style="font-weight:bold;background-color:lightblue">
-                    <td style="text-align:right;">TOTAL @acGroup</td>
-                    <td style="text-align:right;padding-left:5px;">@sumBFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumBFCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumAFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@sumAFCredit.ToString("#,##0.00")</td>
-                </tr>
-                @<tr style="font-weight:bold;background-color:lightyellow;">
-                    <td>GRAND TOTAL</td>
-                    <td style="text-align:right;padding-left:5px;">@totalBFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalBFCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalCredit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalAFDebit.ToString("#,##0.00")</td>
-                    <td style="text-align: right;">@totalAFCredit.ToString("#,##0.00")</td>
-                </tr>
-            End If
-        </tbody>
-    </table>
-</div>
+                    @<tr style="font-weight:bold;background-color:lightyellow;">
+                        <td>GRAND TOTAL</td>
+                        <td style="text-align:right;padding-left:5px;">@totalBFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalBFCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalCredit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalAFDebit.ToString("#,##0.00")</td>
+                        <td style="text-align: right;">@totalAFCredit.ToString("#,##0.00")</td>
+                    </tr>
+                End If
+            </tbody>
+        </table>
+    </div>
 End If
 <script type="text/javascript">
     var path = '@Url.Content("~")';

@@ -17,6 +17,7 @@ End Code
     <div class="modal-dialog-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <input type="button" data-dismiss="modal" class="btn btn-danger" value="Close" />
                 Detail of : @custCode
             </div>
             <div class="modal-body">
@@ -46,7 +47,7 @@ End Code
                                 @For each dr In tb.Rows
                                     @<tr>
                                          <td>
-                                             @If dr("Debit") > 0 Then
+                                             @If dr("Debit").ToString() > "0" Then
                                                  @<a href="@Url.Action("FormInv", "Acc")?Branch=@ViewBag.PROFILE_DEFAULT_BRANCH&InvNo=@dr("DocNo")">@dr("DocNo")</a>
 
                                              Else
@@ -65,9 +66,6 @@ End Code
                     </div>
 
                 End If
-            </div>
-            <div class="modal-footer">
-                <input type="button" data-dismiss="modal" class="btn btn-danger" value="Close" />
             </div>
         </div>
     </div>

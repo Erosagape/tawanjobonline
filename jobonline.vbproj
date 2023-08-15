@@ -197,6 +197,7 @@
     <Compile Include="Areas\Mobile\Controllers\ListController.vb" />
     <Compile Include="Areas\Mobile\Controllers\LoginController.vb" />
     <Compile Include="Areas\Mobile\Controllers\MainController.vb" />
+    <Compile Include="Areas\Mobile\Controllers\WizardController.vb" />
     <Compile Include="Areas\Mobile\Data\MController.vb" />
     <Compile Include="Areas\Mobile\MobileAreaRegistration.vb" />
     <Compile Include="Controllers\AccController.vb" />
@@ -523,6 +524,12 @@
     <Content Include="Areas\Mobile\Views\Create\Quotation.vbhtml" />
     <Content Include="Areas\Mobile\Views\List\Quotation.vbhtml" />
     <Content Include="Areas\Mobile\Views\Chart\Costing.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Wizard\Index.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\CustomerList.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\ConsigneeList.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\CountryList.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\FCountryList.vbhtml" />
+    <Content Include="Areas\Mobile\Views\Create\InterPortList.vbhtml" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -942,6 +949,8 @@
     <Content Include="Views\Tracking\DashboardSubAR.vbhtml" />
     <Content Include="Views\Tracking\DashboardSubAP.vbhtml" />
     <Content Include="Views\Tracking\DashboardSubPL.vbhtml" />
+    <Content Include="Views\JobOrder\FormLetterDO.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard7.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />

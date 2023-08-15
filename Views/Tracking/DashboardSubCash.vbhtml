@@ -17,6 +17,7 @@ End Code
     <div class="modal-dialog-lg">
         <div class="modal-content">
             <div class="modal-header">
+                <input type="button" data-dismiss="modal" class="btn btn-danger" value="Close" />
                 Detail of : @bookCode
             </div>
             <div class="modal-body">
@@ -60,9 +61,6 @@ End Code
                 </div>
 
                 End If
-            </div>
-            <div class="modal-footer">
-                <input type="button" data-dismiss="modal" class="btn btn-danger" value="Close" />
             </div>
         </div>
     </div>

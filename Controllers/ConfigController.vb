@@ -119,13 +119,17 @@ Namespace Controllers
 
         End Function
         Function GetSQLResult(<FromBody> data As CResult) As ActionResult
+            Dim dbID = Request.QueryString("Database")
+            If dbID Is Nothing Then
+                dbID = "1"
+            End If
             Dim tSQL As String = data.Source
             Dim tConn As String = ""
             Select Case data.Param
                 Case "JOB"
-                    tConn = GetSession("ConnJob")
+                    tConn = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo, "JOBSHIPPING", dbID)(0)
                 Case "MAS"
-                    tConn = GetSession("ConnMas")
+                    tConn = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo, "JOBSHIPPING", dbID)(1)
             End Select
             Dim msg As String = "No Data Execute"
             Dim json As String = "[]"

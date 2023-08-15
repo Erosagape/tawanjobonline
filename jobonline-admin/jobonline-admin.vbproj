@@ -271,6 +271,7 @@
     <Content Include="Views\Util\Index.vbhtml" />
     <Content Include="Views\Util\Excel.vbhtml" />
     <Content Include="Views\Billing\Index.vbhtml" />
+    <Content Include="Views\Util\TransferData.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

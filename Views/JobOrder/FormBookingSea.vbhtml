@@ -1,7 +1,7 @@
 ﻿
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.ReportName = "Booking Confirmation"
+    ViewBag.ReportName = "Booking Confirmation Form"
     ViewBag.Title = "BOOKING CONFIRMATION"
 End Code
 <style>
@@ -9,364 +9,329 @@ End Code
         display: none;
     }
 
-    td div h3 {
-        display: none;
-    }
-
     td {
-        border: 0px;
-        /*           border-color:transparent;
-            background-color:white*/
+        vertical-align: top;
     }
 </style>
+<table style="width:100%">
+    <tbody>
+        @*<tr>
+            <td style="width:25%"><b>TO </b></td>
+            <td>:</td>
+            <td style="width:25%" id="lblShipperName"></td>
+            <td style="width:10%"></td>
+            <td style="width:15%"><b>FROM </b></td>
+            <td>:</td>
+            <td style="width:25%">UNITED GLOBE</td>
+        </tr>
+        <tr>
+            <td> <b>ATTN  </b></td>
+            <td>:</td>
+            <td id="lblShipperContact"></td>
+            <td></td>
+            <td><b>ATTN </b></td>
+            <td>:</td>
+            <td id="lblCSName"></td>
+        </tr>
+        <tr>
+            <td> <b>TEL  </b></td>
+            <td>:</td>
+            <td id="lblShipperTel"></td>
+            <td></td>
+            <td> <b>TEL  </b></td>
+            <td>:</td>
+            <td> @ViewBag.PROFILE_COMPANY_TEL</td>
+        </tr>
+        <tr>
+            <td> <b>FAX </b></td>
+            <td>:</td>
+            <td id="lblShipperFax"></td>
+            <td></td>
+            <td> <b>FAX  </b></td>
+            <td>:</td>
+            <td> @ViewBag.PROFILE_COMPANY_FAX</td>
+        </tr>
+        <tr>
+            <td> <b>EMAIL </b></td>
+            <td>:</td>
+            <td id="lblShipperMail"></td>
+            <td></td>
+            <td> <b>EMAIL  </b></td>
+            <td>:</td>
+            <td>@ViewBag.PROFILE_COMPANY_EMAIL</td>
+        </tr>
+        <tr> </tr>*@
+        <tr>
+            <td> <b>DATE OF BOOKING</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblBookingDate"></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                Private & Confidential - Ocean Freight Rate (Booking Confirm)<br />
+                FURTHER TO YOUR BOOKING OF THE BELOW SHIPMENT PLEASE FIND THE FOLLOWING  DETAILS FOR YOUR KIND REFERENCE :-
+                <br />
+            </td>
+        </tr>
+        @*<tr>
+            <td> <b>Subject</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblSubject"></td>
+        </tr>*@
 
-<table border="1" style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td colspan="5" style="width: 100%; font-size: 25px; font-weight: bold; padding: 5px; border:1px solid black" align="center">
-            BOOKING CONFIRMATION
-        </td>
-    </tr>
-    <tr>
-        <td style="width:25%">
-            TO :
-        </td>
-        <td colspan="2" style="width:40%">
-            <label id="lblShipperName"></label>
-        </td>
-        <td style="width:10%">
-            DATE :
-        </td>
-        <td style="width:25%">
-            <label id="lblBookingDate"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            TEL :
-        </td>
-        <td colspan="2">
-            <label id="lblShipperTel"></label>
-        </td>
-        <td>
-            QUTN :
-        </td>
-        <td>
-            <label id="lblQutn"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ATTN :
-        </td>
-        <td id="lblContactName" colspan="2">
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            EMAIL :
-        </td>
-        <td colspan="2">
-            <label id="lblShipperEMail"></label>
-        </td>
-        <td align="right">
-            E-mail :
-        </td>
-        <td>
-            support @@bftfreight.com
-        </td>
-    </tr>
-</table>
-<table border="1" style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td style="width:25%">
-            CARRIER BOOKING NO.
-        </td>
-        <td style="width:25%">
-            <label id="lblBookingNo"></label>
-        </td>
-        <td style="width:25%">
-            SHIPPING LINE :
-        </td>
-        <td style="width:25%">
-            <label id="lblShipperName2"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            VOLUME :
-        </td>
-        <td>
-            <label id="lblTotalContainer"></label>
-        </td>
-        <td>
-            LOADING TYPE :
-        </td>
-        <td>
-            <label id="lblTransMode"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            COMMODITY :
-        </td>
-        <td>
-            <label id="lblInvProduct"></label>
-        </td>
-        <td>
-            PLACE OF DELIVERY :
-        </td>
-        <td>
-            <label id="lblPortArrival"></label>,<label id="lblCountry"></label>
-        </td>
-    </tr>
-</table>
-<table border="1" style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td style="width:25%">
-            PLACE OF RECEIPT :
-        </td>
-        <td style="width:25%">
-            <label id="lblPackingPlace"></label>
-        </td>
-        <td style="width:25%">
-            PORT OF LOADING :
-        </td>
-        <td style="width:25%">
-            <label id="lblPortLoading"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            ETD :
-        </td>
-        <td>
-            <label id="lblETDDate"></label>
-        </td>
-        <td>
-            DEST ETA :
-        </td>
-        <td>
-            <label id="lblETADate"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            FEEDER :
-        </td>
-        <td>
-            <label id="lblVesselName"></label>
-        </td>
-        <td>
-            MOTHER VESSEL :
-        </td>
-        <td>
-            <label id="lblMVesselName"></label>
-        </td>
-    </tr>
-</table>
-<table border="1" style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td style="width:25%">
-            CFS OR CY DATE :
-        </td>
-        <td style="width:75%">
-            <label id="lblCYDate"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            CFS OR CY AT :
-        </td>
-        <td>
-            <label id="lblCYAddress"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            CTC :
-        </td>
-        <td>
-            <label id="lblCYContact"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <br />
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            RN DATE :
-        </td>
-        <td>
-            <label id="lblReturnDate"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            RETURN AT :
-        </td>
-        <td>
-            <label id="lblReturnAddress"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            CTC :
-        </td>
-        <td>
-            <label id="lblReturnContact"></label>
-        </td>
-    </tr>
-</table>
-<table border="1" style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td style="width:25%">
-            CLOSING DATE :
-        </td>
-        <td style="width:25%">
-            <label id="lblClosingDate"></label>
-        </td>
-        <td style="width:25%">
-            AT BEFORE :
-        </td>
-        <td style="width:25%">
-            <label id="lblClosingTime"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <br />
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            FREIGHT PAYABLE :
-        </td>
-        <td>
-            <label id="lblPaymentBy"></label>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <br />
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            PAPER LESS CODE :
-        </td>
-        <td>
-            <label id="lblCustomsCode"></label>
-        </td>
-        <td>
-            VGM CUT OFF :
-        </td>
-        <td>
-            <label id="lblVGMCutoff"></label> <label id="lblVGMTime"></label>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <br />
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-        </td>
-    </tr>
-    <tr>
-        <td>
-        </td>
-        <td>
-        </td>
-        <td>
-            SI CUT OFF :
-        </td>
-        <td>
-            <label id="lblSICutoff"></label> <label id="lblSITime"></label>
-        </td>
-    </tr>
-</table>
-<table border="1" style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td style="width:60%">
-            NOTE : <div id="dvRemark"></div>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <img src="~/resource/BFT.jpg" style="width:100%;padding:0px 20%" />
-        </td>
-        <td style="text-align:center">
-            <span id="lblManagerName"></span>
-            ........................................................................................<br />
-            AUTHORIZED SIGNATURE
-        </td>
-    </tr>
-    <tr>
-        <td style="font-size:10px" colspan="2">
-            Remark:-<br />
-            A). Customer can revise volume / postpone shipment more than twice times, there will be amendment charge 50 USD <br />
-            <br />
-            B). THB 1,000 per TEU for failure to cancel booking 120 hrs prior feeder cut off at loading port.<br />
-            <br />
-            C). 100 USD/set for failure to submit shipping particular 48 hrs -2 days prior SI cut off time. The container will be shut out (for those booking which is missing S/I)<br /><br />
-            D). USD 100/Set for failure to submit shipping particular 96 hrs -4 days (shipment involved with ENS /AMS /AFR submission) prior feeder cut off at loading port.<br />
-            <br />
-            E). Customer has to confirm Bill of Lading as per Deadline CFM BL and if have any amendment after deadline there will be amendment charge incur @@ THB 1500 per
-            set but for Europe, USA, CA and CN that has to submit Manifest have, there will be amendment charge incur @@ THB 1500 per set and manifest amendment 50 USD<br />
-            <br />
-            F). If customer request to Re-issue/Re Print Bill of Lading, there is Re-Print fee @@ THB 1700
-            <br />  <br />
-            G). Customer should pick up B/L within 7 days after vessel departure otherwise there is Late pick up B/L fee THB 150<br />
-        </td>
-    </tr>
+
+
+        <tr>
+            <td> <b>SHIPPER</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblShipperName2"></td>
+        </tr>
+        <tr>
+            <td> <b>PORT OF LOADING</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblPortLoading"></td>
+        </tr>
+        <tr>
+            <td> <b>PORT OF DELIVERY</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblPortArrival"></td>
+        </tr>
+        <tr>
+            <td> <b>QUANTITY</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblProductQty"></td>
+        </tr>
+        <tr>
+            <td> <b>OCEAN FREIGHT CHARGE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblPaymentBy"></td>
+        </tr>
+        <tr>
+            <td> <b>FEEDER/VESSEL</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblVesselName"></td>
+        </tr>
+        <tr>
+            <td> <b>MOTHER VESSEL</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblMVesselName"></td>
+        </tr>
+        <tr>
+            <td> <b>ETD ORIGIN</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblETDDate"></td>
+        </tr>
+        <tr>
+            <td> <b>ETA FINAL DESTINATION</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblETADate"></td>
+        </tr>
+        <tr>
+            <td> <b>BOOKING REF NO</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblBookingNo"></td>
+        </tr>
+
+        <tr>
+            <td> <b>AGENT</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblAgentName"></td>
+        </tr>
+        <tr>
+            <td> <b>PAPERLESS CODE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblCustomsCode"></td>
+        </tr>
+        <tr>
+            <td> <b>CY YARD LOCATION</b></td>
+            <td>:</td>
+            <td colspan="5">
+                <label id="lblCYPlace"></label>
+            </td>
+        </tr>
+        <tr>
+            <td> <b>CY DATE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblCYDate"></td>
+        </tr>
+        <tr>
+            <td> <b>RTN YARD LOCATION</b></td>
+            <td>:</td>
+            <td colspan="5">
+                <label id="lblReturnPlace"></label>
+            </td>
+        </tr>
+        <tr>
+            <td> <b>RTNDATE</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblReturnDate"></td>
+        </tr>
+
+        <tr>
+            <td> <b>CUT - OFF DATE & TIME</b></td>
+            <td>:</td>
+            <td colspan="5" id="lblCloseDatetime"></td>
+        </tr>
+        <tr>
+            <td> <b>Doc Cut-off</b></td>
+            <td>:</td>
+            <td colspan="5"> <label id="lblSICutoff"></label><label id="lblVGMCutoff"></label></td>
+        </tr>
+        <tr>
+            <td> <b>REMARK</b></td>
+            <td>:</td>
+            <td colspan="5" id="dvRemark"></td>
+        </tr>
+        <tr>
+            <td colspan="7">
+                If you have any further questions  or queries.please don't hesitate to contact us. We are greatful for your kind consideration.
+                <br />Yours sincerely,
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <br /><br /><br /><br />
+                ________________________________
+                <br />Chatweeraya W.
+                <br />UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
+            </td>
+            <td colspan="3">
+                <br /><br /><br /><br />
+                ________________________________
+
+            </td>
+        </tr>
+    </tbody>
 </table>
 
+@*<div style="display:flex;font-size:14px">
+
+        <div style="text-align:left;flex:1;">
+            <b>TO :</b><label id="lblShipperName"></label>
+            <br />
+            <b>AN : </b><label id="lblShipperContact"></label>
+            <br />
+            <b>TEL : </b><label id="lblShipperTel"></label>
+            <br />
+            <b>FAX : </b><label id="lblShipperFax"></label>
+            <br />
+            <b>EMAIL : </b><label id="lblShipperEMail"></label>
+        </div>
+        <div style="text-align:right;flex:1">
+            <b>TO :</b><label id="lblShipperName"></label>
+            <br />
+            <b>AN : </b><label id="lblShipperContact"></label>
+
+            <br />
+            <b>TEL : </b><label id="lblShipperTel"></label>
+            <br />
+            <b>FAX : </b><label id="lblShipperFax"></label>
+            <br />
+            <b>EMAIL : </b><label id="lblShipperEMail"></label>
+        </div>
+    </div>
+    <div style="width:100%;font-size:14px">
+        Private & Confidential - Ocean Freight Rate (Booking Confirm)<br />
+        FURTHER TO YOUR BOOKING OF THE BELOW SHIPMENT PLEASE FIND THE FOLLOWING  DETAILS FOR YOUR KIND REFERENCE :-
+        <br />
+        Subject        :
+    </div>
+    <div style="width:100%;font-size:14px">
+        <b>DATE :</b> <label id="lblBookingDate"></label>
+    </div>
+    <div style="width:100%;font-size:14px">
+        <br />
+        <b>BOOKING NO:</b> <label id="lblBookingNo"></label>
+        <br />
+        <b>SHIPPER LOAD:</b> <label id="lblShipperName2"></label>
+        <br />
+        <b>PORT OF RECEIPT :</b> <label id="lblPackingPlace"></label>
+        <br />
+        <b>PORT OF LOADING :</b> <label id="lblPortLoading"></label>
+        <br />
+        <b>PLACE OF DELIVERY :</b> <label id="lblPortArrival"></label>,<label id="lblCountry"></label>
+        <br />
+        <b>QUANTITY : </b><label id="lblTotalContainer"></label>
+        <br />
+
+        <br />
+
+        <b>VOLUME :</b><label id="lblTotalContainer"></label>
+        <br />
+
+        <b>COMMODITY :</b> <label id="lblInvProduct"></label>
+        <br />
+        <b>MOTHER VESSEL / VOY :</b> <label id="lblMVesselName"></label>
+        <br />
+        <b>FEEDER VESSEL / VOY :</b> <label id="lblVesselName"></label>
+        <br />
+        <b>ETD DATE :</b><label id="lblETDDate"></label>
+        <br />
+        <b>ETA DATE :</b><label id="lblETADate"></label>
+        <br />
+        <b>AGENT :</b> <label id="lblAgentName"></label>
+        <br />
+        <b>PAPERLESS :</b> <label id="lblCustomsCode"></label>
+        <br />
+        <div style="display:flex">
+            <div>
+                <b>CY AT :</b><label id="lblCYDate"></label> <b>AT</b> &nbsp; &nbsp;
+            </div>
+            <div>
+                <label id="lblCYPlace"></label>
+                <br />
+                <label id="lblCYContact"></label>
+            </div>
+        </div>
+        <br />
+        <div style="display:flex">
+            <div>
+                <b>CFS/LOADING AT :</b><label id="lblCFSDate"></label> <b>AT</b> &nbsp; &nbsp;
+            </div>
+            <div>
+                <label id="lblCFSPlace"></label>
+                <br />
+                <label id="lblCFSContact"></label>
+            </div>
+        </div>
+        <br />
+        <div style="display:flex">
+            <div>
+                <b>RETURN AT :</b><label id="lblReturnDate"></label> <b>AT</b> &nbsp; &nbsp;
+            </div>
+            <div>
+                <label id="lblReturnPlace"></label>
+                <br />
+                <label id="lblReturnContact"></label>
+            </div>
+        </div>
+        <br />
+
+        <b>CLOSING DATE :</b><label id="lblClosingDate"></label> <b> CLOSING TIME </b> <label id="lblClosingTime"></label>
+        <b>AT :</b><label id="lblClosingPlace"></label>
+        <b>REMARK:</b> <div id="dvRemark"></div>
+                       <div>
+                           If you have any further questions  or queries.please don't hesitate to contact us. We are greatful for your kind consideration.
+                           <br />Yours sincerely,
+                       </div>
+        <br />
+        <br />
+        <br />
+        <br />
+    </div>*@
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
     var path = '@Url.Content("~")';
-
-    $("#imgLogo").hide();
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            $.get(path + 'JobOrder/getjobsql?Branch=' + br + '&jno=' + h.JNo).done(function (q) {
-                $('#lblQutn').text(q.job.data[0].QNo);
-            })
-
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
-            $('#lblShipperName2').text(h.CarrierName);
-            $('#lblAgentName').text(h.ForwarderName);
-            $('#lblTotalContainer').text(h.TotalContainer);
-
+            $('#lblShipperName2').text(h.ShipperName);
+            $('#lblAgentName').text(h.CarrierName);
+            //$('#lblTotalContainer').text(h.TotalContainer);
+            $('#lblPaymentBy').text(h.PaymentBy);
             if (h.JobType == '1') {
                 ShowInterPort(path, h.InvFCountry, h.InvInterPort, '#lblPortArrival');
                 ShowCountry(path, h.InvFCountry, '#lblCountry');
@@ -374,7 +339,7 @@ End Code
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblPortArrival');
                 ShowCountry(path, h.InvCountry, '#lblCountry');
             }
-            $('#lblProductQty').text(h.InvProductQty);
+            $('#lblProductQty').text(h.TotalContainer);
             $('#lblInvProduct').text(h.InvProduct);
             ShowInvUnit(path, h.InvProductUnit, '#lblProductUnit');
             $('#lblTotalGW').text(h.TotalGW);
@@ -386,38 +351,48 @@ End Code
             $('#lblETDDate').text(ShowDate(h.ETDDate));
             $('#lblETADate').text(ShowDate(h.ETADate));
 
-            $('#lblCYDate').text(ShowDate(h.CYDate));
-            $('#lblCYAddress').text(h.CYAddress);
-            $('#lblCYContact').text(h.CYContact);
-         /*   if (h.TransMode.substr(0, 2) == 'CY') {*/
+            if (h.TransMode.substr(0, 2) == 'CY') {
+                $('#lblCYDate').text(ShowDate(h.CYDate));
+                $('#lblCYPlace').text(h.CYPlace + ' '+h.CYAddress);
+                $('#lblCYContact').text(h.CYContact);
+                $('#lblReturnDate').text(ShowDate(h.ReturnDate)+"        (First return container)");
+                $('#lblReturnPlace').text(h.ReturnPlace);
+                $('#lblReturnContact').text(h.ReturnContact);
+                $('#lblClosingPlace').text(h.ReturnPlace);
+                $('#lblClosingDate').text(ShowDate(h.PackingDate));
+                $('#lblClosingTime').text(ShowTime(h.PackingTime));
+            } else {
+                $('#lblCYDate').text(ShowDate(h.CYDate));
+                $('#lblCYPlace').text(h.CYPlace + ' '+h.CYAddress);
+                $('#lblCYContact').text(h.CYContact);
+                $('#lblClosingDate').text(ShowDate(h.PackingDate));
+                $('#lblClosingTime').text(ShowTime(h.PackingTime));
                 $('#lblReturnDate').text(ShowDate(h.ReturnDate));
-                $('#lblReturnAddress').text(h.FactoryAddress);
-                $('#lblReturnContact').text(h.FactoryContact);
-                $('#lblClosingPlace').text(h.EstDeliverDate);
-                $('#lblClosingDate').text(ShowDate(h.FactoryDate));
-                $('#lblClosingTime').text(ShowTime(h.FactoryTime));
-            //} else {
-            //    $('#lblClosingDate').text(ShowDate(h.PackingDate));
-            //    $('#lblClosingTime').text(ShowTime(h.PackingTime));
-            //}
+                $('#lblReturnPlace').text(h.ReturnPlace);
+            }
             //ShowReleasePort(path, h.ClearPort, '#lblPortLoading');
-            $("#lblPortLoading").text(h.FactoryPlace);
-            $("#lblVGMCutoff").text(ShowDate(h.EstDeliverDate));
-            $("#lblVGMTime").text(ShowTime(h.ConfirmChqDate));
-            $("#lblSICutoff").text(ShowDate(h.LoadDate));
-            $("#lblSITime").text(ShowTime(h.EstDeliverTime));
-            $('#lblPackingPlace').text(h.CYPlace);
+            $('#lblPortLoading').text(h.FactoryPlace);
+            $('#lblPortArrival').text(h.PackingPlace);
             $('#lblShipperName').text(h.ShipperName);
             $('#lblShipperContact').text(h.ShipperContact);
             $('#lblShipperTel').text(h.ShipperPhone);
-            $('#lblContactName').text(h.ShipperFax);
-            $('#lblShipperEMail').text(h.ShipperEMail);
+            $('#lblShipperFax').text(h.ShipperFax);
+            $('#lblShipperMail').text(h.ShipperEMail);
             $('#lblCustomsCode').text(h.ClearPort);
-            $('#lblPaymentBy').text(h.PaymentBy);
-            $('#lblTransMode').text(h.TransMode);
-            $('#lblManagerName').text(h.ManagerName);
+
+/*
+            $.get(path + 'Master/GetCustomsPort?Code=' + h.ClearPort).done(function (r) {
+                $('#lblCustomsCode').text(r.RFARS.data[0].AreaName+"-"+h.ClearPort);
+            });
+*/
+            $('#lblCSMail').text(h.CSEMail);
+            $('#lblCSName').text(h.CSName);
             let str = h.Description;
             $('#dvRemark').html(CStr(str));
+            $('#lblRemark').text(h.Remark);
+            $('#lblCloseDatetime').text(ShowDate(h.FactoryDate) + "( BEFORE " + ShowTime(h.FactoryTime) + " HRS.)");
+            $('#lblSICutoff').text("CUT OFF SI : " + ShowDate(h.LoadDate) + " @@ " + ShowTime(h.EstDeliverTime) + ". VGM : " + ShowDate(h.EstDeliverDate) + " BEFORE " + ShowTime(h.ConfirmChqDate));
+            
         }
     });
 </script>

@@ -346,5 +346,12 @@ Namespace Controllers
             End If
             Return Content(str, jsonContent)
         End Function
+        Function TransferData() As ActionResult
+            Dim formName = Request.QueryString("Form")
+            If formName IsNot Nothing Then
+                Return View(formName)
+            End If
+            Return View()
+        End Function
     End Class
 End Namespace
