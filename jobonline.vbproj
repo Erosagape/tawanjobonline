@@ -951,6 +951,10 @@
     <Content Include="Views\Tracking\DashboardSubPL.vbhtml" />
     <Content Include="Views\JobOrder\FormLetterDO.vbhtml" />
     <Content Include="Views\Tracking\Dashboard7.vbhtml" />
+    <Content Include="Views\Tracking\DashboardAcc.vbhtml" />
+    <Content Include="Views\Tracking\DashboardSubGL.vbhtml" />
+    <Content Include="Views\Tracking\DashboardTB.vbhtml" />
+    <Content Include="Views\Tracking\DashboardSubTB.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
