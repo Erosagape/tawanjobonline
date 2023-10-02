@@ -1,4 +1,5 @@
 ﻿@Code
+    ViewBag.Title = "Trial Balance"
     Dim bLogin = False
     If ViewBag.User <> "" Then
         bLogin = True
@@ -15,50 +16,96 @@
         endDate = Request.QueryString("EndDate")
     End If
     ViewBag.EndDate = endDate
+    Dim sqlQry = String.Format("EXEC dbo.GetGL_Summary '{0}','{1}'", beginDate, endDate)
 End Code
 <div class="container">
     @If bLogin Then
-        Dim oJobType = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode='JOB_TYPE'")
-        Dim oShipBy = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode='SHIP_BY'")
-        @<b>Job Create Date</b>
-        @<div class="panel">
-             <div class="row">
-                 <div class="col-sm-2">
-                     From :
-                 </div>
-                 <div class="col-sm-4">
-                    <input type="date" class="form-control" id="txtDateFrom" name="dateFrom" />
-                 </div>
-                 <div class="col-sm-2">
-                     To :
-                 </div>
-                 <div class="col-sm-4">
-                     <input type="date" class="form-control" id="txtDateTo" name="dateTo" />
-                 </div>
-             </div>
-             <div class="row">
-                 <div class="col-sm-2">
-                     Job Type :
-                 </div>
-                 <div class="col-sm-4">
-                     <select class="form-control dropdown" id="cboJobType" name="jobtype">
-
-                     </select>
-                 </div>
-                 <div class="col-sm-2">
-                     Ship By :
-                 </div>
-                 <div class="col-sm-4">
-                     <select class="form-control dropdown" id="cboShipBy" name="shipby">
-
-                     </select>
-                 </div>
-             </div>
+        @<div Class="row">
+            <div Class="col-sm-3">
+                From Date
+                <br />
+                <input type="date" id="txtDateFrom" Class="form-control" value="@beginDate" />
+            </div>
+            <div Class="col-sm-3">
+                To Date
+                <br />
+                <input type="date" id="txtDateTo" Class="form-control" value="@endDate" />
+            </div>
+            <div class="col-sm-3">
+                <br />
+                <input type="button" Class="btn btn-primary" value="TB By Work flow" onclick="ShowByTransType()" />
+            </div>
         </div>
+        @<div class="row">
+    <div class="col-sm-3">
+        <input type="button" Class="btn btn-success" value="Show" onclick="RefreshData()" />
+    </div>
+</div>
+        If sqlQry <> "" Then
+            Dim oData = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlQry)
+            If oData.Rows.Count > 0 Then
+                Dim colCount = 0
+                Dim sumDebit = 0
+                Dim sumCredit = 0
+                @<div class="panel">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    @For each dc As System.Data.DataColumn In oData.Columns
+                                        @<th>@dc.ColumnName</th>
+                                    Next
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @For Each dr As System.Data.DataRow In oData.Rows
+                                    colCount = 0
+                                    @<tr>
+                                        @For each dc As System.Data.DataColumn In oData.Columns
+                                            colCount += 1
+                                            If colCount > 2 Then
+                                                @<td style="text-align:right">@Convert.ToDouble(dr(dc.ColumnName)).ToString("#,##0.00")</td>
+                                            Else
+                                                If dc.ColumnName.Equals("AccName") Then
+                                                    @<td>
+                                                        @dr(dc.ColumnName)
+                                                        @If dr("TotalCurrentDebit") > 0 Or dr("TotalCurrentCredit") > 0 Then
+                                                            @<a href="#" onclick="ShowDetail('@dr("AccCode")')">Details</a>
+                                                        End If
+                                                     </td>
+                                                Else
+                                                    @<td>@dr(dc.ColumnName)</td>
+                                                End If
+
+                                            End If
+                                        Next
+                                    </tr>
+                                Next
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            End If
+        Else
+            @<p>
+                No data to show
+            </p>
+        End If
     Else
-        @Html.Label("Please Login First")
+        @<p>
+            Please Login First
+        </p>
     End If
 </div>
-<script type = "text/javascript" >
-    var path = '@Url.Content("~")';   
+<script type="text/javascript">
+    var path = '@Url.Content("~")';
+    function RefreshData() {
+        window.location.href = path + 'Tracking/Dashboard?Form=7&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
+    }
+    function ShowDetail(acccode) {
+        window.location.href = path + 'Tracking/Dashboard?Form=SubTB&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val() + '&Code='+acccode;
+    }
+    function ShowByTransType() {
+        window.location.href = path + 'Tracking/Dashboard?Form=6&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
+    }
 </script>

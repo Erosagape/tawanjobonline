@@ -941,7 +941,7 @@
     <Content Include="Views\Report\ImportExcel.vbhtml" />
     <Content Include="Views\Acc\GLProcess.vbhtml" />
     <Content Include="Views\Acc\WorkSheet.vbhtml" />
-    <Content Include="Views\Tracking\Dashboard6.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard6_v1.vbhtml" />
     <Content Include="Views\Tracking\Dashboard5.vbhtml" />
     <Content Include="Views\Admin\Partial1.vbhtml" />
     <Content Include="Views\Admin\Partial2.vbhtml" />
@@ -950,10 +950,10 @@
     <Content Include="Views\Tracking\DashboardSubAP.vbhtml" />
     <Content Include="Views\Tracking\DashboardSubPL.vbhtml" />
     <Content Include="Views\JobOrder\FormLetterDO.vbhtml" />
-    <Content Include="Views\Tracking\Dashboard7.vbhtml" />
-    <Content Include="Views\Tracking\DashboardAcc.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard7_v1.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard6.vbhtml" />
     <Content Include="Views\Tracking\DashboardSubGL.vbhtml" />
-    <Content Include="Views\Tracking\DashboardTB.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard7.vbhtml" />
     <Content Include="Views\Tracking\DashboardSubTB.vbhtml" />
   </ItemGroup>
   <ItemGroup>
