@@ -115,7 +115,7 @@
                         <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenLink('TaxInvoice')">Tax-invoice</a>
                         <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">Bill Payment</a>
                         <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenLink('CreditNote')">Credit/Debit Note</a>
-                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('GLNote')">Journal Entry</a>
+                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('TrialBalance')">Trial Balance</a>
                     </div>
                     <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
                         Vender Works

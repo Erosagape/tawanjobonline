@@ -36,22 +36,33 @@
         End Select
     End If
 End Code
+<style>
+    th {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
 <div class="container">
     @If bLogin Then
         If sqlQry <> "" Then
             Dim oData = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlQry)
             If oData.Rows.Count > 0 Then
                 Dim colCount = 0
-                Dim sumDebit = 0
-                Dim sumCredit = 0
+                Dim sumDebit As Double = 0
+                Dim sumCredit As Double = 0
                 @<div class="panel">
+                     <b>@oData.Rows(0)("AccCode") / @oData.Rows(0)("AccName")</b>
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    @For each dc As System.Data.DataColumn In oData.Columns
-                                        @<th>@dc.ColumnName</th>
-                                    Next
+                                    <th>Ref No</th>
+                                    <th>Date</th>
+                                    <th>Group</th>
+                                    <th>Account Code</th>
+                                    <th>Account Name</th>
+                                    <th>Debit</th>
+                                    <th>Credit</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,14 +87,18 @@ End Code
                             </tbody>
                             @If colCount > 0 Then
                                 colCount = colCount - 2
-                                @<tfoot>
-                                    <tr>
-                                        <td colspan="@colCount">
-                                            Total
-                                        </td>
-                                        <td style="text-align:right;">@sumDebit.ToString("#,##0.00")</td>
-                                        <td style="text-align:right;">@sumCredit.ToString("#,##0.00")</td>
-                                    </tr>
+                                @<tfoot style="background-color:lightgreen;font-weight:bold;">
+                                     <tr>
+                                         <td>
+                                             Total
+                                         </td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td style="text-align:right;">@sumDebit.ToString("#,##0.00")</td>
+                                         <td style="text-align:right;">@sumCredit.ToString("#,##0.00")</td>
+                                     </tr>
                                 </tfoot>
                             End If
                         </table>
@@ -103,4 +118,6 @@ End Code
 </div>
 <script type="text/javascript">
     var path = '@Url.Content("~")';
+    $('td:nth-child(4),th:nth-child(4)').hide();
+    $('td:nth-child(5),th:nth-child(5)').hide();
 </script>

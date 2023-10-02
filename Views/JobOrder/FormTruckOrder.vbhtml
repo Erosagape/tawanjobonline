@@ -64,14 +64,14 @@ End Code
         <td><label id="txtCarrierContact"></label></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
+        <td>ชื่อสินค้า</td>
+        <td><div id="txtInvProduct"></div></td>
         <td>บุ้คกิ้ง</td>
         <td><label id="txtCarrierBooking"></label></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
+        <td>น้ำหนักรวม</td>
+        <td><div id="txtGrossWeight"></div></td>
         <td>วันที่จอง</td>
         <td><label id="txtBookingDate"></label></td>
     </tr>
@@ -146,6 +146,29 @@ End Code
         <td><label id="txtRemark3"></label></td>
     </tr>
 </table>
+<table style="width:100%;text-align:center;">
+    <tr>
+        <td>
+            <br /><br />
+            <br />(________________________________)
+            <br /> ________________________________
+            <br>              DRIVER
+        </td>
+        <td>
+            <br /><br />
+            <br />(________________________________)
+            <br /> ________________________________
+            <br>              RECEIVER
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align:left;">
+            Billing Information :<br />
+            <label id="lblBillingName"></label><br />
+            <label id="lblBillingAddress"></label>
+        </td>
+    </tr>
+</table>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
@@ -164,6 +187,8 @@ End Code
             } else {
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblDischargePort');
             }
+            $('#txtGrossWeight').html(h.TotalGW);
+            $('#txtInvProduct').html(h.InvProduct);
             $('#txtCYDate').text(ShowDate(h.CYDate));
             $('#txtETDDate').text(ShowDate(h.ETDDate));
             $('#txtSpecialInstruction').html(h.Description);
@@ -176,7 +201,7 @@ End Code
             $('#txtServiceType').text(h.LocationRoute);
             $('#txtTruck').text(h.TruckNO);
             $('#txtContainerType').text(h.CTN_SIZE);
-            $('#txtDriverName').text(h.Driver);
+            $('#txtDriverName').text(h.DriverName);
             $('#txtContainer').text(h.CTN_NO);
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
@@ -184,9 +209,11 @@ End Code
             $('#txtPlace1').text(h.PlaceName1);
             $('#txtPlace2').text(h.PlaceName2);
             $('#txtPlace3').text(h.PlaceName3);
+            $('#lblBillingName').text(h.ReturnPlace);
             $('#txtAddress1').html(CStr(h.PlaceAddress1));
             $('#txtAddress2').html(CStr(h.PlaceAddress2));
             $('#txtAddress3').html(CStr(h.PlaceAddress3));
+            $('#lblBillingAddress').text(h.ReturnAddress);
             $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
             $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
             $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));

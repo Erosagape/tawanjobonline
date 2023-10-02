@@ -1282,7 +1282,7 @@ function GetLangMenu() {
         mnuAcc5: 'Tax-Invoice|ใบกำกับภาษี',
         mnuAcc6: 'Bill Payment|บิลค่าใช้จ่าย',
         mnuAcc7: 'Credit/Debit Note|ใบเพิ่มหนี้/ลดหนี้',
-        mnuAcc8: 'Journal Entry|สมุดรายวัน',
+        mnuAcc8: 'Trial Balance|งบทดลอง',
         mainRpt: 'Reports/Tracking|รายงานและการติดตามงาน',
         mnuRpt1: 'Reports|รายงานต่างๆ',
         mnuRpt2: 'Transport Tracking|การติดตามงานขนส่ง',

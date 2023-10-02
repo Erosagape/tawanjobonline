@@ -231,6 +231,9 @@ function OpenMenu(mnuID, newpage = true) {
         case 'CreateTransport':
             mnuPath = path + 'JobOrder/CreateTransport';
             break;
+        case 'TrialBalance':
+            mnuPath = path + 'Tracking/Dashboard?form=7';
+            break;
         default:
             ShowMessage('Under Development');
             break;

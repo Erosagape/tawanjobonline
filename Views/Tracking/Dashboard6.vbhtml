@@ -25,13 +25,19 @@
         Select Case transType
             Case "ADVR", "ADVC", "ADVP", "CLRA"
                 sqlQry = String.Format("EXEC dbo.GetGL_AdvanceCal '{0}','{1}','{2}'", beginDate, endDate, transType)
-            Case "SETP", "CANP", "PAYP"
+            Case "SETP", "CANP", "PAYP", "CLRE", "CLRC", "CLRP"
                 sqlQry = String.Format("EXEC dbo.GetGL_PayablesCal '{0}','{1}','{2}'", beginDate, endDate, transType)
             Case Else
                 sqlQry = String.Format("EXEC dbo.GetGL_ReceivablesCal '{0}','{1}','{2}'", beginDate, endDate, transType)
         End Select
     End If
 End Code
+<style>
+    th {
+        text-align: center;
+        vertical-align: middle;
+    }
+</style>
 <div class="container">
     @If bLogin Then
         Dim oAccType = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode='ACC_TRANS' ORDER BY ConfigValue")
@@ -75,19 +81,31 @@ End Code
             Dim oData = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlQry)
             If oData.Rows.Count > 0 Then
                 Dim colCount = 0
+                Dim sumCredit As Double = 0
+                Dim sumDebit As Double = 0
                 @<div class="panel">
                      <div class="table-responsive">
                          <table class="table table-bordered">
                              <thead>
                                  <tr>
-                                     @For each dc As System.Data.DataColumn In oData.Columns
-                                         @<th>@dc.ColumnName</th>
-                                     Next
+                                     <th rowspan="2">Type</th>
+                                     <th rowspan="2">Account Code</th>
+                                     <th rowspan="2">Account Name</th>
+                                     <th colspan="2">Previous Balance</th>
+                                     <th colspan="2">Current Balance</th>
+                                 </tr>
+                                 <tr>
+                                     <th>Debit</th>
+                                     <th>Credit</th>
+                                     <th>Debit</th>
+                                     <th>Credit</th>
                                  </tr>
                              </thead>
                              <tbody>
                                  @For Each dr As System.Data.DataRow In oData.Rows
                                      colCount = 0
+                                     sumDebit += Convert.ToDouble(dr(5))
+                                     sumCredit += Convert.ToDouble(dr(6))
                                     @<tr>
                                         @For each dc As System.Data.DataColumn In oData.Columns
                                             colCount += 1
@@ -109,7 +127,16 @@ End Code
                                         Next
                                     </tr>
                                  Next
-                             </tbody>                             
+                             </tbody>              
+                             <tfoot style="background-color:lightgreen;font-weight:bold;">
+                                 <tr>
+                                     <td colspan="3">Total</td>
+                                     <td></td>
+                                     <td></td>
+                                     <td style="text-align:right">@sumDebit.ToString("#,##0.00#")</td>
+                                     <td style="text-align:right">@sumCredit.ToString("#,##0.00#")</td>
+                                 </tr>
+                             </tfoot>
                          </table>
                      </div>
                 </div>
