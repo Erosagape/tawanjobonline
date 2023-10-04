@@ -2611,8 +2611,15 @@ ORDER BY a.TName1
         End Function
         Function GetReceiveReport() As ActionResult
             Try
-                Dim tSqlw As String = " WHERE ISNULL(rh.CancelProve,'')='' "
-
+                Dim tSqlw As String = " WHERE  ISNULL(rh.CancelProve,'')='' "
+                If Not IsNothing(Request.QueryString("Show")) Then
+                    If Request.QueryString("Show") = "CANCEL" Then
+                        tSqlw = " WHERE ISNULL(rh.CancelProve,'')<>'' "
+                    End If
+                    If Request.QueryString("Show") = "ALL" Then
+                        tSqlw = " WHERE (1=1) "
+                    End If
+                End If
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format(" AND rh.BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
                 End If
@@ -2643,6 +2650,7 @@ ORDER BY a.TName1
                         isSummary = True
                     End If
                 End If
+
                 Dim tSql As String = ""
                 If isSummary = False Then
                     tSql = SQLSelectReceiptReport() & tSqlw
