@@ -132,6 +132,7 @@ End Code
                         </table>
                     </div>
                 </div>
+                @<input type = "button" Class="btn btn-success" value="Print" onclick="PrintData()" />
             End If
         Else
             @<p>
@@ -148,6 +149,9 @@ End Code
     var path = '@Url.Content("~")';
     function RefreshData() {
         window.location.href = path + 'Tracking/Dashboard?Form=7&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
+    }
+    function PrintData() {
+        window.location.href = path + 'Acc/FormGL?Form=TB&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
     }
     function ShowDetail(acccode) {
         window.location.href = path + 'Tracking/Dashboard?Form=SubTB&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val() + '&Code='+acccode;

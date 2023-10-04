@@ -955,6 +955,8 @@
     <Content Include="Views\Tracking\DashboardSubGL.vbhtml" />
     <Content Include="Views\Tracking\Dashboard7.vbhtml" />
     <Content Include="Views\Tracking\DashboardSubTB.vbhtml" />
+    <Content Include="Views\Acc\FormTB.vbhtml" />
+    <Content Include="Views\Acc\FormTBSub.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
