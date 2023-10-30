@@ -3243,7 +3243,7 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
 
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     Dim invNo = Request.QueryString("InvNo").ToString
-                    tSqlw &= String.Format(" WHERE ih.DocNo='{0}' ", invNo)
+                    tSqlw &= String.Format(" AND ih.DocNo='{0}' ", invNo)
                 End If
 
                 If byReceipt Then
