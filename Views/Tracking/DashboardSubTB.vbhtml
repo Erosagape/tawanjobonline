@@ -38,10 +38,12 @@ End Code
                 Dim sumPrevDebit As Double = 0
                 Dim sumPrevCredit As Double = 0
                 @<div class="panel">
+                    <b>Total Rows=@oData.Rows.Count</b>
                     <div class="table-responsive">
                         <table class="table table-bordered" id="tbData">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th></th>
                                     <th></th>
                                     <th colspan="8">@oData.Rows(0)("AccCode").ToString() /  @oData.Rows(0)("AccName").ToString()</th>
@@ -49,6 +51,7 @@ End Code
                                 <tr>
                                     <th>Account Code</th>
                                     <th>Account Name</th>
+                                    <th>Doc.No</th>
                                     <th>Description</th>
                                     <th>Date</th>
                                     <th>Ref#</th>
@@ -99,57 +102,60 @@ End Code
                                 Dim totalCredit As Double = sumCredit + sumPrevCredit
                                 Dim totalChange As Double = sumDebit - sumCredit
                                 @<tfoot>
-                                    <tr style="background-color:lightblue;font-weight:bold;">
-                                        <td></td>
-                                        <td></td>
-                                        <td colspan="3">
-                                            Current Debit
-                                        </td>
-                                        <td style="text-align:right;">@sumDebit.ToString("#,##0.00")</td>
-                                        <td colspan="2">Current Credit</td>
-                                        <td style="text-align:right;">@sumCredit.ToString("#,##0.00")</td>
-                                        <td></td>
-                                    </tr>
-                                    <tr style="background-color:lightgreen;font-weight:bold;">
-                                        <td></td>
-                                        <td></td>
-                                        <td colspan="3">
-                                            Total Debit
-                                        </td>
-                                        @If (totalChange > 0) Then
-                                            @<td style="text-align:right;">@totalChange.ToString("#,##0.00")</td>
-                                            @<td colspan="2">Total Credit</td>
-                                            @<td style="text-align:right;"></td>
-                                            @<td></td>
+                                     <tr style="background-color:lightblue;font-weight:bold;">
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td colspan="3">
+                                             Current Debit
+                                         </td>
+                                         <td style="text-align:right;">@sumDebit.ToString("#,##0.00")</td>
+                                         <td colspan="2">Current Credit</td>
+                                         <td style="text-align:right;">@sumCredit.ToString("#,##0.00")</td>
+                                         <td></td>
+                                     </tr>
+                                     <tr style="background-color:lightgreen;font-weight:bold;">
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td colspan="3">
+                                             Total Debit
+                                         </td>
+                                         @If (totalChange > 0) Then
+                                             @<td style="text-align:right;">@totalChange.ToString("#,##0.00")</td>
+                                             @<td colspan="2">Total Credit</td>
+                                             @<td style="text-align:right;"></td>
+                                             @<td></td>
 
-                                        Else
-                                            @<td style="text-align:right;"></td>
-                                            @<td colspan="2">Total Credit</td>
-                                            @<td style="text-align:right;">@Math.Abs(totalChange).ToString("#,##0.00")</td>
-                                            @<td></td>
+                                         Else
+                                             @<td style="text-align:right;"></td>
+                                             @<td colspan="2">Total Credit</td>
+                                             @<td style="text-align:right;">@Math.Abs(totalChange).ToString("#,##0.00")</td>
+                                             @<td></td>
 
-                                        End If
-                                    </tr>
-                                    <tr style="font-weight:bold;">
-                                        <td></td>
-                                        <td></td>
-                                        <td colspan="3">
-                                            Forward Balance
-                                        </td>
-                                        @If (totalDebit - totalCredit > 0) Then
-                                            Dim bal As Double = totalDebit - totalCredit
-                                            @<td style="text-align:right;">@bal.ToString("#,##0.00")</td>
-                                            @<td colspan="2"></td>
-                                            @<td style="text-align:right;"></td>
-                                            @<td></td>
-                                        Else
-                                            Dim bal As Double = totalCredit - totalDebit
-                                            @<td style="text-align:right;"></td>
-                                            @<td colspan="2"></td>
-                                            @<td style="text-align:right;">@bal.ToString("#,##0.00")</td>
-                                            @<td></td>
-                                        End If
-                                    </tr>
+                                         End If
+                                     </tr>
+                                     <tr style="font-weight:bold;">
+                                         <td></td>
+                                         <td></td>
+                                         <td></td>
+                                         <td colspan="3">
+                                             Forward Balance
+                                         </td>
+                                         @If (totalDebit - totalCredit > 0) Then
+                                             Dim bal As Double = totalDebit - totalCredit
+                                             @<td style="text-align:right;">@bal.ToString("#,##0.00")</td>
+                                             @<td colspan="2"></td>
+                                             @<td style="text-align:right;"></td>
+                                             @<td></td>
+                                         Else
+                                             Dim bal As Double = totalCredit - totalDebit
+                                             @<td style="text-align:right;"></td>
+                                             @<td colspan="2"></td>
+                                             @<td style="text-align:right;">@bal.ToString("#,##0.00")</td>
+                                             @<td></td>
+                                         End If
+                                     </tr>
                                 </tfoot>
                             End If
                         </table>

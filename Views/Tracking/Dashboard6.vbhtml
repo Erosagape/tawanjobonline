@@ -27,7 +27,7 @@
                 sqlQry = String.Format("EXEC dbo.GetGL_AdvanceCal '{0}','{1}','{2}'", beginDate, endDate, transType)
             Case "SETP", "CANP", "PAYP", "CLRE", "CLRC", "CLRP"
                 sqlQry = String.Format("EXEC dbo.GetGL_PayablesCal '{0}','{1}','{2}'", beginDate, endDate, transType)
-            Case Else
+            Case "SETI", "CANI", "RCPT", "RCVI", "CDNI", "CDNC"
                 sqlQry = String.Format("EXEC dbo.GetGL_ReceivablesCal '{0}','{1}','{2}'", beginDate, endDate, transType)
         End Select
     End If
