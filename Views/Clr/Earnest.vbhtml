@@ -663,7 +663,7 @@ End Code
             success: function (response) {
                 if (response.result.data != null) {
                     SavePayment(response.result.data);
-                    SaveDocument(response.result.data);
+                    //SaveDocument(response.result.data);
                     return;
                 }
                 ShowMessage(response.result.msg);
@@ -866,23 +866,24 @@ End Code
             ForJNo: $('#txtExpJobNo').val()
         };
 
-            let jsonText = JSON.stringify({ data:[ obj ]});
-            //ShowMessage(jsonText);
-            $.ajax({
-                url: "@Url.Action("SetVoucherSub", "Acc")",
-                type: "POST",
-                contentType: "application/json",
-                data: jsonText,
-                success: function (response) {
-                    if (response.result.data !== null) {
-                        return;
-                    }
-                    ShowMessage(response.result.msg);
-                },
-                error: function (e) {
-                    ShowMessage(e,true);
+        let jsonText = JSON.stringify({ data:[ obj ]});
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetVoucherSub", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data !== null) {
+                    SaveDocument(docno);
+                    return;
                 }
-            });
+                ShowMessage(response.result.msg);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
     }
     function SaveDocument(docno) {
         let obj = {

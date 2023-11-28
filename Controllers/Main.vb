@@ -3379,8 +3379,8 @@ WHERE a.DocStatus<>99 {0}
             End If
             tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.AdvNet ELSE 0 END) as '{1}'", dr("SICode").ToString(), dr("Description").ToString())
         Next
-        tSql = "
-SELECT a.CustCode,b.ForJNo as 'Job Number'," & tSql & ",
+        Dim sqlMain = "
+SELECT a.CustCode,b.ForJNo as 'Job Number',{1},
 SUM(b.AdvNet) as 'Advance Paid'
 FROM Job_AdvDetail b
 INNER JOIN Job_AdvHeader a ON b.BranchCode=a.BranchCode 
@@ -3390,7 +3390,10 @@ WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
 GROUP BY a.CustCode,b.ForJNo
 ORDER BY a.CustCode,b.ForJNo
 "
-        Return String.Format(tSql, sqlW)
+        If GetValueConfig("SQL", "SelectAdvanceTotal") <> "" Then
+            sqlMain = GetValueConfig("SQL", "SelectAdvanceTotal")
+        End If
+        Return String.Format(sqlMain, sqlW, tSql)
     End Function
     Function SQLSelectAdvReport() As String
         Dim val = GetValueConfig("SQL", "SelectAdvReport")
