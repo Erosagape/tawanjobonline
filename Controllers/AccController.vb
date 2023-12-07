@@ -3126,7 +3126,7 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
         End Function
         Function GetInvForReceive() As ActionResult
             Dim defaultWhere As String = "(id.TotalAmt-ISNULL(c.CreditNet,0)-ISNULL(r.ReceivedNet,0))"
-            Dim tSqlw As String = " AND " & defaultWhere & ">0 "
+            Dim tSqlw As String = " AND " & defaultWhere & "<>0 "
             Try
                 Dim bCheckVoucher As Boolean = False
                 Dim byReceipt As Boolean = False
@@ -3137,13 +3137,13 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "RECV" Then
                         'have receipt document
-                        tSqlw = " AND ISNULL(r.ReceivedNet,0)>0 "
+                        tSqlw = " AND ISNULL(r.ReceivedNet,0)<>0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "OPEN" Then
                         'by receipt document
                         bCheckVoucher = True
                         byReceipt = True
-                        tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))>0 "
+                        tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))<>0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "FULLPAY" Then
                         tSqlw = " AND " & defaultWhere & "<=0 "
