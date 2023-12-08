@@ -3128,7 +3128,7 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
         End Function
         Function GetInvForReceive() As ActionResult
             Dim defaultWhere As String = "(id.TotalAmt-ISNULL(c.CreditNet,0)-ISNULL(r.ReceivedNet,0))"
-            Dim tSqlw As String = " AND " & defaultWhere & ">0 "
+            Dim tSqlw As String = " AND " & defaultWhere & "<>0 "
             Try
                 Dim bCheckVoucher As Boolean = False
                 Dim byReceipt As Boolean = False
@@ -3143,13 +3143,13 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "RECV" Then
                         'have receipt document
-                        tSqlw = " AND ISNULL(r.ReceivedNet,0)>0 "
+                        tSqlw = " AND ISNULL(r.ReceivedNet,0)<>0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "OPEN" Then
                         'by receipt document
                         bCheckVoucher = True
                         byReceipt = True
-                        tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))>0 "
+                        tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))<>0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "FULLPAY" Then
                         tSqlw = " AND " & defaultWhere & "<=0 "
@@ -3219,22 +3219,22 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
 
                 If Not IsNothing(Request.QueryString("Type")) Then
                     If Request.QueryString("Type").ToString.ToUpper = "ADV" Then
-                        tSqlw &= " AND ISNULL(id.AmtAdvance,0)>0 "
+                        tSqlw &= " AND ISNULL(id.AmtAdvance,0)<>0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "SRV" Then
-                        tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 "
+                        tSqlw &= " AND ISNULL(id.AmtCharge,0)<>0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "TAX" Then
                         'have advance or have service
-                        tSqlw &= " AND (ISNULL(id.AmtCharge,0)>0 OR ISNULL(id.AmtAdvance,0)>0) "
+                        tSqlw &= " AND (ISNULL(id.AmtCharge,0)<>0 OR ISNULL(id.AmtAdvance,0)<>0) "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "REC" Then
                         'have service but no vat
-                        tSqlw &= " AND ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0 "
+                        tSqlw &= " AND ISNULL(id.AmtCharge,0)<>0 AND ISNULL(id.AmtVat,0)=0 "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "RCV" Then
                         'have service non vat or advance
-                        tSqlw &= " AND ((ISNULL(id.AmtCharge,0)>0 AND ISNULL(id.AmtVat,0)=0) OR ISNULL(id.AmtAdvance,0)>0) "
+                        tSqlw &= " AND ((ISNULL(id.AmtCharge,0)<>0 AND ISNULL(id.AmtVat,0)=0) OR ISNULL(id.AmtAdvance,0)<>0) "
                     End If
                 End If
 
