@@ -2701,7 +2701,7 @@ ORDER BY a.TName1
                 Dim sql = "
 SELECT *,
 (SELECT STUFF((
-    SELECT DISTINCT ',' + cd.JobNo
+    SELECT DISTINCT ', ' + cd.JobNo
     FROM Job_ClearDetail cd 
     INNER JOIN Job_ReceiptDetail rd
     ON cd.BranchCode=rd.BranchCode 
@@ -2712,7 +2712,7 @@ SELECT *,
 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 )) as JobNo,
 (SELECT STUFF((
-    SELECT DISTINCT ',' + cd.LinkBillNo
+    SELECT DISTINCT ', ' + cd.LinkBillNo
     FROM Job_ClearDetail cd 
     INNER JOIN Job_ReceiptDetail rd
     ON cd.BranchCode=rd.BranchCode 
@@ -2726,7 +2726,7 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
 "
                 Dim oHead = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
 
-                Dim jsonH As String = ""
+                Dim jsonH As String = JsonConvert.SerializeObject(oHead)
 
                 Return Content("{""receipt"":{""msg"":""" & docNo & """,""header"":[" & jsonH & "]}}", jsonContent)
             Catch ex As Exception
