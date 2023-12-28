@@ -533,7 +533,7 @@ Public Class CInvHeader
                             If Me.CancelProve <> "" Then
                                 CancelData(cn)
                             Else
-                                Main.DBExecute(cn.ConnectionString, SQLUpdateInvoiceHeader() & " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'")
+                                'Main.DBExecute(cn.ConnectionString, SQLUpdateInvoiceHeader() & " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'")
                             End If
                             msg = "Save Complete"
                         End Using
