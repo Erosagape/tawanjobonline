@@ -538,6 +538,7 @@ Public Class CInvHeader
                             msg = "Save Complete"
                         End Using
                     End Using
+                    cn.Close()
                 End Using
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "SaveData", ex.Message, True, ex.StackTrace, "")
@@ -773,4 +774,13 @@ Public Class CInvHeader
         End Using
         Return msg
     End Function
+    Public Sub UpdateTotal(cn As SqlConnection)
+        Dim sql As String = SQLUpdateInvoiceHeader()
+        Using cm As New SqlCommand(sql, cn)
+            cm.CommandText = sql + " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'"
+            cm.CommandType = CommandType.Text
+            cm.ExecuteNonQuery()
+            Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "UpdateInvHeader", cm.CommandText, False)
+        End Using
+    End Sub
 End Class
