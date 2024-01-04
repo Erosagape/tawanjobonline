@@ -2618,8 +2618,7 @@ ORDER BY a.TName1
                     End If
                 End If
 
-                Dim sql = "
-SELECT *,
+                Dim sql = "SELECT *,
 (SELECT STUFF((
     SELECT DISTINCT ',' + cd.JobNo
     FROM Job_ClearDetail cd 
@@ -2642,11 +2641,10 @@ FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
     AND rd.ReceiptNo=r.ReceiptNo
 FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
 )) as InvoiceNo
-FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
-"
+FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC"
                 Dim oHead = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
 
-                Dim jsonH As String = ""
+                Dim jsonH As String = JsonConvert.SerializeObject(oHead)
 
                 Return Content("{""receipt"":{""msg"":""" & docNo & """,""header"":[" & jsonH & "]}}", jsonContent)
             Catch ex As Exception
