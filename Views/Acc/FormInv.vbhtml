@@ -1,6 +1,49 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportLandScape.vbhtml"
     ViewBag.Title = "Invoice Slip"
+    Dim Branch = Request.QueryString("Branch")
+    Dim Code = Request.QueryString("Code")
+    Dim sql = "
+select ih.BranchCode,ih.DocNo,ih.DocDate,b.NameEng as BillToName,concat(b.EAddress1,'<br>',b.EAddress2) as BillToAddress,
+j.JNo,j.HAWB,c.NameEng as ShipperName,c.CustCode as ShipperCode,
+j.InvProduct,ch.CTN_NO,ld.GrossWeight,
+sum(CASE WHEN cd.SICode='ERN-002' THEN cd.UsedAmount ELSE 0 END) as 'DEPOSIT',
+j.TotalContainer,
+sum(CASE WHEN cd.SICode not in('SRV-093','SRV-092') AND id.AmtCharge>0 then cd.UsedAmount ELSE 0 END) as 'SERVICE VAT',
+sum(case when cd.SICode='SRV-093' then cd.UsedAmount ELSE 0 END) as 'BRIDGE',
+sum(case when cd.SICode='SRV-092' then cd.UsedAmount ELSE 0 END) as 'DEPOSIT CHG',
+sum(case when id.AmtCharge>0 then cd.UsedAmount ELSE 0 END) as 'SERVICE FEE',
+sum(case when id.AmtAdvance>0 AND cd.SICode not in('ADV-029','ADV-010','ADV-011','ADV-105',
+'ADV-018','ADV-102','ADV-103','ADV-107') then cd.BNet ELSE 0 END) as 'INSPECTION FEE',
+sum(case when id.AmtAdvance>0 and cd.SICode='ADV-029' then cd.Bnet else 0 end) as 'RENT',
+sum(case when id.AmtAdvance>0 and cd.SICode='ADV-010' then cd.Bnet else 0 end) as 'DEM',
+sum(case when id.AmtAdvance>0 and cd.SICode='ADV-011' then cd.Bnet else 0 end) as 'DET',
+sum(case when id.AmtAdvance>0 and cd.SICode='ADV-105' then cd.Bnet else 0 end) as 'LSS',
+sum(case when id.AmtAdvance>0 and cd.SICode IN('ADV-018','ADV-102','ADV-103') then cd.Bnet else 0 end) as 'REPAIR',
+sum(case when id.AmtAdvance>0 and cd.SICode='ADV-107' then cd.Bnet else 0 end) as 'OTHER',
+sum(case when id.AmtAdvance>0 then cd.Bnet else 0 end) as 'TOTAL'
+from Job_ClearDetail cd
+inner join Job_ClearHeader ch
+on concat(cd.BranchCode,cd.ClrNo)=concat(ch.BranchCode,ch.ClrNo)
+inner join Job_InvoiceDetail id 
+on concat(cd.BranchCode,cd.LinkBillNo,cd.LinkItem)=concat(id.BranchCode,id.DocNo,id.ItemNo)
+inner join Job_InvoiceHeader ih
+on concat(cd.BranchCode,cd.LinkBillNo)=concat(ih.BranchCode,ih.DocNo)
+inner join Job_Order j on
+concat(cd.BranchCode,cd.JobNo)=concat(j.BranchCode,j.JNo)
+inner join Mas_Company c on concat(j.CustCode,j.CustBranch)=concat(c.CustCode,c.Branch)
+inner join Mas_Company b on concat(ih.BillToCustCode,ih.BillToCustBranch)=concat(b.CustCode,b.Branch)
+left join Job_LoadInfoDetail ld on j.BranchCode=ld.BranchCode 
+and j.JNo=ld.JNo and ch.CTN_NO=ld.CTN_NO
+and j.BookingNo=ld.BookingNo
+and ch.CTN_NO<>''
+{0}
+group by ih.BranchCode,ih.DocNo,ih.DocDate,b.NameEng,b.EAddress1,b.EAddress2,j.JNo,j.HAWB,c.NameEng,c.CustCode,
+j.InvProduct,ch.CTN_NO,ld.GrossWeight,j.TotalContainer
+"
+    Dim sqlW = String.Format(" WHERE cd.BranchCode='{0}' and cd.LinkBillNo='{1}'", Branch, Code)
+    sql = String.Format(sql, sqlW)
+    Dim tb = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sql)
 End Code
 <style>
 
@@ -56,12 +99,7 @@ End Code
     }
 
     table {
-        width: 100%;
-    }
-
-    #main td, th {
-        border-right: 1px solid black;
-        border-left: 1px solid black;
+        font-size: 7px;
     }
 </style>
 <div class="center bold">
@@ -386,6 +424,16 @@ REMARK
 2.Interest rate of 0.75% per month will be charged on all overdue accounts.
 <br>
 <script type="text/javascript">
+/*    $('#pFooter').hide();
+    $('#imgLogo').hide();
+    $('#imgLogoAdd').show();
+*/
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#master').show();
+    } else {
+        $('#copy').show();
+    }
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
