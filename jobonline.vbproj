@@ -902,7 +902,6 @@
     <Content Include="Views\JobOrder\FormTransportAIR.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportWALMAY.vbhtml" />
     <Content Include="Views\JobOrder\FormTransportEASTRONG.vbhtml" />
-    <Content Include="Views\Acc\FormInv2.vbhtml" />
     <Content Include="Views\Default\TestQR.vbhtml" />
     <Content Include="Views\Default\TestCanvas.vbhtml" />
     <Content Include="Views\Default\TestTracking.vbhtml" />
@@ -957,6 +956,7 @@
     <Content Include="Views\Tracking\DashboardSubTB.vbhtml" />
     <Content Include="Views\Acc\FormTB.vbhtml" />
     <Content Include="Views\Acc\FormTBSub.vbhtml" />
+    <Content Include="Views\Acc\FormInv2.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
