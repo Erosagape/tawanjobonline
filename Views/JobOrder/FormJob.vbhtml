@@ -3,17 +3,22 @@
     ViewBag.ReportName = "SHIPPING CLOSING SHEET"
     ViewBag.Title = "SHIPPING CLOSING SHEET"
 End Code
+<style>
+#dvTitle {
+	display:none;
+}
+</style>
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
-            <td colspan="2" >
-                <b style="font-size:16px">Job No : </b><input  type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
+            <td colspan="2">
+                <b style="font-size:16px">Job No : </b><input type="text" style="font-size:16px;border:groove;text-align:center" id="txtJNo" value="" />
             </td>
-            <td >
+            <td>
                 <b style="font-size:16px">Job Type : <label style="font-size:16px" id="lblJobType"></label></b>
             </td>
             <td>
-                <b  style="font-size:16px">Ship By : <label  style="font-size:16px" id="lblShipBy"></label></b>
+                <b style="font-size:16px">Ship By : <label style="font-size:16px" id="lblShipBy"></label></b>
             </td>
         </tr>
         <tr>
@@ -305,6 +310,25 @@ End Code
             </tr>
         </tbody>
     </table>
+    <table  style="width:100%;border-collapse:collapse;vertical-align:top;border-color:black" border="1">
+        <thead>
+            <tr>
+                <th>หมายเลขตู้</th>
+                <th>คนขับ</th>
+                <th>ทะเบียนรถ</th>
+                <th>การเดินทาง</th>
+                <th>PICKUP</th>
+                <th>LOAD</th>
+                <th>RETURN</th>
+                <th>YARD</th>
+                <th>EMPTY</th>
+                <th>FINISH</th>
+            </tr>
+        </thead>
+        <tbody id="containertb">
+          
+        </tbody>
+    </table>
     <table id="tblFooter" style="width:100%">
         <tr>
             <td width="60%" valign="top">
@@ -312,8 +336,10 @@ End Code
                 <div id="lblDescription"></div>
             </td>
             <td width="40%" style="text-align:right">
-                <b>PREPARED BY:
-                <label id="lblCSName"></label></b> (<label id="lblPosition"></label>)
+                <b>
+                    PREPARED BY:
+                    <label id="lblCSName"></label>
+                </b> (<label id="lblPosition"></label>)
             </td>
         </tr>
     </table>
@@ -335,6 +361,18 @@ End Code
                 if (r.job.data.length > 0) {
                     var rec = r.job.data[0];
                     DisplayData(rec);
+                    $.get(path + 'joborder/gettransportdetail?branch=' + Branch + '&Job=' + Job + '& Code=' + rec.BookingNo).done(function (r) {
+                       
+                        if (r.transport.detail.length > 0) {
+                            let html = "";
+                            for (t of r.transport.detail) {
+                                let arr = [t.CTN_NO, t.DriverName, t.CarLicense, t.Location, ShowDate(t.TargetYardDate) + "<br/>" + ShowTime(t.TargetYardTime), ShowDate(t.UnloadDate) + "<br/>" + ShowTime(t.UnloadTime), ShowDate(t.TruckIN) + "<br/>" + ShowTime(t.Start), ShowDate(t.ActualYardDate) + "<br/>" + ShowTime(t.ActualYardTime), ShowDate(t.UnloadFinishDate) + "<br/>" + ShowTime(t.UnloadFinishTime), ShowDate(t.ReturnDate) + "<br/>" + ShowTime(t.Finish)];
+                                console.log(arr);
+                                html += "<tr>" + arr.map(x => "<td>" + x + "</td>") + "</tr>";
+                            }
+                            $("#containertb").html(html);
+                        }
+                    });
                     return;
                 }
         });

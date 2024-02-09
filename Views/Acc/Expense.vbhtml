@@ -305,7 +305,7 @@ End Code
                             </div>
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <a href="#" onclick="window.open('../Master/ServiceCode');"><label id="lblSICode" for="txtSICode">Code :</label></a>
+                                    <label id="lblSICode" for="txtSICode">Code :</label>
                                     <br/>
                                     <div style="display:flex">
                                         <input type="text" id="txtSICode" class="form-control" tabindex="12" />
@@ -445,7 +445,6 @@ End Code
     const user = '@ViewBag.User';
     const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
-    
     let serv = []; //must be array of object
     let hdr = {}; //simple object
     let dtl = {}; //simple object
@@ -472,21 +471,13 @@ End Code
                 $('#txtVenName').val(dr.TName);
             }
         });
-    } else {
-        if (vend !== '') {
-            $.get(path + 'Master/GetVender?Code=' + vend).done(function (r) {
-                if (r.vender.data.length > 0) {
-                    let dr = r.vender.data[0];
-                    $('#txtVenCode').val(vend);
-                    $('#txtVenName').val(dr.TName);
-                }
-            });
-        }
     }
     SetLOVs();
     SetEvents();
     SetEnterToTab();
     CheckParam();
+     //$(document).ready(function () {
+	
     //});
     function CheckParam() {
         ClearHeader();
@@ -669,11 +660,11 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'PAYMENT_TYPE=#txtPayType|CH';
+        let lists = 'PAYMENT_TYPE=#txtPayType|CA';
         loadCombos(path, lists);
-
+	
         LoadService();
-
+	
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -791,12 +782,12 @@ End Code
             $('#txtExchangeRate').val(dt.ExchangeRate);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtTaxRate').val(dt.TaxRate);
-            $('#txtTotalExpense').val(dt.TotalExpense);
-            $('#txtTotalVAT').val(dt.TotalVAT);
-            $('#txtTotalTax').val(dt.TotalTax);
-            $('#txtTotalDiscount').val(dt.TotalDiscount);
-            $('#txtTotalNet').val(dt.TotalNet);
-            $('#txtForeignAmt').val(dt.ForeignAmt);
+            $('#txtTotalExpense').val(ShowNumber(dt.TotalExpense,2));
+            $('#txtTotalVAT').val(ShowNumber(dt.TotalVAT,2));
+            $('#txtTotalTax').val(ShowNumber(dt.TotalTax,2));
+            $('#txtTotalDiscount').val(ShowNumber(dt.TotalDiscount,2));
+            $('#txtTotalNet').val(ShowNumber(dt.TotalNet,2));
+            $('#txtForeignAmt').val(ShowNumber(dt.ForeignAmt,2));
             $('#txtRemark').val(dt.Remark);
             $('#txtPaymentBy').val(dt.PaymentBy);
             $('#txtPaymentDate').val(CDateEN(dt.PaymentDate));
@@ -868,9 +859,7 @@ End Code
         $('#txtDocDate').val( CDateEN(GetToday()));
         $('#txtVenCode').val(vend);
         if (userGroup !== 'V') {
-            if (vend == '') {
-                $('#txtVenName').val('');
-            }
+            $('#txtVenName').val('');
             $('#txtEmpCode').val(user);
             ShowUser(path, user, '#txtEmpName');
         } else {
@@ -906,7 +895,7 @@ End Code
             $('#txtRefNo').val('');
             $('#txtPoNo').val('');
         }
-        $('#txtPayType').val('CH');
+        $('#txtPayType').val('CA');
         $('#chkApprove').prop('checked', false);
         $('#chkCancel').prop('checked', false);
         $('#tbDetail').DataTable().clear().draw();
@@ -1106,13 +1095,6 @@ End Code
                 $('#txtBookingRefNo').val(bookno);
                 $('#txtContainerNo').val(cont);
                 $('#txtBookingItemNo').val(item);
-            } else {
-                $('#txtForJNo').val('');
-                $('#txtCustCode').val('');
-                $('#txtBookingRefNo').val('');
-                $('#txtContainerNo').val('');
-                $('#txtBookingItemNo').val(0);
-
             }
         }
         $('#txtAdvItemNo').val(0);

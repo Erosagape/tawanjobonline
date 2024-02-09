@@ -65,7 +65,7 @@ End Code
 </style>
 
 <div class="center bold">
-    <label style="font-size:16px">INBOUND PAYABLE VOUCHER</label>
+    <label style="font-size:16px">PAYABLE VOUCHER</label>
 </div>
 <table class="table">
     <thead></thead>
@@ -380,6 +380,7 @@ End Code
         $.get(path + url).done(function (r) {
             if (r.payment.data.length > 0) {
                 let h = r.payment.data[0];
+		ShowVenderAddr(path,h.VenCode);
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
                 $("#jobNo").text(h.ForJNo);
@@ -414,7 +415,7 @@ End Code
                     html += '<td class="center">'+row.QtyUnit+'</td>';
                     html += '<td class="center">' + row.CurrencyCode + '</td>';
                     html += '<td class="right">' + ShowNumber(row.UnitPrice,2) + '</td>';
-                    html += '<td class="right">' + ShowNumber((row.Amt/row.ExchangeRate), 2) + '</td>';
+                    html += '<td class="right">' + ShowNumber(row.Amt, 2) + '</td>';
                     html += '<td class="right">' + row.ExchangeRate + '</td>';
                     let code = row.SICode;
                     if (code.indexOf('ADV') >= 0) {
@@ -437,25 +438,27 @@ End Code
                     html += '</tr>';
                     let rateCal = 0;
                     if (row.AmtWHT > 0) {
-                        if (((row.AmtWHT * 100) / 1) == row.Amt)
+                        //let ans1 = (row.AmtWHT * 100) / 1;
+                        console.log(CDbl((row.AmtWHT * 100) / 1, 2) == CDbl(row.Amt, 2));
+                        if (CDbl((row.AmtWHT * 100) / 1, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 1;
                             sumbaseWht1 += row.Amt;
                             sumWht1 += row.AmtWHT;
                         }
 
-                        if (((row.AmtWHT * 100) / 1.5) == row.Amt) {
+                        if (CDbl((row.AmtWHT * 100) / 1.5, 2) == CDbl(row.Amt, 2)) {
                             rateCal = 1.5;
                             sumbaseWht1_5 += row.Amt;
                             sumWht1_5 += row.AmtWHT;
                         }
-                        if (((row.AmtWHT * 100) / 3) == row.Amt)
+                        if (CDbl((row.AmtWHT * 100) / 3, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 3;
                             sumbaseWht3 += row.Amt;
                             sumWht3 += row.AmtWHT;
                         }
-                        if (((row.AmtWHT * 100) / 10) == row.Amt)
+                        if (CDbl((row.AmtWHT * 100) / 10, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 10;
                             sumbaseWht10 += row.Amt;
@@ -538,13 +541,22 @@ End Code
                 ShowVender(path, j.ForwarderCode, '#carrier');
             }
         });
+    }    
+    function ShowVenderAddr(path, code) {
+        $.get(path + 'Master/GetVender?Code=' + code).done(function (r) {
+            if (r.vender.data.length>0) {
+                let v = r.vender.data[0];
+                $('#billName').text(v.TName);
+                $('#billAddress').html(v.TAddress1 + '<br/>' + v.TAddress2);
+            }
+        });
     }
     function ShowCustomerAddress(path, code, branch,h) {
         $.get(path + 'Master/GetCompany?Code=' + code + '&Branch=' + branch).done(function (r) {
             if (r.company.data.length>0) {
                 let c = r.company.data[0];
-                $('#billName').text(c.NameEng);
-                $('#billAddress').html(c.EAddress1 + '<br/>' + c.EAddress2);
+                //$('#billName').text(c.NameEng);
+                //$('#billAddress').html(c.EAddress1 + '<br/>' + c.EAddress2);
                 let creditlimit = Number(c.CreditLimit);
                 $('#dueDate').text(AddDate(h.DocDate, creditlimit));
                 $("#creditTerm").text(creditlimit + " DAYS");
@@ -552,5 +564,6 @@ End Code
             }
         });
     }
+
 
 </script>

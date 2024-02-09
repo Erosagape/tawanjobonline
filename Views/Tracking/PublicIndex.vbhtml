@@ -84,12 +84,16 @@ End Code
 <script type="text/javascript">
     var path = '@Url.Content("~")';
     let dbIndex = getQueryString("db") == '' ? '1' : getQueryString("db");
-
+let taxid=getQueryString('taxid');
     google.charts.load("current", { packages: ["corechart"] });
     window.onresize = () => {
         drawChart();
     }
     QuickCallback(function () {
+	if(taxid!==''){
+$('#txtTaxNumber').val(taxid);
+            ShowCompanyByTax(path, $('#txtTaxNumber').val(), '#txtCustName');
+}
         SetLOVs();
     },dbIndex);
     $('#txtTaxNumber').focusout(function () {

@@ -33,7 +33,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-6">
-        <a href="~/Master/Venders"><label id="lblVenCode">Vender :</label></a>
+        <label id="lblVenCode">Vender :</label>
         <br />
         <div style="display:flex;flex-direction:row">
             <input type="text" class="form-control" id="txtVenCode" style="width:20%" />
@@ -113,11 +113,10 @@ End Code
                 }
             });
         }
-        //default values 
-        /*
+        //default values
         $('#txtCurrencyCode').val('THB');
         ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
-        */
+
         //Events
         $('#txtBranchCode').focusout(function (event) {
             if (true) {
@@ -180,10 +179,7 @@ End Code
         if ($('#txtDocDateT').val() !== "") {
             w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
         }
-        if ($('#txtCurrencyCode').val() !== "") {
-            w = w +'&currency=' + $('#txtCurrencyCode').val();
-        }
-        w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE');
+        w = w + '&show='+ ($('#chkCancel').prop('checked')?'CANCEL':'ACTIVE') +'&currency=' + $('#txtCurrencyCode').val();
         $.get(path + 'acc/getpaymentsummary?branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.payment.data.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
@@ -242,12 +238,12 @@ End Code
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + (data.JobNo!==null?'&Job=' + data.JobNo:'') +(data.BookingRefNo!==null?'&BookNo='+ data.BookingRefNo:'') +(data.BookingItemNo!==null?'&Item=' + data.BookingItemNo:''),'','');
+                window.open(path + 'acc/expense?BranchCode=' + data.BranchCode + '&DocNo=' + data.DocNo + '&Job=' + data.JobNo +'&BookNo='+ data.BookingRefNo +'&Item=' + data.BookingItemNo,'','');
             });
         });
     }
     function EntryExpense() {
-        window.open(path + 'acc/expense' + ($('#txtVenCode').val() !== '' ? '?Vend=' + $('#txtVenCode').val():''), '', '');
+        window.open(path + 'acc/expense', '', '');
     }
     function PrintData() {
         window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');

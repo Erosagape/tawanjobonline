@@ -21,9 +21,24 @@ End Code
     table td {
         word-break: break-word;
     }
+
+     /*   table tr {
+            page-break-inside: avoid;
+            page-break-after: auto;
+        }*/
+   /* thead {
+        display: table-row-group;
+    }
+    tbody {
+        display: table-row-group;
+    }
+    tfoot {
+        display: table-row-group;
+    }*/
 </style>
-<label id="rptTitle" onclick="ExportData()">Report Title</label>
-<div id="rptCliteria">Report Cliteria</div>
+<label style="display:none" id="rptTitle" onclick="ExportData()">Report Title</label>
+<div style="display:none" id="rptCliteria">Report Cliteria</div>
+
 <div style="display:flex;flex-direction:column;width:100%">
     <table id="tbResult" style="width:100%">
         <thead></thead>

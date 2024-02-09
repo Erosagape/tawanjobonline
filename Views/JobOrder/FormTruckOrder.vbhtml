@@ -6,7 +6,7 @@
 End Code
 <style>
     * {
-        font-size: 12px;
+        font-size: 10px;
     }
 
     table {
@@ -16,10 +16,6 @@ End Code
     table, th, td {
         border: 1px solid black;
         border-collapse: collapse;
-    }
-
-    table tr>td{
-        padding:5px
     }
 </style>
 <table>
@@ -70,8 +66,8 @@ End Code
     <tr>
         <td></td>
         <td></td>
-        <td>บุ้คกิ้ง</td>
-        <td><label id="txtCarrierBooking"></label></td>
+        <td><b>บุ้คกิ้ง<b></td>
+        <td><b><label id="txtCarrierBooking"></label><b></td>
     </tr>
     <tr>
         <td></td>
@@ -84,34 +80,34 @@ End Code
         <th colspan="2">ข้อมูลเกี่ยวกับรถบรรทุก</th>
     </tr>
     <tr>
-        <td>ประเภทการให้บริการ</td>
-        <td><label id="txtServiceType"></label></td>
-        <td>ทะเบียนรถบรรทุก</td>
-        <td><label id="txtTruck"></label></td>
+        <td><b>ประเภทการให้บริการ</b></td>
+        <td><b><label id="txtServiceType"></label></b></td>
+        <td><b>ทะเบียนรถบรรทุก</b></td>
+        <td><b><label id="txtTruck"></label></b></td>
     </tr>
     <tr>
-        <td>ขนาดตู้คอนเทนเนอร์</td>
-        <td><label id="txtContainerType"></label></td>
-        <td>ชื่อคนขับ/โทรศัพท์</td>
-        <td><label id="txtDriverName"></label></td>
+        <td><b>ขนาดตู้คอนเทนเนอร์</b></td>
+        <td><b><label id="txtContainerType"></label></b></td>
+        <td><b>ชื่อคนขับ/โทรศัพท์</b></td>
+        <td><b><label id="txtDriverName"></label></b></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td>หมายเลขตู้คอนเทนเนอร์</td>
-        <td><label id="txtContainer"></label></td>
+        <td><b>หมายเลขตู้คอนเทนเนอร์</b></td>
+        <td><b><label id="txtContainer"></label></b></td>
     </tr>
     <tr>
         <td>หมายเหตุ</td>
         <td><div id="txtRemark"></div></td>
-        <td>หมายเหตุในการส่งตู้ล่าช้า</td>
-        <td><div id="txtDiscrepancyReason"></div></td>
+        <td><b>หมายเหตุในการส่งตู้ล่าช้า<b></td>
+        <td><b><div id="txtDiscrepancyReason"></div></b></td>
     </tr>
     <tr>
         <th></th>
-        <th>สถานที่รับตู้</th>
-        <th>ไปส่งที่</th>
-        <th>สถานที่ส่งคืน</th>
+        <th>สถานที่รับตู้  / VGM Closing</th>
+        <th>ไปส่งที่  / Loading </th>
+        <th>สถานที่ส่งคืน  /  CY Closing</th>
     </tr>
     <tr>
         <td>ชื่อสถานที่</td>
@@ -150,113 +146,15 @@ End Code
         <td><label id="txtRemark3"></label></td>
     </tr>
 </table>
-<br />
-<table id="transcost" style="width:100%">
-    <thead>
-        <tr>
-            <th colspan="5" style="background-color: gray;">ค่าใช้จ่ายเคลียร์ค่าขนส่ง</th>
-        </tr>
-        <tr>
-            <th colspan="3">
-                มีใบเสร็จในนามลูกค้า
-            </th>
-            <th colspan="2">
-                ไม่มีใบเสร็จรับเงิน
-            </th>
-        </tr>
-        <tr>
-            <th>รายละเอียด</th>
-            <th>เลขที่ใบเสร็จ</th>
-            <th>จำนวนเงิน</th>
-            <th>รายละเอียด</th>
-            <th>จำนวนเงิน</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>ค่าน้ำมัน01</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน01</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าน้ำมัน02</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน02</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าน้ำมัน03</td>
-            <td></td>
-            <td></td>
-            <td>ค่าน้ำมัน03</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าผ่าน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าผ่าน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าทางด่วน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าทางด่วน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าข้ามสะพาน</td>
-            <td></td>
-            <td></td>
-            <td>ค่าข้ามสะพาน</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>ค่าเที่ยวคนขับ</td>
-            <td></td>
-            <td></td>
-            <td>ค่าเที่ยวคนขับ</td>
-            <td></td>
-        </tr>
-        <tr></tr>
-        <tr></tr>
-    </tbody>
-</table>
-<br />
-<br />
-<br />
-<div style="display:flex">
-    <div>ลายเซ็นคนจัดทำ ______________________ </div>
-    <div style="flex:1;text-align:right">ลายเซ็นคนขับ ______________________</div>
-</div>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
     let cont = getQueryString("ContainerNo");
     let user = '@ViewBag.User';
     var path = '@Url.Content("~")';
- 
-   
-
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc +'&Cont=' +cont).done(function (r) {
         if (r.booking !== null) {
-         
             let h = r.booking.data[0];
-            $.get(path + 'Master/GetEmployee?code=' + h.Driver).done(function (r) {
-                let e = r.employee.data[0];            
-                $('#txtDriverName').text(e.Name);
-            });
-            $.get(path + 'Master/GetCarLicense?code=' + h.TruckNO).done(function (r) {
-                let c = r.carlicense.data[0];
-                $('#txtTruck').text(c.CarLicense);
-            });
-
-
-
             $('#txtJNo').text(h.JNo);
             $('#txtDeliveryNo').text(h.DeliveryNo);
             $('#txtNotifyName').text(h.NotifyName);
@@ -276,9 +174,9 @@ End Code
             $('#txtCarrierBooking').text(h.BookingNo);
             $('#txtBookingDate').text(ShowDate(h.BookingDate));
             $('#txtServiceType').text(h.LocationRoute);
-        
+            $('#txtTruck').text(h.CarLicense);
             $('#txtContainerType').text(h.CTN_SIZE);
-           
+            $('#txtDriverName').text(h.DriverName);
             $('#txtContainer').text(h.CTN_NO);
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
@@ -289,12 +187,12 @@ End Code
             $('#txtAddress1').html(CStr(h.PlaceAddress1));
             $('#txtAddress2').html(CStr(h.PlaceAddress2));
             $('#txtAddress3').html(CStr(h.PlaceAddress3));
-            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
-            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
-            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));
-            $('#txtActualDate1').text(ShowDate(h.ActualYardDate));
-            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate));
-            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate));
+            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate) + ' ' + ShowTime(h.TargetYardTime));
+            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate) + ' ' + ShowTime(h.TargetDeliveryTime));
+            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate) + ' ' + ShowTime(h.TargetReturnTime));
+            $('#txtActualDate1').text(ShowDate(h.ActualYardDate) + ' ' + ShowTime(h.ActualYardTime));
+            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate) + ' ' + ShowTime(h.ActualDeliveryTime));
+            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate) + ' ' + ShowTime(h.ActualReturnTime));
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);

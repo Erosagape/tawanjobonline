@@ -197,7 +197,7 @@ End Code
             html += '<td style="text-align:center">' + d.TaxInvNo + '</td>';
             html += '<td style="text-align:right">' + (d.OriginalAmt >0? ShowNumber(d.OriginalAmt,2):'0.00') + '</td>';
             html += '<td style="text-align:right">' + (d.CorrectAmt > 0 ? ShowNumber(d.CorrectAmt, 2) : '0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.DiffAmt > 0 ? ShowNumber(d.DiffAmt, 2) : '0.00') + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(d.DiffAmt, 2) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
@@ -207,10 +207,10 @@ End Code
             wht += Number(d.WHTAmt);
             total += Number(d.TotalNet);
         }
-        $('#lblTotalDiff').text(ShowNumber(service, 2));
-        $('#lblTotalVAT').text(ShowNumber(vat, 2));
-        $('#lblTotalWHT').text(ShowNumber(wht, 2));
-        $('#lblTotalNet').text(ShowNumber(total, 2));
-        $('#lblTotalBaht').text(CNumThai(total));
+        $('#lblTotalDiff').text(ShowNumber(Math.abs(service), 2));
+        $('#lblTotalVAT').text(ShowNumber(Math.abs(vat), 2));
+        $('#lblTotalWHT').text(ShowNumber(Math.abs(wht), 2));
+        $('#lblTotalNet').text(ShowNumber(Math.abs(total), 2));
+        $('#lblTotalBaht').text(CNumThai(Math.abs(total)));
     }
 </script>

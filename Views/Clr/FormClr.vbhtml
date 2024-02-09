@@ -12,6 +12,13 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
+ 
+    @@media print{
+ 	#summaryclr{
+		margin-top:30px;
+	}
+     }
+
 </style>
 <div style="display:flex">
     <div style="flex:1" class="text-left">
@@ -70,14 +77,9 @@ End Code
         </thead>
         <tbody></tbody>
     </table>
-    <table border="1" width="100%">
-        <tr class="text-center">
-            <td width="10%"></td>
-            <td width="50%"></td>
-            <td width="20%"></td>
-            <td width="10%"></td>
-            <td width="10%"></td>
-        </tr>
+    <table id="summaryclr" border="1" width="100%" style="">
+	<thead></thead>
+	<tbody>
         <tr>
             <td colspan="4">
                 <div style="display:flex">
@@ -123,6 +125,7 @@ End Code
                 </div>
             </td>
         </tr>
+	</tbody>
     </table>
     <div id="dvSummary">
     </div>
@@ -142,7 +145,7 @@ End Code
             <td>&nbsp;</td>
         </tr>
         <tr Class="text-center">
-            <td>
+            <td style="text-align:center">
                 <br />
                 <br />
                 <label id="txtClrBy"></label>
@@ -160,12 +163,12 @@ End Code
                 <label id="txtReceiveBy"></label>
                 <label id="txtReceiveDate"></label>
             </td>
-            <td>
+            <td style="text-align:center">
                 <br />
                 <br />
                 ________/_______/_______
             </td>
-            <td>
+            <td  style="text-align:center">
                 <br />
                 <br />
                 ________/_______/_______

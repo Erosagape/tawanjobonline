@@ -116,5 +116,17 @@ End Code
         DownloadCSV(csv.join("\n"), filename);
     }
 
-
+function ProcessCliteria(data) {
+        data = data.replace('[DATE]>=', 'Date From ');
+        data = data.replace('[DATE]<=', 'Date To ');
+        data = data.replace('[CUST]', 'Customer ');
+        data = data.replace('[VEND]', 'Vender ');
+        data = data.replace('[CODE]', 'Code ');
+        data = data.replace('[JOB]', 'Job ');
+        data = data.replace('[STATUS]', 'Status ');
+        data = data.replace('[EMP]', 'Staff ');
+        data = data.replace('[BRANCH]', 'Branch ');
+        data = data.replace('[GROUP]', 'Group ');
+        return data;
+    }
 </script>

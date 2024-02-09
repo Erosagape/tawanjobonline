@@ -63,7 +63,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblCurrency">Currency:</label>        
+        <label id="lblCurrency">Currency:</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtCurrencyCode" class="form-control" disabled />
@@ -71,7 +71,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblExchangeRate">Exchange Rate:</label>        
+        <label id="lblExchangeRate">Exchange Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtExchangeRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -79,14 +79,14 @@ End Code
     </div>
 
     <div class="col-sm-2">
-        <label id="lblQty">Qty:</label>        
+        <label id="lblQty">Qty:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblUnit">Unit:</label>        
+        <label id="lblUnit">Unit:</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtQtyUnit" class="form-control" disabled />
@@ -138,10 +138,10 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblGrandTotal">Grand Total :</label>
+        <label id="lblProfit">Profit :</label>
         <br />
         <div style="display:flex">
-            <input type="number" id="txtTotal" class="form-control w3-red" style="font-weight:bold;" value="0.00" disabled>
+            <input type="number" id="txtProfit" class="form-control w3-yellow" style="font-weight:bold;" value="0.00" disabled>
         </div>
     </div>
 
@@ -198,11 +198,13 @@ End Code
         </div>
     </div>
     <div class="col-sm-3">
-        <label id="lblProfit">Profit :</label>
+
+        <label id="lblGrandTotal">Advance :</label>
         <br />
         <div style="display:flex">
-            <input type="number" id="txtProfit" class="form-control w3-yellow" style="font-weight:bold;" value="0.00" disabled>
+            <input type="number" id="txtTotal" class="form-control w3-red" style="font-weight:bold;" value="0.00" disabled>
         </div>
+
     </div>
 
 </div>
@@ -361,28 +363,26 @@ End Code
                 $('#tbData').DataTable().clear().draw();
                 return;
             }
+            let adv = 0;
             let tot = 0;
             let chg = 0;
             let cost = 0;
             for (let row of r.estimate.data) {
-                //tot += Number(row.AmtTotal);
-                if (row.IsExpense == 1 || row.IsCredit == 1) {
-                    if (row.IsExpense == 1) {
-                        cost += Number(row.AmtTotal);
-                    } else {
-                        tot += Number(row.AmtTotal);
-                    }                    
+                tot += Number(row.AmtTotal);
+                if (row.IsExpense == 1) {
+                    cost += Number(row.AmtTotal);
                 } else {
-                    if (row.IsCredit == 0) {
+                    if (row.IsCredit == 1) {
+                        adv += Number(row.AmtTotal);
+                    } else {
                         chg += Number(row.AmtTotal);
-                    }
-                    tot += Number(row.AmtTotal);
+                    }                    
                 }
             }
             $('#txtCharge').val(CDbl(chg, 2));
             $('#txtCost').val(CDbl(cost, 2));
             $('#txtProfit').val(CDbl(chg-cost, 2));
-            $('#txtTotal').val(CDbl(tot,2));
+            $('#txtTotal').val(CDbl(adv,2));
             let tb= $('#tbData').dataTable({
                 data: r.estimate.data,
                 columns: [
@@ -410,7 +410,7 @@ End Code
                     {
                         data: "AmtTotal", title: "Charge",
                         render: function (data) {
-                            return ShowNumber(data, 3);
+                            return ShowNumber(data, 2);
                         }
                     },
                     { data: "ClrNo", title: "Clearing No" },
@@ -472,8 +472,8 @@ End Code
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameThai);
-        $('#txtTRemark').val(dt.NameEng);
+        $('#txtSDescription').val(dt.NameEng);
+        $('#txtTRemark').val(dt.NameThai);
         if ($('#txtCurrencyCode').val() == '') {
             $('#txtCurrencyCode').val(dt.CurrencyCode);
         }
@@ -492,20 +492,20 @@ End Code
         let excrate = CNum($('#txtExchangeRate').val());
         let qty = CNum($('#txtQty').val());
         let amtcal = (amtbase * excrate) * qty;
-        $('#txtAmtCal').val(CDbl(amtcal, 3));
+        $('#txtAmtCal').val(CDbl(amtcal, 2));
         let vatrate = CNum($('#txtAmtVatRate').val()) * 0.01;
         let vat = amtcal * vatrate;
-        $('#txtAmtVat').val(CDbl(vat, 3));
+        $('#txtAmtVat').val(CDbl(vat, 2));
         let whtrate = CNum($('#txtAmtWhtRate').val()) * 0.01;
         let wht = amtcal * whtrate;
-        $('#txtAmtWht').val(CDbl(wht, 3));
+        $('#txtAmtWht').val(CDbl(wht, 2));
         SumTotal();
     }
     function SumTotal() {
         let amtbase = CNum($('#txtAmtCal').val());
         let amtvat = CNum($('#txtAmtVat').val());
         let amtwht = CNum($('#txtAmtWht').val());
-        $('#txtAmtTotal').val(CDbl(amtbase + amtvat - amtwht,3));
+        $('#txtAmtTotal').val(CDbl(amtbase + amtvat - amtwht,2));
     }
     function CopyData() {
         if ($('#txtJobCopyFrom').val() == '') {

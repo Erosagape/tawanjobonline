@@ -149,7 +149,7 @@ End Code
     let doc = getQueryString("JNo");
     let book = getQueryString("BookingNo");
     var path = '@Url.Content("~")';
-
+    $('#dvCompLogo').hide();
     //$("#imgLogo").hide();
     // $("#imgLogoAdd").show();
     loadData();
@@ -158,7 +158,8 @@ End Code
         if (rb.booking !== null) {
             let b = rb.booking.data[0];
             $('#lblTransportTerm').text(b.TransMode);
-
+                    $('#lblMarks').text(b.Remark);
+                    $('#lblBookingNo').text(b.BookingNo);
             $.get(path + '/joborder/getjobsql?branch=' + br + '&jno=' + b.JNo).done(function (r) {
                 if (r.job !== null) {
                     let j = r.job.data[0];
@@ -192,6 +193,27 @@ End Code
                             $('#lblAddress2').text(c.EAddress2);
                         }
                     });
+                    $.get(path + 'Master/GetCompany?Code=' + j.CustCode + '&Branch=' + j.CustBranch).done(function (r) {
+                        if (r.company !== null) {
+                            let c = r.company.data[0];
+                            let newhead =
+                                `<div id="divCompany" >
+                                            <div style = "height:25px;text-align:left;color:darkblue;font-size:12px;" >
+                                                <b style="font-size:18px"> ${c.NameEng}</b>
+                                            </div >
+                                            <div style="font-size:14px;" id="dvCompAddr">${c.EAddress1 + " " + c.EAddress2}
+                                                <br>
+                                                    TEL  ${c.Phone ? c.Phone : " - "}    FAX ${c.FaxNumber ? c.FaxNumber : ' - '}
+                                                    <br>เลขประจำตัวผู้เสียภาษี ${c.FaxNumber ? c.FaxNumber : " - "} สาขา: ${c.Branch == "0000" ? "สำนักงานใหญ่" : c.Branch}
+                        	                </div>
+                             </div >`;
+
+                            newhead += ``
+                            $('#dvCompLogo').html(newhead);
+                            $('#dvCompLogo').show();
+                        }
+
+                    });
                     $.get(path + 'joborder/gettransportdetail?Code=' + j.BookingNo + '&Branch=' + br + '&Job=' + j.JNo).done(function (r) {
                         if (r.transport !== null) {
                             let ctns = "";
@@ -199,7 +221,7 @@ End Code
                             $('#lblCtns').text(ctns);
                         }
                     });
-                    $('#lblVessel').text(j.VesselName);
+                    $('#lblVesselName').text(j.VesselName);
                     $('#lblDescription').text(j.InvProduct);
                     $('#lblPkg1').text(j.InvProductQty + " " + j.InvProductUnit);
                     $('#lblPkg2').text(j.InvProductQty + " " + j.InvProductUnit);
@@ -207,7 +229,7 @@ End Code
                     $('#lblGW').text(j.TotalGW + " " + j.GWUnit);
                     $('#lblBLNo').text(j.HAWB);
                     $('#lblTotalCTN').text(j.TotalContainer);
-                    $('#lblMarks').text(j.Description);
+
                     $('#lblTRemark').text(j.TRemark);
                     $('#lblDischargePort').text(j.ClearPortNo);
                     $('#lblETD').text(ShowDate(j.JobType > 1 ? j.ETDDate : j.ETADate));

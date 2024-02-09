@@ -37,9 +37,8 @@ End Code
  	display:none
      }
 </style>
-<div style="float:left;">
-    <b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />
-    <b>ฉบับที่ 2</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>
+<div id="topLeft" style="float:left;" onClick="rotateText()">
+    
 </div>
 <div style="float:right;">
     เลขที่ <label id="txtDocNo"></label>
@@ -310,6 +309,21 @@ End Code
     <b>คำเตือน</b> ผู้มีหน้าที่ออกหนังสือรับรองหักภาษี ณ ที่จ่าย ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ แห่งประมวลรัษฏากรต้องรับโทษทางอาญาตามมาตรา 35 แห่งประมวลรัษฏากร
 </div>
 <script type="text/javascript">
+    const textList = ["<b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />",
+		    	" <b>ฉบับที่ 2</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>",
+			" <b>ฉบับที่ 3</b><i>(สำหรับผู้หักภาษี ณ ที่จ่าย ใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i>",
+			" <b>ฉบับที่ 4</b><i>(สำหรับผู้หักภาษี ณ  ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>"
+		    ];
+    var rotateCount=0;
+    function rotateText(){
+	$("#topLeft").html(textList[rotateCount]);		
+	rotateCount++;
+	if(rotateCount> textList.length-1){
+		rotateCount=0
+	}
+    }
+
+    rotateText();
     let path = '@Url.Content("~")';
     //$(document).ready(function () {
         let branch = getQueryString('branch');

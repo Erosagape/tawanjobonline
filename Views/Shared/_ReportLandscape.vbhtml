@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="~/Content/bootstrap-select.min.css" media="all">
     <link rel="stylesheet" href="~/Content/jquery.datatables.min.css" media="all">
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4-landscape.css" media="all">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
@@ -16,11 +18,26 @@
     <script src="~/Scripts/Func/popup.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
     <style>
+/*
+	* {
+		font-size:11px;
+	        font-family: 'Sarabun', sans-serif;
+	}
         table,
         table tr td,
         table tr th {
             page-break-inside: avoid;
         }
+*/
+        table,
+        table tr td,
+        table tr th {
+            page-break-inside: avoid;
+        }
+
+	*{
+		 page-break-inside: auto !important;page-break-after:auto !important;
+	}
     </style>
 </head>
 <body class="document">
@@ -28,7 +45,7 @@
         <table id="tblHeader" width="100%">
             <tr>
                 <td width="20%">
-                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px"/>
+                    <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:60%"/>
                 </td>
                 <td width="80%">
                     <div id="divCompany" style="text-align:left;color:darkblue;">

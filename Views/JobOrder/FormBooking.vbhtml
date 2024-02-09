@@ -116,7 +116,7 @@ End Code
                             </div>
                         </div>
                         <div style="width:50%">
-                            <img src="~/Resource/logo_uglobe.jpg" style="width:100%;" />
+                            <img src="~/Resource/logo_teg.jpg" style="width:100%;" />
                         </div>
                         @*<p>    ATTN : <label id="lblForwarderName"></label></p>*@
                     </div>

@@ -16,12 +16,13 @@ End Code
             <div class="col-sm-4">
                 <label id="lblDocType">Type :</label>
                 <br />
-                <select id="cboType" Class="form-control dropdown">
-                    <option value="TAX" selected>ใบเสร็จรับเงิน/ใบกำกับภาษี (Vat+Adv)</option>
-                    <option value="SRV"> ใบกำกับภาษี (Vat only)</option>
-                    <option value="REC"> Debit Note</option>
-                    <option value="RCV"> ใบเสร็จภายใน</option>
-                </select>
+                 <select id="cboType" class="form-control dropdown">
+                <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
+                <option value="SRV">Tax-Invoice (Service only)</option>
+                <option value="ADV">Receipt Advance</option>
+                <option value="RCV">Receipt Transport</option>
+                <option value="DNR">Debit Note Receipt</option>
+            </select>
             </div>
         </div>
         <div Class="row">
@@ -761,7 +762,13 @@ ExchangeRate: 1,
         let code = $('#txtDocNo').val();
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
-            window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch ($('#cboType').val()) {
+                case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
 

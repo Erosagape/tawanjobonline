@@ -36,7 +36,7 @@
                 </select>
             </div>
             <div style="width:100%;text-align:center;background-color:white">
-                <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
+                <img id="imgMenu" src="~/Resource/mnl-logo.png" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
             <div style="width:100%;text-align:center;background-color:white;color:black;font-size:11px">
                 <label id="lblLicenseName" ondblclick="ReturnMain()">@ViewBag.LICENSE_NAME</label>
@@ -128,7 +128,7 @@
                         <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenLink('TaxInvoice')">Tax-invoice</a>
                         <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">Bill Payment</a>
                         <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenLink('CreditNote')">Credit/Debit Note</a>
-                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('GLNote')">Journal Entry</a>
+                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('TrialBalance')">Trial Balance</a>
                     </div>
                     <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
                         Vender Works
@@ -147,7 +147,10 @@
                         <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport Tracking</a>
                         <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">Job Timeline</a>
                         <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard')">Customer Dashboard</a>
-                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Staff Dashboard</a>
+                        <a href="#" id="mnuRpt7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Staff Dashboard</a>
+                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard5')">Transport Dashboard</a>
+                        <a href="#" id="mnuRpt8" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard3')">Finance Dashboard 1</a>
+                        <a href="#" id="mnuRpt9" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard4')">Finance Dashboard 2</a>
                         <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenLink('Document')">-Document Tracking</a>
                     </div>
                     <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
@@ -279,6 +282,8 @@
                                 <button id="mnuMasA2" class="btn btn-default btn-block" onclick="OpenLink('venders')">Venders</button>
                                 <button id="mnuMasA3" class="btn btn-default btn-block" onclick="OpenLink('ServUnit')">Service Units</button>
                                 <button id="mnuMasA4" class="btn btn-default btn-block" onclick="OpenLink('Bank')">Bank</button>
+                 		<button id="mnuMasA10" class="btn btn-default btn-block" onclick="OpenLink('CarLicense')">- Car License</button>
+                                <button id="mnuMasA11" class="btn btn-default btn-block" onclick="OpenLink('Employee')">- Employee</button>
                             </div>
                             <div class="col-sm-6">
                                 <button id="mnuMasA5" class="btn btn-default btn-block" onclick="OpenLink('BookAccount')">Bank Accounts</button>
@@ -399,7 +404,7 @@
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:70%;height:55px" onclick="w3_open();" />
+                                <img id="imgCompany" src="~/Resource/logo_teg.jpg" style="width:70%;height:55px" onclick="w3_open();" />
                             </div>
                             <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">

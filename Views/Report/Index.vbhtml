@@ -16,6 +16,9 @@ End Code
                     <th class="all">
                         Report Name
                     </th>
+                    <th class="all">
+                        Report Group
+                    </th>
                 </tr>
             </thead>
             <tbody></tbody>
@@ -314,7 +317,7 @@ End Code
     </div>
 </div>
 <div id="dvLOVs"></div>
-<script type="text/javascript" src="~/Scripts/Func/reports.js"></script>
+<script type="text/javascript" src="~/Scripts/Func/reports.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
 <script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     let reportID = '';
@@ -336,7 +339,8 @@ End Code
                     data: r,
                     columns: [
                         { data: "ReportCode", title: "Report Code" },
-                        { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" }
+                        { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" },
+                        { data: "ReportGroup", title: "Report Group" }
                     ],
                     responsive: true,
                     destroy: true
@@ -348,17 +352,6 @@ End Code
         });
     }
     function GetCliteria() {
-        let uposition='@ViewBag.UserPosition';
-        if (reportID == 'PROFITSALES') {
-            if ('HASSAPON'.indexOf('@ViewBag.User')>=0) {
-                $('#txtEmpCliteria').val('[EMP]IN' + "SELECT UserID FROM Mas_User WHERE UserUpLine='@ViewBag.User' OR UserID='@ViewBag.User'");
-                //$('#txtEmpCliteria').val('[EMP]IN' + "'CHAIRAT'+'KHANISORN'+'HASSAPON'");
-            } else {
-                if ('@ViewBag.UserPosition' == '3') {
-                    $('#txtEmpCliteria').val('[EMP]=@ViewBag.User');
-                }
-            }
-        }
         let obj = {
             branch: '[BRANCH]=' + $('#txtBranchCode').val(),
             dateFrom: ($('#txtDateFrom').val()==''?'': '[DATE]>=' + $('#txtDateFrom').val()),
@@ -377,8 +370,8 @@ End Code
     function SetEvents() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-        //$('#txtDateFrom').val(GetFirstDayOfMonth());
-        //$('#txtDateTo').val(GetLastDayOfMonth());
+        $('#txtDateFrom').val(GetFirstDayOfMonth());
+        $('#txtDateTo').val(GetLastDayOfMonth());
         var lists = "COMMERCIAL_LEVEL=#cboCommLevel";
         lists += ",REPORT_GROUP=#cboReportGroup";
         lists += ",JOB_TYPE=#cboJobType";
@@ -417,7 +410,7 @@ End Code
             } else {
                 $('#cliteriaSet2').css('display', 'none');
                 $('#cliteriaSet1').css('display', 'inline');
-                if (src.ReportCliteria !== undefined) {
+                if (src.ReportCliteria !== null && src.ReportCliteria !== undefined) {
                     ReadCliteria(src.ReportCliteria + ',,,');
                 } else {
                     LoadCliteria(src.ReportCode);
@@ -437,12 +430,11 @@ End Code
     }
     function ReadCliteria(str) {
         let arr = str.split(',');
-        if (arr[1] !== '') {
-            $('#tbDate').show();
+        $('#tbDate').show();
+        $('#tbCust').show();
+        if (arr[1] !== '') {   
             let vStr = arr[1].indexOf('.') > 0 ? arr[1].split('.')[1] : arr[1];
             $('#fromDate').text(vStr.toString().replace('Date',' Date'));
-        } else {
-            $('#tbDate').hide();
         }
         if (arr[2] !== '') {
             $('#tbCust').show();
@@ -622,7 +614,22 @@ End Code
     function PrintReport() {
         if (reportID.indexOf('PRD')>=0) {
             switch (reportID) {
+		@*
                 case 'PRD3':
+                    window.location.href=path +'Acc/FormWTax3' + GetCliteria();
+                    break;
+                case 'PRD3D':
+                    window.location.href=path +'Acc/FormWTax3D' + GetCliteria();
+                    break;
+                case 'PRD53':
+                    window.location.href=path +'Acc/FormWTax53' + GetCliteria();
+                    break;
+                case 'PRD53D':
+                    window.location.href=path +'Acc/FormWTax53D' + GetCliteria();
+                    break;
+		*@
+	
+		case 'PRD3':
                     window.open(path +'Acc/FormWTax3' + GetCliteria(), '', '');
                     break;
                 case 'PRD3A':
@@ -651,21 +658,21 @@ End Code
         }
         switch (data.ReportType) {
             case 'DEV':
-                window.open(path + data.ReportUrl + GetQueryString(),'','');
+                window.location.href=path + data.ReportUrl + GetQueryString();
                 break;
             case 'STD':
-                window.open(path + 'Report/Preview' + GetCliteria()+ '&Layout=', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria()+ '&Layout=';
                 break;
             case 'APL':
-                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=2', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria() + '&Layout=2';
                 break;
             case 'FIX':
             case 'EXP':
             case 'EXC':
-                window.open(path + 'Report/Preview' + GetCliteria() +'&Layout=1', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria() +'&Layout=1';
                 break;
             case 'ADD':
-                window.open(path + 'Report/Preview' + GetCliteria() + '&Layout=', '', '');
+                window.location.href=path + 'Report/Preview' + GetCliteria() + '&Layout=';
                 break;
         }
     }

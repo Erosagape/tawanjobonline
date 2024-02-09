@@ -4,7 +4,7 @@ End Code
 <div class="panel-body">
     <div class="row">
         <div class="col-sm-4">
-            <label id="lblBranch">Branch</label>
+            <label id="lblBranch">Branch</label>                
             <br />
             <div style="display:flex;flex-direction:row">
                 <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -13,7 +13,7 @@ End Code
             </div>
         </div>
         <div class="col-sm-6">
-            <label id="lblCustCode">Customer:</label>
+            <label id="lblCustCode">Customer:</label>                
             <br />
             <div style="display:flex;flex-direction:row">
                 <input type="text" class="form-control" id="txtCustCode" style="width:20%" disabled />
@@ -25,12 +25,13 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-3">
-            <label id="lblDocType">Type of Documents:</label>
+            <label id="lblDocType">Type of Documents:</label>                
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="REC">Transport (Service Non-Vat only)</option>
-                <option value="RCV">Debit Note (Service Non-Vat+Advance)</option>
+                <option value="ADV">Receipt Advance</option>
+                <option value="RCV">Receipt Transport</option>
+                <option value="DNR">Debit Note Receipt</option>
             </select>
         </div>
         <div class="col-sm-2">
@@ -71,8 +72,8 @@ End Code
                         <th class="all">DocNo</th>
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
-                        <th class="desktop">InvoiceNo</th>
-                        <th class="desktop">JobNo</th>
+                        <th class="desktop">Reference</th>
+                        <th class="desktop">Remark</th>
                         <th class="desktop">Service</th>
                         <th class="desktop">Vat</th>
                         <th class="desktop">Wht</th>
@@ -123,11 +124,11 @@ End Code
                             <br /><input type="date" id="txtReceiptDate" class="form-control" />
                         </div>
                         <div class="col-sm-6">
-                            <label id="lblHCustCode">Customer</label>
+                            <label id="lblHCustCode">Customer</label>                                
                             <br />
                             <div style="display:flex">
-                                <input type="text" id="txtHCustCode" class="form-control" style="width:20%" disabled />
-                                <input type="text" id="txtHCustBranch" class="form-control" style="width:10%" disabled />
+                                <input type="text" id="txtHCustCode" class="form-control" style="width:20%" />
+                                <input type="text" id="txtHCustBranch" class="form-control" style="width:10%" />
                                 <input type="text" id="txtHCustName" class="form-control" style="width:70%" disabled />
                             </div>
                         </div>
@@ -140,8 +141,8 @@ End Code
                                 <label id="lblBillToCustCode">Bill To</label>
                                 <br />
                                 <div style="display:flex">
-                                    <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%" disabled />
-                                    <input type="text" id="txtBillToCustBranch" class="form-control" style="width:10%" disabled />
+                                    <input type="text" id="txtBillToCustCode" class="form-control" style="width:20%"  />
+                                    <input type="text" id="txtBillToCustBranch" class="form-control" style="width:10%"  />
                                     <input type="text" id="txtBillToCustName" class="form-control" style="width:70%" disabled />
                                 </div>
                             </div>
@@ -177,16 +178,16 @@ End Code
                                 </div>
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalCharge" style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalCharge" style="width:40%">Total Charge:</label><input type="text" id="txtTotalCharge" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalVAT" style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalVAT" style="width:40%">Total VAT:</label><input type="text" id="txtTotalVAT" class="form-control" style="width:40%" onchange="CalTotal()"/> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotal50Tavi" style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotal50Tavi" style="width:40%">Total TAX:</label><input type="text" id="txtTotal50Tavi" class="form-control" style="width:40%" onchange="CalTotal()"/> THB
                             </div>
                             <div style="display:flex">
-                                <label id="lblTotalNet" style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" disabled /> THB
+                                <label id="lblTotalNet" style="width:40%">Total Net:</label><input type="text" id="txtTotalNet" class="form-control" style="width:40%" onchange="CalTotal()" /> THB
                             </div>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
@@ -290,16 +291,16 @@ End Code
                             <div style="display:flex">
                                 <input type="text" id="txtChqRef" class="form-control" />
                                 <input type="checkbox" id="chkTransfer" onclick="SetTransfer()" /><b> TRANSFER</b>
-                            </div>
+                            </div>                            
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-2">
-                            BANK CHARGES<br />
+                            BANK CHARGES<br/>
                             <input type="number" id="txtBankChg" class="form-control" />
                         </div>
                         <div class="col-sm-4">
-                            <br />
+                            <br/>
                             <button class="btn btn-primary" onclick="SetRemark()">Set Remark</button>
                         </div>
                     </div>
@@ -325,7 +326,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-6" style="display:flex">
                             <div style="flex:3">
-                                <label id="lblDDocNo">Tax Invoice No</label>
+                                <label id="lblDDocNo">Tax Invoice No</label>                                    
                                 <br />
                                 <input type="text" id="txtDDocNo" class="form-control" disabled />
                             </div>
@@ -337,12 +338,12 @@ End Code
                         </div>
                         <div class="col-sm-6" style="display:flex">
                             <div style="flex:3">
-                                <label id="lblInvoiceNo">Invoice No</label>
+                                <label id="lblInvoiceNo">Invoice No</label>                                    
                                 <br />
                                 <input type="text" id="txtInvoiceNo" class="form-control" disabled />
                             </div>
                             <div style="flex:1">
-                                <label id="lblInvoiceItemNo">No#</label>
+                                <label id="lblInvoiceItemNo">No#</label>                                    
                                 <br />
                                 <input type="text" id="txtInvoiceItemNo" class="form-control" disabled />
                             </div>
@@ -352,7 +353,7 @@ End Code
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-sm-3">
-                            <label id="lblSICode">Code</label>
+                            <label id="lblSICode">Code</label>                                
                             <br />
                             <input type="text" id="txtSICode" class="form-control" disabled />
                         </div>
@@ -364,7 +365,7 @@ End Code
                     <p>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblPayType">Payment Type</label>
+                                <label id="lblPayType">Payment Type</label>                                    
                                 <br />
                                 <select id="cboacType" class="form-control" onchange="ChangeAmount()">
                                     <option value="CA">Cash</option>
@@ -374,12 +375,12 @@ End Code
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblDCurrencyCode">Currency</label>
+                                <label id="lblDCurrencyCode">Currency</label>                                    
                                 <br />
                                 <input type="text" id="txtDCurrencyCode" class="form-control" disabled />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblDExchangeRate">Exc.Rate</label>
+                                <label id="lblDExchangeRate">Exc.Rate</label>                                    
                                 <br />
                                 <input type="number" id="txtDExchangeRate" class="form-control" onchange="CalForeignDetail()" />
                             </div>
@@ -388,7 +389,7 @@ End Code
                             <div class="col-sm-6">
                                 <div style="display:flex">
                                     <div style="flex:1">
-                                        <label id="lblAmt">Amount</label>
+                                        <label id="lblAmt">Amount</label>                                            
                                     </div>
                                     <div style="flex:2">
                                         <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
@@ -398,7 +399,7 @@ End Code
                             <div class="col-sm-6">
                                 <div style="display:flex">
                                     <div style="flex:1">
-                                        <label id="lblAmtF">Amount (F)</label>
+                                        <label id="lblAmtF">Amount (F)</label>                                            
                                     </div>
                                     <div style="flex:2">
                                         <input type="number" id="txtFAmt" class="form-control" onchange="CalForeignDetail()" />
@@ -409,7 +410,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-6" style="display:flex">
                                 <div style="flex:1">
-                                    <label id="lblIsTaxCharge">VAT</label>
+                                    <label id="lblIsTaxCharge">VAT</label>                                        
                                     <br />
                                     <select id="txtIsTaxCharge" class="form-control dropdown" disabled>
                                         <option value="0">NO</option>
@@ -418,19 +419,19 @@ End Code
                                     </select>
                                 </div>
                                 <div style="flex:2">
-                                    <label id="lblVATRate">Rate</label>
+                                    <label id="lblVATRate">Rate</label>                                        
                                     <br />
                                     <input type="number" id="txtVATRate" class="form-control" onchange="CalVATWHT(0)" />
                                 </div>
                             </div>
                             <div class="col-sm-6" style="display:flex">
                                 <div style="flex:1">
-                                    <label id="lblAmtVAT">VAT</label>
+                                    <label id="lblAmtVAT">VAT</label>                                        
                                     <br />
                                     <input type="number" id="txtAmtVAT" class="form-control" onchange="CalNetAmount()" />
                                 </div>
                                 <div style="flex:1">
-                                    <label id="lblFAmtVAT">VAT (F)</label>
+                                    <label id="lblFAmtVAT">VAT (F)</label>                                        
                                     <br />
                                     <input type="number" id="txtFAmtVAT" class="form-control" disabled />
                                 </div>
@@ -439,7 +440,7 @@ End Code
                         <div class="row">
                             <div class="col-sm-6" style="display:flex">
                                 <div style="flex:1">
-                                    <label id="lblIs50Tavi">WH-TAX</label>
+                                    <label id="lblIs50Tavi">WH-TAX</label>                                        
                                     <br />
                                     <select id="txtIs50Tavi" class="form-control dropdown" disabled>
                                         <option value="0">NO</option>
@@ -447,19 +448,19 @@ End Code
                                     </select>
                                 </div>
                                 <div style="flex:2">
-                                    <label id="lblRate50Tavi">Rate</label>
+                                    <label id="lblRate50Tavi">Rate</label>                                        
                                     <br />
                                     <input type="number" id="txtRate50Tavi" class="form-control" onchange="CalVATWHT(1)" />
                                 </div>
                             </div>
                             <div class="col-sm-6" style="display:flex">
                                 <div style="flex:1">
-                                    <label id="lblAmt50Tavi">WHT</label>
+                                    <label id="lblAmt50Tavi">WHT</label>                                        
                                     <br />
                                     <input type="number" id="txtAmt50Tavi" class="form-control" onchange="CalNetAmount()" />
                                 </div>
                                 <div style="flex:1">
-                                    <label id="lblFAmt50Tavi">WHT (F)</label>
+                                    <label id="lblFAmt50Tavi">WHT (F)</label>                                        
                                     <br />
                                     <input type="number" id="txtFAmt50Tavi" class="form-control" disabled />
                                 </div>
@@ -469,7 +470,7 @@ End Code
                             <div class="col-sm-6">
                                 <div style="display:flex">
                                     <div style="flex:1">
-                                        <label id="lblNet">Net</label>
+                                        <label id="lblNet">Net</label>                                            
                                     </div>
                                     <div style="flex:2">
                                         <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
@@ -479,7 +480,7 @@ End Code
                             <div class="col-sm-6">
                                 <div style="display:flex">
                                     <div style="flex:1">
-                                        <label id="lblFNet">Net (F)</label>
+                                        <label id="lblFNet">Net (F)</label>                                            
                                     </div>
                                     <div style="flex:2">
                                         <input type="number" id="txtFNet" class="form-control" disabled />
@@ -547,15 +548,23 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
+    let code = getQueryString("Code");
+    let branch = getQueryString("Branch");
     let row = {};
     let row_d = {};
     SetLOVs();
+    if (branch !== '' && code !== '') {
+        $('#txtBranchCode').val(branch);
+        ShowHeader();
+    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
@@ -648,11 +657,13 @@ End Code
         let code = row.ReceiptNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            //if ($('#cboType').val().substr(0, 1) == 'R') {
-                //window.open(path + 'Acc/FormRcp?Branch=' + branch + '&Code=' + code);
-                //return;
-            //}
-            window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
+            switch (row.ReceiptType) {
+                case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
+            }
         }
     }
     function ShowHeader() {
@@ -672,7 +683,10 @@ End Code
         } else {
             w += '&show=ACTIVE';
         }
-        $.get(path + 'acc/getreceiptgrid?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        if (code !== '') {
+            w += '&Code=' + code;
+        }
+        $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 ShowMessage('Data not found',true);
@@ -698,8 +712,8 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
-                    { data: "InvoiceNo", title: "Invoice No" },
-                    { data: "JobNo", title: "Job No" },
+                    { data: "ReceiveRef", title: "Reference Number" },
+                    { data: "TRemark", title: "Remark" },
                     { data: "TotalCharge", title: "Amount",
                             render: function (data) {
                                 return ShowNumber(data, 2);
@@ -723,6 +737,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -819,7 +834,8 @@ End Code
                         { data:"VoucherNo",title:"Voucher" }
                     ],
                     responsive:true,
-                    destroy:true
+                    destroy: true
+                    , pageLength: 100
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
@@ -863,11 +879,11 @@ End Code
         $('#txtCurrencyCode').val(row.CurrencyCode);
         ShowCurrency(path, row.CurrencyCode, '#txtCurrencyName');
         $('#txtExchangeRate').val(row.ExchangeRate);
-        $('#txtTotalCharge').val(row.TotalCharge);
-        $('#txtTotalVAT').val(row.TotalVAT);
-        $('#txtTotal50Tavi').val(row.Total50Tavi);
-        $('#txtTotalNet').val(row.TotalNet);
-        $('#txtFTotalNet').val(row.FTotalNet);
+        $('#txtTotalCharge').val(ShowNumber(row.TotalCharge,2));
+        $('#txtTotalVAT').val(ShowNumber(row.TotalVAT,2));
+        $('#txtTotal50Tavi').val(ShowNumber(row.Total50Tavi,2));
+        $('#txtTotalNet').val(ShowNumber(row.TotalNet,2));
+        $('#txtFTotalNet').val(ShowNumber(row.FTotalNet,2));
         $('#txtTRemark').val(row.TRemark);
 
         $('#txtCashAmt').val(0);
@@ -877,7 +893,7 @@ End Code
         $('#txtChqBank').val('');
         $('#txtCashRef').val('');
         $('#txtChqRef').val('');
-
+        
         if (row.TRemark.indexOf(':') > 0) {
             let vRemark = row.TRemark;
             if (vRemark.indexOf(';') < 0) vRemark += ';';
@@ -1049,6 +1065,14 @@ End Code
                 break;
         }
     }
+    function CalTotal() {
+        let amt = CNum($('#txtTotalCharge').val());
+        let vat = CNum($('#txtTotalVAT').val());
+        let wht = CNum($('#txtTotal50Tavi').val());
+        let net = amt + vat - wht;
+        $('#txtTotalNet').val(ShowNumber(net, 2));
+        CalForeign();
+    }
     function CalForeign() {
         let totalforeign = CDbl(CNum($('#txtTotalNet').val()) / CNum($('#txtExchangeRate').val()), 2);
         $('#txtFTotalNet').val(ShowNumber(totalforeign,2));
@@ -1069,6 +1093,7 @@ End Code
         $('#txtAmt50Tavi').val(CDbl(wht, 2));
         CalNetAmount();
     }
+
     function CalNetAmount() {
         let amt = CNum($('#txtAmt').val());
         let vat = CNum($('#txtAmtVAT').val());
@@ -1087,11 +1112,11 @@ End Code
         let w = '?branch=' + $('#txtBranchCode').val();
         if ($('#txtCustCode').val() !== '') {
             w += '&custcode=' + $('#txtCustCode').val() + '&custbranch=' + $('#txtCustBranch').val();
-        }
+        }        
         window.open(path +'Acc/GenerateTaxInv' + w, '_blank');
     }
     function SetAmount(id) {
-        $('#txt'+id+'Amt').val($('#txtTotalNet').val());
+        $('#txt'+id+'Amt').val(CDbl($('#txtTotalNet').val(),2));
     }
     function SetRemark() {
         let str = 'CASH';

@@ -406,15 +406,15 @@ End Code
     let code = getQueryString("ControlNo");
     if (branch !== '' && code !== '') {
         $.get(path + 'Acc/GetVoucherGrid?Branch=' + branch + '&Code=' + code).done(function (r) {
-            if (r.voucher.data[0].Table.length > 0) {
-                let h = r.voucher.data[0].Table[0];
+            if (r.voucher.data.length > 0) {
+                let h = r.voucher.data[0];
                 $('#lblVoucherNo').text(h.ControlNo);
                 $('#lblDocDate').text(ShowDate(h.VoucherDate));
                 let jobno = '';
                 let sumcost = 0;
                 let sumreal = 0;
 
-                for (let d of r.voucher.data[0].Table) {
+                for (let d of r.voucher.data) {
                     for (let i = 1; i <= 17; i++) {
                         let codeCheck = '';
                         let SICode = d.SICode;
@@ -471,12 +471,14 @@ End Code
                                 codeCheck = 'B-ADV-006';
                                 break;
                         }
-                        if (codeCheck.indexOf(SICode) >= 0 && codeCheck !== '') {
-                            $('#qty' + i).text('1 SHP');
-                            $('#cost' + i).text(ShowNumber(d.ChqAmount,2));
-                            $('#real' + i).text(ShowNumber(d.PaidTotal, 2));
-                            sumcost += Number(d.ChqAmount);
-                            sumreal += Number(d.PaidTotal);
+                        if (SICode !== '') {
+                            if (codeCheck.indexOf(SICode) >= 0 && codeCheck !== '') {
+                                $('#qty' + i).text('1 SHP');
+                                $('#cost' + i).text(ShowNumber(d.ChqAmount, 2));
+                                $('#real' + i).text(ShowNumber(d.PaidTotal, 2));
+                                sumcost += Number(d.ChqAmount);
+                                sumreal += Number(d.PaidTotal);
+                            }
                         }
                     }
                     $('#costsum').text(ShowNumber(sumcost, 2));

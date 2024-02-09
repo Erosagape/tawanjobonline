@@ -184,23 +184,23 @@ End Code
                 let amtpending = 0;
 
                 let d = r.data.filter(function (data) {
-                    return data.BNet !== 0;
+                    return data.BNet !== 0 && data.DocStatus<99;
                 });
                 for (let i = 0; i < d.length; i++){
-                    let amt = d[i].UsedAmount + d[i].ChargeVAT;
+                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;   
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
-                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? d[i].UsedAmount : 0);
-                    let cost = (d[i].IsExpense == 1 ?  d[i].UsedAmount : 0);
-                    let profit = (d[i].IsExpense == 1 ?  d[i].UsedAmount*-1 : (d[i].IsCredit==1 ? 0 : d[i].UsedAmount));
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? (d[i].UsedAmount) : 0);
+                    let cost = (d[i].IsExpense == 1 ?  (d[i].UsedAmount) : 0);
+                    let profit = (d[i].IsExpense == 1 ?  (d[i].UsedAmount)*-1 : (d[i].IsCredit==1 ? 0 : (d[i].UsedAmount)));
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');
 
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
-                            amtforvat += d[i].UsedAmount;
+                            amtforvat += (d[i].UsedAmount);
                             amtvat += d[i].ChargeVAT;
                             slipNo += '<br/>VAT ' + d[i].VATRate + '%=' + d[i].ChargeVAT;
                         } else {
-                            amtnonvat += d[i].UsedAmount;
+                            amtnonvat += (d[i].UsedAmount);
                         }
                         if (d[i].Is50Tavi > 0) {
                             amtwht += d[i].Tax50Tavi;
@@ -214,7 +214,7 @@ End Code
                     if (d[i].LinkItem==0) {
                         html += '<td><input type="button" value="Edit" onclick="OpenEditor(' + "'" + d[i].ClrNo + "'" + ',' + d[i].ItemNo + ',' + "'" + d[i].LinkBillNo + "'" + ',' + d[i].LinkItem + ')"/></td>';
                     } else {
-                        html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ')"/></td>';
+                        html += '<td><input type="button" value="View" onclick="OpenInvoice(' + "'" + d[i].BranchCode + "'" + ',' + "'" + d[i].LinkBillNo + "'" + ',' + "'" + d[i].ShippingRemark + "'" + ')"/></td>';
                     }
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
                     html += '<td>'+d[i].SICode+'</td>';
@@ -270,8 +270,16 @@ End Code
             CloseWait();
         });
     }
-    function OpenInvoice(branch,code) {
-        window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+    function OpenInvoice(branch, code,type) {
+        switch (type) {
+            case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                break;
+            case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                break;
+            case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                break;
+            default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+        }
     }
     function OpenEditor(clrno, item,invno,seq) {
         //ShowMessage('you click ' + clrno + '/' + item);

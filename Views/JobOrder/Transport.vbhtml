@@ -126,7 +126,7 @@ End Code
                     <label id="lblPaymentCond">Freight Payment Condition :</label>
                     <br />
                     <div style="display:flex;flex-direction:row">
-                        <textarea id="txtPaymentCondition" class="form-control"></textarea>
+                        <input type="text" id="txtPaymentCondition" class="form-control" />
                     </div>
                 </div>
                 <div class="col-sm-6">
@@ -210,9 +210,10 @@ End Code
                 <option value="TE">Truck Order (EXPORT)</option>
                 <option value="BA">Booking Confirmation (AIR)</option>
                 <option value="BS">Booking Confirmation (SEA)</option>
-                <option value="SP">Shipping Particulars</option>
-                <option value="BLW">Bill of Lading - WALMAY</option>
-                <option value="BLE">Bill of Lading - PORCHEON</option>
+                <option value="SP">Shipping Instruction</option>
+                @*<option value="BLW">Bill of Lading - WALMAY</option>*@
+                <option value="BLE">Bill of Lading - UGLOBE</option>
+                @*<option value="BFT">Bill of Lading - BETTER</option>*@
                 <option value="BLS">Sea Way Bill</option>
                 <option value="HAW">House Air Way Bill</option>
                 <option value="MAW">Master Air Way Bill</option>
@@ -220,7 +221,6 @@ End Code
                 <option value="SC">Sales Contract</option>
                 <option value="PL">Packing Lists</option>
             </select>
-            >
             <div class="row">
                 <div class="col-sm-4">
                     <label id="lblActive">Active Trip:</label>
@@ -299,7 +299,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace2">Delivery:</label>
+                <label id="lblPlace2">Loading:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtPlace2" class="form-control" />
@@ -782,8 +782,7 @@ End Code
                                 :
                                 <br />
                                 <div style="display:flex">
-					<input type="hidden" id="txtDriver" />
-                                    <input type="text" id="txtDriverName" class="form-control" disabled>
+                                    <input type="text" id="txtDriver" class="form-control">
                                     <button class="btn btn-default" onclick="SearchData('driver')">...</button>
                                 </div>
                             </div>
@@ -792,8 +791,7 @@ End Code
                                 :
                                 <br />
                                 <div style="display:flex">
-					<input type="hidden" id="txtTruckNO" />
-                                    <input type="text" id="txtTruckName" class="form-control" disabled>
+                                    <input type="text" id="txtTruckNO" class="form-control">
                                     <button class="btn btn-default" onclick="SearchData('carlicense')">...</button>
                                 </div>
                             </div>
@@ -1117,12 +1115,9 @@ End Code
     }
     function ReadEmp(dt) {
         $('#txtDriver').val(dt.EmpCode);
-        $('#txtDriverName').val(dt.Name);
-
     }
     function ReadCar(dt) {
         $('#txtTruckNO').val(dt.CarNo);
-        $('#txtTruckName').val(dt.CarLicense);
         //$('#txtDriver').val(dt.EmpCode);
     }
     function ReadRoute(dt) {
@@ -1379,6 +1374,7 @@ End Code
         $('#txtTotalTripC').val(countC);
     }
     function ReadContainer(dr) {
+        sortData(dr,'ItemNo','asc');
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
@@ -1605,6 +1601,9 @@ End Code
             case 'SP':
                 window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
+            //case 'BFT':
+            //    window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+            //    break;
             case 'BLS':
                 window.open(path + 'JobOrder/FormTransport?Type=SEA&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
@@ -1639,7 +1638,6 @@ End Code
         $('#txtCTN_NO').val('');
         $('#txtSealNumber').val('');
         $('#txtTruckNO').val('');
-        $('#txtTruckName').val('');
         $('#txtTruckIN').val($('#txtReturnDate').val());
         $('#txtStart').val($('#txtReturnTime').val());
         $('#txtDReturnDate').val('');
@@ -1649,7 +1647,6 @@ End Code
         $('#txtComment').val('');
         $('#txtTruckType').val('');
         $('#txtDriver').val('');
-        $('#txtDriverName').val('');
         $('#txtTargetYardDate').val($('#txtCYDate').val());
         $('#txtTargetYardTime').val($('#txtCYTime').val());
         $('#txtActualYardDate').val('');
@@ -1694,7 +1691,7 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
-        /*
+/*
 	if($('#txtDriver').val()==''){
 		ShowMessage('Please enter driver',true);
 		return;
@@ -1703,7 +1700,7 @@ End Code
 		ShowMessage('Please enter truck no',true);
 		return;
 	}
-    */
+*/
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),
@@ -1799,7 +1796,6 @@ End Code
         $('#txtCTN_NO').val(dr.CTN_NO);
         $('#txtSealNumber').val(dr.SealNumber);
         $('#txtTruckNO').val(dr.TruckNO);
-	ShowCarLicense(path,dr.TruckNO,'#txtTruckName');
         $('#txtTruckIN').val(CDateEN(dr.TruckIN));
         $('#txtStart').val(ShowTime(dr.Start));
         $('#txtFinish').val(ShowTime(dr.Finish));
@@ -1818,7 +1814,6 @@ End Code
         $('#txtComment').val(dr.Comment);
         $('#txtTruckType').val(dr.TruckType);
         $('#txtDriver').val(dr.Driver);
-	ShowEmployee(path,dr.Driver,'#txtDriverName');
         $('#txtTargetYardDate').val(CDateEN(dr.TargetYardDate));
         $('#txtTargetYardTime').val(ShowTime(dr.TargetYardTime));
         $('#txtActualYardDate').val(CDateEN(dr.ActualYardDate));
@@ -2094,7 +2089,8 @@ End Code
         $('#btnExpense2').attr('disabled', 'disabled');
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+            //$.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+		$.get(path + 'Acc/GetPayment?Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     $('#txtCTN_NO').attr('disabled', 'disabled');
                     let tb = $('#tbPayment').DataTable({

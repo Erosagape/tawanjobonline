@@ -3,10 +3,17 @@
     ViewBag.FileName = "export" & DateTime.Now.ToString("yyyyMMddHHMMss") & ".csv"
 End Code
 <style>
+
     table {
         font-size: 7px;        
+page-break-inside:avoid;
+    }
+   tr    { page-break-inside:avoid; page-break-after:auto; }
+    td{
+	overflow:hidden;
     }
 </style>
+<div style="display:flex;flex-direction:column;">
 <label id="rptTitle" style="font-size:12px" onclick="ExportData()">Report Title</label>
 <div style="float:right" id="rptCliteria">Report Cliteria</div>
 <div style="display:flex;flex-direction:column;width:100%">
@@ -15,7 +22,7 @@ End Code
         <tbody></tbody>
         <tfoot></tfoot>
     </table>
-
+</div>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';

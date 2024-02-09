@@ -244,7 +244,7 @@ End Code
                                 <label id="lblContactName">Cust contact</label>
                                 :<input type="text" id="txtContactName" class="form-control" />
                             </p>
-                            <p>
+                            <p style="display:none">
                                 <label id="lblShippingRemark">Shipping Note</label>
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
@@ -616,7 +616,15 @@ End Code
         let code = row.DocNo;
         if (code !== '') {
             let branch = row.BranchCode;
-            window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
+            switch (row.ShippingRemark) {
+                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+                case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
+                    break;
+                case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
+            }
         }
     }
     function ShowDetail(branch, code) {
@@ -767,6 +775,8 @@ End Code
             row_d.FTotalAmt = CNum($('#txtFTotalAmt').val());
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
+            row_d.AmtCredit = CNum($('#txtAmtCredit').val());
+            row_d.FAmtCredit = CNum($('#txtFAmtCredit').val());
             row_d.QtyUnit = $('#txtQtyUnit').val();
             row_d.IsTaxCharge = $('#txtIsTaxCharge').val();
             row_d.Is50Tavi = $('#txtIs50Tavi').val();

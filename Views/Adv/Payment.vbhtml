@@ -616,6 +616,7 @@ End Code
                     acType:'CA'
                 };
                 list.push(obj);
+		$('#txtCashPayTo').val(o.PayChqTo);
             }
             if (o.AdvChqCash > 0) {
                 let obj = {
@@ -633,6 +634,7 @@ End Code
                     acType:'CH'
                 };
                 list.push(obj);
+		$('#txtChqCashPayTo').val(o.PayChqTo);
             }
             if (o.AdvChq > 0) {
                 let obj = {
@@ -650,6 +652,7 @@ End Code
                     acType:'CU'
                 };
                 list.push(obj);
+		$('#txtChqPayTo').val(o.PayChqTo);
             }
             if (o.AdvCred > 0) {
                 let obj = {
@@ -667,6 +670,7 @@ End Code
                     acType:'CR'
                 };
                 list.push(obj);
+		$('#txtCredPayTo').val(o.PayChqTo);
             }
         }
         //show selected details

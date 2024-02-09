@@ -237,8 +237,7 @@ End Code
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
         var path = '@Url.Content("~")';
-        //$("#imgLogo").hide();
-       // $("#imgLogoAdd").show();
+
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
@@ -247,15 +246,12 @@ End Code
                     let j = r.job.data[0];
                     $('#lblCustInv').text(j.InvNo);        
                     $('#lblInspectionDate').text(ShowDate(j.DutyDate));
-		    if(j.ClearPort){
-		    	$.get(path + 'Master/GetCustomsPort?code=' + j.ClearPort).done(function (r) {
-                        	if (r.RFARS !== null) {
-                            		let p = r.RFARS.data[0];
-                            		$('#lblReleasePort').text(p.AreaCode);
-                        	}    
-                    	});
-		    }	
-                    
+                    $.get(path + 'Master/GetCustomsPort?code=' + j.ClearPort).done(function (r) {
+                        if (r.RFARS !== null) {
+                            let p = r.RFARS.data[0];
+                            $('#lblReleasePort').text(p.AreaCode);
+                        }    
+                    });
                 }
             });
         
@@ -283,13 +279,13 @@ End Code
             $('#lblBillToAddress').html(CStr(h.PaymentCondition));
 
             $('#dvRemark').html(CStr(h.Remark));
-            console.log(r.booking.data);
+          
              let ctnList = '';
             for (let d of r.booking.data) {
                 if (d.CTN_NO !== '') {
                     if (ctnList.indexOf(d.CTN_NO) < 0) {
                         if (ctnList !== '') ctnList += '';
-                        ctnList += " <tr><td>" + d.CTN_NO + "</td><td style='text-align:right'>" + d.GrossWeight + "</td><td style='text-align:right'>" + d.GrossWeight + "</td><td>" + d.LocationRoute + "</td><td>" + ShowDate(d.TargetYardDate) + " " + ShowTime(d.TargetYardTime) + "</td><td>" + ShowDate(d.TargetDeliveryDate) + " " + ShowTime(d.TargetDeliveryTime) + "</td><td>" + ShowDate(d.TargetReturnDate)+" "+ShowTime(d.TargetReturnTime) + "</td></tr>";
+                        ctnList += " <tr><td>" + d.CTN_NO + "</td><td style='text-align:right'>" + d.GrossWeight + "</td><td style='text-align:right'>" + d.GrossWeight + "</td><td>" + d.LocationRoute + "</td></tr>";
                     }
                 }
             }
@@ -300,9 +296,6 @@ End Code
                     <th>Net Weight</th>
                     <th>GrossWeight</th>
                     <th>Route</th>
-                    <th>TargetPickUp</th>
-                    <th>TargetDelivery</th>
-                    <th>TargetReturn</th>
                 </tr>
         </thead >
                 <tbody>
