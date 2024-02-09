@@ -438,7 +438,7 @@ End Code
                                     <input type="text" id="txtAdvNo" style="width:150px"/> 
                                     <br/>
                                     <label id="lblAdvAmt">Advance Net :</label>                                    
-                                    <input type="text" id="txtAdvAmount" style="width:120px"/>
+                                    <input type="text" id="txtAdvAmount" style="width:60px"/>
                                 </div>
                             </div>                            
                             <div class="row">
@@ -1122,7 +1122,7 @@ End Code
             $('#txtClearanceDate').val(CDateEN(dt.ClearanceDate));
             
             $('#txtEmpCode').val(dt.EmpCode);
-            $('#txtAdvTotal').val(CDbl(dt.AdvTotal, 3));
+            $('#txtAdvTotal').val(CDbl(dt.AdvTotal, 2));
             if (isjobmode == false) {
                 $('#cboJobType').val(CCode(dt.JobType));
             }
@@ -1130,7 +1130,7 @@ End Code
             $('#cboClrType').val(dt.ClearType);
             $('#cboClrFrom').val(dt.ClearFrom);
             $('#cboDocStatus').val(CCode(dt.DocStatus));
-            $('#txtTotalExpense').val(CDbl(dt.TotalExpense, 3));
+            $('#txtTotalExpense').val(CDbl(dt.TotalExpense, 2));
             $('#txtTRemark').val(dt.TRemark);
             $('#txtApproveBy').val(dt.ApproveBy);
             $('#txtApproveDate').val(CDateEN(dt.ApproveDate));
@@ -1146,12 +1146,12 @@ End Code
 
             $('#txtCTN_NO').val(dt.CTN_NO);
             $('#txtCoPersonCode').val(dt.CoPersonCode);
-            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 3));
-            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 3));
-            $('#txtVatAmount').val(CDbl(dt.ClearVat, 3));
-            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 3));
-            $('#txtNetAmount').val(CDbl(dt.ClearNet, 3));
-            $('#txtSumCharge').val(CDbl(dt.ClearBill, 3));
+            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 2));
+            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 2));
+            $('#txtVatAmount').val(CDbl(dt.ClearVat, 2));
+            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 2));
+            $('#txtNetAmount').val(CDbl(dt.ClearNet, 2));
+            $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
             $('#txtSumCost').val(CDbl(dt.ClearCost,2));
 
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
@@ -1558,10 +1558,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(CDbl(dt.VATRate,0));
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UsedAmount,3));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,3));
-            $('#txtNET').val(CDbl(dt.BNet,3));
+            $('#txtAMT').val(CDbl(dt.UsedAmount,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+            $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1569,7 +1569,7 @@ End Code
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtQNo').val(dt.QNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvAmount,3));
+            $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 2));
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo); 
             if ($('#txtLinkBillNo').val() !== '') {
@@ -1611,10 +1611,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UnitPrice,3));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,3));
-            $('#txtNET').val(CDbl(dt.BNet,3));
+            $('#txtAMT').val(CDbl(dt.UnitPrice,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+            $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1666,10 +1666,17 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
+            if(dt.IsDuplicate==1) {
             $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),2));
-            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),3));
-            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),3));
-            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),3));
+            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
+            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
+            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
+	    } else {
+            $('#txtAMT').val(CDbl(dt.AdvAmount,2));
+            $('#txtVAT').val(CDbl(CNum(dt.ChargeVAT,2)));
+            $('#txtWHT').val(CDbl(CNum(dt.Tax50Tavi,2)));
+            $('#txtNET').val(CDbl(CNum(dt.AdvNet,2)));
+	    }
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1677,7 +1684,7 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,3));
+            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,2));
             $('#txtQNo').val(dt.QNo);
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo); 
@@ -2043,7 +2050,7 @@ End Code
     }
     
     function GetTotal() {
-        return CDbl(CNum($('#txtTotalClear').val()) / CNum($('#txtExchangeRate').val()) ,3);
+        return CDbl(CNum($('#txtTotalClear').val()) / CNum($('#txtExchangeRate').val()) ,2);
     }
     function CalAmount() {
         $('#txtAMT').val(0);
@@ -2076,7 +2083,7 @@ End Code
         let vat = CDbl($('#txtVAT').val(),3);
         let wht = CDbl($('#txtWHT').val(),3);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),3));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {

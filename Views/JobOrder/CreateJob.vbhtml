@@ -248,7 +248,7 @@ End Code
             <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
                 <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
             </a>
-            <input type="checkbox" id="chkConfirm" />Confirm Today
+            <input type="checkbox" id="chkConfirm" checked />Confirm Today
         </div>
     </div>
 </div>
@@ -541,12 +541,10 @@ End Code
                 SetGridUser(path, '#tbUser', '#frmSearchUser', ReadUser);
                 break;
             case 'customer':
-                //SetGridCompanyByGroup(path, '#tbCust', 'CUSTOMERS,INTERNAL,PERSON', '#frmSearchCust', ReadCustomer);
-                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                SetGridCompanyByGroup(path, '#tbCust','CUSTOMERS,INTERNAL,PERSON', '#frmSearchCust', ReadCustomer);
                 break;
             case 'consignee':
-                //SetGridCompanyByGroup(path, '#tbCons', 'CONSIGNEE', '#frmSearchCons', ReadConsignee);
-                SetGridCompany(path, '#tbCons', '#frmSearchCons', ReadConsignee);
+                SetGridCompanyByGroup(path, '#tbCons','CONSIGNEE' ,'#frmSearchCons', ReadConsignee);
                 break;
             case 'contact':
                 let w = '?Branch=' + $('#txtCustBranch').val() + '&Code=' + $('#txtCustCode').val();
@@ -600,7 +598,7 @@ End Code
         $('#txtQNo').val('');
         $('#txtRevise').val('');
         $('#txtManagerCode').val('');
-        $.get(path + 'JobOrder/GetQuotationGrid?expire=N&branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1')
+        $.get(path + 'JobOrder/GetQuotationGrid?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1')
             .done(function (r) {
                 if (r.quotation.data.length > 0) {
                     if (r.quotation.data[0].QNo !== null) {
@@ -614,35 +612,46 @@ End Code
     }
     function CreateJob() {
         if ($('#txtBranchName').val() === '') {
-            ShowMessage('Please input branch',true);
+            ShowMessage('Please input branch', true);
             $('#txtBranchCode').focus();
             return;
         }
         if ($('#cboJobType').val() === '') {
-            ShowMessage('Please select job type',true);
+            ShowMessage('Please select job type', true);
             $('#cboJobType').focus();
             return;
         }
         if ($('#cboShipBy').val() === '') {
-            ShowMessage('Please select ship by',true);
+            ShowMessage('Please select ship by', true);
             $('#cboShipBy').focus();
             return;
         }
         if ($('#txtCSName').val() === '') {
-            ShowMessage('Please select staff',true);
+            ShowMessage('Please select staff', true);
             $('#txtCSCode').focus();
             return;
         }
         if ($('#txtCustName').val() === '') {
-            ShowMessage('Please choose customer first',true);
+            ShowMessage('Please choose customer first', true);
             $('#txtCustCode').focus();
             return;
         }
-        if ($('#txtCustInv').val() === '' && $('#txtBookingNo').val()==='') {
-            ShowMessage('Please input invoice/booking',true);
+        if ($('#txtCustInv').val() === '' && $('#txtBookingNo').val() === '') {
+            ShowMessage('Please input invoice/booking', true);
             $('#txtCustInv').focus();
             return;
         }
+        if ($('#txtETDDate').val() == '' || $('#txtETADate').val() == '') {
+            ShowMessage('Please input ETD/ETA', true);
+            return;
+        }
+        if ($('#cboJobType').val() == '01') {
+            if ($('#txtQNo').val() == '') {
+                ShowMessage('Please input Quotation for Import shipment', true);
+                return;
+            }
+        }
+
         //if pass every checked
 
         let strParam = path + 'JobOrder/GetNewJob?';

@@ -175,24 +175,6 @@ End Code
                         <div class="col-sm-4">
                             <div style="display:flex;flex-direction:column">
                                 <div class="row">
-                                    <div class="col-sm-12" style="display:flex;">
-                                        <input type="button" id="btnLinkJob" value="Load From Database" class="btn btn-primary" onclick="SearchData('job')" />
-                                        <select id="cboDatabase" class="form-control dropdown">
-                                            @If ViewBag.Database = "1" Then
-                                                @<option value="2">LOGISTIC</option>
-                                            End If
-                                            @If ViewBag.Database = "2" Then
-                                                @<option value="1">MILLENIUM</option>
-                                            End If
-                                            @If ViewBag.Database = "3" Then
-                                                @<option value="1">MILLENIUM</option>
-                                                @<option value="2">LOGISTIC</option>
-                                            End If
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="row">
                                     <div class="col-sm-6">
                                         <label id="lblJobCondition" for="txtJobCondition">Work Condition :</label>
                                         <input type="text" id="txtJobCondition" class="form-control" style="width:100%" tabindex="7" />
@@ -200,6 +182,7 @@ End Code
                                     <div class="col-sm-6">
                                         <label id="lblCustPoNo" for="txtCustPoNo">Customer PO :</label>
                                         <input type="text" id="txtCustPoNo" class="form-control" style="width:100%" tabindex="8" />
+                                        <input type="button" id="btnLinkJob" value="Load From Job Shipping" class="btn btn-primary" onclick="SearchData('job')" />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -357,7 +340,7 @@ End Code
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
-                                        <label id="lblMeasurement" for="txtMeasurement">Meas.(CBM) :</label>
+                                        <label id="lblMeasurement" for="txtMeasurement" style="font-weight:bold;color:red;">Meas.(CBM) :</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtMeasurement" class="form-control" style="width:100%" tabindex="23" />
@@ -532,7 +515,7 @@ End Code
                             <input type="date" id="txtEDIDate" class="form-control" style="width:100%" tabindex="45" />
                         </div>
                         <div class="col-sm-3">
-                            <label id="lblReadyClearDate" for="txtReadyClearDate">Ready Clear :</label>
+                            <label id="lblReadyClearDate" for="txtReadyClearDate" style="color:red">Ready Clear :</label>
                             <input type="date" id="txtReadyClearDate" class="form-control" style="width:100%" tabindex="46" />
                         </div>
                         <div class="col-sm-3">
@@ -693,6 +676,9 @@ End Code
                                     Type
                                 </th>
                                 <th class="all">
+                                    Container
+                                </th>
+                                <th class="all">
                                     Document No
                                 </th>
                                 <th class="desktop">
@@ -718,6 +704,7 @@ End Code
                             <table id="tbLog" class="table table-responsive">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th class="desktop">
                                             Date
                                         </th>
@@ -867,6 +854,7 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
+                        <input type="hidden" id="txtJobLogId" />
                         <textarea id="txtLogRemark" class="form-control"></textarea>
                     </div>
                     <div class="modal-footer">
@@ -924,6 +912,7 @@ End Code
     const userPosition = '@ViewBag.UserPosition';
     const license = '@ViewBag.LICENSE_NAME';
     let rec = {};
+    let remarks = {};
     SetLOVs();
     SetEvents();
     //check parameters
@@ -1244,8 +1233,7 @@ End Code
                 SetContainerEdit();
                 break;
             case 'job':
-                //let dbID = ('@ViewBag.DATABASE' == '1'&&'@ViewBag.DATABASE' == '3' ? '2' : '1');
-                let dbID = $('#cboDatabase').val();
+                let dbID = ('@ViewBag.DATABASE' == '1' ? '2' : '1');
                 let invNo = $('#txtCustInvNo').val();
                 let w = '?DBID=' + dbID;
                 if (invNo !== '') w += '&InvNo=' + invNo;
@@ -1478,6 +1466,7 @@ End Code
                             }
                         },
                         { data: "DocType", title: "Type" },
+                        { data: "Container", title: "Container" },
                         {
                             data: null, title: "Doc No",
                             render: function (data) {
@@ -1528,10 +1517,17 @@ End Code
             .done(function (r) {
                 if (r.joborderlog.data.length > 0) {
                     let d = r.joborderlog.data;
+                    remarks = d;
                     let tb=$('#tbLog').DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
+                            {
+                                data: "ItemNo", title: "#",
+                                render: function (data) {
+                                    return "<button class='btn btn-default' onclick='ShowJobLog("+ data +");'>"+ data +"</button>";
+                                }
+                            },
                             {
                                 data: "LogDate", title: "Date",
                                 render: function (data) {
@@ -1894,14 +1890,25 @@ End Code
         $('#frmContainerEdit').modal('hide');
     }
     function AddJobLog() {
+        $('#txtJobLogId').val(0);
         $('#txtLogRemark').val('');
         $('#frmJobOrderLog').modal('show');
+    }
+    function ShowJobLog(id) {
+        if (remarks.length > 0) {
+            let row = remarks[id - 1];
+            if (row.EmpCode !== user && user!=='ADMIN')
+                return;
+            $('#txtJobLogId').val(row.ItemNo);
+            $('#txtLogRemark').val(row.TRemark);
+            $('#frmJobOrderLog').modal('show');
+        }
     }
     function SaveJobLog() {
         let obj = {
             BranchCode: $('#txtBranchCode').val(),
             JNo: $('#txtJNo').val(),
-            ItemNo: 0,
+            ItemNo: $('#txtJobLogId').val(),
             EmpCode: user,
             LogDate:  CDateEN(GetToday()),
             LogTime: GetTime(),

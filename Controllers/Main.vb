@@ -1384,11 +1384,11 @@ h.SumDiscount=ROUND(d.SumDiscount,2),
 h.DiscountCal=ROUND(d.TotalNet*(h.DiscountRate*0.01),2),
 h.TotalNet=ROUND(
 (ROUND(d.TotalAdvance,2)+ROUND(d.TotalCharge,2)+ROUND(d.TotalVAT,2)-ROUND(d.Total50Tavi,2)-ROUND(d.SumDiscount,2))
--ROUND((d.TotalNet*(h.DiscountRate*0.01)),2)
+-ROUND((d.TotalNet*(h.DiscountRate*0.01)),2)-h.TotalCustAdv
 ,2),
 h.ForeignNet=ROUND(
 ((ROUND(d.TotalAdvance,2)+ROUND(d.TotalCharge,2)+ROUND(d.TotalVAT,2)-ROUND(d.Total50Tavi,2)-ROUND(d.SumDiscount,2))
--ROUND((d.TotalNet*(h.DiscountRate*0.01)),2))/h.ExchangeRate
+-ROUND((d.TotalNet*(h.DiscountRate*0.01)),2)-h.TotalCustAdv)/h.ExchangeRate
 ,2)
 from Job_InvoiceHeader h
 inner join (

@@ -957,6 +957,7 @@
     <Content Include="Views\Acc\FormTB.vbhtml" />
     <Content Include="Views\Acc\FormTBSub.vbhtml" />
     <Content Include="Views\Acc\FormInv2.vbhtml" />
+    <Content Include="Views\Acc\FormInv_LandScape.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
