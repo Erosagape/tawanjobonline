@@ -698,6 +698,10 @@ End Code
             ShowMessage('Please input container reference', true);
             return;
         }
+        if ($('#txtPayType').val() == '') {
+            ShowMessage('Please select Payment Type', true);
+            return;
+        }
         let obj = GetDataHeader();
         if (obj.DocNo == '') {
             if (userRights.indexOf('I') < 0) {
