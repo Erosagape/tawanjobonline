@@ -55,7 +55,10 @@ End Code
             <select class="form-control dropdown" id="selCustomer" name="selCustomer" onchange="PopulateDBList()">
                 <option value="">N/A</option>
                 @For Each cust In oCusts
-                    @<option value="@cust.CustID">@cust.CustName</option>
+                    Dim oFind = CType(oCustData, List(Of TWTCustomerApp)).Where(Function(c) c.CustID.Equals(cust.CustID) And c.WebDBType.Equals(1))
+                    If oFind.Count() > 0 Then
+                        @<option value="@cust.CustID">@cust.CustName</option>
+                    End If
                 Next
             </select>
         </div>
