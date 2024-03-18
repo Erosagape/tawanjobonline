@@ -58,9 +58,7 @@ border-left: 1px solid;
         <td><label id="lblTotalNET"></label></td>
     </tr>
     <tr class="border" style="background-color:lightblue;text-align:right;">
-	<td colspan="3">TOTAL SERVICES</td>
-	<td><label id="lblTotalCharge"></label></td>
-        <td colspan="3">TOTAL RECEIPT</td>
+        <td colspan="7">TOTAL RECEIPT</td>
         <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
     </tr>
 </table>
@@ -106,7 +104,7 @@ border-left: 1px solid;
     let htmlheader = '<div style="text-align:center;width:100%">';
     htmlheader += '<h2><label style="font-size:18px;">{doctype}</label></h2>';
     htmlheader += '</div>';
-    htmlheader += '<div style="text-align:right;width:100%"><div style="display:none">{copy}</div></div>';
+    htmlheader += '<div style="text-align:right;width:100%">{copy}</div>';
     htmlheader += '<div style="display:flex;">';
     htmlheader += '<div style="flex:3;border:1px solid black;border-radius:5px;margin-right:8px;padding:5px 5px 5px 5px;">';
     htmlheader += 'NAME : <label>{custname}</label><br />';
@@ -122,14 +120,14 @@ border-left: 1px solid;
 
     let branch = getQueryString('branch');
     let receiptno = getQueryString('code');
-    //let ans = confirm('OK to print Original or Cancel For Copy');
-    //if (ans == true) {
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
         //$('#dvCopy').html('<b>**ORIGINAL**</b>');
-        //htmlheader = htmlheader.replace('{copy}', '<b>**ORIGINAL**</b>');
-    //} else {
+        htmlheader = htmlheader.replace('{copy}', '<b>**ORIGINAL**</b>');
+    } else {
         //$('#dvCopy').html('<b>**COPY**</b>');
-        //htmlheader = htmlheader.replace('{copy}', '<b>**COPY**</b>');
-    //}
+        htmlheader = htmlheader.replace('{copy}', '<b>**COPY**</b>');
+    }
     $.get(path + 'acc/getreceivereport?type=SUM&branch=' + branch + '&code=' + receiptno, function (r) {
         if (r.receipt.data.length !== null) {
             ShowData(r.receipt.data);
@@ -174,7 +172,7 @@ border-left: 1px solid;
             if (Number(h.BillToCustBranch) == 0) {
                 branchText = ' สาขา: สำนักงานใหญ่';
             } else {
-                branchText = ' BRANCH: 0000'+CCode(Number(h.BillToCustBranch));
+                branchText = ' BRANCH: 000'+CCode(Number(h.BillToCustBranch));
             }
         } else {
             //$('#lblCustName').text(h.BillEName);
@@ -184,7 +182,7 @@ border-left: 1px solid;
             if (Number(h.BillToCustBranch) == 0) {
                 branchText = ' BRANCH: HEAD OFFICE';
             } else {
-                branchText =  ' BRANCH: 0000'+CCode(Number(h.BillToCustBranch));
+                branchText =  ' BRANCH: 000'+CCode(Number(h.BillToCustBranch));
             }
         }
         $('#tremark').text(h.TRemark);
@@ -238,24 +236,21 @@ border-left: 1px solid;
                 service += Number(d.AmtCharge);
                 vat += Number(d.InvVAT);
                 wht += Number(d.Inv50Tavi);
-               
-	     amt += Number(d.InvAmt) + Number(d.InvVAT);
+                amt += Number(d.InvAmt) + Number(d.InvVAT);
+
             } else {
 
             }
-
             adv += Number(d.AmtAdvance);
             total +=Number(d.InvTotal);
-		console.log(amt);
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(servat, 2));
         $('#lblTotalBeforeNOVAT').text(ShowNumber(sernovat, 2));
-        $('#lblTotalCharge').text(ShowNumber(sernovat+servat, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
-        $('#lblTotalAfterVAT').text(ShowNumber(adv+servat+sernovat+vat, 2));
-        $('#lblTotalNET').text(ShowNumber(servat+sernovat+vat+adv-wht, 2));
-        $('#lblTotalText').text(CNumThai(CDbl(servat+sernovat+vat+adv-wht,2)));
+        $('#lblTotalAfterVAT').text(ShowNumber(amt, 2));
+        $('#lblTotalNET').text(ShowNumber(total , 2));
+        $('#lblTotalText').text(CNumThai(CDbl(amt,2)));
     }
 </script>

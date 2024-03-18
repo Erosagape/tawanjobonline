@@ -29,8 +29,8 @@ End Code
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
-                <option value="RCV">Receipt Advance</option>
-                <option value="RET">Receipt Transport</option>
+                <option value="ADV">Receipt Advance</option>
+                <option value="RCV">Receipt Transport</option>
                 <option value="DNR">Debit Note Receipt</option>
             </select>
         </div>
@@ -270,13 +270,6 @@ End Code
                                 <input type="text" id="txtCashRef" class="form-control" />
                             </div>
                         </div>
-  			<div class="col-sm-2">
-                            DATE:
-                            <br />
-                            <div style="display:flex">
-                                <input type="text" id="txtCashDate" class="form-control" />
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
@@ -299,11 +292,6 @@ End Code
                                 <input type="text" id="txtChqRef" class="form-control" />
                                 <input type="checkbox" id="chkTransfer" onclick="SetTransfer()" /><b> TRANSFER</b>
                             </div>                            
-                        </div>
-			<div class="col-sm-2">
-                            DATE:
-                            <br />
-                            <input type="text" id="txtChqDate" class="form-control" />
                         </div>
                     </div>
                     <div class="row">
@@ -670,11 +658,9 @@ End Code
         if (code !== '') {
             let branch = row.BranchCode;
             switch (row.ReceiptType) {
-		case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                case "RET": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
                 case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
-                    break;
-                case "RCV": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=RCV', '_blank');
                     break;
                 default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code);
             }
@@ -1137,22 +1123,15 @@ End Code
         str += ':' + $('#txtCashAmt').val();
         str += ':' + $('#txtCashBank').val();
         str += ':' + $('#txtCashRef').val();
-	str += ':' + $('#txtCashDate').val();
         str += ';CHQ';
         str += ':' + $('#txtChqAmt').val();
         str += ':' + $('#txtChqBank').val();
         str += ':' + $('#txtChqRef').val();
-	str += ':' + $('#txtChqDate').val();
-	if($('#chkTransfer').prop('checked')){
-		str += ':TRANSFER' ;
-	}else{
-		str += ':CHEQUE' ;
-	}
         str += ';CHG';
         str += ':' + $('#txtBankChg').val();
         $('#txtTRemark').val(str);
     }
     function SetTransfer() {
-       // $('#txtChqRef').val('TRANSFER');
+        $('#txtChqRef').val('TRANSFER');
     }
 </script>

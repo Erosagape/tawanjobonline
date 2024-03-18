@@ -1007,6 +1007,7 @@ End Code
             $('#txtBranchCode').focus();
             return false;
         }
+/*
         if ($('#txtCTN_NO').val() == '') {
             ShowMessage('Please input container',true);
             $('#txtCTN_NO').focus();
@@ -1017,16 +1018,18 @@ End Code
             $('#cboJobType').focus();
             return false;
         }
-        if ($('#cboClrType').val() == 0) {
-            ShowMessage('Please select clear type',true);
-            $('#cboClrType').focus();
-            return false;
-        }
         if ($('#cboClrFrom').val() == 0) {
             ShowMessage('Please select clear from',true);
             $('#cboClrFrom').focus();
             return false;
         }
+*/
+        if ($('#cboClrType').val() == 0) {
+            ShowMessage('Please select clear type',true);
+            $('#cboClrType').focus();
+            return false;
+        }
+
         if (userRights.indexOf('E') < 0) {
             ShowMessage('You are not allow to save',true);
             return false;
@@ -1492,14 +1495,14 @@ End Code
             CurrencyCode: $('#txtCurrencyCode').val(),
             CurRate: $('#txtCurRate').val(),
             UnitPrice: $('#chkIsCost').prop('checked') == true ? 0 : $('#txtUnitPrice').val(),
-            FPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),2),
-            BPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()), 2),
+            FPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),3),
+            BPrice: $('#chkIsCost').prop('checked') == true ? 0 : CDbl(Number($('#txtAMT').val()), 3),
             QUnitPrice: dtl.QUnitPrice,
             QFPrice: CDbl(CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 4),
-            QBPrice: CDbl(CNum($('#txtCurRate').val())*CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 2),
+            QBPrice: CDbl(CNum($('#txtCurRate').val())*CNum(dtl.QUnitPrice) * CNum($('#txtQty').val()), 4),
             UnitCost: $('#txtUnitPrice').val(),
-            FCost: CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),2),
-            BCost: CDbl(Number($('#txtAMT').val()),2),
+            FCost: CDbl(Number($('#txtAMT').val()) / Number($('#txtCurRate').val()),3),
+            BCost: CDbl(Number($('#txtAMT').val()),3),
             ChargeVAT: $('#txtVAT').val(),
             Tax50Tavi: $('#txtWHT').val(),
             AdvNO: $('#txtAdvNo').val(),
@@ -1558,10 +1561,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(CDbl(dt.VATRate,0));
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UsedAmount,2));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
-            $('#txtNET').val(CDbl(dt.BNet,2));
+            $('#txtAMT').val(CDbl(dt.UsedAmount,3));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,3));
+            $('#txtNET').val(CDbl(dt.BNet,3));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1569,7 +1572,7 @@ End Code
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtQNo').val(dt.QNo);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 2));
+            $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 3));
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo); 
             if ($('#txtLinkBillNo').val() !== '') {
@@ -1600,7 +1603,7 @@ End Code
             }
             $('#txtQty').val(dt.Qty);
             $('#txtCurRate').val(dt.CurRate);
-            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,2));
+            $('#txtUnitPrice').val(CDbl(dt.UnitPrice,3));
             $('#txtUnitCode').val(dt.UnitCode);            
             $('#txtRemark').val(dt.Remark);
             $('#txtSlipNo').val(dt.SlipNO);
@@ -1611,10 +1614,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UnitPrice,2));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
-            $('#txtNET').val(CDbl(dt.BNet,2));
+            $('#txtAMT').val(CDbl(dt.UnitPrice,3));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,3));
+            $('#txtNET').val(CDbl(dt.BNet,3));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1666,17 +1669,10 @@ End Code
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            if(dt.IsDuplicate==1) {
-            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),2));
-            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
-            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
-            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
-	    } else {
-            $('#txtAMT').val(CDbl(dt.AdvAmount,2));
-            $('#txtVAT').val(CDbl(CNum(dt.ChargeVAT,2)));
-            $('#txtWHT').val(CDbl(CNum(dt.Tax50Tavi,2)));
-            $('#txtNET').val(CDbl(CNum(dt.AdvNet,2)));
-	    }
+            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),3));
+            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),3));
+            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),3));
+            $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),3));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1684,7 +1680,7 @@ End Code
             $('#chkIsCost').prop('checked', dt.IsExpense == 1 ? true : false);
             $('#txtAdvNo').val(dt.AdvNO);
             $('#txtAdvItemNo').val(dt.AdvItemNo);
-            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,2));
+            $('#txtAdvAmount').val(CDbl(dt.AdvBalance,3));
             $('#txtQNo').val(dt.QNo);
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo); 
@@ -1872,14 +1868,13 @@ End Code
                 break;
             case 'quotation':
                 //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val() + '&code=' + $('#txtSICode').val() + '&jtype=' + $('#txtJobType').val() + '&sby=' + $('#txtShipBy').val();
-                //let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
-		let qry = '?branch=' + $('#txtBranchCode').val() + '&QNo='+$('#txtQNo').val();
-                //if ($('#txtJobType').val() > '0') {
-                //    qry += '&jtype=' + $('#txtJobType').val();
-                //}
-                //if ($('#txtShipBy').val() > '0') {
-                //    qry += '&sby=' + $('#txtShipBy').val();
-                //}                
+                let qry = '?branch=' + $('#txtBranchCode').val() + '&cust=' + $('#txtCustCode').val();
+                if ($('#txtJobType').val() > '0') {
+                    qry += '&jtype=' + $('#txtJobType').val();
+                }
+                if ($('#txtShipBy').val() > '0') {
+                    qry += '&sby=' + $('#txtShipBy').val();
+                }                
                 SetGridQuotation(path, '#tbQuo', qry, '#frmSearchQuo', ReadQuotation);
                 break;
         }
@@ -1918,7 +1913,7 @@ End Code
     function GetParam() {
         let strParam = '?Status=0,1,2,3,4,5,6';
         strParam += '&Branch=' + $('#txtBranchCode').val();
-        strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
+        //strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
         return strParam;
     }
     function ShowCaption() {
@@ -2083,7 +2078,7 @@ End Code
         let vat = CDbl($('#txtVAT').val(),3);
         let wht = CDbl($('#txtWHT').val(),3);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),3));
         $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {
@@ -2118,14 +2113,16 @@ End Code
             ShowMessage('Please save document before add detail',true);
             return;
         }  
-        let jtype = $('#cboJobType').val();
+        //let jtype = $('#cboJobType').val();
+	let jtype = '';
         let branch = $('#txtBranchCode').val();
         if (job !== "") {
             jtype += '&jobno=' + job;
         }
         var advclick = 0;
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
-        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype).done(function (r) {
+        ////$.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype).done(function (r) {
+        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch+ jtype).done(function (r) {
             if (r.clr.data.length > 0) {
                 let d = r.clr.data;
                 $('#tbAdvance').DataTable({

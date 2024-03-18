@@ -9,20 +9,23 @@
         endDate = Request.QueryString("EndDate")
     End If
 
-    Dim oSummary = New Dictionary(Of String, Int32)
+    Dim oSummaryIM = New Dictionary(Of String, Int32)
+    Dim oSummaryEX = New Dictionary(Of String, Int32)
     If ViewBag.User <> "" Then
         Dim conn = ViewBag.CONNECTION_JOB
         Dim sqlConMultiple = "
-select replace(TotalContainer,' ','') as TotalContainer,count(*) as c From job_order
-where CHARINDEX(',',TotalContainer,0)>0 
+select replace(TotalContainer,' ','') as TotalContainer,count(*) as c,JobType
+From job_order
+where CHARINDEX(',',TotalContainer,0)>0
 and DocDate>='{0}' and DocDate<='{1}'
-group by replace(TotalContainer,' ','')
+group by replace(TotalContainer,' ',''),JobType
 "
         Dim sqlConSingle = "
-select replace(TotalContainer,' ','') as TotalContainer,count(*) as c From job_order
+select replace(TotalContainer,' ','') as TotalContainer,count(*) as c,JobType
+From job_order
 where CHARINDEX(',',TotalContainer,0)=0
 and DocDate>='{0}' and DocDate<='{1}'
-group by replace(TotalContainer,' ','')
+group by replace(TotalContainer,' ',''),JobType
 "
         Using rs = New CUtil(conn).GetTableFromSQL(String.Format(sqlConSingle, beginDate, endDate))
             If rs.Rows.Count > 0 Then
@@ -31,19 +34,41 @@ group by replace(TotalContainer,' ','')
                     Dim xPos = strCon.IndexOf("X")
                     Dim jobQty = Convert.ToInt32(row("c"))
                     If xPos > 0 Then
-                        Dim arrCon = strCon.Split("X")
-                        Try
-                            Dim conQty = Convert.ToInt32(arrCon(0)) * jobQty
-                            Dim conUnit = arrCon(1)
-                            If oSummary.ContainsKey(conUnit) Then
-                                Dim oOldVal = oSummary(conUnit)
-                                conQty = conQty + oOldVal
-                                oSummary.Remove(conUnit)
-                            End If
-                            oSummary.Add(conUnit, conQty)
-                        Catch ex As Exception
-                            oSummary.Add(strCon, jobQty)
-                        End Try
+                        Dim arrCon
+                        Dim conQty
+                        Dim conUnit
+                        If row("JobType").ToString().Equals("1") Then
+                            Try
+                                arrCon = strCon.Split("X")
+                                conQty = Convert.ToInt32(arrCon(0)) * jobQty
+                                conUnit = arrCon(1)
+
+                                If oSummaryIM.ContainsKey(conUnit) Then
+                                    Dim oOldVal = oSummaryIM(conUnit)
+                                    conQty = conQty + oOldVal
+                                    oSummaryIM.Remove(conUnit)
+                                End If
+                                oSummaryIM.Add(conUnit, conQty)
+                            Catch ex As Exception
+                                oSummaryIM.Add(strCon, jobQty)
+                            End Try
+                        Else
+                            Try
+                                arrCon = strCon.Split("X")
+                                conQty = Convert.ToInt32(arrCon(0)) * jobQty
+                                conUnit = arrCon(1)
+
+                                If oSummaryEX.ContainsKey(conUnit) Then
+                                    Dim oOldVal = oSummaryEX(conUnit)
+                                    conQty = conQty + oOldVal
+                                    oSummaryEX.Remove(conUnit)
+                                End If
+                                oSummaryEX.Add(conUnit, conQty)
+                            Catch ex As Exception
+                                oSummaryEX.Add(strCon, jobQty)
+                            End Try
+                        End If
+
                     Else
                         Dim strUnit = ""
                         Dim qtyIndex = 0
@@ -63,14 +88,22 @@ group by replace(TotalContainer,' ','')
                             Catch ex As Exception
                                 jobQty = 1
                             End Try
-
                         End If
-                        If oSummary.ContainsKey(strUnit) Then
-                            Dim oOldVal = oSummary(strUnit)
-                            jobQty = jobQty + oOldVal
-                            oSummary.Remove(strUnit)
+                        If row("JobType").ToString().Equals("1") Then
+                            If oSummaryIM.ContainsKey(strUnit) Then
+                                Dim oOldVal = oSummaryIM(strUnit)
+                                jobQty = jobQty + oOldVal
+                                oSummaryIM.Remove(strUnit)
+                            End If
+                            oSummaryIM.Add(strUnit, jobQty)
+                        Else
+                            If oSummaryEX.ContainsKey(strUnit) Then
+                                Dim oOldVal = oSummaryEX(strUnit)
+                                jobQty = jobQty + oOldVal
+                                oSummaryEX.Remove(strUnit)
+                            End If
+                            oSummaryEX.Add(strUnit, jobQty)
                         End If
-                        oSummary.Add(strUnit, jobQty)
                     End If
                 Next
             End If
@@ -88,19 +121,39 @@ group by replace(TotalContainer,' ','')
                             jobQty = Convert.ToInt32(row("c"))
                         End If
                         If xPos > 0 Then
-                            Dim arrCon = strCon.Split("X")
-                            Try
-                                Dim conQty = Convert.ToInt32(arrCon(0)) * jobQty
-                                Dim conUnit = arrCon(1)
-                                If oSummary.ContainsKey(conUnit) Then
-                                    Dim oOldVal = oSummary(conUnit)
-                                    conQty = conQty + oOldVal
-                                    oSummary.Remove(conUnit)
-                                End If
-                                oSummary.Add(conUnit, conQty)
-                            Catch ex As Exception
-                                oSummary.Add(strCon, jobQty)
-                            End Try
+                            Dim arrCon
+                            Dim conQty
+                            Dim conUnit
+                            If row("JobType").ToString().Equals("1") Then
+                                Try
+                                    arrCon = strCon.Split("X")
+                                    conQty = Convert.ToInt32(arrCon(0)) * jobQty
+                                    conUnit = arrCon(1)
+                                    If oSummaryIM.ContainsKey(conUnit) Then
+                                        Dim oOldVal = oSummaryIM(conUnit)
+                                        conQty = conQty + oOldVal
+                                        oSummaryIM.Remove(conUnit)
+                                    End If
+                                    oSummaryIM.Add(conUnit, conQty)
+                                Catch ex As Exception
+                                    oSummaryIM.Add(strCon, jobQty)
+                                End Try
+                            Else
+                                Try
+                                    arrCon = strCon.Split("X")
+                                    conQty = Convert.ToInt32(arrCon(0)) * jobQty
+                                    conUnit = arrCon(1)
+                                    If oSummaryEX.ContainsKey(conUnit) Then
+                                        Dim oOldVal = oSummaryEX(conUnit)
+                                        conQty = conQty + oOldVal
+                                        oSummaryEX.Remove(conUnit)
+                                    End If
+                                    oSummaryEX.Add(conUnit, conQty)
+                                Catch ex As Exception
+                                    oSummaryEX.Add(strCon, jobQty)
+                                End Try
+                            End If
+
                         Else
                             Dim strUnit = ""
                             Dim qtyIndex = 0
@@ -122,12 +175,23 @@ group by replace(TotalContainer,' ','')
                                 End Try
 
                             End If
-                            If oSummary.ContainsKey(strUnit) Then
-                                Dim oOldVal = oSummary(strUnit)
-                                jobQty = jobQty + oOldVal
-                                oSummary.Remove(strUnit)
+                            If row("JobType").ToString().Equals("1") Then
+                                If oSummaryIM.ContainsKey(strUnit) Then
+                                    Dim oOldVal = oSummaryIM(strUnit)
+                                    jobQty = jobQty + oOldVal
+                                    oSummaryIM.Remove(strUnit)
+                                End If
+                                oSummaryIM.Add(strUnit, jobQty)
+
+                            Else
+                                If oSummaryEX.ContainsKey(strUnit) Then
+                                    Dim oOldVal = oSummaryEX(strUnit)
+                                    jobQty = jobQty + oOldVal
+                                    oSummaryEX.Remove(strUnit)
+                                End If
+                                oSummaryEX.Add(strUnit, jobQty)
                             End If
-                            oSummary.Add(strUnit, jobQty)
+
                         End If
                     Next
                 Next
@@ -135,6 +199,33 @@ group by replace(TotalContainer,' ','')
         End Using
     End If
     Dim arrSummary = ""
+    If oSummaryIM.Count > 0 Then
+        Dim oSortedIM = From item In oSummaryIM
+                        Order By item.Key Ascending
+                        Select item
+
+        arrSummary = "[""Unit"",""Qty""]"
+        For Each con In oSortedIM
+            arrSummary &= ",[""" & con.Key & """," & con.Value & "]"
+        Next
+    End If
+    If oSummaryEX.Count > 0 Then
+        Dim oSortedEX = From item In oSummaryEX
+                        Order By item.Key Ascending
+                        Select item
+
+        If arrSummary = "" Then
+            arrSummary = "[""Unit"",""Qty""]"
+        End If
+        For Each con In oSortedEX
+            arrSummary &= ",[""" & con.Key & """," & con.Value & "]"
+        Next
+    Else
+        If arrSummary = "" Then
+            arrSummary = "[""Unit"",""Qty""],[""N/A"",0]"
+        End If
+    End If
+
 End Code
 <div class="row">
     <div class="col-sm-3">
@@ -151,34 +242,6 @@ End Code
     </div>
 </div>
 <div id="dvChart"></div>
-<div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Size</th>
-                <th>Qty</th>
-            </tr>
-        </thead>
-        <tbody>
-            @If oSummary.Count > 0 Then
-                Dim oSorted = From item In oSummary
-                              Order By item.Key Ascending
-                              Select item
-
-                arrSummary = "[""Unit"",""Qty""]"
-                For Each con In oSorted
-                    arrSummary &= ",[""" & con.Key & """," & con.Value & "]"
-                    @<tr>
-                        <td>@con.Key</td>
-                        <td>@con.Value</td>
-                    </tr>
-                Next
-            Else
-                arrSummary = "[""Unit"",""Qty""],[""N/A"",0]"
-            End If
-        </tbody>
-    </table>
-</div>
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
     var path = '@Url.Content("~")';

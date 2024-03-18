@@ -153,8 +153,8 @@ End Code
         </table>
     </div>
 </div>
+<table class="table">
 
-<table class="table" id="tbForNotImport">
     <tbody>
         <tr>
             <td><label id="destinyLbl">POL/ POD</label></td>
@@ -248,36 +248,6 @@ End Code
     </tbody>
 </table>
 
-<table class="table" style="display:none" id="tbForImport">
-	<tbody>
-	    	<tr>
-			<td><label id="jobNoLbl2">JOB NO.</label></td>
-            		<td>:</td>
-            		<td><label id="jobNo2"></label></td>
-
-			<td><label id="jobTypeLbl2">JOB TYPE.</label></td>
-            		<td>:</td>
-            		<td><label id="jobType2"></label></td>
-				
-			 <td><label id="hblNoLbl2">H-B/L NO.</label></td>
-            		<td>:</td>
-            		<td><label id="hblNo2"></label></td>
-		</tr>	
-		 <tr>
-            		<td><label id="custInvNoLbl2" onclick="HideInv()">CUST INV NO.</label></td>
-            		<td>:</td>
-            		<td><label id="custInvNo2"></label></td>
-
-            		<td><label id="refLbl2">REF.</label></td>
-            		<td>:</td>
-            		<td><label id="ref2"></label></td>
-
-			<td><label id="totalctnLbl2">TOTAL CONTAINER</label></td>
-            		<td>:</td>
-           		<td><label id="totalctn2"></label></td>
-        	</tr>
-	</tbody>
-</table>
 <table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%" >
     <thead>
         <tr class="upperLine underLine">
@@ -444,13 +414,9 @@ End Code
             let h = r.invoice.header[0][0];
             let c = r.invoice.customer[0][0];
             let j = r.invoice.job[0][0];
-
-		
-
  		$.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key='+(j.JobType.length>1?j.JobType:"0"+j.JobType)).done(function (r) {
 			let type=  r.config.data[0]
 			$("#jobType").text(type.ConfigValue);
-			$("#jobType2").text(type.ConfigValue);
 		});
 	        $.get(path + 'Master/GetCompany?Code='+h.BillToCustCode+'&Branch='+h.BillToCustBranch).done(function (r) {
                 let b = r.company.data[0];
@@ -486,19 +452,12 @@ End Code
             $("#empcode").text(h.EmpCode);
             $("#createDate").text(ShowDate(h.CreateDate));
             
-
-	    if(j.JobType == 1){
-			$("#tbForImport").show();
-			$("#tbForNotImport").hide();
-		}else{
-			$("#tbForImport").hide();
-			$("#tbForNotImport").show();
-		}
             if (j.ShipBy == 1) {
                 ShowInterPortComma(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
 		$("#portto").hide();
+		
             } else {
                 ShowInterPortComma(path, j.InvCountry, j.InvInterPort, '#portto');
                 ShowCountry(path, j.InvFCountry, '#origin');
@@ -510,10 +469,6 @@ End Code
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
-
-	    $("#jobNo2").text(j.JNo);
-	    $("#hblNo2").text(j.HAWB);
-
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
 	     $.get(path + 'Master/getcustomsunit?Code='+j.InvProductUnit).done(function (r) {
                 let u = r.customsunit.data[0];
@@ -524,19 +479,16 @@ End Code
             $("#newBlNo").text(j.BookingNo);
             $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
 	$("#totalctn").text(j.TotalContainer);
-	$("#totalctn2").text(j.TotalContainer);
 	$("#decl").text(j.DeclareNumber);
             //$("#volume").text(j.Measurement);
  		//<td><label id="volumeLbl">VOLUME</label></td>
             //<td>:</td>
             //<td><label id="volume"></label></td>
             $("#custInvNo").text(j.InvNo);
-	    $("#custInvNo2").text(j.InvNo);
             //$("#ref").text(j.CustRefNO);
 	        $.get(path + 'Master/GetCompany?Code='+h.CustCode+'&Branch='+h.CustBranch).done(function (r) {
                 let b = r.company.data[0];
                 $("#ref").text(b.NameEng);
-		$("#ref2").text(b.NameEng);
 	        });
 
             ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');

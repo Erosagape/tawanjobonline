@@ -1341,7 +1341,7 @@ End Code
                 }
             }
         }
-if(job!=='') {
+if(job!=='') { 
         if ($('#txtCustCode').val() == '') {
             ShowMessage('Please choose customer first',true);
             $('#txtCustCode').focus();
@@ -1757,44 +1757,18 @@ if(job!=='') {
                 return;
             }*/
             let jsonString = JSON.stringify({ data: obj });
-            if (obj.STCode == '') {
-                $.ajax({
-               		url: "@Url.Action("SaveAdvanceDetail", "Adv")",
-               		type: "POST",
-                	contentType: "application/json",
-                	data: jsonString,
-                	success: function (response) {
-                    		ShowMessage(response.result.msg);
-                    		ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
-                	}
-                });
-            } else {
-                $.get(path + 'JobOrder/getjobsql?Branch=' +  getQueryString('BranchCode')+ '&jno=' + $('#txtForJNo').val(), (r) => {
-            	if (r.job.data.length > 0) {
-                	if(r.job.data[0].TotalContainer){
-                        $.ajax({
-               			 url: "@Url.Action("SaveAdvanceDetail", "Adv")",
-               			 type: "POST",
-                		contentType: "application/json",
-                		data: jsonString,
-                		success: function (response) {
-                    			ShowMessage(response.result.msg);
-                    			ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
-                		}
-            			});
-                    } else {
-                        ShowMessage('Total CTN Not found,Cannot save', true);
-                    }
-                } else {
-                    ShowMessage('ไม่เจอเลขจ๊อบ', true);
-                    }
-                });
-            }
-
-
-
+            //ShowMessage(jsonString);
+            $.ajax({
+                url: "@Url.Action("SaveAdvanceDetail", "Adv")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonString,
+                success: function (response) {
+                    ShowMessage(response.result.msg);
+                    ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
+                }
+            });
             return;
-
         }
         ShowMessage('No data to Save',true);
     }
@@ -1968,10 +1942,10 @@ if(job!=='') {
             $('#txtVatType').val(dt.IsChargeVAT);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Rate50Tavi);
-            $('#txtAMT').val(CDbl(dt.AdvAmount,3));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
-            $('#txtWHT').val(CDbl(dt.Charge50Tavi,3));
-            $('#txtNET').val(CDbl(dt.AdvNet,3));
+            $('#txtAMT').val(CDbl(dt.AdvAmount,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Charge50Tavi,2));
+            $('#txtNET').val(CDbl(dt.AdvNet,2));
             $('#txtVenCode').val(dt.VenCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate > 0 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
@@ -2478,7 +2452,7 @@ if(job!=='') {
         let vat = CDbl($('#txtVAT').val(),3);
         let wht = CDbl($('#txtWHT').val(), 3);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),3));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {

@@ -635,13 +635,13 @@ End Code
             totalcharge += (obj.AmtCharge > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
             totalcost += CNum(CDbl(obj.AmtCost,2));
             if (CNum(obj.AmtCharge) > 0) {
-                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,3)) : 0);
-                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,3)) : 0);
-                totalvat += CNum(CDbl(obj.AmtVat,3));
-                total50tavi += CNum(CDbl(obj.Amt50Tavi,3));
+                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+                totalvat += CNum(CDbl(obj.AmtVat,2));
+                total50tavi += CNum(CDbl(obj.Amt50Tavi,2));
             }
-            totalnet += CNum(CDbl(obj.AmtNet,3));
-            totalsumdisc += CNum(CDbl(obj.AmtDiscount,3));
+            totalnet += CNum(CDbl(obj.AmtNet,2));
+            totalsumdisc += CNum(CDbl(obj.AmtDiscount,2));
         }
         for (let c of chq) {
             totalcustadv += CNum(CDbl(c.ChqAmount,2));
@@ -652,10 +652,10 @@ End Code
         SetDiscount();
         $('#txtTotalIsTaxCharge').val(CDbl(totalistaxcharge, 2));
         $('#txtTotalIs50Tavi').val(CDbl(totalis50tavi, 2));
-        $('#txtTotalVat').val(CDbl(totalvat, 3));
-        $('#txtTotalAfter').val(CDbl(CNum(CDbl(totalcharge,2))+CNum(CDbl(totalvat,3)), 2));
-        $('#txtTotal50Tavi').val(CDbl(total50tavi, 3));
-        $('#txtTotalService').val(CDbl(CNum(CDbl(totalcharge,2))+CNum(CDbl(totalvat,3))-CNum(CDbl(total50tavi, 2)),2));
+        $('#txtTotalVat').val(CDbl(totalvat, 2));
+        $('#txtTotalAfter').val(CDbl(CNum(CDbl(totalcharge,2))+CNum(CDbl(totalvat,2)), 2));
+        $('#txtTotal50Tavi').val(CDbl(total50tavi, 2));
+        $('#txtTotalService').val(CDbl(CNum(CDbl(totalcharge,2))+CNum(CDbl(totalvat,2))-CNum(CDbl(total50tavi, 2)),2));
         $('#txtTotalNet').val(CDbl(CNum(CDbl(totalnet,2))-CNum(CDbl(totalcustadv, 2)),2));
         $('#txtTotalCustAdv').val(CDbl(totalcustadv, 2));
 
@@ -979,8 +979,8 @@ End Code
             $('#txtAmtWHTRate').removeAttr('disabled');
             $('#txtAmtCharge').val(CDbl((dr.AmtCharge+dr.AmtDiscount),2));
         }
-        $('#txtAmtVAT').val(CDbl(dr.AmtVat,3));
-        $('#txtAmtWHT').val(CDbl(dr.Amt50Tavi,3));
+        $('#txtAmtVAT').val(CDbl(dr.AmtVat,2));
+        $('#txtAmtWHT').val(CDbl(dr.Amt50Tavi,2));
         $('#txtAmtNET').val(CDbl(dr.TotalAmt,2));
         $('#txtAmtDiscountPerc').val(dr.DiscountPerc);
         $('#txtAmtDiscount').val(CDbl(dr.AmtDiscount,2));
@@ -1357,17 +1357,17 @@ End Code
                     FAmtDiscount: CDbl(obj.AmtDiscount / CNum($('#txtExchangeRate').val()), 2),
                     Is50Tavi: obj.Is50Tavi,
                     Rate50Tavi: obj.Rate50Tavi,
-                    Amt50Tavi: CDbl(obj.Amt50Tavi,3),
+                    Amt50Tavi: CDbl(obj.Amt50Tavi,2),
                     IsTaxCharge: obj.IsTaxCharge,
-                    AmtVat: CDbl(obj.AmtVat,3),
-                    TotalAmt: CDbl(obj.AmtNet,3),
-                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 3),
+                    AmtVat: CDbl(obj.AmtVat,2),
+                    TotalAmt: CDbl(obj.AmtNet,2),
+                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
                     AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
                     AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
-                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 3) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {
@@ -1579,10 +1579,10 @@ End Code
         let amt = CNum($('#txtAmtCharge').val())-CNum($('#txtAmtDiscount').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtAmtVATRate').val()) * 0.01;
-            $('#txtAmtVAT').val(ShowNumber(vat,3));
+            $('#txtAmtVAT').val(ShowNumber(vat,2));
         }
         let wht = amt * CNum($('#txtAmtWHTRate').val()) * 0.01;
-        $('#txtAmtWHT').val(ShowNumber(wht, 3));
+        $('#txtAmtWHT').val(ShowNumber(wht, 2));
         CalNetAmount();
     }
     function CalDiscount() {

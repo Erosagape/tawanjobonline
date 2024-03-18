@@ -153,8 +153,8 @@ End Code
         </table>
     </div>
 </div>
+<table class="table">
 
-<table class="table" id="tbForNotImport">
     <tbody>
         <tr>
             <td><label id="destinyLbl">POL/ POD</label></td>
@@ -162,7 +162,7 @@ End Code
             <td>
                 <label id="portfrom" style="padding-right:1em"></label> 
                 <label id="origin"></label>
-                TO <label id="portto"></label><label id="destiny"></label>
+                to <label id="portto" style="padding-right:1em"></label><label id="destiny"></label>
             </td>
 
             <td><label id="jobNoLbl">JOB NO.</label></td>
@@ -177,7 +177,7 @@ End Code
         <tr>
             <td><label id="vesselLbl">VESSEL/VOYAGE</label></td>
             <td>:</td>
-            <td><label id="vessel"></label></td>
+            <td><label id="vessel">SINAR SOLO V. 936N</label></td>
 
             <td><label id="etdLbl">ETD</label></td>
             <td>:</td>
@@ -228,7 +228,7 @@ End Code
         </tr>*@
 
         <tr>
-            <td><label id="custInvNoLbl" onclick="HideInv()">CUST INV NO.</label></td>
+            <td><label id="custInvNoLbl">CUST INV NO.</label></td>
             <td>:</td>
             <td><label id="custInvNo"></label></td>
 
@@ -248,36 +248,6 @@ End Code
     </tbody>
 </table>
 
-<table class="table" style="display:none" id="tbForImport">
-	<tbody>
-	    	<tr>
-			<td><label id="jobNoLbl2">JOB NO.</label></td>
-            		<td>:</td>
-            		<td><label id="jobNo2"></label></td>
-
-			<td><label id="jobTypeLbl2">JOB TYPE.</label></td>
-            		<td>:</td>
-            		<td><label id="jobType2"></label></td>
-				
-			 <td><label id="hblNoLbl2">H-B/L NO.</label></td>
-            		<td>:</td>
-            		<td><label id="hblNo2"></label></td>
-		</tr>	
-		 <tr>
-            		<td><label id="custInvNoLbl2" onclick="HideInv()">CUST INV NO.</label></td>
-            		<td>:</td>
-            		<td><label id="custInvNo2"></label></td>
-
-            		<td><label id="refLbl2">REF.</label></td>
-            		<td>:</td>
-            		<td><label id="ref2"></label></td>
-
-			<td><label id="totalctnLbl2">TOTAL CONTAINER</label></td>
-            		<td>:</td>
-           		<td><label id="totalctn2"></label></td>
-        	</tr>
-	</tbody>
-</table>
 <table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%" >
     <thead>
         <tr class="upperLine underLine">
@@ -423,7 +393,6 @@ End Code
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
-/*
     $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
   let ans = confirm('OK to print Original or Cancel For Copy');
         if (ans == true) {
@@ -431,7 +400,7 @@ End Code
         } else {
             $('#dvCopy').html('<b style="font-size:30px">COPY</b>');
         }
-
+/*
     if(confirm("show company header?")==false){
 	    $('#imgLogo').css('display','none');
 	    $('#divCompany').css('display','none');
@@ -444,13 +413,9 @@ End Code
             let h = r.invoice.header[0][0];
             let c = r.invoice.customer[0][0];
             let j = r.invoice.job[0][0];
-
-		
-
  		$.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key='+(j.JobType.length>1?j.JobType:"0"+j.JobType)).done(function (r) {
 			let type=  r.config.data[0]
 			$("#jobType").text(type.ConfigValue);
-			$("#jobType2").text(type.ConfigValue);
 		});
 	        $.get(path + 'Master/GetCompany?Code='+h.BillToCustCode+'&Branch='+h.BillToCustBranch).done(function (r) {
                 let b = r.company.data[0];
@@ -461,7 +426,7 @@ End Code
                 addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
-                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + (b.Branch=="0000"?"สำนักงานใหญ่":"0"+b.Branch));
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(ShowDate(h.DueDate));
 	        });
@@ -486,21 +451,14 @@ End Code
             $("#empcode").text(h.EmpCode);
             $("#createDate").text(ShowDate(h.CreateDate));
             
-
-	    if(j.JobType == 1){
-			$("#tbForImport").show();
-			$("#tbForNotImport").hide();
-		}else{
-			$("#tbForImport").hide();
-			$("#tbForNotImport").show();
-		}
             if (j.ShipBy == 1) {
-                ShowInterPortComma(path, j.InvFCountry, j.InvInterPort, '#portfrom');
+                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
 		$("#portto").hide();
+		
             } else {
-                ShowInterPortComma(path, j.InvCountry, j.InvInterPort, '#portto');
+                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
                 ShowCountry(path, j.InvFCountry, '#origin');
   		ShowCountry(path, j.InvCountry, '#destiny');
 		$("#portfrom").hide();
@@ -510,33 +468,21 @@ End Code
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
-
-	    $("#jobNo2").text(j.JNo);
-	    $("#hblNo2").text(j.HAWB);
-
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
-	     $.get(path + 'Master/getcustomsunit?Code='+j.InvProductUnit).done(function (r) {
-                let u = r.customsunit.data[0];
-               	  $("#quantity").text(j.InvProductQty + ' ' + u.TName);
-	     });
-	    
             $("#totpkg").text(j.TotalQty + " PACKAGE");
             $("#newBlNo").text(j.BookingNo);
             $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
 	$("#totalctn").text(j.TotalContainer);
-	$("#totalctn2").text(j.TotalContainer);
 	$("#decl").text(j.DeclareNumber);
             //$("#volume").text(j.Measurement);
  		//<td><label id="volumeLbl">VOLUME</label></td>
             //<td>:</td>
             //<td><label id="volume"></label></td>
             $("#custInvNo").text(j.InvNo);
-	    $("#custInvNo2").text(j.InvNo);
             //$("#ref").text(j.CustRefNO);
 	        $.get(path + 'Master/GetCompany?Code='+h.CustCode+'&Branch='+h.CustBranch).done(function (r) {
                 let b = r.company.data[0];
                 $("#ref").text(b.NameEng);
-		$("#ref2").text(b.NameEng);
 	        });
 
             ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');
@@ -561,10 +507,10 @@ End Code
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + '</td>';
                 html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 4) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
@@ -652,7 +598,4 @@ End Code
             }
         });
     }
-function HideInv(){
-	$('#custInvNo').hide();
-}
 </script>

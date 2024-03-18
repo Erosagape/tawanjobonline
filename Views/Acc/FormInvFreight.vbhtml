@@ -335,12 +335,14 @@ End Code
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </p>
 <p>
-    Remark:
-    <label id="remark"></label>
+   Remark:<br/>
+   <label id="remark"></label><br/>
+   <label id="remark2"></label><br/>
+   <label id="remark3"></label><br/>
 </p>
 <br />
 <br />
-<table class="table" style="width:100%">
+<table class="table" style="display:none;width:100%">
     <tr>
         <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
 
@@ -407,6 +409,8 @@ End Code
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             $("#remark").text(h.Remark1);
+	    $("#remark2").text(h.Remark2);
+	    $("#remark3").text(h.Remark3);
             if (j.JobType == 1) {
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#port');
                 ShowCountry(path, j.InvFCountry, '#origin');

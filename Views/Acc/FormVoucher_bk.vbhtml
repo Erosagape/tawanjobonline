@@ -277,7 +277,6 @@ End Code
                 if(vcType!==obj.PRType){
                     vcType=obj.PRType;
                 }
-                $('#txtControlNo').text(obj.PRVoucher);
                 vcTypeName = GetVoucherType(vcType);
                 let acType=obj.acType;
                 let acTypeName = GetPaymentType(acType);
@@ -286,7 +285,7 @@ End Code
                 let desc0 = '';
 		        let totalamt=Number(obj.TotalAmount);
 
-                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.ControlNo, CCurrency(CDbl(totalamt + Number(CDbl(obj.VatExc, 2)) - + Number(CDbl(obj.WhtExc, 2)),2)));
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.PRVoucher, CCurrency(CDbl(totalamt + Number(CDbl(obj.VatExc, 2)) - + Number(CDbl(obj.WhtExc, 2)),2)));
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -497,6 +496,7 @@ End Code
         }
 	appendLine(div, '', '<b>ยอดรวมทั้งสิ้น</b>', CCurrency(CDbl(Number(sumAllSub), 2)), "font-size: 16px;");
         if (data.header !== null) {
+            $('#txtControlNo').text(data.header[0].ControlNo);
             $('#txtVoucherType').val(vcTypeName + ' VOUCHER');
             $('#txtVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#txtRemark').text(data.header[0].TRemark);

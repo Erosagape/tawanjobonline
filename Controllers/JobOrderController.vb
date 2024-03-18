@@ -36,7 +36,11 @@ Namespace Controllers
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
-            Return GetView("FormJob")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("FormJob" & formName)
         End Function
         Function FormPrepare() As ActionResult
             Dim formName = ""
@@ -46,7 +50,11 @@ Namespace Controllers
             Return GetView("FormPrepare" & formName)
         End Function
         Function FormJobSum() As ActionResult
-            Return GetView("FormJobSum")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("FormJobSum" & formName)
         End Function
         Function FormQuotation() As ActionResult
             Return GetView("FormQuotation")

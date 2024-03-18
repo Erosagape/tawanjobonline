@@ -27,7 +27,7 @@ End Code
         <div class="row">
             <div class="col-sm-6">
                 <label id="lblCustCode">Customer:</label>
-                <input type="checkbox" id="chkBilling" checked><label id="lblBilling">Search For Billing Place</label>
+                <input type="checkbox" id="chkBilling"><label id="lblBilling">Search For Billing Place</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -229,17 +229,23 @@ End Code
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&billto=' + $('#txtCustCode').val();
             }
+            if ($('#txtDocDateF').val() !== "") {
+                w = w + '&BillDateFrom=' + CDateEN($('#txtDocDateF').val());
+            }
+            if ($('#txtDocDateT').val() !== "") {
+                w = w + '&BillDateTo=' + CDateEN($('#txtDocDateT').val());
+            }
         } else {
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&cust=' + $('#txtCustCode').val();
             }
-        }
             if ($('#txtDocDateF').val() !== "") {
                 w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
             }
             if ($('#txtDocDateT').val() !== "") {
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
+        }
         let url = path + 'acc/getinvforreceive?show=WAIT&type=ADV&branch=' + $('#txtBranchCode').val() + w;
         $.get(url , function (r) {
             if (r.invdetail.data.length == 0) {

@@ -229,6 +229,7 @@ End Code
                                     <th class="desktop">W-Tax</th>
                                     <th class="desktop">Refund</th>
                                     <th class="desktop">Payback</th>
+				    <th class="desktop">Driver</th>
                                 </tr>
                             </thead>
                         </table>
@@ -501,6 +502,9 @@ End Code
                         render: function (data) {
                             return data < 0 ? ShowNumber(Math.abs(data), 2) : '0.00';
                         }
+                    },
+                    {
+                        data: "Driver",title: "Driver"
                     }
                 ],
                 responsive: true,

@@ -1,5 +1,24 @@
 ﻿@Code
     ViewBag.Title = "Quotation"
+    Dim sqlSource = "
+select h.*,d.TotalAmt,jt.JobTypeName as JobType,sb.ShipByName as ShipBy,c.NameThai as CustName,u.TName as EmpName
+from Job_QuotationHeader h
+left join 
+(select q.BranchCode,q.QNo,q.JobType,q.ShipBy,sum(i.TotalCharge) as TotalAmt
+from Job_QuotationDetail q inner join Job_QuotationItem i 
+on q.BranchCode=i.BranchCode and q.QNo=i.QNo and q.SeqNo=i.SeqNo
+group by q.BranchCode,q.QNo,q.JobType,q.ShipBy) d
+on h.BranchCode=d.BranchCode and h.QNo=d.QNo 
+left join Mas_Company c on h.Custcode=c.Custcode 
+and h.CustBranch=c.Branch 
+left join Mas_User u on h.ManagerCode=u.UserID 
+left join (select Convert(int,ConfigKey) as JobTypeCode,ConfigValue as JobTypeName from Mas_Config where ConfigCode='JOB_TYPE') jt 
+on d.JobType=jt.JobTypeCode
+left join (select Convert(int,ConfigKey) as ShipByCode,ConfigValue as ShipByName from Mas_Config where ConfigCode='SHIP_BY') sb 
+on d.ShipBy=sb.ShipByCode
+"
+    Dim dt = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlSource)
+    Dim json = Newtonsoft.Json.JsonConvert.SerializeObject(dt)
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
@@ -73,11 +92,11 @@ End Code
                             <th class="all">Quotation No</th>
                             <th class="desktop">Doc Date</th>
                             <th class="desktop">Customer</th>
-                            <th class="desktop">Billing To</th>
-                            <th class="desktop">Remark</th>
                             <th class="desktop">Contact Name</th>
-                            <th class="desktop">Manager Name</th>
-                            <th class="desktop">Approve Date</th>
+                            <th class="desktop">JobType</th>
+                            <th class="desktop">ShipBy</th>
+                            <th class="desktop">Total</th>
+                            <th class="desktop">EmpCode</th>
                         </tr>
                     </thead>
                 </table>
@@ -199,22 +218,21 @@ End Code
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm-4">
+                        <div class="col-sm-6">
                             <div style="display:flex">
                                 <div style="flex:1">
                                     <label id="lblApproveBy">Approve By</label>:<input type="text" id="txtApproveBy" style="width:100%" disabled />
-                                    <button id="btnApprove" class="btn btn-primary" onclick="ApproveData()">Approve</button>
                                 </div>
                                 <div style="flex:1">
                                     <label id="lblApproveDate">Approve Date</label>:
-                                    <br />
-                                    <input type="date" id="txtApproveDate" disabled /> &nbsp;
-                                    <br />
+                                    <br /><input type="date" id="txtApproveDate" disabled /> &nbsp;
+                                </div>
+                                <div style="flex:1">
                                     <label id="lblApproveTime">Approve Time</label>:
-                                    <br />
-                                    <input type="text" id="txtApproveTime" disabled /> &nbsp;
+                                    <br /><input type="text" id="txtApproveTime" disabled /> &nbsp;
                                 </div>
                             </div>
+                            <button id="btnApprove" class="btn btn-primary" onclick="ApproveData()">Approve</button>
                         </div>
                         <div class="col-sm-3" style="display:flex">
                             <div style="flex:1">
@@ -231,11 +249,7 @@ End Code
                             <textarea id="txtCancelReason" style="width:100%"></textarea>
                             <button id="btnCancel" class="btn btn-danger" onclick="CancelData()">Cancel</button>
                         </div>
-                        <div class="col-sm-2">
-                            <label id="lblExpireDate">Expire Date</label>
-                            <br />
-                            <input type="date" id="txtExpireDate" />
-                        </div>
+
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -562,7 +576,7 @@ End Code
     let row_i = {};
     let chkmode = '';
     let jt = '';
-
+    let sourceData = @Html.Raw(json);
     SetLOVs();
 
     function CheckJobType() {
@@ -624,15 +638,50 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "CustCode", title: "Customer" },
-                    { data: "BillToCustCode", title: "Billing To" },
-                    { data: "TRemark", title: "Remark" },
-                    { data: "ContactName", title: "Contact Name" },
-                    { data: "ManagerCode", title: "Manager Name" },
                     {
-                        data: "ApproveDate", title: "Approve Date",
+                        data: null, title: "Customer",
                         render: function (data) {
-                            return CDateEN(data);
+                            let q = sourceData.filter(function (d) {
+                                return d.QNo == data.QNo && d.BranchCode==data.BranchCode;
+                            });
+                            return ''+q[0].CustName;
+                        }
+                    },
+                    { data: "ContactName", title: "Contact Name" },
+                    {
+                        data: null, title: "Job Type",
+                        render: function (data) {
+                            let q = sourceData.filter(function (d) {
+                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
+                            });
+                            return ''+q[0].JobType;
+                        }
+                    },
+                    {
+                        data: null, title: "Ship By",
+                        render: function (data) {
+                            let q = sourceData.filter(function (d) {
+                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
+                            });
+                            return ''+q[0].ShipBy;
+                        }
+                    },
+                    {
+                        data: null, title: "Total",
+                        render: function (data) {
+                            let q = sourceData.filter(function (d) {
+                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
+                            });
+                            return ShowNumber(q[0].TotalAmt,2);
+                        }
+                    },
+                    {
+                        data: null, title: "Manager Name",
+                        render: function (data) {
+                            let q = sourceData.filter(function (d) {
+                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
+                            });
+                            return ''+q[0].EmpName;
                         }
                     }
                 ],
@@ -863,7 +912,7 @@ End Code
         row.CancelBy = $('#txtCancelBy').val();
         row.CancelDate = CDateEN($('#txtCancelDate').val());
         row.CancelReason = $('#txtCancelReason').val();
-        row.ExpireDate = CDateEN($('#txtExpireDate').val());
+
         let jsonString = JSON.stringify({ data: row });
 
         $.ajax({
@@ -1063,8 +1112,6 @@ End Code
         ShowUser(path, user, '#txtManagerName');
         $('#txtDescriptionH').val('');
         $('#txtDescriptionF').val('');
-
-        $('#txtExpireDate').val('');
 
         $('#btnUpdate').attr('disabled', 'disabled');
         $('#btnUpdateI').attr('disabled', 'disabled');
@@ -1278,7 +1325,6 @@ End Code
         ShowUser(path, row.ManagerCode, '#txtManagerName');
         $('#txtDescriptionH').val(row.DescriptionH);
         $('#txtDescriptionF').val(row.DescriptionF);
-        $('#txtExpireDate').val(CDateEN(row.ExpireDate));
 
         $('#btnUpdate').attr('disabled', 'disabled');
         $('#btnUpdateI').attr('disabled', 'disabled');
@@ -1401,7 +1447,7 @@ End Code
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameEng);
+        $('#txtSDescription').val(dt.NameThai);
         $('#txtDescriptionThai').val(dt.NameEng);
         $('#txtIsvat').val(dt.IsTaxCharge);
         $('#txtIsTax').val(dt.Is50Tavi);
@@ -1440,11 +1486,9 @@ End Code
         let rate = CNum($('#txtCurrencyRate').val());
         let charge = CDbl(($('#txtChargeAmt').val() * rate), 2);
         $('#txtTotalAmt').val(CDbl(charge, 2));
-        /*
         if ($('#txtIsService').val() == '0' && CNum($('#txtVenderCost').val())== 0) {
             $('#txtVenderCost').val(CDbl(charge, 2));
         }
-        */
         CalDiscount();
     }
     function CalDiscount() {
@@ -1463,7 +1507,7 @@ End Code
     }
     function GetBasePrice() {
         let type = $('#txtIsvat').val();
-        let amt = CNum(CNum($('#txtTotalAmt').val()) - CNum($('#txtUnitDiscntAmt').val()));
+        let amt=CNum($('#txtTotalCharge').val());
         switch (type) {
             case '2': //inc vat
                 amt = amt * (100 / (100 + (CNum($('#txtVatRate').val()) - CNum($('#txtTaxRate').val()))));
@@ -1490,11 +1534,10 @@ End Code
                 vat = 0;
                 break;
             default:
-                $('#txtTotalCharge').val(amt);
                 vat = amt * (CNum($('#txtVatRate').val()) * 0.01);
                 break;
         }
-        $('#txtVatAmt').val(CDbl(vat,3));
+        $('#txtVatAmt').val(CDbl(vat,2));
         let wht = 0;
         type = $('#txtIsTax').val();
         switch (type) {
@@ -1504,7 +1547,7 @@ End Code
                 wht = amt * (CNum($('#txtTaxRate').val()) * 0.01);
                 break;
         }
-        $('#txtTaxAmt').val(CDbl(wht, 3));
+        $('#txtTaxAmt').val(CDbl(wht, 2));
         CalCommission();
     }
     function CalCommission() {
@@ -1514,15 +1557,15 @@ End Code
         if (type == 1) {
             comm = CNum($('#txtCommissionAmt').val());
         }
-        $('#txtCommissionAmt').val(CDbl(comm, 3));
+        $('#txtCommissionAmt').val(CDbl(comm, 2));
         CalProfit();
     }
     function CalProfit() {
         let comm = CNum($('#txtCommissionAmt').val());
         let cost = CNum($('#txtVenderCost').val());
         let amt = GetBasePrice();
-        $('#txtBaseProfit').val(CDbl(amt - cost, 3));
-        $('#txtNetProfit').val(CDbl(amt - comm - cost, 3));
+        $('#txtBaseProfit').val(CDbl(amt - cost, 2));
+        $('#txtNetProfit').val(CDbl(amt - comm - cost, 2));
     }
     function CopyData() {
         if (userRights.indexOf('I') < 0) {
