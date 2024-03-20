@@ -18,77 +18,74 @@ End Code
         border-collapse: collapse;
     }
 
+    label {
+        font-weight: bold;
+    }
+
     div.div3 {
         border: 1px solid black;
         width: 100%;
     }
 </style>
 <div style="float:left;">
-    เล่่มที่ <br />Book No.
-    <label>_______________________</label>
+    หมายเลขงาน<br />Job No.
+    <label id="lblJobNo">_______________________</label>
 </div>
 <div style="float:right;">
     เลขที่ <br /> No.
-    <label>_______________________</label>
+    <label id="lblDeliveryNo">_______________________</label>
 </div>
 <div style="width:98%;text-align:center;">
-    ใบส่งสินค้า / Delivery Note
+    ใบส่งสินค้า
 </div>
 <br />
 <div style="width:98%">
     วันเดือนปี <br /> Date
-    <label>_______________________</label>
+    <label id="lblLoadDate">_______________________</label>
 </div>
 <div style="width:98%;display:flex;flex-direction:row">
     <div style="flex:1">
         ชื่อลูกค้า<br />Customer Name
-        <label>_______________________</label>
+        <label id="lblCustName">_______________________</label>
     </div>
     <div style="flex:1">
         สถานที่ส่งสินค้า<br />Delivery Place
-        <label>_______________________</label>
-    </div>
-</div>
-<div style="width:98%;display:flex;flex-direction:row">
-    <div style="flex:1">
-        ทะเบียนหัว<br />Prime Mover License No.
-        <label>_______________________</label>
-    </div>
-    <div style="flex:1">
-        ทะเบียนหาง<br />Trailer License No.
-        <label>_______________________</label>
-    </div>
-    <div style="flex:1">
-        ประเภทรถ<br />Type of Truck
-        <label>_______________________</label>
+        <label id="lblFactoryAddress">_______________________</label>
     </div>
 </div>
 <div style="width:98%;display:flex;flex-direction:row">
     <div style="flex:1">
         ต้นทาง<br />Place of Loading
-        <label>_______________________</label>
+        <label id="lblCYPlace">_______________________</label>
     </div>
     <div style="flex:1">
         วันที่/เวลา<br />Date/Time
-        <label>_______________________</label>
+        <label id="lblCYDate">_______________________</label>
     </div>
     <div style="flex:1">
-        ติดต่อ<br />Contact Person
-        <label>_______________________</label>
+        ประเภทรถ<br />Type of Truck
+        <label id="lblTRemark">_______________________</label>
     </div>
 </div>
 <div style="width:98%;display:flex;flex-direction:row">
     <div style="flex:1">
         ปลายทาง<br />Place of Discharge
-        <label>_______________________</label>
+        <label id="lblFactoryPlace">_______________________</label>
     </div>
     <div style="flex:1">
         วันที่/เวลา<br />Date/Time
-        <label>_______________________</label>
+        <label id="lblFactoryDate">_______________________</label>
     </div>
     <div style="flex:1">
         ติดต่อ<br />Contact Person
-        <label>_______________________</label>
+        <label id="lblFactoryContact">_______________________</label>
+    </div>
+</div>
+<div style="width:98%;display:flex;flex-direction:row">
+    <div style="flex:1">
+        สำหรับคนขับรถ / For Driver
+    </div>
+    <div style="flex:1">
     </div>
 </div>
 <div style="width:98%;display:flex;flex-direction:row">
@@ -105,6 +102,17 @@ End Code
                 เวลา
                 <br />
                 Time
+                <label>___________</label>
+            </div>
+        </div>
+        <br />
+        <div style="width: 100%;display:flex;flex-direction:row;">
+            <div style="flex:1">
+                ทะเบียนหัว<br />Prime Mover License No.<br />
+                <label>_______________________</label>
+            </div>
+            <div style="flex:1">
+                ทะเบียนหาง<br />Trailer License No.<br />
                 <label>_______________________</label>
             </div>
         </div>
@@ -120,7 +128,7 @@ End Code
                 เวลา
                 <br />
                 Time
-                <label>_______________________</label>
+                <label>___________</label>
             </div>
         </div>
         <br />
@@ -136,7 +144,7 @@ End Code
                 เวลา
                 <br />
                 Time
-                <label>_______________________</label>
+                <label>___________</label>
             </div>
         </div>
         <br />
@@ -152,7 +160,7 @@ End Code
                 เวลา
                 <br />
                 Time
-                <label>_______________________</label>
+                <label>___________</label>
             </div>
         </div>
         <br />
@@ -168,7 +176,7 @@ End Code
                 เวลา
                 <br />
                 Time
-                <label>_______________________</label>
+                <label>___________</label>
             </div>
         </div>
         <br />
@@ -180,7 +188,7 @@ End Code
                 </div>
                 <div style="flex:1">
                     B/L No.
-                    <label>_______________________</label>
+                    <label id="lblImportBooking">_______________________</label>
                 </div>
             </div>
             <div style="width: 100%;display:flex;flex-direction:row;">
@@ -189,7 +197,7 @@ End Code
                 </div>
                 <div style="flex:1">
                     Booking No.
-                    <label>_______________________</label>
+                    <label id="lblExportBooking">_______________________</label>
                 </div>
             </div>
             <div style="width: 100%;display:flex;flex-direction:row;">
@@ -214,21 +222,21 @@ End Code
         </div>
     </div>
     <div style="flex:1;display:flex;flex-direction:column">
-        <div style="flex:1;text-align:center;" class="div3">
+        <div style="flex:5%;text-align:center;" class="div3">
             รายการสินค้า<br />CARGO INFORMATION
         </div>
-        <div style="flex:1" class="div3">
-            <br />
-            <br />
-            <br />
-            CONTAINER NO.
-            <label>_______________________</label>
+        <div style="flex:30%;position:relative" class="div3">
+            <label id="lblInvProduct"></label>
+            <div style="vertical-align:middle;position:absolute;bottom:0;left:0;">
+                CONTAINER NO.
+                <label id="lblContainerNo">_______________________</label>
+            </div>
         </div>
-        <div style="flex:1;display:flex;flex-direction:column">
+        <div style="flex:65%;display:flex;flex-direction:column">
             <div style="flex:1;text-align:center;" class="div3">
                 สำหรับพนักงานขับรถรับส่งสินค้า<br />DRIVER ONLY
             </div>
-            <div style="flex:1" class="div3">
+            <div style="flex:10" class="div3">
                 ผลการตรวจสอบสินค้าตอนรับสินค้า/รับตู้ <br />
                 Cargo Condition at pickup place<br />
                 <div style="display:flex;flex-direction:row">
@@ -277,6 +285,7 @@ End Code
     <div style="flex:1">
         1. สำหรับพนักงาน
         <div style="width:100%" class="div3">
+            <br />
             ผู้ออกใบเวลา
             <br />Instructed By
             <label>_______________________</label>
@@ -302,14 +311,14 @@ End Code
             All Item received in good condition<br />
             <div style="display:flex;flex-direction:row">
                 <div style="flex:1">
-                    <br /><br />
+                    <br /><br /><br />
                     ลงชื่อ<br />Signature
                     <label>_______________________</label>
                 </div>
                 <div style="flex:1">
-                    <br /><br />
-                    ผู้ว่าจ้าง/ตัวแทน<br />Client/Authorized Person
-                    <label>_______________________</label>
+                    <br /><br /><br />
+                    ผู้ว่าจ้าง/ตัวแทน<br />Client/Authorized Person<br />
+                    <label id="lblConsignName" style="font-size:smaller;">_______________________</label>
                 </div>
             </div>
         </div>
@@ -323,31 +332,22 @@ End Code
         $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&Doc=' + docno, function (r) {
             if (r.transport.data.length > 0) {
                 let j = r.transport.data[0];
-                if (j.CTN_NO!==null>1) $('#lblCTN_NO').text(j.CTN_NO);
-                if (j.Driver!==null>1) $('#lblDriver').text(j.Driver);
-                $('#chkTRK4').prop('checked', (j.TruckType == 'TRK4'));
-                $('#chkTRK6').prop('checked', (j.TruckType == 'TRK6'));
-                $('#chkTRK10').prop('checked', (j.TruckType == 'TRK10'));
-                $('#chk20F').prop('checked', (j.CTN_SIZE.indexOf('20F') >= 0));
-                $('#chk40F').prop('checked', (j.CTN_SIZE.indexOf('40F') >= 0));
-                if (j.TruckNO!==null>1) $('#lblTruckNO').text(j.TruckNO);
-                if (j.EstDeliverDate!==null>1) $('#lblDeliveryDate').text(ShowDate(j.EstDeliverDate));
-                if (j.DeliveryNo!==null>1) $('#lblDeliveryNo').text(j.DeliveryNo);
-                if (j.ContactName!==null>1) $('#lblDeliveryTo').text(j.ContactName);
-                if (j.Location!==null>1) $('#lblDeliveryAddr').text(j.Location);
-                if (j.InvNo!==null>1) $('#lblInvNo').text(j.InvNo);
-                if (j.CustRefNO!==null>1) $('#lblCustRefNo').text(j.CustRefNO);
-                if (j.InvProduct!==null>1) $('#lblInvProduct').text(j.InvProduct);
-                if (j.ProductQty!==null>1) $('#lblInvProductQtyUnit').text(j.ProductQty + ' ' + j.ProductUnit);
-                if (j.GrossWeight!==null>1) $('#lblTotalGW').text(j.GrossWeight);
-                if (j.VesselName!==null>1) $('#lblVesselName').text(j.VesselName);
-                if (j.ETADate!==null>1) $('#lblETADate').text(ShowDate(j.ETADate));
-                if (j.HAWB!==null>1) $('#lblHAWB').text(j.HAWB);
-                if (j.MAWB!==null>1) $('#lblMAWB').text(j.MAWB);
-                if (j.ShippingCmd!==null>1) $('#lblShippingCmd').text(j.ShippingCmd);
-                if (j.NameThai!==null>1) $('#lblNameThai').text(j.NameThai);
-                if (j.TaxNumber!==null>1) $('#lblTaxNumber').text(j.TaxNumber);
-                if (j.TAddress1!==null>1) $('#lblTAddress').text(j.TAddress1 + ' '+ j.TAddress2);
+                $('#lblJobNo').text(j.JNo);
+                $('#lblDeliveryNo').text(j.DeliveryNo);
+                $('#lblLoadDate').text(ShowDate(j.LoadDate));
+                $('#lblCustName').text(j.NameThai);
+                $('#lblConsignName').text(j.NameThai);
+                $('#lblFactoryAddress').text(j.FactoryAddress);
+                $('#lblFactoryPlace').text(j.FactoryAddress);
+                $('#lblTRemark').text(j.TRemark);
+                $('#lblCYPlace').text(j.CYPlace);
+                $('#lblCYDate').text(ShowDate(j.CYDate));
+                $('#lblFactoryDate').text(ShowDate(j.FactoryDate));
+                $('#lblFactoryContact').text(j.FactoryContact);
+                $('#lblInvProduct').text(j.InvProduct);
+                $('#lblContainerNo').text(j.CTN_NO);
+                $('#lblImportBooking').text(j.JobType == 1 ? j.BookingNo : '');
+                $('#lblExportBooking').text(j.JobType == 2 ? j.BookingNo : '');
             }
         });
     }
