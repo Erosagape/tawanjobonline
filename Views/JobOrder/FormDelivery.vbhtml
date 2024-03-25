@@ -91,95 +91,146 @@ End Code
 <div style="width:98%;display:flex;flex-direction:row">
     <div style="flex:1;display:flex;flex-direction:column;" class="div3">
         <div style="width: 100%;display:flex;flex-direction:row;">
-            <div style="flex:3">
-                วันที่รับสินค้า/รับตู้เปล่า/รับตู้หนัก
-                <br />
-                Pickup/CY Empty/CY Laden
-                <br />
-                <label>_______________________</label>
-            </div>
             <div style="flex:1">
-                เวลา
-                <br />
-                Time
-                <label>___________</label>
+                Name<br />ชื่อคนขับรถ
             </div>
+            <div style="flex:2;border-bottom:1px solid black"></div>
         </div>
         <br />
         <div style="width: 100%;display:flex;flex-direction:row;">
             <div style="flex:1">
-                ทะเบียนหัว<br />Prime Mover License No.<br />
-                <label>_______________________</label>
+                Tel.<br />เบอร์โทร
             </div>
-            <div style="flex:1">
-                ทะเบียนหาง<br />Trailer License No.<br />
-                <label>_______________________</label>
-            </div>
+            <div style="flex:2;border-bottom:1px solid black"></div>
         </div>
         <br />
         <div style="width: 100%;display:flex;flex-direction:row;">
-            <div style="flex:3">
-                วันที่ถึงหน้างาน
-                <br />
-                Arrival Date
-                <label>_______________________</label>
-            </div>
             <div style="flex:1">
-                เวลา
-                <br />
-                Time
-                <label>___________</label>
+                Haulage No.<br />ทะเบียนหัว
             </div>
+            <div style="flex:2;border-bottom:1px solid black"></div>
         </div>
         <br />
         <div style="width: 100%;display:flex;flex-direction:row;">
-            <div style="flex:3">
-                วันที่เริ่มลงสินค้า/เริ่มบรรจุสินค้า
-                <br />
-                Start Unload/Load Date
-                <br />
-                <label>_______________________</label>
-            </div>
             <div style="flex:1">
-                เวลา
-                <br />
-                Time
-                <label>___________</label>
+                Chassis No.<br />ทะเบียนหาง
             </div>
+            <div style="flex:2;border-bottom:1px solid black"></div>
         </div>
         <br />
         <div style="width: 100%;display:flex;flex-direction:row;">
-            <div style="flex:3">
-                วันที่ลงสินค้าเสร็จ/บรรจุสินค้าเสร็จ
-                <br />
-                Completed Unload/Load Date
-                <br />
-                <label>_______________________</label>
-            </div>
             <div style="flex:1">
-                เวลา
-                <br />
-                Time
-                <label>___________</label>
+                Arrive At Factory.<br />เวลาถึงโรงงาน
             </div>
+            <div style="flex:2;border-bottom:1px solid black"></div>
         </div>
         <br />
         <div style="width: 100%;display:flex;flex-direction:row;">
-            <div style="flex:3">
-                วันที่คืนตุ้เปล่า/ส่งตู้หนัก
-                <br />
-                CY Return Empty date/CTN Loaded Date
-                <br />
-                <label>_______________________</label>
-            </div>
             <div style="flex:1">
-                เวลา
-                <br />
-                Time
-                <label>___________</label>
+                Load-Unload Already<br />เวลาออกจากโรงงาน
             </div>
+            <div style="flex:2;border-bottom:1px solid black"></div>
         </div>
         <br />
+        <div style="width: 100%;display:flex;flex-direction:row;">
+            <div style="flex:2">
+                Cargos and Container Damage<br />การชำรุดของสินค้าหรือตู้สินค้า
+            </div>
+            <div style="flex:3;border-bottom:1px solid black"></div>
+        </div>
+        <br />
+        @*
+            <div style="width: 100%;display:flex;flex-direction:row;">
+                <div style="flex:3">
+                    วันที่รับสินค้า/รับตู้เปล่า/รับตู้หนัก
+                    <br />
+                    Pickup/CY Empty/CY Laden
+                    <br />
+                    <label>_______________________</label>
+                </div>
+                <div style="flex:1">
+                    เวลา
+                    <br />
+                    Time
+                    <label>___________</label>
+                </div>
+            </div>
+            <br />
+            <div style="width: 100%;display:flex;flex-direction:row;">
+                <div style="flex:1">
+                    ทะเบียนหัว<br />Prime Mover License No.<br />
+                    <label>_______________________</label>
+                </div>
+                <div style="flex:1">
+                    ทะเบียนหาง<br />Trailer License No.<br />
+                    <label>_______________________</label>
+                </div>
+            </div>
+            <br />
+            <div style="width: 100%;display:flex;flex-direction:row;">
+                <div style="flex:3">
+                    วันที่ถึงหน้างาน
+                    <br />
+                    Arrival Date
+                    <label>_______________________</label>
+                </div>
+                <div style="flex:1">
+                    เวลา
+                    <br />
+                    Time
+                    <label>___________</label>
+                </div>
+            </div>
+            <br />
+            <div style="width: 100%;display:flex;flex-direction:row;">
+                <div style="flex:3">
+                    วันที่เริ่มลงสินค้า/เริ่มบรรจุสินค้า
+                    <br />
+                    Start Unload/Load Date
+                    <br />
+                    <label>_______________________</label>
+                </div>
+                <div style="flex:1">
+                    เวลา
+                    <br />
+                    Time
+                    <label>___________</label>
+                </div>
+            </div>
+            <br />
+            <div style="width: 100%;display:flex;flex-direction:row;">
+                <div style="flex:3">
+                    วันที่ลงสินค้าเสร็จ/บรรจุสินค้าเสร็จ
+                    <br />
+                    Completed Unload/Load Date
+                    <br />
+                    <label>_______________________</label>
+                </div>
+                <div style="flex:1">
+                    เวลา
+                    <br />
+                    Time
+                    <label>___________</label>
+                </div>
+            </div>
+            <br />
+            <div style="width: 100%;display:flex;flex-direction:row;">
+                <div style="flex:3">
+                    วันที่คืนตุ้เปล่า/ส่งตู้หนัก
+                    <br />
+                    CY Return Empty date/CTN Loaded Date
+                    <br />
+                    <label>_______________________</label>
+                </div>
+                <div style="flex:1">
+                    เวลา
+                    <br />
+                    Time
+                    <label>___________</label>
+                </div>
+            </div>
+                <br>
+        *@
         <div style="width:100%" class="div3">
             <br />
             <div style="width: 100%;display:flex;flex-direction:row;">
@@ -227,9 +278,16 @@ End Code
         </div>
         <div style="flex:30%;position:relative" class="div3">
             <label id="lblInvProduct"></label>
-            <div style="vertical-align:middle;position:absolute;bottom:0;left:0;">
+            <div style="width: 100%;vertical-align:middle; position: absolute; bottom: 0; left: 0;">
                 CONTAINER NO.
-                <label id="lblContainerNo">_______________________</label>
+                <div style="display:flex;flex-direction:row;width:100%">
+                    <div style="flex:1;flex-direction:column;" id="dvConOdd">
+
+                    </div>
+                    <div style="flex:1;flex-direction: column;" id="dvConEven">
+
+                    </div>
+                </div>
             </div>
         </div>
         <div style="flex:65%;display:flex;flex-direction:column">
@@ -286,6 +344,7 @@ End Code
         1. สำหรับพนักงาน
         <div style="width:100%" class="div3">
             <br />
+            <br />
             ผู้ออกใบเวลา
             <br />Instructed By
             <label>_______________________</label>
@@ -299,9 +358,10 @@ End Code
                 </div>
                 <div style="flex:1">
                     เบอร์โทร<br />Mobile No.
-                    <label>_______________________</label>
+                    <label>________________</label>
                 </div>
-            </div>
+            </div>            
+            <br />
         </div>
     </div>
     <div style="flex:1">
@@ -314,11 +374,13 @@ End Code
                     <br /><br /><br />
                     ลงชื่อ<br />Signature
                     <label>_______________________</label>
+                    <br />
+                    <br />
                 </div>
                 <div style="flex:1">
                     <br /><br /><br />
                     ผู้ว่าจ้าง/ตัวแทน<br />Client/Authorized Person<br />
-                    <label id="lblConsignName" style="font-size:smaller;">_______________________</label>
+                    <label id="lblConsignName" style="font-size:10px;">_______________________</label>
                 </div>
             </div>
         </div>
@@ -345,7 +407,22 @@ End Code
                 $('#lblFactoryDate').text(ShowDate(j.FactoryDate));
                 $('#lblFactoryContact').text(j.FactoryContact);
                 $('#lblInvProduct').text(j.InvProduct);
-                $('#lblContainerNo').text(j.CTN_NO);
+                let ctn = '';
+                let htmlOdd = '';
+                let htmlEven = '';
+                for (let i = 0; i < r.transport.data.length; i++) {
+                    ctn = '<input type="checkbox" />';
+                    ctn += r.transport.data[i].CTN_NO + '';
+                    if (Math.abs((i + 1) % 2) == 0) {
+                        if (htmlEven !== '') htmlEven += '<br>';
+                        htmlEven += ctn;
+                    } else {
+                        if (htmlOdd !== '') htmlOdd += '<br>';
+                        htmlOdd += ctn;
+                    }
+                }
+                $('#dvConEven').html(htmlEven);
+                $('#dvConOdd').html(htmlOdd);
                 $('#lblImportBooking').text(j.JobType == 1 ? j.BookingNo : '');
                 $('#lblExportBooking').text(j.JobType == 2 ? j.BookingNo : '');
             }
