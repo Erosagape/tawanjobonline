@@ -59,22 +59,22 @@ End Code
         width: 100%;
     }
 
-    #main td ,th{
+    #main td, th {
         border-right: 1px solid black;
         border-left: 1px solid black;
-    } 
+    }
 </style>
 <div class="center bold">
-    <br/>
+    <br />
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
-  <br/>
-<div style="display:flex;width:98%" >
+<br />
+<div style="display:flex;width:98%">
     <div style="flex:60%" class="curveBorder">
         <table class="table table-borderless">
             <tbody>
                 <tr>
-                    <td class="bold" >
+                    <td class="bold">
                         <label id="billToLbl">BILL TO NAME AND ADDRESS</label>
                     </td>
                     <td class="right">
@@ -86,22 +86,22 @@ End Code
                         <label id="billName"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billAddress1"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billAddress2"></label>
                     </td>
                 </tr>
-		<tr>
+                <tr>
                     <td>
                         <label id="billContactInfo"></label>
                     </td>
                 </tr>
-		
+
             </tbody>
         </table>
     </div>
@@ -153,16 +153,16 @@ End Code
         </table>
     </div>
 </div>
+<table class="table">
 
-<table class="table" id="tbForNotImport">
     <tbody>
         <tr>
             <td><label id="destinyLbl">POL/ POD</label></td>
             <td>:</td>
             <td>
-                <label id="portfrom" style="padding-right:1em"></label> 
+                <label id="portfrom" style="padding-right:1em"></label>
                 <label id="origin"></label>
-                TO <label id="portto"></label><label id="destiny"></label>
+                to <label id="portto" style="padding-right:1em"></label><label id="destiny"></label>
             </td>
 
             <td><label id="jobNoLbl">JOB NO.</label></td>
@@ -175,9 +175,6 @@ End Code
         </tr>
 
         <tr>
-            <td><label id="vesselLbl">VESSEL/VOYAGE</label></td>
-            <td>:</td>
-            <td><label id="vessel"></label></td>
 
             <td><label id="etdLbl">ETD</label></td>
             <td>:</td>
@@ -186,99 +183,40 @@ End Code
             <td><label id="etaLbl">ETA</label></td>
             <td>:</td>
             <td><label id="eta"></label></td>
-        </tr>
-
-        <tr>
-            <td><label id="hblNoLbl">H-B/L NO.</label></td>
+            <td><label id="shipByLbl">SHIP BY.</label></td>
             <td>:</td>
-            <td><label id="hblNo"></label></td>
-
-            <td><label id="quantityLbl">QUANTITY</label></td>
-            <td>:</td>
-            <td><label id="quantity"></label></td>
-
-            <td><label id="totpkgLbl">TOTAL</label></td>
-            <td>:</td>
-            <td><label id="totpkg"></label></td>
+            <td><label id="shipBy"></label></td>
         </tr>
 
         <tr>
             <td><label id="newBlNoLbl">BOOKING NO</label></td>
             <td>:</td>
             <td><label id="newBlNo"></label></td>
-
-            <td><label id="weightLbl">WEIGHT</label></td>
+            <td><label id="vesselLbl">VESSEL/VOYAGE</label></td>
             <td>:</td>
-            <td><label id="weight"></label></td>
-
-	    <td><label id="totalctnLbl">TOTAL CONTAINER</label></td>
+            <td><label id="vessel">SINAR SOLO V. 936N</label></td>
+            <td><label id="quantityLbl">QUANTITY</label></td>
             <td>:</td>
-            <td><label id="totalctn"></label></td>
+            <td><label id="quantity"></label></td>
+
         </tr>
 
-        @*<tr>
-            <td><label id="containerNoLbl">CONTANER NO.</label></td>
-            <td>:</td>
-            <td><div id="containerNo"></div></td>
-
-           
-		<td><label id="totalctnLbl">TOTAL CONTAINER</label></td>
-            <td>:</td>
-            <td><label id="totalctn"></label></td>
-        </tr>*@
-
         <tr>
-            <td><label id="custInvNoLbl" onclick="HideInv()">CUST INV NO.</label></td>
+            <td><label id="custInvNoLbl">CUST INV NO.</label></td>
             <td>:</td>
             <td><label id="custInvNo"></label></td>
-
-            <td><label id="refLbl">REF.</label></td>
-            <td>:</td>
-            <td><label id="ref"></label></td>
-        </tr>
-
-        <tr>
             <td><label id="declLbl">DECL.NO</label></td>
             <td>:</td>
             <td><label id="decl"></label></td>
-            <td><label id="consLbl">FOR:</label></td>
+            <td><label id="totalctnLbl">TOTAL CONTAINER</label></td>
             <td>:</td>
-            <td><label id="cons"></label></td>
+            <td><label id="totalctn"></label></td>
         </tr>
+
     </tbody>
 </table>
 
-<table class="table" style="display:none" id="tbForImport">
-	<tbody>
-	    	<tr>
-			<td><label id="jobNoLbl2">JOB NO.</label></td>
-            		<td>:</td>
-            		<td><label id="jobNo2"></label></td>
-
-			<td><label id="jobTypeLbl2">JOB TYPE.</label></td>
-            		<td>:</td>
-            		<td><label id="jobType2"></label></td>
-				
-			 <td><label id="hblNoLbl2">H-B/L NO.</label></td>
-            		<td>:</td>
-            		<td><label id="hblNo2"></label></td>
-		</tr>	
-		 <tr>
-            		<td><label id="custInvNoLbl2" onclick="HideInv()">CUST INV NO.</label></td>
-            		<td>:</td>
-            		<td><label id="custInvNo2"></label></td>
-
-            		<td><label id="refLbl2">REF.</label></td>
-            		<td>:</td>
-            		<td><label id="ref2"></label></td>
-
-			<td><label id="totalctnLbl2">TOTAL CONTAINER</label></td>
-            		<td>:</td>
-           		<td><label id="totalctn2"></label></td>
-        	</tr>
-	</tbody>
-</table>
-<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%" >
+<table id="main" class="table" style="border-width:thin;border-collapse:collapse ;width:98%">
     <thead>
         <tr class="upperLine underLine">
             <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
@@ -309,14 +247,14 @@ End Code
             <td class="center underLine">W/T AMT</td>
             <td id="amountLbl" class="right">AMOUNT:</td>
             <td style="width:60px;" id="advanceAmount" class="right"></td>
-            <td style="width:60px;" id="nonVatAmount" class="right" style="width:5em"></td>
+            <td style="width:60px;" id="nonVatAmount" class="right"></td>
             <td style="width:60px;" id="vatAmount" class="right"></td>
         </tr>
         <tr>
             <td id="taxRate1"></td>
             <td id="gross1" class="center right"></td>
             <td id="wtAmt1" class="center right"></td>
-            <td id="valueAddedTaxLbl" class="right">VALUE ADDED TAX 7%:</td>
+            <td id="valueAddedTaxLbl" class="left">VALUE ADDED TAX 7%:</td>
             <td class="right underLine"></td>
             <td class="right underLine"></td>
             <td id="valueAddedTax" class="right underLine"></td>
@@ -325,16 +263,16 @@ End Code
             <td></td>
             <td></td>
             <td></td>
-            <td id="totalAmountLbl" class="right">TOTAL AMOUNT VAT :</td>
+            <td id="totalAmountLbl" class="left">TOTAL AMOUNT VAT :</td>
             <td class="right"></td>
             <td class="right"></td>
             <td id="totalAmount" class="right"></td>
         </tr>
-	 <tr>
+        <tr>
             <td></td>
             <td></td>
             <td></td>
-            <td id="totalAmountLbl2" class="right">TOTAL AMOUNT:</td>
+            <td id="totalAmountLbl2" class="left">TOTAL AMOUNT:</td>
             <td class="right"></td>
             <td class="right"></td>
             <td id="totalAmount2" class="right"></td>
@@ -342,7 +280,7 @@ End Code
             <td id="taxRate3"></td>
             <td id="gross3" class="center right"></td>
             <td id="wtAmt3" class="center right"></td>
-            <td id="lessWithholdingTaxLbl" class="right">LESS: WITHHOLDING TAX:</td>
+            <td id="lessWithholdingTaxLbl" class="left">LESS: WITHHOLDING TAX:</td>
             <td class="right underLine"></td>
             <td class="right underLine"></td>
             <td id="lessWithholdingTax" class="right underLine"></td>
@@ -351,7 +289,7 @@ End Code
             <td class="center"></td>
             <td class="center"></td>
             <td class="center"></td>
-            <td id="netAmountLbl" class="right">NET AMOUNT:</td>
+            <td id="netAmountLbl" class="left">NET AMOUNT:</td>
             <td class="right"></td>
             <td class="right"></td>
             <td id="netAmount" class="right"></td>
@@ -360,7 +298,7 @@ End Code
             <td class="center"></td>
             <td class="center"></td>
             <td class="center"></td>
-            <td id="custAdvLbl" class="right">CUST ADV:</td>
+            <td id="custAdvLbl" class="left">CUST ADV:</td>
             <td class="right underLine"></td>
             <td class="right underLine"></td>
             <td id="custAdv" class="right underLine"></td>
@@ -369,7 +307,7 @@ End Code
             <td class="center"></td>
             <td class="center"></td>
             <td class="center"></td>
-            <td id="grandTotalLbl" class="right">GRAND TOTAL:</td>
+            <td id="grandTotalLbl" class="left">GRAND TOTAL:</td>
             <td class="right"></td>
             <td class="right"></td>
             <td id="grandTotal" class="right"></td>
@@ -382,48 +320,44 @@ End Code
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </p>
 <p>
-   Remark:<br/>
-   <label id="remark"></label><br/>
-   <label id="remark2"></label><br/>
-   <label id="remark3"></label><br/>
+    Remark:
+    <label id="remark"></label>
 </p>
-@*
 <p>
- <table class="table" style="width:98%;border-collapse:collapse ">
-    <thead></thead>
-    <tbody>
-    
-    </tbody>
-</table>
+    <table class="table" style="width:98%;border-collapse:collapse ">
+        <thead></thead>
+        <tbody>
+        </tbody>
+    </table>
 </p>
-<br /><br />
-      <table class="table" style="display:none;width:100%">
-          <tr>
-              <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
+<br />
+<br />
+<table class="table" style="width:100%">
+    <tr>
+        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
 
-              <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
+        <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
 
-              <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
+        <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
 
-          </tr>
-          <tr>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
-          </tr>
-          <tr>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
-          </tr>
-      </table>
-*@
+    </tr>
+    <tr>
+        <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+        <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+        <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
+    </tr>
+    <tr>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        <td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
+    </tr>
+</table>
+
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
-/*
     $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
   let ans = confirm('OK to print Original or Cancel For Copy');
         if (ans == true) {
@@ -431,7 +365,7 @@ End Code
         } else {
             $('#dvCopy').html('<b style="font-size:30px">COPY</b>');
         }
-
+/*
     if(confirm("show company header?")==false){
 	    $('#imgLogo').css('display','none');
 	    $('#divCompany').css('display','none');
@@ -444,14 +378,15 @@ End Code
             let h = r.invoice.header[0][0];
             let c = r.invoice.customer[0][0];
             let j = r.invoice.job[0][0];
-
-		
-
- 		$.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key='+(j.JobType.length>1?j.JobType:"0"+j.JobType)).done(function (r) {
+ 		    $.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key='+(j.JobType.length>1?j.JobType:"0"+j.JobType)).done(function (r) {
 			let type=  r.config.data[0]
 			$("#jobType").text(type.ConfigValue);
-			$("#jobType2").text(type.ConfigValue);
-		});
+            });
+
+            $.get(path + 'Config/GetConfig?Code=SHIP_BY&Key=' + (j.ShipBy.length > 1 ? j.ShipBy : "0" + j.ShipBy)).done(function (r) {
+                let type = r.config.data[0]
+                $("#shipBy").text(type.ConfigValue);
+            });
 	        $.get(path + 'Master/GetCompany?Code='+h.BillToCustCode+'&Branch='+h.BillToCustBranch).done(function (r) {
                 let b = r.company.data[0];
                 $("#billName").text(b.NameEng);
@@ -461,7 +396,7 @@ End Code
                 addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
-                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + (b.Branch=="0000"?"สำนักงานใหญ่":"0"+b.Branch));
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(ShowDate(h.DueDate));
 	        });
@@ -480,27 +415,17 @@ End Code
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             $("#remark").text(h.Remark1);
-	    $("#remark2").text(h.Remark2);
-	    $("#remark3").text(h.Remark3);
-
             $("#empcode").text(h.EmpCode);
             $("#createDate").text(ShowDate(h.CreateDate));
-            
 
-	    if(j.JobType == 1){
-			$("#tbForImport").show();
-			$("#tbForNotImport").hide();
-		}else{
-			$("#tbForImport").hide();
-			$("#tbForNotImport").show();
-		}
             if (j.ShipBy == 1) {
-                ShowInterPortComma(path, j.InvFCountry, j.InvInterPort, '#portfrom');
+                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
 		$("#portto").hide();
+
             } else {
-                ShowInterPortComma(path, j.InvCountry, j.InvInterPort, '#portto');
+                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
                 ShowCountry(path, j.InvFCountry, '#origin');
   		ShowCountry(path, j.InvCountry, '#destiny');
 		$("#portfrom").hide();
@@ -510,39 +435,27 @@ End Code
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
-
-	    $("#jobNo2").text(j.JNo);
-	    $("#hblNo2").text(j.HAWB);
-
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
-	     $.get(path + 'Master/getcustomsunit?Code='+j.InvProductUnit).done(function (r) {
-                let u = r.customsunit.data[0];
-               	  $("#quantity").text(j.InvProductQty + ' ' + u.TName);
-	     });
-	    
             $("#totpkg").text(j.TotalQty + " PACKAGE");
             $("#newBlNo").text(j.BookingNo);
             $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
 	$("#totalctn").text(j.TotalContainer);
-	$("#totalctn2").text(j.TotalContainer);
 	$("#decl").text(j.DeclareNumber);
             //$("#volume").text(j.Measurement);
  		//<td><label id="volumeLbl">VOLUME</label></td>
             //<td>:</td>
             //<td><label id="volume"></label></td>
             $("#custInvNo").text(j.InvNo);
-	    $("#custInvNo2").text(j.InvNo);
             //$("#ref").text(j.CustRefNO);
 	        $.get(path + 'Master/GetCompany?Code='+h.CustCode+'&Branch='+h.CustBranch).done(function (r) {
                 let b = r.company.data[0];
                 $("#ref").text(b.NameEng);
-		$("#ref2").text(b.NameEng);
 	        });
 
             ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');
             ShowVender(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
-		
+
             let d = r.invoice.detail[0];
             let html = '';
             let adv = 0;
@@ -561,16 +474,16 @@ End Code
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + '</td>';
                 html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 4) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance &&row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
                 html += '        </tr>';
-                
+
                 if (row.AmtAdvance) {
                     adv += ((row.Amt + row.AmtVat) * row.ExchangeRate.toFixed(4));
                 } else {
@@ -630,7 +543,7 @@ End Code
             $("#netAmount").text(ShowNumber(adv + vat + nonVat + h.TotalVAT - h.Total50Tavi, 2));
             $("#custAdv").text(ShowNumber(h.TotalCustAdv, 2));
             $("#grandTotal").text(ShowNumber((adv + vat + nonVat + h.TotalVAT - h.Total50Tavi)-h.TotalCustAdv, 2));
-            
+
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
@@ -652,7 +565,4 @@ End Code
             }
         });
     }
-function HideInv(){
-	$('#custInvNo').hide();
-}
 </script>
