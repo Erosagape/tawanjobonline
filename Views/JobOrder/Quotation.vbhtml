@@ -1,24 +1,5 @@
 ﻿@Code
     ViewBag.Title = "Quotation"
-    Dim sqlSource = "
-select h.*,d.TotalAmt,jt.JobTypeName as JobType,sb.ShipByName as ShipBy,c.NameThai as CustName,u.TName as EmpName
-from Job_QuotationHeader h
-left join 
-(select q.BranchCode,q.QNo,q.JobType,q.ShipBy,sum(i.TotalCharge) as TotalAmt
-from Job_QuotationDetail q inner join Job_QuotationItem i 
-on q.BranchCode=i.BranchCode and q.QNo=i.QNo and q.SeqNo=i.SeqNo
-group by q.BranchCode,q.QNo,q.JobType,q.ShipBy) d
-on h.BranchCode=d.BranchCode and h.QNo=d.QNo 
-left join Mas_Company c on h.Custcode=c.Custcode 
-and h.CustBranch=c.Branch 
-left join Mas_User u on h.ManagerCode=u.UserID 
-left join (select Convert(int,ConfigKey) as JobTypeCode,ConfigValue as JobTypeName from Mas_Config where ConfigCode='JOB_TYPE') jt 
-on d.JobType=jt.JobTypeCode
-left join (select Convert(int,ConfigKey) as ShipByCode,ConfigValue as ShipByName from Mas_Config where ConfigCode='SHIP_BY') sb 
-on d.ShipBy=sb.ShipByCode
-"
-    Dim dt = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlSource)
-    Dim json = Newtonsoft.Json.JsonConvert.SerializeObject(dt)
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
@@ -92,11 +73,10 @@ End Code
                             <th class="all">Quotation No</th>
                             <th class="desktop">Doc Date</th>
                             <th class="desktop">Customer</th>
+                            <th class="desktop">Billing To</th>
                             <th class="desktop">Contact Name</th>
-                            <th class="desktop">JobType</th>
-                            <th class="desktop">ShipBy</th>
-                            <th class="desktop">Total</th>
-                            <th class="desktop">EmpCode</th>
+                            <th class="desktop">Manager Name</th>
+                            <th class="desktop">Approve Date</th>
                         </tr>
                     </thead>
                 </table>
@@ -576,7 +556,7 @@ End Code
     let row_i = {};
     let chkmode = '';
     let jt = '';
-    let sourceData = @Html.Raw(json);
+
     SetLOVs();
 
     function CheckJobType() {
@@ -620,6 +600,8 @@ End Code
             row = {};
             row_d = {};
             row_i = {};
+//<th class="desktop">Remark</th>
+//{ data: "TRemark", title: "Remark" },
             let tb= $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -638,50 +620,15 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    {
-                        data: null, title: "Customer",
-                        render: function (data) {
-                            let q = sourceData.filter(function (d) {
-                                return d.QNo == data.QNo && d.BranchCode==data.BranchCode;
-                            });
-                            return ''+q[0].CustName;
-                        }
-                    },
+                    { data: "CustCode", title: "Customer" },
+                    { data: "BillToCustCode", title: "Billing To" },
+                    
                     { data: "ContactName", title: "Contact Name" },
+                    { data: "ManagerCode", title: "Manager Name" },
                     {
-                        data: null, title: "Job Type",
+                        data: "ApproveDate", title: "Approve Date",
                         render: function (data) {
-                            let q = sourceData.filter(function (d) {
-                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
-                            });
-                            return ''+q[0].JobType;
-                        }
-                    },
-                    {
-                        data: null, title: "Ship By",
-                        render: function (data) {
-                            let q = sourceData.filter(function (d) {
-                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
-                            });
-                            return ''+q[0].ShipBy;
-                        }
-                    },
-                    {
-                        data: null, title: "Total",
-                        render: function (data) {
-                            let q = sourceData.filter(function (d) {
-                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
-                            });
-                            return ShowNumber(q[0].TotalAmt,2);
-                        }
-                    },
-                    {
-                        data: null, title: "Manager Name",
-                        render: function (data) {
-                            let q = sourceData.filter(function (d) {
-                                return d.QNo == data.QNo && d.BranchCode == data.BranchCode;
-                            });
-                            return ''+q[0].EmpName;
+                            return CDateEN(data);
                         }
                     }
                 ],

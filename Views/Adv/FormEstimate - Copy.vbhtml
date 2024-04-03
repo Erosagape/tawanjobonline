@@ -198,7 +198,6 @@ End Code
               <th style="border-top:1px black solid;border-bottom:1px black solid;">QTY</th>
               <th style="border-top:1px black solid;border-bottom:1px black solid;">UNIT</th>
               <th style="border-top:1px black solid;border-bottom:1px black solid;">EXCH</th>
-	      <th style="border-top:1px black solid;border-bottom:1px black solid;">COST(NET)</th>
               <th style="border-top:1px black solid;border-bottom:1px black solid;">ADVANCE</th>
               <th style="border-top:1px black solid;border-bottom:1px black solid;">NON VAT</th>
               <th style="border-top:1px black solid;border-bottom:1px black solid;">VAT 7</th>
@@ -348,18 +347,21 @@ End Code
         console.log(income);
 
    
-        for (let r of dt) {
+        for (let r of income) {
             if (r.IsCredit == 0 && r.IsExpense == 0) {
-                totalCharge += r.AmountCharge * r.Qty ;//cast
-                if (r.AmtVat>0) {
-                    totalSrvVat += r.AmountCharge * r.Qty;
+                totalCharge += r.AmountCharge - 0;//cast
+                if (r.AmtVat) {
+                    totalSrvVat += r.AmountCharge;
                 } else {
-                    totalNonVat += r.AmountCharge * r.Qty;
+                    totalNonVat += r.AmountCharge;
                 }
-                totalBaseCharge += r.AmountCharge * r.Qty;
-                totalVatCharge  += r.AmtVat - 0;
+                totalBaseCharge += r.AmountCharge - 0;
+                totalVatCharge += r.AmtVat - 0;
                 totalWhtCharge += r.AmtWht - 0;
-		 switch (r.AmtWhtRate) {
+            }else  if (r.IsCredit == 1) {
+                totalAdvCharge += r.AmtTotal;
+            }
+            switch (r.AmtWhtRate) {
                 case 1:
                     sumWht1 += r.AmtWht;
                     sumbaseWht1 += r.AmountCharge;
@@ -374,18 +376,7 @@ End Code
                     break;
                 default:
                     break;
-            	}
             }
-	    else  if (r.IsCredit == 0 && r.IsExpense == 1) {
-                totalCost += r.AmountCharge * r.Qty ;//cast
-                totalBaseCost += r.AmountCharge * r.Qty;
-                totalVatCost += r.AmtVat - 0;
-                totalWhtCost += r.AmtWht - 0;
-            }
-	    else  if (r.IsCredit == 1) {
-                totalAdvCharge += (r.AmountCharge * r.Qty)+r.AmtVat ;
-            }
-           
             html += '<tr>';
             html += '<td>' + r.SDescription + '</td>';
             html += '<td style="text-align:right">' + CCurrency(CDbl(r.AmountCharge,2))  + '</td>';
@@ -393,18 +384,25 @@ End Code
             html += '<td style="text-align:center">' + r.Qty + '</td>';
             html += '<td style="text-align:center">' + r.QtyUnit + '</td>'; 
             html += '<td style="text-align:center">' + r.ExchangeRate + '</td>';
-	    html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 1 ? CCurrency(CDbl((r.AmountCharge * r.Qty)+r.AmtVat-r.AmtWht , 2)) : 0) + '</td>';
-            html += '<td style="text-align:right">' + (r.IsCredit == 1 && r.IsExpense == 0 ? CCurrency(CDbl((r.AmountCharge * r.Qty)+r.AmtVat , 2)) : 0) + '</td>';
-            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 &&r.AmtVat==0 ? CCurrency(CDbl(r.AmountCharge * r.Qty, 2)) : 0) + '</td>';
-            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 &&r.AmtVat>0? CCurrency(CDbl(r.AmountCharge * r.Qty, 2)) : 0) + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 1 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge * r.Qty , 2)) : 0) + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 1 ? CCurrency(CDbl(r.AmountCharge * r.Qty, 2)) : 0) + '</td>';
+            html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmountCharge * r.Qty, 2)) : 0) + '</td>';
             html += '<td style="text-align:right">' + (r.IsCredit == 0 && r.IsExpense == 0 ? CCurrency(CDbl(r.AmtWhtRate, 2)) : 0) + '</td>';
             html += '</tr>';
+            //let amt = CNum(Number(r.AmountCharge) * Number(r.Qty) * Number(r.ExchangeRate));
+            //if (r.IsCredit == 0) {
+            //    totamt += amt;
+            //} else {
+            //    totcost += amt;
+            //}
+            //totvat += CNum(r.AmtVat);
+            //totwht += CNum(r.AmtWht);
+            //total += amt + CNum(r.AmtVat);
         }
         let sumCharge = "";
         sumCharge += '<tr>';
         sumCharge += '<td class="" style="border-top:1px black solid">(ผิด ตก ยกเว้น O.E.)</td>';
         sumCharge += '<td colspan="5" style="border-top:1px black solid;text-align:right">AMOUNT</td>';
-	sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">'+ CCurrency(CDbl(totalCost, 2)) +'</td>';
         sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">'+ CCurrency(CDbl(totalAdvCharge, 2)) +'</td>';
         sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">' + CCurrency(CDbl(totalNonVat, 2)) +'</td>';
         sumCharge += '<td class="" style="border-top:1px black solid;text-align:right">' + CCurrency(CDbl(totalSrvVat, 2)) +'</td>';
@@ -413,16 +411,14 @@ End Code
         sumCharge += '<tr>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td colspan="5" style="text-align:right">SUB TOTAL</td>';
-	sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
-        sumCharge += '<td class="" style="text-align:right">' + CCurrency(CDbl(totalCharge+totalAdvCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style="text-align:right">' + CCurrency(CDbl(totalCharge, 2)) + '</td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '</tr>';
         sumCharge += '<tr>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td colspan="5" style="text-align:right">VALUE ADD TAX 7 %</td>';
-	sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style="text-align:right">' + CCurrency(CDbl(totalVatCharge, 2)) + '</td>';
@@ -431,16 +427,14 @@ End Code
         sumCharge += '<tr>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td colspan="5" style="text-align:right;font-weight:bold">TOTAL</td>';
-	sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
-        sumCharge += '<td class="" style="text-align:right;font-weight:bold">' + CCurrency(CDbl(totalAdvCharge+totalCharge+totalVatCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style="text-align:right;font-weight:bold">' + CCurrency(CDbl(totalCharge+totalVatCharge, 2)) + '</td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '</tr>';
         sumCharge += '<tr>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td colspan="5" style="text-align:right">WHT</td>';
-	sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style="text-align:right;border-bottom:1px black solid">' + CCurrency(CDbl(totalWhtCharge, 2)) + '</td>';
@@ -449,22 +443,21 @@ End Code
         sumCharge += '<tr>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td colspan="5" style="text-align:right;font-weight:bold">GRAND TOTAL</td>';
-	sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '<td class="" style=""></td>';
-        sumCharge += '<td class="" style="text-align:right;border-bottom:1px black double;font-weight:bold">' + CCurrency(CDbl(totalAdvCharge+totalCharge +totalVatCharge-totalWhtCharge, 2)) + '</td>';
+        sumCharge += '<td class="" style="text-align:right;border-bottom:1px black double;font-weight:bold">' + CCurrency(CDbl(totalCharge +totalVatCharge-totalWhtCharge, 2)) + '</td>';
         sumCharge += '<td class="" style=""></td>';
         sumCharge += '</tr>';
         sumCharge += '<tr>';
-        sumCharge += '<td class="" style="" colspan="11">(' + CNumEng(CDbl(totalAdvCharge+totalCharge + totalVatCharge - totalWhtCharge,2))+')</td>';
+        sumCharge += '<td class="" style="" colspan="10">(' + CNumEng(CDbl(totalCharge + totalVatCharge - totalWhtCharge,2))+')</td>';
         sumCharge += '</tr>';
         sumCharge += '</tr>';
         sumCharge += '<tr>';
-        sumCharge += '<td class="" style="" colspan="11">หัก ณ ที่จ่าย 1.00% จำนวนเงิน ' + CNumEng(CDbl(sumbaseWht1, 2)) + ' = ' + CNumEng(CDbl(sumWht1, 2))+')</td>';
+        sumCharge += '<td class="" style="" colspan="10">หัก ณ ที่จ่าย 1.00% จำนวนเงิน ' + CNumEng(CDbl(sumbaseWht1, 2)) + ' = ' + CNumEng(CDbl(sumWht1, 2))+')</td>';
         sumCharge += '</tr>';
         sumCharge += '</tr>';
         sumCharge += '<tr>';
-        sumCharge += '<td class="" style="" colspan="11">หัก ณ ที่จ่าย 3.00% จำนวนเงิน ' + CNumEng(CDbl(sumbaseWht3, 2)) + ' = ' + CNumEng(CDbl(sumWht3, 2)) + ')</td>';
+        sumCharge += '<td class="" style="" colspan="10">หัก ณ ที่จ่าย 3.00% จำนวนเงิน ' + CNumEng(CDbl(sumbaseWht3, 2)) + ' = ' + CNumEng(CDbl(sumWht3, 2)) + ')</td>';
         sumCharge += '</tr>';
 
         html += sumCharge;

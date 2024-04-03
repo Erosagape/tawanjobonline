@@ -335,7 +335,7 @@ End Code
                                         <label id="lblTotalCTN" for="txtTotalCTN">Total Containers :</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtTotalCTN" class="form-control" style="width:100%" tabindex="22" />
+                                            <input type="text" id="txtTotalCTN" class="form-control" style="width:100%" tabindex="22" readonly />
                                             <input type="button" id="btnGetCTN" class="btn btn-default" value="..." onclick="SplitData()" />
                                         </div>
                                     </div>
@@ -708,12 +708,12 @@ End Code
                                         <th class="desktop">
                                             Date
                                         </th>
-                                        <th class="all">
-                                            Action
-                                        </th>
-                                        <th class="desktop">
+			                <th class="desktop">
                                             User
                                         </th>
+                                        <th class="all">
+						Remark
+                                        </th>                       
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -859,6 +859,7 @@ End Code
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btnSaveLog" onclick="SaveJobLog()">Save Remark</button>
+                        <button type="button" class="btn btn-danger" id="btnDelLog" onclick="DelJobLog()">Delete Remark</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -1483,6 +1484,9 @@ End Code
                                     case "INV":
                                         return '<a href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
                                         break;
+                                    case "PAY":
+                                        return '<a href="../Acc/Expense?BranchCode='+ br +'&DocNo='+ data.DocNo+ '">' + data.DocNo + '</a>';
+                                        break;
                                     case "TAX":
                                         return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
@@ -1525,7 +1529,7 @@ End Code
                             {
                                 data: "ItemNo", title: "#",
                                 render: function (data) {
-                                    return "<button class='btn btn-default' onclick='ShowJobLog("+ data +");'>"+ data +"</button>";
+                                    return "<button class='btn btn-warning' onclick='ShowJobLog("+ data +");'>Edit</button>";
                                 }
                             },
                             {
@@ -1903,6 +1907,14 @@ End Code
             $('#txtLogRemark').val(row.TRemark);
             $('#frmJobOrderLog').modal('show');
         }
+    }
+    function DelJobLog(){
+            let branch= $('#txtBranchCode').val();
+            let code=$('#txtJNo').val();
+            let item=$('#txtJobLogId').val();
+            $.get(path + 'JobOrder/DelJobOrderLog?Branch=' + branch + '&Code=' + code + '&Item='+ item).done((r)=>{
+		alert(r.joborderlog.result);
+            });
     }
     function SaveJobLog() {
         let obj = {

@@ -112,15 +112,11 @@ End Code
                     <th>JobNo</th>
                     <th class="desktop">DocDate</th>
                     <th class="desktop">JobStatus</th>
-                    <th class="all">ETD</th>
-		    <th class="all">ETA</th>
-			<th class="desktop">BookingNo</th>
-			<th class="desktop">BLNo</th>
-			<th class="desktop">CS</th>
+                    <th class="all">InspectDate</th>
                     <th class="all">Inv.Customer</th>
- 		    
                     <th class="desktop">Customer</th>
-                    <th class="desktop">Consignee</th>
+                    <th>Consignee</th>
+                    <th class="desktop">CustRefNo</th>
                 </tr>
             </thead>
         </table>
@@ -193,9 +189,9 @@ End Code
         }
     }
     function getJobdata() {
-        //ShowWait();
-        //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
-        //    CloseWait();
+        ShowWait();
+        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
+            CloseWait();
             let tb=$('#tblJob').DataTable({
                 "ajax": {
                     //"url": "joborder/getjobjson" + strParam,
@@ -219,23 +215,15 @@ End Code
                         }
                     },
                     {
-                        "data": "ETDDate", "title": "ETD",
+                        "data": "DutyDate", "title": "Clearance Date",
                         "render" : function (data) {
                             return CDateEN(data);
                         }
                     },
-		    {
-                        "data": "ETADate", "title": "ETA",
-                        "render" : function (data) {
-                            return CDateEN(data);
-                        }
-                    },
-                    { "data": "BookingNo", "title": "BookingNo" },
-                    { "data": "HAWB", "title": "BLNo" },
-                    { "data": "CSName", "title": "CS" },
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
-                    { "data": "ConsigneeName", "title": "Consignee" }
+                    { "data": "ConsigneeName", "title": "Consignee" },
+                    { "data": "CustRefNO", "title": "Ref.No" }
                 ]
                 , "pageLength": 100
             });
@@ -250,11 +238,11 @@ End Code
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
-        //    CloseWait();
-        //});
+            CloseWait();
+        });
     }
     function getJobdata_1() {
-        //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
+        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
             $('#tblJob').DataTable({
                 "ajax": {
                     //"url": "joborder/getjobjson" + strParam,
@@ -300,7 +288,7 @@ End Code
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
-        //});
+        });
     }
     function GetCliteria() {
         let str = '';
@@ -346,10 +334,10 @@ End Code
         return '?NoLog=Y&ByDate=' + dateWhere + '&' + str;
     }
     function OpenJob() {
-        //$.get(path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {
+        $.get(path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {
             //ShowMessage(r);
             window.open(path + 'joborder/showjob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val());
-        //});
+        });
     }
     function PrintJob() {
         window.open(path +'joborder/formjob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val());

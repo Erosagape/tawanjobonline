@@ -149,7 +149,7 @@ End Code
     let doc = getQueryString("JNo");
     let book = getQueryString("BookingNo");
     var path = '@Url.Content("~")';
-    $('#dvCompLogo').hide();
+
     //$("#imgLogo").hide();
     // $("#imgLogoAdd").show();
     loadData();
@@ -192,27 +192,6 @@ End Code
                             $('#lblAddress1').text(c.EAddress1);
                             $('#lblAddress2').text(c.EAddress2);
                         }
-                    });
-                    $.get(path + 'Master/GetCompany?Code=' + j.CustCode + '&Branch=' + j.CustBranch).done(function (r) {
-                        if (r.company !== null) {
-                            let c = r.company.data[0];
-                            let newhead =
-                                `<div id="divCompany" >
-                                            <div style = "height:25px;text-align:left;color:darkblue;font-size:12px;" >
-                                                <b style="font-size:18px"> ${c.NameEng}</b>
-                                            </div >
-                                            <div style="font-size:14px;" id="dvCompAddr">${c.EAddress1 + " " + c.EAddress2}
-                                                <br>
-                                                    TEL  ${c.Phone ? c.Phone : " - "}    FAX ${c.FaxNumber ? c.FaxNumber : ' - '}
-                                                    <br>เลขประจำตัวผู้เสียภาษี ${c.FaxNumber ? c.FaxNumber : " - "} สาขา: ${c.Branch == "0000" ? "สำนักงานใหญ่" : c.Branch}
-                        	                </div>
-                             </div >`;
-
-                            newhead += ``
-                            $('#dvCompLogo').html(newhead);
-                            $('#dvCompLogo').show();
-                        }
-
                     });
                     $.get(path + 'joborder/gettransportdetail?Code=' + j.BookingNo + '&Branch=' + br + '&Job=' + j.JNo).done(function (r) {
                         if (r.transport !== null) {

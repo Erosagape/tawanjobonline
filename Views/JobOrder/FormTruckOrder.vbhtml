@@ -64,14 +64,14 @@ End Code
         <td><label id="txtCarrierContact"></label></td>
     </tr>
     <tr>
-        <td>ชื่อสินค้า</td>
-        <td><div id="txtInvProduct"></div></td>
-        <td>บุ้คกิ้ง</td>
-        <td><label id="txtCarrierBooking"></label></td>
+        <td></td>
+        <td></td>
+        <td><b>บุ้คกิ้ง<b></td>
+        <td><b><label id="txtCarrierBooking"></label><b></td>
     </tr>
     <tr>
-        <td>น้ำหนักรวม</td>
-        <td><div id="txtGrossWeight"></div></td>
+        <td></td>
+        <td></td>
         <td>วันที่จอง</td>
         <td><label id="txtBookingDate"></label></td>
     </tr>
@@ -80,34 +80,34 @@ End Code
         <th colspan="2">ข้อมูลเกี่ยวกับรถบรรทุก</th>
     </tr>
     <tr>
-        <td>ประเภทการให้บริการ</td>
-        <td><label id="txtServiceType"></label></td>
-        <td>ทะเบียนรถบรรทุก</td>
-        <td><label id="txtTruck"></label></td>
+        <td><b>ประเภทการให้บริการ</b></td>
+        <td><b><label id="txtServiceType"></label></b></td>
+        <td><b>ทะเบียนรถบรรทุก</b></td>
+        <td><b><label id="txtTruck"></label></b></td>
     </tr>
     <tr>
-        <td>ขนาดตู้คอนเทนเนอร์</td>
-        <td><label id="txtContainerType"></label></td>
-        <td>ชื่อคนขับ/โทรศัพท์</td>
-        <td><label id="txtDriverName"></label></td>
+        <td><b>ขนาดตู้คอนเทนเนอร์</b></td>
+        <td><b><label id="txtContainerType"></label></b></td>
+        <td><b>ชื่อคนขับ/โทรศัพท์</b></td>
+        <td><b><label id="txtDriverName"></label></b></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td>หมายเลขตู้คอนเทนเนอร์</td>
-        <td><label id="txtContainer"></label></td>
+        <td><b>หมายเลขตู้คอนเทนเนอร์</b></td>
+        <td><b><label id="txtContainer"></label></b></td>
     </tr>
     <tr>
         <td>หมายเหตุ</td>
         <td><div id="txtRemark"></div></td>
-        <td>หมายเหตุในการส่งตู้ล่าช้า</td>
-        <td><div id="txtDiscrepancyReason"></div></td>
+        <td><b>หมายเหตุในการส่งตู้ล่าช้า<b></td>
+        <td><b><div id="txtDiscrepancyReason"></div></b></td>
     </tr>
     <tr>
         <th></th>
-        <th>สถานที่รับตู้</th>
-        <th>ไปส่งที่</th>
-        <th>สถานที่ส่งคืน</th>
+        <th>สถานที่รับตู้  / VGM Closing</th>
+        <th>ไปส่งที่  / Loading </th>
+        <th>สถานที่ส่งคืน  /  CY Closing</th>
     </tr>
     <tr>
         <td>ชื่อสถานที่</td>
@@ -146,29 +146,6 @@ End Code
         <td><label id="txtRemark3"></label></td>
     </tr>
 </table>
-<table style="width:100%;text-align:center;">
-    <tr>
-        <td>
-            <br /><br />
-            <br />(________________________________)
-            <br /> ________________________________
-            <br>              DRIVER
-        </td>
-        <td>
-            <br /><br />
-            <br />(________________________________)
-            <br /> ________________________________
-            <br>              RECEIVER
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" style="text-align:left;">
-            Billing Information :<br />
-            <label id="lblBillingName"></label><br />
-            <label id="lblBillingAddress"></label>
-        </td>
-    </tr>
-</table>
 <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
@@ -187,8 +164,6 @@ End Code
             } else {
                 ShowInterPort(path, h.InvCountry, h.InvInterPort, '#lblDischargePort');
             }
-            $('#txtGrossWeight').html(h.TotalGW);
-            $('#txtInvProduct').html(h.InvProduct);
             $('#txtCYDate').text(ShowDate(h.CYDate));
             $('#txtETDDate').text(ShowDate(h.ETDDate));
             $('#txtSpecialInstruction').html(h.Description);
@@ -199,7 +174,7 @@ End Code
             $('#txtCarrierBooking').text(h.BookingNo);
             $('#txtBookingDate').text(ShowDate(h.BookingDate));
             $('#txtServiceType').text(h.LocationRoute);
-            $('#txtTruck').text(h.TruckNO);
+            $('#txtTruck').text(h.CarLicense);
             $('#txtContainerType').text(h.CTN_SIZE);
             $('#txtDriverName').text(h.DriverName);
             $('#txtContainer').text(h.CTN_NO);
@@ -209,17 +184,15 @@ End Code
             $('#txtPlace1').text(h.PlaceName1);
             $('#txtPlace2').text(h.PlaceName2);
             $('#txtPlace3').text(h.PlaceName3);
-            $('#lblBillingName').text(h.ReturnPlace);
             $('#txtAddress1').html(CStr(h.PlaceAddress1));
             $('#txtAddress2').html(CStr(h.PlaceAddress2));
             $('#txtAddress3').html(CStr(h.PlaceAddress3));
-            $('#lblBillingAddress').text(h.ReturnAddress);
-            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
-            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
-            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));
-            $('#txtActualDate1').text(ShowDate(h.ActualYardDate));
-            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate));
-            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate));
+            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate) + ' ' + ShowTime(h.TargetYardTime));
+            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate) + ' ' + ShowTime(h.TargetDeliveryTime));
+            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate) + ' ' + ShowTime(h.TargetReturnTime));
+            $('#txtActualDate1').text(ShowDate(h.ActualYardDate) + ' ' + ShowTime(h.ActualYardTime));
+            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate) + ' ' + ShowTime(h.ActualDeliveryTime));
+            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate) + ' ' + ShowTime(h.ActualReturnTime));
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);

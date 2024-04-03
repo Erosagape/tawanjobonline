@@ -398,7 +398,7 @@ End Code
                 } else {
                     html += '<td style="text-align:center">' + o.Qty + '</td>';
                 }
-                html += '<td style="text-align:right">'+ShowNumber(o.UnitPrice, 4)+'</td>';
+                html += '<td style="text-align:right">'+ShowNumber(o.UnitPrice, 2)+'</td>';
 
                 sumbaseadv += (o.AmtAdvance > 0 ? Number(o.Amt) : 0);
                 sumvatadv += (o.AmtAdvance > 0 ? Number(o.AmtVat) : 0);

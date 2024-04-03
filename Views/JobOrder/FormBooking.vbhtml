@@ -80,11 +80,10 @@ End Code
 <div style="width:100%;">
     @*<img src="~/Resource/bft_blheader.png" style="width:100%" />*@
     <div style="width:100%;display:flex;font-size:13px">
-        <div style="width:60%">
-            <div style="text-align: center; white-space: nowrap; font-weight: bold; font-size: 20px">BETTER FREIGHT & TRANSPORT CO.,LTD</div>
-            <div style="text-align: center; white-space: nowrap; font-weight:bold;">GLOBAL LOGISTICS NETWORK</div>
-        </div>
-        <div style="width:40%"><h1 style="text-align:center;white-space:nowrap">SHIPPING INSTRUCTION</h1></div>
+  
+            <div style="width:60%;text-align: center; white-space: nowrap; "><h2>YIFAN SHIPPING (THAILAND) CO.,LTD</h2></div>
+  
+        <div style="width:40%"><h2 style="text-align:center;white-space:nowrap">SHIPPING INSTRUCTION</h2></div>
     </div>
 </div>
 <table style="width:100%">
@@ -114,16 +113,16 @@ End Code
                         @*<p>    ATTN : <label id="lblForwarderName"></label></p>*@
                     </div>
                     <div style="width:40%">
-                        <img src="~/Resource/bft_blpic.png" style="width:100%;" />
+                        <img src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%;" />
                     </div>
                 </div>
 
                 <div style="flex: 1; display: flex; flex-direction: column">
                     <div style="display: flex; flex: 1">
-                        FROM : BETTER FREIGHT & TRANSPORT CO,.LTD.
+                        FROM : B.S.R. TRANSPORT (2018) CO., LTD
                     </div>
                     <div style="display: flex; flex: 1">
-                        (E-MAIL: csteam@bftfreight.com,console@bftfreight.com)
+                        (E-MAIL: )
                     </div>
 
 
@@ -135,7 +134,7 @@ End Code
                         @*<p>  BFT NO. : <label id="lblJobNo"></label><br /></p>
         <p>  BKG NO. : <label></label><br /></p>*@
                         <div style="display: flex; flex: 1">
-                            <div>      BFT NO. : </div>
+                            <div>      JOB NO. : </div>
                             <div id="lblJobNo" style="flex: 1"></div>
                         </div>
                         <div style="display: flex; flex: 1">
@@ -262,7 +261,7 @@ End Code
             <td class="vbodered"></td>
             <td class="vbodered"></td>
         </tr>
-        <tr style="height:300px;">
+        <tr style="height:250px;">
             <td class="vbodered"></td>
             <td class="vbodered"></td>
             <td class="vbodered"></td>
@@ -400,7 +399,6 @@ End Code
             let cunit = await $.get(path + 'Master/GetCustomsUnit?Code=' + h.InvProductUnit);
             if (cunit.customsunit.data.length > 0) {
                 let b = cunit.customsunit.data[0];
-                
                 row.append($('<td class="vbodered" style="text-align:center;"><br/><br/>' + h.TotalContainer + '<br/>(' + h.InvProductQty + ' ' + b.TName + ')</td>'));
                 row.append($('<td class="vbodered"><pre style="white-space: pre-wrap;">' + CStr(h.ProjectName) + '</pre><br/><br/>' + h.InvProduct + '</td>'));
                 row.append($('<td class="vbodered"><br/><br/><br/>' + 'G.W ' + ShowNumber(h.TotalGW, 3) + ' ' + h.GWUnit + '</td>'));

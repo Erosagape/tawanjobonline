@@ -6,11 +6,11 @@ End Code
 <style>
     * {
         font-family: Tahoma;
-        font-size: 14px;
+        font-size: 11px;
     }
 
     td {
-        font-size: 14px;
+        font-size: 11px;
     }
 
     th {
@@ -30,36 +30,13 @@ End Code
         border-collapse: collapse;
     }
 </style>
-<table style="width:100%">
+<table>
 	<tbody>
-        <tr>
-            <td style="width:60%">
-                CUSTOMER : <label id="lblCustName"></label>
-            </td>
-            <td style="width: 20%">   </td>
-            <td> REF  </td>
-            <td> : </td>
-            <td>
-                <label id="lblQNo"></label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                @*<label id="lblCustAddress"></label>*@
-		CODE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : <label id="lblCustCode"></label>
-            </td>
-            <td style="width: 20%">   </td>
-            <td>DATE </td>
-            <td>:</td>
-            <td> <label id="lblDocDate"></label></td>
-        </tr>
-        @*<tr>
-            <td> <label id="lblCustTelFax"></label></td>
-        </tr>*@
+		<tr></tr>
 	</tbody>
+	
 </table>
-<span id="lblDescriptionH" style='white-space:pre-wrap;width:100%'></span>
-@*<div style="display:flex">
+<div style="display:flex">
     <div style="flex:1">
         CUSTOMER : <label id="lblCustName"></label>
     </div>
@@ -91,9 +68,15 @@ End Code
             OFFERED TO : <label id="lblContactName"></label>
         </div>
     </div>
-</div>*@
+</div>
+<br />
+<div style="display:flex">
+    <div style="flex:1">
+        <pre id="lblDescriptionH" style='white-space:pre-wrap'></pre>
+    </div>
+</div>
 
-<table style="margin-top:10px;" border="1" width="100%">
+<table style="" border="1" width="100%">
     <thead>
         <tr>
             <th width="5%">NO.</th>
@@ -107,28 +90,28 @@ End Code
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
-    @*<tfoot>
-            <tr>
-                <td colspan="4" class="number">GRAND TOTAL (THB)</td>
-                <td style="text-align:right"><label id="lblTotalCharge"></label></td>
-            </tr>
-        </tfoot>*@
+    <tfoot>
+        <tr>
+            <td colspan="6" class="number">GRAND TOTAL (THB)</td>
+            <td colspan="2" style="text-align:right"><label id="lblTotalCharge"></label></td>
+        </tr>
+    </tfoot>
 </table>
 <p>
+    <br />
     <div>
  		<div>
-<br>
 			<div id="lblDescriptionF" style="word-wrap: break-word;white-space: pre-wrap;" ></div>
 		</div>
 		<div>
 			<div id="lblTRemark" style="word-wrap: break-word;white-space: pre-wrap;width:100%;height:100%"></div>
 		</div>
     </div>
-
+    <br />
 </p>
 <p>
-    Best Regards
-    <br /><br /><br />
+    Best Regards,
+    <br /><br /><br /><br />
     <label id="lblManagerName"></label>
 </p>
 <br />
@@ -152,17 +135,21 @@ End Code
   <table style="width: 100%;" border="1">
         <tbody style="text-align: center;">
             <tr style="text-align: center;background-color:lightgreen;">
-                <td colspan="2"><label id="lblCmp"></label></td>
+                <td colspan="3"><label id="lblCmp"></label></td>
                 <td>Order confirmation by customer</td>
             </tr>         
   	    <tr style="text-align: center;background-color:lightgreen;">
 		<td > Quoted by</td>
+		<td > Qualify by</td>
                 <td > Approve by</td>
 		
                 <td>Authorize Signature & Company Stamp</td>
             </tr>
             <tr>
                 <td>
+                    <br> <br> <br> <br> <br>
+                </td>
+		<td>
                     <br> <br> <br> <br> <br>
                 </td>
  		<td>
@@ -178,19 +165,18 @@ End Code
                     <label id="lblQbyPosition">________________</label><br>
                     <label id="lblQDate">Date &nbsp;:________________  </label>
                 </td>
+		 <td style="width:25%"> 
+                    (<label id="lblIBy">________________</label>)<br>
+                    <label id="lblIbyPosition">________________ </label><br>
+                    <label id="lblIDate">Date &nbsp;:________________  </label>
+                </td>
                 <td style="width:25%"> 
                     (<label id="lblABy">________________</label>)<br>
-                    @*<label id="lblAbyPosition">________________ </label>*@
-			<br>
+                    <label id="lblAbyPosition">________________ </label><br>
                     <label id="lblADate">Date &nbsp;:________________  </label>
                 </td>
 		
-                <td style="text-align:center;">
-(________________)
-<br>
-<label id="lblCustEName"></label><br>
-			Date &nbsp;: ________________
-		</td>
+                <td style="text-align: left;">Date &nbsp;: <br>Position &nbsp;: </td>
             </tr>
         </tbody>
     </table>
@@ -225,8 +211,6 @@ End Code
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
                 $('#lblCustName').text(c.Title + ' ' + c.NameThai);
-                $('#lblCustEName').text(c.NameEng);
-		$('#lblCustCode').text(c.CustCode);
                 $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                 $('#lblCustTelFax').text((CStr(c.Phone) == '' ? '' : 'Tel :' + CStr(c.Phone)) + (CStr(c.FaxNumber) == '' ? '' : ' Fax :' + CStr(c.FaxNumber)));
             }
@@ -250,12 +234,10 @@ End Code
         let rowid=0;
         for (let d of dt.detail) {
 
-            html = '<tr style="background-color:lightgreen;"><td style="text-align:center">' + d.SeqNo + '</td>';
+            html = '<tr style="background-color:lightgreen;"><td>' + d.SeqNo + '</td>';
             html += '<td colspan="3">' + d.Description + '</td>';
-            //html += '<td colspan="2">' + d.JobTypeName + '</td>';
-            //html += '<td colspan="2">' + d.ShipByName + '</td>';
-            html += '<td colspan="2"></td>';
-            html += '<td colspan="2"></td>';
+            html += '<td colspan="2">' + d.JobTypeName + '</td>';
+            html += '<td colspan="2">' + d.ShipByName + '</td>';
             html += '</tr>';
             rowid++;
             $('#tbDetail').append(html);
@@ -271,7 +253,7 @@ End Code
                 html = '<tr><td></td>';
                 html += '<td>' + rowid + '.' + itemid + ' ' + desc + '</td>';
                 html += '<td>' + i.UnitCheck + '</td>';
-                html += '<td style="text-align:center">' +  i.QtyEnd + '</td>';
+                html += '<td>' +  i.QtyEnd + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.ChargeAmt, 2) + ' ' + i.CurrencyCode + '</td>';
                 html += '<td style="text-align:center">' + i.CurrencyRate + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.TotalAmt,2) + '</td>';

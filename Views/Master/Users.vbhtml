@@ -109,10 +109,6 @@ End Code
                 </table>
             </div>
             <div class="col-sm-6">
-                <b>Copy Authorized From : </b>
-                <input type="text" id="txtUserFrom" value="" />
-                <input type="button" class="btn btn-primary" value="Copy" onclick="CopyData()"/>
-                <br />
                 <b>Module Authorized of This User <br /></b>
                 <table id="tbAuthor" class="table table-responsive">
                     <thead>
@@ -160,7 +156,7 @@ End Code
                 }
             });
         });
-
+       
     }
 
     function SetEvents() {
@@ -219,7 +215,11 @@ End Code
     }
     function ReadUser(dr) {
         if (dr.UserID != undefined) {
-            row = dr;
+            if(dr.UPassword=='ลาออกแล้ว') {
+		alert('This user is not active anymore');
+		return;
+            }
+            row = dr;	    
             $('#txtUserID').val(dr.UserID);
             $('#txtUPassword').val(dr.UPassword);
             $('#txtTName').val(dr.TName);
@@ -352,36 +352,34 @@ End Code
         var code = $('#txtUserID').val();
         ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
-            $.get(path + 'master/deluser?code=' + code, function (r) {
-                ShowMessage(r.user.result);
-                ClearData();
-            });
-        });
-    }
-    function CopyUser() {
-        let userFrom = $('#txtUserFrom').val();
-        let msg = "Do you need to copy rights from " + userFrom + " to " + $('#txtUserID').val();
-        if (mainLanguage == "TH") {
-            msg = "กรุณายืนยันการคัดลอกสิทธิ์ของ " + userFrom + " ให้กับ " + $('#txtUserID').val()
-        }
-        ShowConfirm(msg, (ask) => {
-            if (ask == false) return;
-            $.get(path + 'Config/CopyMenuAuth?From=' + userFrom + '&To=' + $('#txtUserID').val()).done(function (r) {
-                ShowMessage(r);
-                $.get(path + 'Config/GetUserAuth?Code=' + $('#txtUserID').val(), function (r) {
-                    let tb=$('#tbAuthor').dataTable({
-                        data: r.userauth.data,
-                        columns: [
-                            { data: "AppID", title: "Module Id" },
-                            { data: "MenuID", title: "Function" },
-                            { data: "Author", title: "Authorize" }
-                        ],
-                        destroy: true
-                        , pageLength: 100
-                    });
-                    ChangeLanguageGrid('@ViewBag.Module', '#tbAuthor');
-                });                
-            });
+	    $('#txtUPassword').val('ลาออกแล้ว');
+	    var obj = GetDataSave();
+            if (obj.UserID == '') {
+                ShowMessage('Please input code',true);
+                return;
+            }
+            if (obj.TName == '') {
+                ShowMessage('Please input name',true);
+                return;
+            }
+                var jsonText = JSON.stringify({ data: obj });
+                //ShowMessage(jsonText);
+                $.ajax({
+                    url: "@Url.Action("SetUser", "Master")",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: jsonText,
+                    success: function (response) {
+                        if (response.result.data!=null) {
+                            $('#txtUserID').val(response.result.data);
+                            $('#txtUserID').focus();
+                        }
+                        ShowMessage(response.result.msg);
+                    },
+                    error: function (e) {
+                        ShowMessage(e,true);
+                    }
+                });
         });
     }
 

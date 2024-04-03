@@ -3158,7 +3158,7 @@ AND DocNo=h.DocNo
     Public Function SQLSelectClearingTotal(sqlW As String) As String
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','''''') as Description 
 from Job_ClearDetail b 
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 and b.ClrNo=a.ClrNo and b.BNet>0 

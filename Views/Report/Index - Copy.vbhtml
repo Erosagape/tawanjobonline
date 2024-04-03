@@ -283,7 +283,7 @@ End Code
                             <option value="&gt=">Greater/Equal</option>
                             <option value="&lt=">Less than/Equal</option>
                             <option value="&lt&gt">Not Equal</option>
-                            <option value="LIKE%">Contain</option>
+                            <option value="Like%">Contain</option>
                         </select>
                     </div>
                     <div class="col-sm-8" style="display:flex">
@@ -340,7 +340,7 @@ End Code
                     columns: [
                         { data: "ReportCode", title: "Report Code" },
                         { data: (mainLanguage == 'TH' ? "ReportNameTH" : "ReportNameEN"), title: "ReportName" },
-                        { data: "ReportGroup", title: "Report Group" }
+                        { data: "ReportGroup", title: "Report Group" },
                     ],
                     responsive: true,
                     destroy: true
@@ -614,7 +614,6 @@ End Code
     function PrintReport() {
         if (reportID.indexOf('PRD')>=0) {
             switch (reportID) {
-		@*
                 case 'PRD3':
                     window.location.href=path +'Acc/FormWTax3' + GetCliteria();
                     break;
@@ -626,32 +625,6 @@ End Code
                     break;
                 case 'PRD53D':
                     window.location.href=path +'Acc/FormWTax53D' + GetCliteria();
-                    break;
-		*@
-	
-		case 'PRD3':
-                    window.open(path +'Acc/FormWTax3' + GetCliteria(), '', '');
-                    break;
-                case 'PRD3A':
-                    window.open(path + 'Acc/FormWTax3' + GetCliteria(), '', '');
-                    break;
-                case 'PRD3D':
-                    window.open(path + 'Acc/FormWTax3D' + GetCliteria(), '', '');
-                    break;
-                case 'PRD3AD':
-                    window.open(path + 'Acc/FormWTax3D' + GetCliteria(), '', '');
-                    break;
-                case 'PRD53':
-                    window.open(path +'Acc/FormWTax53' + GetCliteria(), '', '');
-                    break;
-                case 'PRD53A':
-                    window.open(path + 'Acc/FormWTax53' + GetCliteria(), '', '');
-                    break;
-                case 'PRD53D':
-                    window.open(path +'Acc/FormWTax53D' + GetCliteria(), '', '');
-                    break;
-                case 'PRD53AD':
-                    window.open(path + 'Acc/FormWTax53D' + GetCliteria() + '&Type=A', '', '');
                     break;
             }
             return;

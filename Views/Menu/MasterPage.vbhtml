@@ -147,10 +147,8 @@
                         <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport Tracking</a>
                         <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">Job Timeline</a>
                         <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard')">Customer Dashboard</a>
-                        <a href="#" id="mnuRpt7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Staff Dashboard</a>
-                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard5')">Transport Dashboard</a>
-                        <a href="#" id="mnuRpt8" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard3')">Finance Dashboard 1</a>
-                        <a href="#" id="mnuRpt9" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard4')">Finance Dashboard 2</a>
+                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Staff Dashboard</a>
+                        <a href="#" id="mnuRpt7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard5')">Job Dashboard</a>
                         <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenLink('Document')">-Document Tracking</a>
                     </div>
                     <div id="mainMas" class="w3-bar-item w3-button" onclick="w3_accordion('mnuMas')">
@@ -404,7 +402,7 @@
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
-                                <img id="imgCompany" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50%;height:55px" onclick="w3_open();" />
+                                <img id="imgCompany" src="~/Resource/logo_teg.jpg" style="width:70%;height:55px" onclick="w3_open();" />
                             </div>
                             <div class="col-xs-7 col-md-10">
                                 <div style="display:flex;align-items:center;height:50px">

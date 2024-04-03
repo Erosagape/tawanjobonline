@@ -1,39 +1,6 @@
 ﻿@Code
     ViewData("Title") = "Refill Fuel"
-    Dim appData = ViewBag.DataForApprove
-    Dim billData = ViewBag.DataForBill
-    Dim dataBilled = ViewBag.DataBilled
-    Dim sqlW = ""
-    Dim dateFrom = ""
-    Dim dateTo = ""
-    If Request.QueryString("DateFrom") IsNot Nothing Then
-        dateFrom = Request.QueryString("DateFrom")
-        sqlW &= String.Format(" AND DocDate>='{0}'", dateFrom)
-    End If
-    If Request.QueryString("DateTo") IsNot Nothing Then
-        dateTo = Request.QueryString("DateTo")
-        sqlW &= String.Format(" AND DocDate<='{0}'", dateTo)
-    End If
-    If sqlW <> "" Then
-        appData = New CAddFuel(ViewBag.CONNECTION_JOB).GetData(" WHERE ISNULL(ApproveBy,'')='' AND ISNULL(CancelBy,'')='' " & sqlW)
-        billData = New CAddFuel(ViewBag.CONNECTION_JOB).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')='' AND ISNULL(CancelBy,'')=''" & sqlW)
-        dataBilled = New CAddFuel(ViewBag.CONNECTION_JOB).GetData(" WHERE ISNULL(ApproveBy,'')<>'' AND ISNULL(StationInvNo,'')<>'' AND ISNULL(CancelBy,'')=''" & sqlW)
-    End If
 End Code
-<div class="row">
-    <div class="col-sm-3">
-        From Date <br />
-        <input type="date" id="txtDateFrom" class="form-control" value="@dateFrom" />
-    </div>
-    <div class="col-sm-3">
-        To Date <br />
-        <input type="date" id="txtDateTo" class="form-control" value="@dateTo" />
-    </div>
-    <div class="col-sm-3">
-        <br />
-        <input type="button" class="btn btn-primary" value="Search" onclick="RefreshData()" />
-    </div>
-</div>
 <ul class="nav nav-tabs">
     <li class="active"><a id="linkRequest" data-toggle="tab" href="#tabRequest">Fuel Request</a></li>
     <li><a id="linkApprove" data-toggle="tab" href="#tabApprove">Fuel Approved</a></li>
@@ -57,7 +24,7 @@ End Code
                 </tr>
             </thead>
             <tbody>
-                @For Each row As CAddFuel In appData
+                @For Each row As CAddFuel In ViewBag.DataForApprove
                     @<tr ondblclick="ShowDoc('@row.BranchCode','@row.DocNo')">
                         <td>
                             <input type="checkbox" onclick="ProcessCheckApprove(this,'@row.DocNo')" />
@@ -95,7 +62,7 @@ End Code
                 </tr>
             </thead>
             <tbody>
-                @For Each row As CAddFuel In billData
+                @For Each row As CAddFuel In ViewBag.DataForBill
                     @<tr ondblclick="ShowDoc('@row.BranchCode','@row.DocNo')">
                         <td>
                             <input type="checkbox" onclick="ProcessCheckBill(this,'@row.DocNo')" />
@@ -136,7 +103,7 @@ End Code
                 </tr>
             </thead>
             <tbody>
-                @For Each row As CAddFuel In dataBilled
+                @For Each row As CAddFuel In ViewBag.DataBilled
                     @<tr ondblclick="ShowDoc('@row.BranchCode','@row.DocNo')">
                         <td>@row.DocNo</td>
                         <td>@row.DocDate.ToString("dd/MM/yyyy")</td>
@@ -197,8 +164,5 @@ End Code
     }
     function AddData() {
         window.open(path + 'JobOrder/AddFuel','','');
-    }
-    function RefreshData() {
-        window.location.href = path + 'JobOrder/CloseFuel?DateFrom=' + $('#txtDateFrom').val() + '&DateTo=' + $('#txtDateTo').val();
     }
 </script>

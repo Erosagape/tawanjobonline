@@ -648,7 +648,7 @@ End Code
         if ($('#cboJobType').val() == '01') {
             if ($('#txtQNo').val() == '') {
                 ShowMessage('Please input Quotation for Import shipment', true);
-                return;
+                //return;
             }
         }
 

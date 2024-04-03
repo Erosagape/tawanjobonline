@@ -271,17 +271,17 @@ End Code
                 $('#dvLog').html(htm);
            }
         });
-	 $.get(path + 'Adv/getadvancereport?branchcode=' + branch + '&jobno=' + job, (r) => {
-	    r.adv.data = r.adv.data.filter((data) => {
-                    return data.DocStatus >= 2 && data.DocStatus <= 3  ;
-            });
-            if (r.adv.data.length > 0) {
+	 $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jobno=' + job, (r) => {
+	    //r.clr.data = r.clr.data.filter((data) => {
+            //        return data.DocStatus <= 3 ;
+            //});
+            if (r.clr.data.length > 0) {
                 let htm = '';
 		let sumAdvNet= 0;
-                for (let i = 0; i < r.adv.data.length; i++) {
-                    let d = r.adv.data[i];
+                for (let i = 0; i < r.clr.data.length; i++) {
+                    let d = r.clr.data[i];
                 	htm += '<tr>';
-                	htm += '<td>'+d.AdvNo+'</td>';
+                	htm += '<td>'+d.AdvNO+'</td>';
 			htm += '<td>'+d.SICode+' '+d.SDescription+'</td>';
 			htm += '<td>'+d.advDocStatus+'</td>';
 			htm += '<td style="text-align:right">'+ ShowNumber(d.AdvNet,2)+'</td>';

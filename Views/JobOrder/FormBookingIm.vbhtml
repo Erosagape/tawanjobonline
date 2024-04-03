@@ -5,7 +5,7 @@
     ViewBag.Title = "ใบสั่งงานรถ (Truck Order)"
 End Code
 <div style="text-align:right;width:100%">
-    <b>DATE :</b> <label id="lblBookingDate"></label><br />
+    <b>DATE :</b> <label id="lblBookingDate"></label><br/>
     <b>JOB NUMBER :</b> <label id="lblJNo"></label>
 </div>
 <div style="width:100%">
@@ -199,7 +199,7 @@ End Code
         <div style="flex:1;text-align:center">
             <br>   <br>
             <br>   <br>
-
+            
             <br>   <br>
             ได้รับสินค้าสภาพครบถ้วนสมบูรณ์แล้ว <b> (The cargoes have been properly received)</b>
             <br>
@@ -233,29 +233,28 @@ End Code
         <thead></thead>
     </table>
 </div>
-<script type="text/javascript">
+    <script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
         var path = '@Url.Content("~")';
-        $("#imgLogo").hide();
-        $("#imgLogoAdd").show();
+
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
             $.get(path + 'JobOrder/getjobsql?Branch=' + br + '&Jno=' + h.JNo).done(function (r) {
                 if (r.job !== null) {
                     let j = r.job.data[0];
-                    $('#lblCustInv').text(j.InvNo);
+                    $('#lblCustInv').text(j.InvNo);        
                     $('#lblInspectionDate').text(ShowDate(j.DutyDate));
                     $.get(path + 'Master/GetCustomsPort?code=' + j.ClearPort).done(function (r) {
                         if (r.RFARS !== null) {
                             let p = r.RFARS.data[0];
                             $('#lblReleasePort').text(p.AreaCode);
-                        }
+                        }    
                     });
                 }
             });
-
+        
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
             $('#lblJNo').text(h.JNo);
@@ -280,7 +279,7 @@ End Code
             $('#lblBillToAddress').html(CStr(h.PaymentCondition));
 
             $('#dvRemark').html(CStr(h.Remark));
-
+          
              let ctnList = '';
             for (let d of r.booking.data) {
                 if (d.CTN_NO !== '') {
@@ -306,4 +305,4 @@ End Code
             $('#lblContainerList').html(html);
         }
     });
-</script>
+    </script>

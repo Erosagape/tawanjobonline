@@ -215,9 +215,9 @@ End Code
             $('#txtBookingDate').text(CDateEN(h.BookingDate));
             $('#txtRemark').html(CStr(h.Remark));
             $('#txtServiceType').text(h.LocationRoute);
-            $('#txtTruck').text(h.CarLicense);
+            $('#txtTruck').text(h.TruckNO);
             $('#txtContainerType').text(h.CTN_SIZE);
-            $('#txtDriverName').text(h.DriverName);
+            $('#txtDriverName').text(h.Driver);
             $('#txtSpecialInstruction').html(h.Description);
             $('#txtContainer').text(h.CTN_NO);
             $('#txtDiscrepancyReason').html(h.Comment);

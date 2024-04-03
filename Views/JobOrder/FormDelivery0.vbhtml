@@ -118,14 +118,14 @@ End Code
             if (r.transport.data.length > 0) {
                 let j = r.transport.data[0];
                 if (j.CTN_NO !== null) $('#lblCTN_NO').text(j.CTN_NO);
-                if (j.JNo !== null) $('#lblJNo').text(j.JNo);
-                if (j.DriverName!==null) $('#lblDriver').text(j.DriverName);
+                if (j.JNo !== null) $('#lblCTN_NO').text(j.JNo);
+                if (j.Driver!==null) $('#lblDriver').text(j.DriverName);
                 $('#chkTRK4').prop('checked', (j.TruckType == 'TRK4'));
                 $('#chkTRK6').prop('checked', (j.TruckType == 'TRK6'));
                 $('#chkTRK10').prop('checked', (j.TruckType == 'TRK10'));
                 $('#chk20F').prop('checked', (j.CTN_SIZE.indexOf('20F') >= 0));
                 $('#chk40F').prop('checked', (j.CTN_SIZE.indexOf('40F') >= 0));
-                if (j.CarLicense!==null) $('#lblTruckNO').text(j.CarLicense);
+                if (j.TruckNO!==null) $('#lblTruckNO').text(j.CarLicense);
                 if (j.UnloadDate!==null) $('#lblDeliveryDate').text(ShowDate(j.UnloadDate));
                 if (j.DeliveryNo!==null) $('#lblDeliveryNo').text(j.DeliveryNo);
                 if (j.PlaceContact2!==null) $('#lblDeliveryTo').text(j.PlaceContact2);

@@ -28,6 +28,9 @@ End Code
                             <thead>
                                 <tr>
                                     <th>
+                                        Doc No
+                                    </th>
+                                    <th>
                                         RefNo
                                     </th>
                                     <th>
@@ -47,6 +50,9 @@ End Code
                             <tbody>
                                 @For each dr In tb.Rows
                                     @<tr>
+                                      <td>
+                                            @dr("ClrNo")
+                                        </td>
                                         <td>
                                             @dr("JobNo")
                                         </td>
