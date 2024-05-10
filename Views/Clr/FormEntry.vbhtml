@@ -41,17 +41,17 @@ End Code
         <div style="float:right;width:50%;">
             <div style="width:100%;display:flex">
                 <div style="flex:1;">
-                    O BL/AWB NO:
+                    INVOICE NO:
                 </div>
-                <div id="dvMAWB" class="underline" style="flex:3">
+                <div id="dvINVNO" class="underline" style="flex:3">
 
                 </div>
             </div>
             <div style="width:100%;display:flex">
                 <div style="flex:1;">
-                    H BL/AWB NO:
+                    INVOICE AMT:
                 </div>
-                <div id="dvHAWB" class="underline" style="flex:3">
+                <div id="dvINVAMT" class="underline" style="flex:3">
 
                 </div>
             </div>
@@ -107,9 +107,9 @@ End Code
 
         </div>
         <div style="flex:1">
-            D/O DATE:
+            VOLUME:
         </div>
-        <div id="dvEstDeliverDate" class="underline" style="flex:2">
+        <div id="dvTotalContainer" class="underline" style="flex:2">
 
         </div>
     </div>
@@ -165,31 +165,36 @@ End Code
             <tr>
                 <td></td>
                 <td>Service</td>
-                <td id="sumService" style ="text-align: right" colspan="5"></td>
+                <td id="sumService" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>Cost</td>
-                <td id="sumCost" style ="text-align: right" colspan="5"></td>
+                <td id="sumCost" style="text-align: right" colspan="5"></td>
             </tr>
             <tr>
                 <td></td>
                 <td>Balance</td>
-                <td id="sumBalance"  style ="text-align: right" colspan="5"></td>
-            </tr>
-            <tr>
-                <td colspan="7">Price @@ <label id="remark1">_________________________</label>  CTN (<label id="remark2">_________________________</label>)</td>
+                <td id="sumBalance" style="text-align: right" colspan="5"></td>
             </tr>
         </tfoot>
     </table>
-    <div class="block" style="display:flex;width:50%">
-        <div style="flex:1">
-            HANDLE BY:
-        </div>
-        <div class="underline" style="flex:2">
-
-        </div>
-    </div>
+    <table style="width:100%;border-collapse:collapse;vertical-align:top;border-color:black" border="1">
+        <thead>
+            <tr>
+                <th>หมายเลขตู้</th>
+                <th>คนขับ</th>
+                <th>ทะเบียนรถ</th>
+                <th>การเดินทาง</th>
+                <th>PICKUP</th>
+                <th>LOAD</th>
+                <th>RETURN</th>
+                <th>REMARK</th>                
+            </tr>
+        </thead>
+        <tbody id="containertb">
+        </tbody>
+    </table>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -203,14 +208,14 @@ End Code
                 $('#chkImport').prop('checked', dr.JobType == 1 ? true : false);
                 $('#chkExport').prop('checked', dr.JobType == 2 ? true : false);
                 $('#chkOther').prop('checked', dr.JobType > 2 ? true : false);
-                $('#dvMAWB').html(CStr(dr.MAWB));
-                $('#dvHAWB').html(CStr(dr.HAWB));
+                //$('#dvMAWB').html(CStr(dr.MAWB));
+                //$('#dvHAWB').html(CStr(dr.HAWB));
                 $('#dvJNo').html(CStr(dr.JNo));
                 $('#dvInvNo').html(CStr(dr.InvNo));
                 $('#dvContactName').html(CStr(dr.CustContactName));
                 $('#dvETDDate').html(ShowDate(dr.ETDDate));
                 $('#dvETADate').html(ShowDate(dr.ETADate));
-                $('#dvEstDeliverDate').html(ShowDate(dr.EstDeliverDate));
+                //$('#dvEstDeliverDate').html(ShowDate(dr.EstDeliverDate));
                 $('#dvVesselName').html(CStr(dr.VesselName));
                 $('#dvProduct').html(CStr(dr.InvProduct));
                 $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
@@ -220,7 +225,7 @@ End Code
                 sService = parseFloat(dr.DutyCustPayOtherAmt);
               
                 if (dr.Description) {
-                    console.log(dr.Description);
+                    //console.log(dr.Description);
                     let remarks = dr.Description.split("/");
                     $('#remark1').text(remarks[0]);
                     $('#remark2').text(remarks[1]);              
@@ -292,6 +297,17 @@ End Code
                     }
                 });
                 getClearIngReport();
+                $.get(path + 'joborder/gettransportdetail?branch=' + dr.BranchCode + '&Job=' + dr.JNo + '& Code=' + dr.BookingNo).done(function (r) {
+                    if (r.transport.detail.length > 0) {
+                        let html = "";
+                        for (t of r.transport.detail) {
+                            let arr = [t.CTN_NO, t.DriverName, t.CarLicense, t.Location, ShowDate(t.TargetYardDate) + "<br/>" + ShowTime(t.TargetYardTime), ShowDate(t.UnloadDate) + "<br/>" + ShowTime(t.UnloadTime), ShowDate(t.TruckIN) + "<br/>" + ShowTime(t.Start), t.Comment];
+                            console.log(arr);
+                            html += "<tr>" + arr.map(x => "<td>" + x + "</td>") + "</tr>";
+                        }
+                        $("#containertb").html(html);
+                    }
+                });
             }
         });
 
@@ -308,6 +324,9 @@ End Code
             let amtprofit = 0;
             let amtcost = 0;
             let commrate = 0;
+            let depositCon = 0;
+            let invoiceNo = '';
+
             if (r.data.length > 0) {
                 let tb = $('#tb');
                 tb.empty();
@@ -327,6 +346,12 @@ End Code
                 let profitSum = 0;
                 for (let i = 0; i < d.length; i++) {
                     let html = '';
+                    if (d[i].SICode.indexOf('ERN') >= 0) {
+                        depositCon += d[i].UsedAmount;
+                    }
+                    if (d[i].LinkBillNo !== '' && d[i].LinkItem > 0) {
+                        invoiceNo = d[i].LinkBillNo;
+                    }
                     let amt = d[i].UsedAmount;
                     //let adv = (d[i].IsCredit == 1 ? amt : 0);
                     //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
@@ -388,10 +413,18 @@ End Code
                <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
            </tr >`;
                 tb.append(summary);
-		$("#sumService").text(CCurrency(CDbl(customerSlipSum + servSum , 2)));
+                $("#sumService").text(CCurrency(CDbl(customerSlipSum + servSum, 2)));
                 $("#sumCost").text(CCurrency(CDbl(customerSlipSum + noSlipSum, 2)));
                 $("#sumBalance").text(CCurrency(CDbl(customerSlipSum + servSum - (customerSlipSum + noSlipSum),2)));
             }
+            $('#dvDeposit').html(ShowNumber(depositCon, 2));
+            $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + invoiceNo).done((r) => {
+                if (r.invoice.header.length > 0) {
+                    let hiv = r.invoice.header[0];
+                    $('#dvINVNO').html(hiv.DocNo);
+                    $('#dvINVAMT').html(ShowNumber(hiv.TotalNet,2));
+                }
+            });
             //$('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             //$('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
 

@@ -3,6 +3,11 @@
     ViewBag.ReportName = "SHIPPING CLOSING SHEET"
     ViewBag.Title = "SHIPPING CLOSING SHEET"
 End Code
+<style>
+    #dvTitle {
+        display: none;
+    }
+</style>
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
@@ -305,23 +310,22 @@ End Code
             </tr>
         </tbody>
     </table>
-    <table  style="width:100%;border-collapse:collapse;vertical-align:top;border-color:black" border="1">
+    <table style="width:100%;border-collapse:collapse;vertical-align:top;border-color:black" border="1">
         <thead>
             <tr>
                 <th>หมายเลขตู้</th>
                 <th>คนขับ</th>
                 <th>ทะเบียนรถ</th>
                 <th>การเดินทาง</th>
-                <th>วันที่เรียกรถ</th>
-                <th>วันออกลัง</th>
-                <th>วันที่ข้ามด่าน</th>
-                <th>วันที่เข้าลัง</th>
-                <th>สถานะ</th>
-                <th>วันที่ถึง</th>
+                <th>PICKUP</th>
+                <th>LOAD</th>
+                <th>RETURN</th>
+                <th>YARD</th>
+                <th>EMPTY</th>
+                <th>FINISH</th>
             </tr>
         </thead>
         <tbody id="containertb">
-          
         </tbody>
     </table>
     <table id="tblFooter" style="width:100%">
@@ -357,7 +361,7 @@ End Code
                     var rec = r.job.data[0];
                     DisplayData(rec);
                     $.get(path + 'joborder/gettransportdetail?branch=' + Branch + '&Job=' + Job + '& Code=' + rec.BookingNo).done(function (r) {
-                       
+
                         if (r.transport.detail.length > 0) {
                             let html = "";
                             for (t of r.transport.detail) {
