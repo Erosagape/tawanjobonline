@@ -1152,7 +1152,7 @@ WHERE EXISTS
       WHERE h.DocStatus<>99 AND b.BranchCode=a.BranchCode AND b.JobNo=a.JNo       
       GROUP BY b.BranchCode,b.JobNo
       HAVING SUM(b.BNet-(CASE WHEN s.IsExpense=1 AND ISNULL(b.LinkBillNo,'')<>'' THEN b.BNet ELSE 0 END)-ISNULL(r.TotalRcv,0)-ISNULL(c.CreditNet,0)-ISNULL(r.AmtCredit,0)-ISNULL(r.AmtDiscount,0))<=0
-) AND a.ConfirmDate IS NOT NULL AND a.CloseJobDate IS NOT NULL  
+) 
 AND a.JobStatus<>99 AND NOT ISNULL(a.CancelReson,'')<>''
 UNION
 SELECT BranchCode,JNo,98 as JobStatus FROM Job_Order 
