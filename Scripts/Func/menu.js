@@ -202,7 +202,7 @@
         case 'Dashboard2':
             mnuPath = path + 'Tracking/Dashboard?Type=V2';
             break;
-	case 'Dashboard3':
+        case 'Dashboard3':
             mnuPath = path + 'Tracking/Dashboard?Form=2';
             break;
         case 'Dashboard4':
@@ -210,6 +210,9 @@
             break;
         case 'Dashboard5':
             mnuPath = path + 'Tracking/Dashboard?Form=4';
+            break;
+        case 'Dashboard6':
+            mnuPath = path + 'Tracking/Dashboard?Form=5';
             break;
         default:
             ShowMessage('Under Development');
@@ -221,6 +224,6 @@
             window.open(mnuPath, '', '');
         }
     } else {
-        ShowMessage('Please login first',true);
+        ShowMessage('Please login first', true);
     }
 }

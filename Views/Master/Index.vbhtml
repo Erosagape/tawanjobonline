@@ -2,8 +2,8 @@
     ViewBag.Title = "Home"
 End Code
 <div class="row">
-    <div class="col-md-12 text-center" >
-        <img src="~/Resource/jobtawan_bg.jpg" style="width:100%"/>
+    <div class="col-md-12 text-center">
+        <img src="~/Resource/jobtawan_bg.jpg" style="width:100%" />
     </div>
 </div>
 <div id="dvSyncing" class="modal" role="dialog">
@@ -41,8 +41,9 @@ End Code
                 window.location.href = path + 'Tracking/Index';
                 break;
             case 'C':
-                window.location.href = path + 'Tracking/Timeline';
+                //window.location.href = path + 'Tracking/Timeline';
+		window.location.href = path + 'Tracking/Dashboard?Type=v2';
                 break;
         }
-    }    
+    }
 </script>

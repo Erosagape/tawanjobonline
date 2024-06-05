@@ -102,6 +102,7 @@ Namespace Controllers
                 Dim branch = Request.QueryString("Branch").ToString
                 Dim job = Request.QueryString("Code").ToString
                 Dim typ = Request.QueryString("Type").ToString
+                Dim note = Request.QueryString("Note").ToString
                 If Not IsNothing(Request.QueryString("Path")) Then
                     saveTo = Request.QueryString("Path").ToString
                 End If
@@ -131,12 +132,12 @@ Namespace Controllers
                                     .FileSize = File.ContentLength,
                                     .UploadBy = GetSession("CurrUser"),
                                     .UploadDate = DateTime.Now,
+                                    .CheckNote = note,
                                     .CheckedBy = "",
                                     .CheckedDate = DateTime.MinValue,
                                     .ApproveBy = ""
                                 }
                                 oFile.CheckedDate = DateTime.MinValue
-                                oFile.CheckNote = ""
                                 oFile.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2}", branch, job, oFile.ItemNo))
                                 msg = msg + "Upload " + filename + " successfully" + vbCrLf
                             Catch ex As Exception

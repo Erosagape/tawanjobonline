@@ -1,4 +1,37 @@
-﻿<!DOCTYPE html>
+﻿@CODE
+
+    Dim headerAdditionClass = ""
+    'Dim headerAdditionStyle = "background : linear-gradient(to right, #036ebb 0px, #013a82 100%) "
+    Dim headerAdditionStyle = " "
+    Dim headerimage = " "
+    If ViewBag.User IsNot Nothing Then
+        Dim UserName = ViewBag.User.ToString()
+        UserName = UserName.ToUpper()
+
+        Select Case ViewBag.UserGroup
+            Case "S"
+
+            Case "C"
+
+                Select Case UserName
+                    Case "GYTH"
+                        headerAdditionStyle = "background-color :#004ea8 !important; color:#fedb00 !important " 'test'
+                        headerimage = "<img src='" & Url.Content("~") & "/Resource/goodyear_logo.png" & "' </img>"
+
+                    Case Else
+
+                End Select
+
+            Case "V"
+
+            Case Else
+
+        End Select
+    End If
+End Code
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <title>@ViewBag.Title</title>
@@ -27,7 +60,7 @@
 <body style="background:#e6e6e6;color:black;">
     <!-- Sidebar -->
     <div class="w3-sidebar w3-bar-block w3-animate-left" style="display:none;z-index:5" id="mySidebar">
-        <div class="w3-sidebar w3-bar-block w3-indigo w3-card" style="width:250px;">
+        <div class="w3-sidebar w3-bar-block w3-indigo w3-card @headerAdditionClass" style="width:250px;@headerAdditionStyle">
             <div style="width:100%;text-align:center;background-color:white">
                 <img id="imgMenu" src="~/Resource/logo-tawan.jpg" onclick="SetLogout()" style="width:70%;padding:5px 5px 5px 5px;" />
             </div>
@@ -56,7 +89,13 @@
                     <a href="#" id="mnuCust5" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard2')">Overall</a>
                     <a href="#" id="mnuCust6" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard3')">Billing Status</a>
                     <a href="#" id="mnuCust7" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard4')">Working Status</a>
-		    <a href="#" id="mnuCust8" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard5')">Costing Status</a>
+                    <a href="#" id="mnuCust8" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard5')">Costing Status</a>
+                    <a href="#" id="mnuCust9" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard6')">Container Total</a>
+                    <a href="#" id="mnuCust10" class="w3-bar-item w3-button" onclick="OpenMenu('Dashboard9')">DashboardTest</a>
+
+                </div>
+                <div id="mainCust4" class="w3-bar-item w3-button" onclick="OpenMenu('Report')">
+                    Reports
                 </div>
             </div>
             <div id="dvShippingMenu">
@@ -304,7 +343,7 @@
         <div class="w3-container" style="margin-bottom:10px">
             <!-- Page Content -->
             <div Class="panel-primary">
-                <div Class="panel-heading w3-indigo">
+                <div Class="panel-heading w3-indigo @headerAdditionClass" style="@headerAdditionStyle">
                     <div Class="panel-title">
                         <div class="row">
                             <div class="col-xs-5 col-md-2" style="text-align:center">
@@ -317,7 +356,10 @@
                                         <input type="hidden" id="lblModule" value="@ViewBag.Module" />
                                     </div>
                                     <div style="text-align:right;flex:1;">
-                                        <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color:white;font-size:11px">Please Login</label></a>
+                                        @*<img id="imgCompany1" src="~/Resource/goodyear_logo.png" onclick="w3_open();" />*@
+                                        @*@Html.Raw(headerimage)*@
+
+                                        <a href="#" onclick="SetLogin()"><label id="lblUserID" style="color: white; font-size: 11px; @headerAdditionStyle">Please Login</label></a>
                                         <select id="cboLanguage" onchange="ChangeLanguage($(this).val(),'@ViewBag.Module')" data-width="fit">
                                             <option value="EN">EN</option>
                                             <option value="TH">ไทย</option>
