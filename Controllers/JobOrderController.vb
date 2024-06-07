@@ -851,9 +851,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
-                    If "" & data.CTN_NO <> "" Then
-                        If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
-                            Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
+                    If Main.GetValueConfig("PROFILE", "CHECK_CONTAINER_DUP", "Y") = "Y" Then
+                        If "" & data.CTN_NO <> "" Then
+                            If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
+                                Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
+                            End If
                         End If
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo='{2}' ", data.BranchCode, data.BookingNo, data.ItemNo))
