@@ -1,0 +1,94 @@
+delete from Job_CashControlDoc where 
+DocNo in(
+'TADV-24020139',
+'TADV-24020140',
+'TADV-24020141',
+'TADV-24020131',
+'TADV-24020134',
+'TADV-24020135',
+'TADV-24020119',
+'TADV-24020252',
+'TADV-24020563',
+'TADV-24020564',
+'TADV-24020565',
+'TADV-24020558',
+'TADV-24030005',
+'TADV-24020124',
+'TADV-24020126',
+'TADV-24020137',
+'TADV-24020138',
+'TADV-24020251',
+'TADV-24020559',
+'TADV-24020560',
+'TADV-24020561',
+'TADV-24020562'
+)
+go
+
+update s
+set s.CashAmount=d.PaidAmount
+from Job_CashControlSub s inner join 
+(
+	select ControlNo,sum(PaidAmount) as PaidAmount
+	from Job_CashControlDoc 
+	group by ControlNo 
+) d
+on s.ControlNo=d.ControlNo 
+where s.CashAmount>0 and s.CashAmount<>d.PaidAmount
+go
+update Job_AdvHeader 
+set DocStatus=99,CancelDate=GetDate(),
+CancelProve='ADMIN',CancelReson='as request by user'
+where AdvNO in(
+'TADV-24020139',
+'TADV-24020140',
+'TADV-24020141',
+'TADV-24020131',
+'TADV-24020134',
+'TADV-24020135',
+'TADV-24020119',
+'TADV-24020252',
+'TADV-24020563',
+'TADV-24020564',
+'TADV-24020565',
+'TADV-24020558',
+'TADV-24030005',
+'TADV-24020124',
+'TADV-24020126',
+'TADV-24020137',
+'TADV-24020138',
+'TADV-24020251',
+'TADV-24020559',
+'TADV-24020560',
+'TADV-24020561',
+'TADV-24020562'
+)
+and DocStatus<>99
+go
+delete
+from Job_ClearDetail 
+where AdvNO in(
+'TADV-24020139',
+'TADV-24020140',
+'TADV-24020141',
+'TADV-24020131',
+'TADV-24020134',
+'TADV-24020135',
+'TADV-24020119',
+'TADV-24020252',
+'TADV-24020563',
+'TADV-24020564',
+'TADV-24020565',
+'TADV-24020558',
+'TADV-24030005',
+'TADV-24020124',
+'TADV-24020126',
+'TADV-24020137',
+'TADV-24020138',
+'TADV-24020251',
+'TADV-24020559',
+'TADV-24020560',
+'TADV-24020561',
+'TADV-24020562'
+)
+go

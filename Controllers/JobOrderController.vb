@@ -1274,6 +1274,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("InvNo")) Then
                     tSqlW &= " AND InvNo='" & Request.QueryString("InvNo") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("BookingNo")) Then
+                    tSqlW &= " AND BookingNo='" & Request.QueryString("BookingNo") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("JType")) Then
                     tSqlW &= " AND JobType=" & Request.QueryString("JType") & ""
                 End If
@@ -1538,6 +1541,10 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     oJob.InvNo = "" & Request.QueryString("Inv")
                 End If
 
+                If Not IsNothing(Request.QueryString("Booking")) Then
+                    oJob.BookingNo = "" & Request.QueryString("Booking")
+                End If
+
                 Dim sql As String = String.Format(" WHERE BranchCode='{0}' AND JobType='{1}' AND ShipBy='{2}' ", oJob.BranchCode, oJob.JobType, oJob.ShipBy)
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     oJob.CustCode = "" & Request.QueryString("Cust").Split("|")(0)
@@ -1549,11 +1556,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""Customer not found""}}", jsonContent)
                     End If
                 End If
-                sql &= String.Format(" AND CustCode='{0}' And CustBranch='{1}' And InvNo='{2}' AND JobStatus<>99 ", oJob.CustCode, oJob.CustBranch, oJob.InvNo)
+                sql &= String.Format(" AND CustCode='{0}' And CustBranch='{1}' And InvNo='{2}' AND BookingNo='{3}' AND JobStatus<>99 ", oJob.CustCode, oJob.CustBranch, oJob.InvNo, oJob.BookingNo)
                 Dim FindJob = oJob.GetData(sql)
                 If FindJob.Count > 0 Then
                     If GetSession("CurrentLang") = "TH" Then
-                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""อินวอย '" + oJob.InvNo + "' ถูกเปิดไปแล้วในเลขที่ '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""อินวอย '" + oJob.InvNo + "' และบุคกิ้ง '" + oJob.BookingNo + "' ถูกเปิดไปแล้วในเลขที่ '" + FindJob(0).JNo + "' ""}}", jsonContent)
                     Else
                         Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""invoice '" + oJob.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}}", jsonContent)
                     End If
@@ -1698,11 +1705,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                             data.AddNew(prefix & fmt, False)
                         End If
                     End If
-                    Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo)
+                    Dim sql As String = String.Format(" WHERE CustCode='{0}' And BranchCode='{1}' And InvNo='{2}' And BookingNo='{3}' AND JobStatus<>99 ", data.CustCode, data.BranchCode, data.InvNo, data.BookingNo)
                     Dim FindJob = New CJobOrder(GetSession("ConnJob")).GetData(sql)
                     If FindJob.Count > 0 Then
                         If FindJob(0).JNo <> data.JNo Then
-                            Return Content("{""msg"":""invoice '" + data.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}", jsonContent)
+                            Return Content("{""msg"":""invoice '" + data.InvNo + "' and booking '" + data.BookingNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}", jsonContent)
                         End If
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", data.BranchCode, data.JNo))
