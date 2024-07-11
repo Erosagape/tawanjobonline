@@ -1,5 +1,8 @@
 ﻿@Code
     ViewData("Title") = "Reports"
+    Dim sqlChk = String.Format("SELECT * FROM Mas_UserAuth WHERE AppID='REPORTS' AND UserID='{0}'", ViewBag.User)
+    Dim reportAuthorLists = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlChk)
+    Dim jsonCheck = Newtonsoft.Json.JsonConvert.SerializeObject(reportAuthorLists)
 End Code
 <div class="row">
     <div class="col-sm-6">
@@ -324,6 +327,7 @@ End Code
     let browseWhat = '';
     let cliterias = [];
     let userPosition = '@ViewBag.UserPosition';
+    let reportAuthorize = JSON.parse('@Html.Raw(jsonCheck)');
     let data = {};
     var path = '@Url.Content("~")';
     SetEvents();
@@ -381,6 +385,15 @@ End Code
         $('#tbCode').hide();
         $('#tbReportList tbody').on('click', 'tr', function () {
             let src = $('#tbReportList').DataTable().row(this).data();
+            if (reportAuthorize.length > 0) {
+                let chkUser = reportAuthorize.filter(function(t) { return t.MenuID == src.ReportCode; });
+                if (chkUser.length > 0) {
+                    if (chkUser[0].Author=="") {
+                        ShowMessage('You are not authorized to view this report!', true);
+                        return;
+                    }
+                }
+            }
             data = {
                 ReportType: src.ReportType,
                 ReportCode: src.ReportCode,

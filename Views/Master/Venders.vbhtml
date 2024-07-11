@@ -176,7 +176,27 @@ End Code
 
         });
     }
-    function SaveData() {
+    function SaveData(){ 
+         $.get(path + 'Master/GetVender').done((r)=> {
+             if(r==null) {
+		SaveDataOK();
+             }
+             let arr = r.vender.data.filter((data) => {
+                 return (data.VenCode !== $('#txtVenCode').val()) && (data.TaxNumber == $('#txtTaxNumber').val());
+             });
+             if(arr.length>0) {
+                for(let a of arr) {
+                  if($('#txtTaxNumber').val()!=='') {
+                      ShowMessage('This TaxNumber ' + $('#txtTaxNumber').val() +' has been used for ' + a.VenCode + ' already!',true);
+                        return;
+                  }            
+                }
+                SaveDataOK(); 
+             }
+         }); 
+    }
+    function SaveDataOK() {
+	
         var obj = GetDataSave();
         if (obj.VenCode == '') {
             ShowMessage('Please input code',true);
