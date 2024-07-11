@@ -114,12 +114,12 @@ End Code
                     <th class="desktop">JobStatus</th>
                     <th class="all">ETD</th>
 		    <th class="all">ETA</th>
-			<th class="desktop">BookingNo</th>
-			<th class="desktop">BLNo</th>
+		    <th class="desktop">CS</th>
+		    <th class="desktop">BookingNo</th>
+	            <th class="desktop">BLNo</th>
                     <th class="all">Inv.Customer</th>
- 		    
                     <th class="desktop">Customer</th>
-                    <th class="desktop">Consignee</th>
+                    //<th class="desktop">Consignee</th>
                 </tr>
             </thead>
         </table>
@@ -231,6 +231,7 @@ End Code
                     },
                     { "data": "BookingNo", "title": "BookingNo" },
                     { "data": "HAWB", "title": "BLNo" },
+                    { "data": "CSName", "title": "CS" },
                     { "data": "InvNo", "title": "Customer Inv." },
                     { "data": "CustTName", "title": "Customer" },
                     { "data": "ConsigneeName", "title": "Consignee" }

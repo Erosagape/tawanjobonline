@@ -6,71 +6,79 @@
 End Code
 <style>
     * {
-       font-size: 12px;
+        font-size: 12px;
     }
 
     table {
         border-width: thin;
         border-collapse: collapse;
+        page-break-before: avoid;
+        page-break-inside: auto;
     }
+
+    tr {
+        page-break-inside: avoid;
+        page-break-after: avoid;
+    }
+
     #dvFooter {
-	display:none;
-    }  
+        display: none;
+    }
 </style>
-        <div style="display:flex;">
-            <div style="flex:1;" class="text-left">
-                <p>
-                  TAX-ID : <label id="lblTaxNumber"></label>
-                </p>
+<table style="width:100%">
+    <tr>
+        <td>
+            <div style="display:flex;flex-direction:row;">
+                <div style="flex:1;" class="text-left">
+                    TAX-ID : <label id="lblTaxNumber"></label>
+                </div>
+                <div style="flex:1;text-align:right">
+                    DOC NO : <label id="lblBillAcceptNo"></label>
+                    <br />DATE : <label id="lblBillDate"></label>
+                </div>
             </div>
-            <div style="flex:1;" style="text-align:right">
-                DOC NO : <label id="lblBillAcceptNo"></label>
-                <br />DATE : <label id="lblBillDate"></label>
-            </div>
-        </div>
-        <div style="display:flex;">
+        </td>
+    </tr>
+    <tr>
+        <td>
             <div class="text-left">
-                <p>
-                    NAME : <label id="lblCustName"></label>
-                </p>
+                NAME : <label id="lblCustName"></label>
             </div>
-        </div>
-        <div style="display:flex;flex-direction:column">
-            <div style="flex:1" class="text-left">
+            <div class="text-left">
                 <label id="lblCustAddress"></label>
             </div>
-            <div style="flex:1"  class="text-left">
-                <br/>
-                PLEASE APPROVE BEFORE PAYMENT             
-            </div>                
-        </div>
-        <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
-            <thead>
-                <tr>
-                    <th class="text-center" width="50" rowspan="2">NO</th>
-                    <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
-                    <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-                    <th class="text-center" width="130" rowspan="2">CUST INV..</th>
-                    @*<th class="text-center" width="130" rowspan="2">JOB NO.</th>*@
-                    <th class="text-center" colspan="3">AMOUNT</th>
-                    <th class="text-center" width="60" rowspan="2">VAT</th>
-                    <th class="text-center" colspan="2">W/H</th>
-                    <th class="text-center" width="80" rowspan="2">TOTAL AMOUNT</th>
-		    <th class="text-center" width="80" rowspan="2">PREPAID</th>
-                    <th class="text-center" width="100" rowspan="2">NET</th>
-                </tr>
-                <tr>
-                    <th class="text-center" width="50">ADVANCE</th>
-                    <th class="text-center" width="40">NONVAT</th>
-                    <th class="text-center" width="40">SERVICE</th>
-                    <th class="text-center" width="50">1%</th>
-                    <th class="text-center" width="50">3%</th>
-                </tr>
-            </thead>
-            <tbody id="tbDetail">
-
-            </tbody>
-            <tfoot>
+            <div class="text-left">
+                PLEASE APPROVE BEFORE PAYMENT
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
+                <thead>
+                    <tr>
+                        <th class="text-center" width="50" rowspan="2">NO</th>
+                        <th class="text-center" width="100" rowspan="2">BOOKING NO.</th>
+                        <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
+                        <th class="text-center" width="130" rowspan="2">CUST INV..</th>
+                        @*<th class="text-center" width="130" rowspan="2">JOB NO.</th>*@
+                        <th class="text-center" colspan="3">AMOUNT</th>
+                        <th class="text-center" width="60" rowspan="2">VAT</th>
+                        <th class="text-center" colspan="2">W/H</th>
+                        <th class="text-center" width="80" rowspan="2">TOTAL AMOUNT</th>
+                        <th class="text-center" width="80" rowspan="2">PREPAID</th>
+                        <th class="text-center" width="100" rowspan="2">NET</th>
+                    </tr>
+                    <tr>
+                        <th class="text-center" width="50">ADVANCE</th>
+                        <th class="text-center" width="40">NONVAT</th>
+                        <th class="text-center" width="40">SERVICE</th>
+                        <th class="text-center" width="50">1%</th>
+                        <th class="text-center" width="50">3%</th>
+                    </tr>
+                </thead>
+                <tbody id="tbDetail">
+                </tbody>
                 <tr>
                     <td style="text-align:right" colspan="4">TOTAL</td>
                     <td style="text-align:right"><label id="lblSumAdv"></label></td>
@@ -79,39 +87,42 @@ End Code
                     <td style="text-align:right"><label id="lblSumVat"></label></td>
                     <td style="text-align:right"><label id="lblSumWh1"></label></td>
                     <td style="text-align:right"><label id="lblSumWh3"></label></td>
-		    <td style="text-align:right"><label id="lblSumAmount"></label></td>
+                    <td style="text-align:right"><label id="lblSumAmount"></label></td>
                     <td style="text-align:right"><label id="lblSumPrepaid"></label></td>
                     <td style="text-align:right"><label id="lblBillTotal"></label></td>
                 </tr>
                 <tr style="background-color:lightblue">
                     <th class="text-center" colspan="13"><label id="lblBillTotalEng"></label></th>
                 </tr>
-            </tfoot>
-        </table>
-
-        <div style="margin-top:60px">
-            <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
-            <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME_EN</p>
-            <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
-            <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
+            </table>
+        </td>
+    </tr>
+</table>
+<div style="display:flex;flex-direction:column">
+    <div style="flex: 1;">
+        <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
+        <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME_EN</p>
+        <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
+        <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
+    </div>
+    <div style="flex:1;display:flex;flex-direction:row;">
+        <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
+            FOR THE CUSTOMER<br />
+            <br /><br /><br /><br />
+            __________________________________________<br />
+            .........................................<br />
+            _____/______/______
         </div>
-
-        <div style="display:flex">
-            <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
-                FOR THE CUSTOMER<br/>
-                <br/><br /><br /><br />
-                __________________________________________<br/>
-                .........................................<br />
-                _____/______/______
-            </div>
-            <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
-                FOR @ViewBag.PROFILE_COMPANY_NAME<br />
-                <br /><br /><br /><br />
-                __________________________________________<br />
-                .........................................<br />
-                _____/______/______
-            </div>
+        <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
+            FOR @ViewBag.PROFILE_COMPANY_NAME<br />
+            <br /><br /><br /><br />
+            __________________________________________<br />
+            .........................................<br />
+            _____/______/______
         </div>
+    </div>
+</div>
+
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
@@ -120,12 +131,12 @@ End Code
             $('#dvCopy').html('<b style="font-size:30px">ORIGINAL</b>');
         } else {
             $('#dvCopy').html('<b style="font-size:30px">COPY</b>');
-        }   
+        }
     let branch = getQueryString('branch');
     let billno = getQueryString('code');
     $.get(path + 'acc/getbilling?branch=' + branch + '&code=' + billno, function (r) {
         if (r.billing.header !== null) {
-            ShowData(r.billing);                 
+            ShowData(r.billing);
         }
     });
     function ShowData(data) {
@@ -135,11 +146,11 @@ End Code
             $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
-	
+
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].CustBranch);
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :0' + data.customer[0][0].CustBranch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
 }
@@ -147,7 +158,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].CustBranch);
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :0' + data.customer[0][0].CustBranch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
 }
@@ -172,34 +183,36 @@ sortData(dtl,'ItemNo','asc');
             for (let dr of dtl) {
                 html += '<tr>';
                 html += '<td>' + dr.ItemNo + '</td>';
-                html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
+                //html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
+                html += '<td>' + dr.BookingNo + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
               /*  html += '<td>' + dr.RefNo + '</td>';*/
-                html += '<td>' + dr.CustInv + '</td>';
+                html += '<td>' + (dr.CustInv?dr.CustInv:dr.CustInvList) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
-                /*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3, 2) + '</td>';*/
                 html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet+dr.AmtWH1+dr.AmtWH3, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.TotalCustAdv, 2) + '</td>';
-		html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet, 2) + '</td>';
+		html += '<td style="text-align:right">' + ShowNumber(dr.InvHTotalNet, 2) + '</td>';
                 html += '</tr>';
 
-                total += Number(dr.TotalNet);
-                serv += Number(dr.AmtChargeVAT);
-                nonvat += Number(dr.AmtChargeNonVAT);
-                adv += Number(dr.AmtAdvance);
-                vat += Number(dr.AmtVAT);
-                prepaid += Number(dr.TotalCustAdv);
-                wh1 += Number(ShowNumber(dr.AmtWH1, 2));
-                wh3 += Number(ShowNumber(dr.AmtWH3, 2));
+                total += CNum(ShowNumber(dr.InvHTotalNet,2));
+                serv += CNum(ShowNumber(dr.AmtChargeVAT,2));
+                nonvat += CNum(ShowNumber(dr.AmtChargeNonVAT,2));
+                adv += CNum(ShowNumber(dr.AmtAdvance,2));
+                vat += CNum(ShowNumber(dr.AmtVAT,2));
+                prepaid += CNum(ShowNumber(dr.TotalCustAdv,2));
+                wh1 += CNum(ShowNumber(dr.AmtWH1,2));
+                wh3 += CNum(ShowNumber(dr.AmtWH3,2));
                 //sumAmount += dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3;
-		sumAmount += dr.TotalNet+dr.AmtWH1+dr.AmtWH3;
+		sumAmount += CNum(ShowNumber(dr.TotalNet+dr.AmtWH1+dr.AmtWH3,2));
+
             }
             dv.html(html);
+
             $('#lblSumAdv').text(ShowNumber(adv, 2));
             $('#lblSumNonvat').text(ShowNumber(nonvat, 2));
             $('#lblSumService').text(ShowNumber(serv, 2));
@@ -208,6 +221,9 @@ sortData(dtl,'ItemNo','asc');
             $('#lblSumWh3').text(ShowNumber(wh3, 2));
  	    $('#lblSumAmount').text(ShowNumber(sumAmount , 2));
             $('#lblSumPrepaid').text(ShowNumber(prepaid , 2));
+
+	    total =CDbl(sumAmount,2)-CDbl(wh1, 2)-CDbl(wh3, 2)-CDbl(prepaid , 2);
+
             $('#lblBillTotal').text(ShowNumber(total,2));
             $('#lblBillTotalEng').text(CNumEng(total.toFixed(2)));
         }
