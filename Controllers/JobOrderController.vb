@@ -1182,6 +1182,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("Consignee")) Then
+                    tSqlW &= " AND j.consigneecode='" & Request.QueryString("Consignee") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("CSCode")) Then
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
                 Else
@@ -1319,6 +1322,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND CustCode='" & Request.QueryString("CustCode") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("Consignee")) Then
+                    tSqlW &= " AND ConsigneeCode='" & Request.QueryString("Consignee") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlW &= " AND AgentCode='" & Request.QueryString("Vend") & "'"
                 End If
@@ -1327,6 +1333,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("Agent")) Then
                     tSqlW &= " AND ForwarderCode='" & Request.QueryString("Agent") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("ShippingCode")) Then
+                    tSqlW &= " AND ShippingEmp='" & Request.QueryString("ShippingCode") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("TaxNumber")) Then
                     tSqlW &= " AND CustCode IN(SELECT CustCode FROM Mas_Company WHERE TaxNumber='" & Request.QueryString("TaxNumber") & "')"

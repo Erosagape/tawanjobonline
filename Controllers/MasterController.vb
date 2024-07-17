@@ -936,6 +936,9 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(Request.QueryString("Pass")) Then
                     tSqlw &= String.Format("AND UPassword='{0}'", Request.QueryString("Pass").ToString)
                 End If
+                If Not IsNothing(Request.QueryString("Upline")) Then
+                    tSqlw &= String.Format("AND UserUpline='{0}'", Request.QueryString("Upline").ToString)
+                End If
                 Dim oData = New CUser(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 json = "{""user"":{""data"":" & json & "}}"
