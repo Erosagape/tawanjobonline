@@ -329,7 +329,7 @@ End Code
                         <h4>For <label id="lblHeader"></label></h4>
                         <div class="row">
                             <div class="col-sm-1">
-                                <label id="lblItemNo">Item No</label>:<input type="text" class="form-control" id="txtItemNo" disabled />
+                                <label id="lblItemNo">Item No</label>:<input type="text" class="form-control" id="txtItemNo" />
                             </div>
                             <div class="col-sm-2">
                                 <label id="lblCalType">Calculate Type</label>

@@ -434,7 +434,7 @@ End Code
                                     <input type="text" id="txtAdvNo" style="width:150px" /> 
                                     <br/>
                                     <label id="lblAdvAmt">Advance Net :</label>                                    
-                                    <input type="text" id="txtAdvAmount" style="width:60px"/>
+                                    <input type="text" id="txtAdvAmount" style="width:60px" />
                                 </div>
                             </div>                            
                             <div class="row">
@@ -1614,7 +1614,9 @@ End Code
             }
             dtl = dt;
             $('#txtItemNo').val(dt.ItemNo);
+	if(job=='') {
             $('#txtForJNo').val(dt.JobNo);
+        }
             $('#txtInvNo').val('');
             if ($('#txtForJNo').val() != '') {
                 //ShowInvNo(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), '#txtInvNo');
@@ -2053,12 +2055,13 @@ End Code
         }  
         let jtype = $('#cboJobType').val();
         let branch = $('#txtBranchCode').val();
-        if (job !== "") {
-            jtype += '&jobno=' + job;
-        }
         var advclick = 0;
+	var checkjob=false;
+	if(job!==''){
+		checkjob=confirm('show advance of this job?');
+	}
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
-        $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype, function (r) {
+        $.get(path + 'Clr/GetAdvForClear?show=NOCLR&branchcode=' + branch + (checkjob ?'&jobno=' + job:''), function (r) {
             if (r.clr.data.length > 0) {
                 let d = r.clr.data[0].Table;
                 $('#tbAdvance').DataTable({

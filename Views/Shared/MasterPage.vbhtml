@@ -280,7 +280,7 @@
                     <div Class="panel-title" style="display:flex">
                         <div style="width:10%;text-align:center">
                             <img id="imgCompany" src="~/Resource/logo-tawan.jpg" style="width:100%;height:50px" onclick="w3_open();" />
-<br/>	<b>a.c.e shipping</b>
+<br/>	<b>ACE GLOBAL</b>
                         </div>
                         <div style="margin-left:10px;width:80%">
                             <h4><label id="lblTitle" onclick="OpenContact()">@ViewBag.Title</label></h4>

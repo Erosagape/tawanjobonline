@@ -61,7 +61,7 @@ End Code
     </thead>
     <tbody id="tbDetail"></tbody>
     <tr>
-        <td rowspan="4" colspan="5">
+        <td rowspan="5" colspan="5">
             TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB)
             <br />
             <label id="lblFTotalNet"></label>
@@ -88,6 +88,12 @@ End Code
         <td colspan="3" style="text-align:right;">TOTAL RECEIPT (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
             <label id="lblTotalAfterVAT"></label>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:right;">TOTAL DISCOUNT (THB)</td>
+        <td style="background-color:lightblue;text-align:right;">
+            <label id="lblTotalDiscount"></label>
         </td>
     </tr>
     <tr>
@@ -193,7 +199,9 @@ End Code
         let total = 0;
         let totalf = 0;
 	$('#lblTRemark').text(dt[0].TRemark);
+	let invno='';
         for (let d of dt) {
+	    invno=d.InvoiceNo;
             let fnet = (Number(d.InvTotal) + Number(d.Inv50Tavi)) / Number(d.ExchangeRate);
             html = '<tr>';
             html += '<td style="text-align:center">' + d.InvoiceNo + '</td>';
@@ -223,15 +231,21 @@ End Code
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(service+vat, 2));
         $('#lblTotalAdv').text(ShowNumber(adv, 2));
-        $('#lblTotalNet').text(ShowNumber(service +adv+ vat - wht, 2));
         $('#lblCurrencyCode').text(h.CurrencyCode);
         $('#lblExchangeRate').text(h.ExchangeRate);
-        $('#lblFTotalNet').text(ShowNumber(totalf, 2) + ' ' + h.CurrencyCode);
+	$.get(path+'Acc/GetInvoice?Branch=' + h.BranchCode + '&Code=' + invno).done((r)=>{
+        if(r.invoice.header.length>0) {
+        let disc=CNum(r.invoice.header[0][0].TotalDiscount);
+        $('#lblTotalDiscount').text(ShowNumber(disc, 2));
+        $('#lblTotalNet').text(ShowNumber((service +adv+ vat - wht -disc), 2));
+        $('#lblFTotalNet').text(ShowNumber(totalf-disc, 2) + ' ' + h.CurrencyCode);
 
         if (h.UsedLanguage == 'TH') {
-            $('#lblTotalText').text(CNumThai(CDbl((service + adv + vat - wht),2)));
+            $('#lblTotalText').text(CNumThai(CDbl((service + adv + vat - wht-disc),2)));
         } else {
-            $('#lblTotalText').text(CNumEng(CDbl((totalf),2)));
+            $('#lblTotalText').text(CNumEng(CDbl((totalf-disc),2)));
         }
+        }
+        });
     }
 </script>

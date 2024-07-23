@@ -2805,7 +2805,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "RVDAILY", "ReportNameEN": "Receive Voucher Report", "ReportNameTH": "รายงานใบสำคัญรับรายวัน" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "GROSSPROFIT", "ReportNameEN": "Gross Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามประเภทงาน" },
         { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTPROFIT", "ReportNameEN": "Customer Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามลูกค้า" },
-        { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "SETAR", "ReportNameEN": "SAP AR Input Report", "ReportNameTH": "รายงานตั้งลูกหนี้ SAP" },
+        { "ReportType": "ADD", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUSTPROFIT2", "ReportNameEN": "Consignee Profit Report", "ReportNameTH": "รายงานสรุปกำไรขั้นต้นตามConsignee" },    
+        {"ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "SETAR", "ReportNameEN": "SAP AR Input Report", "ReportNameTH": "รายงานตั้งลูกหนี้ SAP" },
         { "ReportType": "EXP", "ReportGroup": "ACC", "ReportAuthor": "1,2,6,98,99", "ReportCode": "CUTAR", "ReportNameEN": "SAP AR Payment Report", "ReportNameTH": "รายงานตัดรับชำระหนี้ SAP" },
         { "ReportType": "STD", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "ADVTOTAL", "ReportNameEN": "Details of Advance Payment By Job Order", "ReportNameTH": "รายงานการเบิกค่าใช้จ่ายแยกตามประเภท" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "BUYRATE", "ReportNameEN": "Buy Rates By Broker", "ReportNameTH": "รายงานการเปรียบเทียบราคาต้นทุนแต่ละผู้ให้บริการ" },
@@ -2823,7 +2824,8 @@ function GetReportLists_V2() {
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT09", "ReportNameEN": "Payment By Vender by Job Order", "ReportNameTH": "รายงานค่าใช้จ่ายเจ้าหนี้ตามจ๊อบงาน" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT10", "ReportNameEN": "A/P Accural Report", "ReportNameTH": "รายงานค่าใช้จ่ายรอการจ่าย" },
         { "ReportType": "ADD", "ReportGroup": "EXE", "ReportAuthor": "1,6,99", "ReportCode": "MGMT11", "ReportNameEN": "A/R Accural Report", "ReportNameTH": "รายงานรายได้รอการวางบิล" },
-        { "ReportType": "EXC", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PROFITDETAIL", "ReportNameEN": "Profit And Costing By Job Order", "ReportNameTH": "รายงานรายละเอียดตามจ๊อบ" }
+        { "ReportType": "EXC", "ReportGroup": "EXE", "ReportAuthor": "1,2,6,98,99", "ReportCode": "PROFITDETAIL", "ReportNameEN": "Profit And Costing By Job Order", "ReportNameTH": "รายงานรายละเอียดตามจ๊อบ" },
+	{"ReportType":"ADD","ReportCode":"ARAGING","ReportGroup":"ACC","ReportNameTH":"รายงานใบแจ้งหนี้ค้างชำระตามลูกค้า","ReportNameEN":"AR Outstanding Report","ReportAuthor":"1,2,6,98,99"}
     ];
 }
 function GetLanguage(msg) {

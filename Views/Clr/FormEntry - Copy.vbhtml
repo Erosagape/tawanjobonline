@@ -216,7 +216,7 @@ End Code
                 $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
                 $('#dvMeasurement').html(CStr(dr.Measurement));
                 $('#dvTotalContainer').html(CStr(dr.TotalContainer));
-                //$("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
+                $("#sumService").text(CCurrency(CDbl(dr.DutyCustPayOtherAmt, 2)));
                 sService = parseFloat(dr.DutyCustPayOtherAmt);
               
                 if (dr.Description) {
@@ -312,11 +312,11 @@ End Code
                 let tb = $('#tb');
                 tb.empty();
 
-                let h = r.data[0].Table[0];
+                let h = r.data[0];
 
                 commrate = h.Commission;
 
-                let d = r.data[0].Table.filter(function (data) {
+                let d = r.data.filter(function (data) {
                     return data.BNet !== 0;
                 });
                 //console.log(JSON.stringify(d));
@@ -388,9 +388,8 @@ End Code
                <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
            </tr >`;
                 tb.append(summary);
-		$("#sumService").text(CCurrency(CDbl(servSum, 2)));
                 $("#sumCost").text(CCurrency(CDbl(customerSlipSum + noSlipSum, 2)));
-                $("#sumBalance").text(CCurrency(CDbl(servSum - (customerSlipSum + noSlipSum),2)));
+                $("#sumBalance").text(CCurrency(CDbl(sService - (customerSlipSum + noSlipSum),2)));
             }
             //$('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
             //$('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));

@@ -331,10 +331,6 @@ CUST PO: <label id="lblCustRefNo"></label>
         let sumtax1 = 0;
         let sumtax3 = 0;
         let icount = 0;
-        let adv = 0;
-        let nonVat = 0;
-        let vat = 0;
-	 let varFromSrv = 0;
         let h = dr.header[0][0];
         if (d.length > 0) {
             for (let o of d) {
@@ -347,7 +343,7 @@ CUST PO: <label id="lblCustRefNo"></label>
                     html += '<td>' + o.SDescription + '</td>';
                 }                
                 if (o.AmtAdvance > 0) {
-                    html += '<td style="text-align:right">' + ShowNumber(o.Amt + o.AmtVat,  2) + '</td>';
+                    html += '<td style="text-align:right">' + ShowNumber(CNum(o.AmtAdvance), 2) + '</td>';
                     html += '<td style="text-align:right">0.00</td>';
                 } else {
                     html += '<td style="text-align:right">0.00</td>';
@@ -355,30 +351,20 @@ CUST PO: <label id="lblCustRefNo"></label>
                 }
                 html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
                 html += '<td style="text-align:center">' + o.Qty + ' '+ o.QtyUnit + '</td>';
-                html += '<td style="text-align:center">' + (!o.AmtAdvance ? ShowNumber(o.AmtVat,  2):'0.00') + '</td>';
-                html += '<td style="text-align:right">' + (!o.AmtAdvance ? ShowNumber(o.Amt50Tavi,  2):'0.00') + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(o.AmtVat, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(o.Amt50Tavi, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(CNum(h.CurrencyCode!=="THB"?o.FTotalAmt:o.TotalAmt), 2) + '</td>';
                 html += '</tr>';
 
                 $('#tbDetail').append(html);
-		
-		 if (o.AmtAdvance) {
-                    adv += ((o.Amt) * o.ExchangeRate.toFixed(4)+ o.AmtVat);
-                } else {
-                    if (o.AmtVat > 0) {
-                        vat += o.AmtCharge * o.ExchangeRate.toFixed(4);
-                        varFromSrv += o.AmtVat;
+
+                if (o.Amt50Tavi > 0) {
+                    if (o.Rate50Tavi == 1) {
+                        sumbase1 += (o.Amt - o.AmtDiscount) / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
+                        sumtax1 += o.Amt50Tavi / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
                     } else {
-                        nonVat += o.AmtCharge* o.ExchangeRate.toFixed(4) ;
-                    }
-                    if (o.Amt50Tavi > 0) {
-                    	if (o.Rate50Tavi == 1) {
-                        	sumbase1 += (o.Amt - o.AmtDiscount) / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
-                        	sumtax1 += o.Amt50Tavi / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
-                    	} else {
-                        	sumbase3 += (o.Amt - o.AmtDiscount) / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
-                        	sumtax3 += o.Amt50Tavi / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
-                    	}
+                        sumbase3 += (o.Amt - o.AmtDiscount) / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
+                        sumtax3 += o.Amt50Tavi / (h.CurrencyCode !== "THB" ? o.ExchangeRate : 1);
                     }
                 }
             }

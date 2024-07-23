@@ -45,8 +45,8 @@ End Code
                                             *<label id="lblAdvBy">Advance By :</label>
                                         </td>
                                         <td style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
-                                            <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')">...</button>
+                                            <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" disabled/>
+                                            <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')" disabled >...</button>
                                             <input type="text" id="txtAdvName" class="form-control" style="width:100%" disabled />
                                         </td>
                                     </tr>
@@ -960,7 +960,7 @@ End Code
                     }
                 },
                 error: function (e) {
-                    ShowMessage(e,true);
+                    ShowMessage(e.stack,true);
                 }
             });
         }
@@ -1737,6 +1737,7 @@ End Code
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayChqTo').val(dt.TName);
+	$('#txtRemark').val(dt.ContactAcc);
         $('#txtPayChqTo').focus();
     }
     function ReadCurrencyD(dt) {

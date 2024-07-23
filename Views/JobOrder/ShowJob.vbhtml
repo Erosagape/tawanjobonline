@@ -1320,7 +1320,7 @@ End Code
                         },
                         { data: "Expense", title: "Description" },
                         { data: "Amount", title: "Amount" },
-                        { data: "DocStatus", title: "Status" }
+                        { data: "StatusName", title: "Status" }
                     ],
                     destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
                     responsive:true

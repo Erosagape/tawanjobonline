@@ -71,7 +71,7 @@ End Code
 
 <table style="" border="1" width="100%">
     <thead>
-        <tr>
+        <tr style="background-color:lightgrey;">
             <th width="5%">NO.</th>
             <th width="45%">DESCRIPTION</th>
             <th width="5%">UNIT</th>
@@ -148,34 +148,36 @@ End Code
 
         $('#lblQNo').text(h.QNo);
         $('#lblDocDate').text(ShowDate(CDateTH(h.DocDate)));
-        $('#lblTRemark').text(h.TRemark);
+        $('#lblTRemark').html(CStr(h.TRemark));
         $('#lblContactName').text(h.ContactName);
-        $('#lblDescriptionH').text(h.DescriptionH);
-        $('#lblDescriptionF').text(h.DescriptionF);
+        $('#lblDescriptionH').html(CStr(h.DescriptionH));
+        $('#lblDescriptionF').html(CStr(h.DescriptionF));
 
         ShowUser(path, h.ManagerCode, '#lblManagerName');
 
         let html = '';
         let service = 0;
-
+        let irow = 0;
         for (let d of dt.detail) {
 
-            html = '<tr><td>' + d.SeqNo + '</td>';
+            html = '<tr style="background-color:lightyellow;"><td>' + d.SeqNo + '</td>';
             html += '<td colspan="3">' + d.Description + '</td>';
             html += '<td colspan="2">' + d.JobTypeName + '</td>';
             html += '<td colspan="2">' + d.ShipByName + '</td>';
             html += '</tr>';
-
+	irow=0;
             $('#tbDetail').append(html);
             let items = dt.item.filter(function (data) {
                 return data.SeqNo == d.SeqNo;
             });
             for (let i of items) {
+		irow+=1;
                 let desc = i.DescriptionThai;
                 let amtTotal = Number(i.TotalCharge) * Number(i.QtyEnd);
                 desc += i.UnitDiscntAmt > 0 ? '<br/>Discount (Rate=' + i.UnitDiscntPerc + '%)=' + i.UnitDiscntAmt : '';
                 html = '<tr><td></td>';
-                html += '<td>' + d.SeqNo + '.' + i.ItemNo + ' ' + desc + '</td>';
+                //html += '<td>' + d.SeqNo + '.' + i.ItemNo + ' ' + desc + '</td>';
+		html += '<td>' + d.SeqNo + '.' + irow + ' ' + desc + '</td>';
                 html += '<td>' + i.UnitCheck + '</td>';
                 html += '<td>' + i.QtyBegin + '-' + i.QtyEnd + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(i.ChargeAmt, 2) + ' ' + i.CurrencyCode + '</td>';

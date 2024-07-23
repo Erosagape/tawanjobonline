@@ -762,6 +762,7 @@ function LoadReport(path, reportID, obj, lang) {
     } else {
         urlReport = path + 'Report/GetReportByConfig';
     }
+	$('#tbResult').html('Loading');
     $.ajax({
         url: urlReport,
         type: "POST",
@@ -771,9 +772,11 @@ function LoadReport(path, reportID, obj, lang) {
             let res = JSON.parse(response);
             if (res.msg !== "OK") {
                 //alert(r.msg);
+		$('#tbResult').html(res.msg);
                 return;
             }
             if (res.result.length > 0) {
+		$('#tbResult').html('Reading..');
                 var tb = res.result;
                 let groupField = '';
                 let groupVal = null;
