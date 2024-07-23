@@ -747,7 +747,7 @@ End Code
                 break;
             case "2": //CLR
                 $.get(path + 'Clr/GetClearingGrid' + '?branchcode=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), function (r) {
-                    let d = r.clr.data[0].Table;
+                    let d = r.clr.data;
                     $(g).DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้

@@ -271,7 +271,7 @@ Namespace Controllers
                 sql &= " ORDER BY h.BranchCode,h.ClrDate DESC,h.ClrNo,j.CustCode,j.CustBranch,d.ItemNo "
 
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
-                Dim json = "{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & "}"
+                Dim json = "{""data"":" & JsonConvert.SerializeObject(oData) & "}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearingReport", ex.Message, ex.StackTrace, True)
@@ -417,7 +417,7 @@ Namespace Controllers
                 Dim sql As String = SQLSelectClrHeader() & "{0} ORDER BY a.ClrDate DESC"
 
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearingGrid", ex.Message, ex.StackTrace, True)
@@ -468,12 +468,12 @@ Namespace Controllers
                     tSqlW &= " AND d.ClrItemNo=0 "
                     Dim sql As String = SQLSelectPayForClear() & "{0}"
                     Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                     Return Content(json, jsonContent)
                 Else
                     Dim sql As String = SQLSelectPayForCharge() & "{0}"
                     Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                    Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                     Return Content(json, jsonContent)
                 End If
             Catch ex As Exception
@@ -529,7 +529,7 @@ Namespace Controllers
                 Dim sql As String = SQLSelectAdvForClear() & "{0}"
 
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sql, tSqlW))
-                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""clr"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
 
             Catch ex As Exception

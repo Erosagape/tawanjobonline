@@ -754,7 +754,7 @@ Namespace Controllers
                 End If
                 Dim sql As String = SQLSelectAdvHeader()
                 Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql + tSqlW + " ORDER BY a.AdvDate DESC")
-                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData.AsEnumerable().ToList()) & ",""msg"":""" & tSqlW & """}}"
+                Dim json = "{""adv"":{""data"":" & JsonConvert.SerializeObject(oData) & ",""msg"":""" & tSqlW & """}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetAdvanceGrid", ex.Message, ex.StackTrace, True)

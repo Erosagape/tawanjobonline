@@ -312,11 +312,11 @@ End Code
                 let tb = $('#tb');
                 tb.empty();
 
-                let h = r.data[0].Table[0];
+                let h = r.data[0];
 
                 commrate = h.Commission;
 
-                let d = r.data[0].Table.filter(function (data) {
+                let d = r.data.filter(function (data) {
                     return data.BNet !== 0;
                 });
                 //console.log(JSON.stringify(d));
