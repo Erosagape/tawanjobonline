@@ -1335,50 +1335,38 @@ on id.BranchCode=r.BranchCode AND id.DocNo=r.InvoiceNo AND id.ItemNo=r.InvoiceIt
     End Function
     Function SQLSelectDocumentByJob(branch As String, job As String) As String
         Dim sql As String = "
-SELECT ISNULL(ah.PaymentDate,ah.AdvDate) as DocDate,ah.AdvNo as DocNo,'ADV' as DocType,ad.SDescription as Expense,ad.AdvNet as Amount,ah.DocStatus
-FROM Job_AdvHeader ah INNER JOIN Job_AdvDetail ad ON ah.BranchCode=ad.BranchCode AND ah.AdvNo=ad.AdvNo 
+SELECT ISNULL(ah.PaymentDate,ah.AdvDate) as DocDate,ah.AdvNo as DocNo,'ADV' as DocType,ad.SDescription as Expense,ad.AdvNet as Amount,ah.DocStatus,st.StatusName
+FROM Job_AdvHeader ah INNER JOIN Job_AdvDetail ad ON ah.BranchCode=ad.BranchCode AND ah.AdvNo=ad.AdvNo
+inner join (select Convert(int,ConfigKey) as StatusCode,ConfigValue as StatusName from Mas_Config where ConfigCode='ADV_STATUS') st
+on ah.DocStatus=st.StatusCode
 WHERE ad.BranchCode='{0}' AND ad.ForJNo='{1}'
 UNION 
-SELECT ISNULL(ch.ApproveDate,ch.ClrDate) as DocDate,ch.ClrNo as DocNo,'CLR' as DocType,cd.SDescription as Expense,cd.BNet as Amount,ch.DocStatus
+SELECT ISNULL(ch.ApproveDate,ch.ClrDate) as DocDate,ch.ClrNo as DocNo,'CLR' as DocType,cd.SDescription as Expense,cd.BNet as Amount,ch.DocStatus,st.StatusName
 FROM Job_ClearHeader ch INNER JOIN Job_ClearDetail cd ON ch.BranchCode=cd.BranchCode AND ch.ClrNo=cd.ClrNo
+inner join (select Convert(int,ConfigKey) as StatusCode,ConfigValue as StatusName from Mas_Config where ConfigCode='CLR_STATUS') st
+on ch.DocStatus=st.StatusCode
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
 UNION
-SELECT ih.DocDate,ih.DocNo,'INV' as DocType,id.SDescription,cd.BNet as Amount,(CASE WHEN ih.BillIssueDate IS NULL THEN 0 ELSE 1 END) as DocStatus
+SELECT ih.DocDate,ih.DocNo,'INV' as DocType,id.SDescription,cd.BNet as Amount,(CASE WHEN ih.BillIssueDate IS NULL THEN 0 ELSE 1 END) as DocStatus,
+(CASE WHEN ih.BillIssueDate IS NULL THEN 'UNBILLED' ELSE 'BILLED' END) as DocStatusNAme
 FROM Job_InvoiceHeader ih INNER JOIN Job_InvoiceDetail id ON ih.BranchCode=id.BranchCode AND ih.DocNo=id.DocNo
 INNER JOIN Job_ClearDetail cd ON id.BranchCode=cd.BranchCode AND id.DocNo=cd.LinkBillNo AND id.ItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
 UNION
 select ch.ChqDate,ch.ChqNo,'CHQ' as DocType,Convert(varchar,ch.ChqAmount) +' '+ ch.CurrencyCode +' REF# '+ch.PRVoucher as Descr,SUM(ISNULL(cd.PaidAmount,0)) as Amount,
-(CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 1 ELSE (CASE WHEN vc.CancelProve<>'' THEN 99 ELSE 0 END) END) as DocStatus
+(CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 1 ELSE (CASE WHEN vc.CancelProve<>'' THEN 99 ELSE 0 END) END) as DocStatus,
+(CASE WHEN ISNULL(vc.PostedBy,'')<>'' THEN 'POSTED' ELSE (CASE WHEN vc.CancelProve<>'' THEN 'CANCELLED' ELSE 'ACTIVE' END) END) as DocStatusName
 FROM Job_CashControlSub ch INNER JOIN Job_CashControl vc ON ch.BranchCode=vc.BranchCode AND ch.ControlNo=vc.ControlNo
 LEFT JOIN Job_CashControlDoc cd ON ch.BranchCode=cd.BranchCode AND ch.ControlNo=cd.ControlNo AND ch.acType=cd.acType
 WHERE ch.BranchCode='{0}' AND ch.ForJNo='{1}'
 GROUP BY ch.ChqDate,ch.ChqNo,ch.ChqAmount,ch.PRVoucher,vc.PostedBy,vc.CancelProve,ch.CurrencyCode
 UNION
 select rh.ReceiptDate,rh.ReceiptNo,'RCV' as DocType,rd.SDescription +' INV#' + rd.InvoiceNo as Descr,cd.BNet as Amount,
-(CASE WHEN rh.CancelProve<>'' THEN 99 ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 1 ELSE 0 END) END) as DocStatus
+(CASE WHEN rh.CancelProve<>'' THEN 99 ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 1 ELSE 0 END) END) as DocStatus,
+(CASE WHEN rh.CancelProve<>'' THEN 'CANCELLED' ELSE (CASE WHEN ISNULL(rd.ControlNo,'')<>'' THEN 'RECEIVED' ELSE 'ACTIVE' END) END) as DocStatusName
 FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.BranchCode AND rh.ReceiptNo=rd.ReceiptNo
 INNER JOIN Job_ClearDetail cd ON rd.InvoiceNo=cd.LinkBillNo AND rd.InvoiceItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
-"
-        Return String.Format(sql, branch, job)
-    End Function
-    Function SQLSelectSumReceipt(sqlw As String) As String
-        Dim sql As String = "
-SELECT dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.Job_Order.CustCode, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, SUM(dbo.Job_ReceiptDetail.Net) AS SumReceipt,
-dbo.Job_Order.Commission, dbo.Job_ReceiptDetail.InvoiceNo, dbo.Job_ReceiptDetail.ReceiptNo, SUM(dbo.Job_ReceiptDetail.Net) * (dbo.Job_Order.Commission * 0.01) AS TotalComm
-FROM dbo.Job_ClearDetail INNER JOIN
- dbo.Job_ClearHeader ON dbo.Job_ClearDetail.BranchCode = dbo.Job_ClearHeader.BranchCode INNER JOIN
- dbo.Job_ReceiptDetail ON dbo.Job_ClearDetail.BranchCode = dbo.Job_ReceiptDetail.BranchCode AND 
- dbo.Job_ClearDetail.LinkItem = dbo.Job_ReceiptDetail.InvoiceItemNo AND dbo.Job_ClearDetail.LinkBillNo = dbo.Job_ReceiptDetail.InvoiceNo INNER JOIN
- dbo.Job_ReceiptHeader ON dbo.Job_ReceiptDetail.BranchCode = dbo.Job_ReceiptHeader.BranchCode AND 
- dbo.Job_ReceiptDetail.ReceiptNo = dbo.Job_ReceiptHeader.ReceiptNo INNER JOIN
- dbo.Job_Order ON dbo.Job_ClearDetail.BranchCode = dbo.Job_Order.BranchCode AND dbo.Job_ClearDetail.JobNo = dbo.Job_Order.JNo INNER JOIN
- dbo.Job_InvoiceHeader ON dbo.Job_ReceiptDetail.BranchCode = dbo.Job_InvoiceHeader.BranchCode AND 
- dbo.Job_ReceiptDetail.InvoiceNo = dbo.Job_InvoiceHeader.DocNo
-WHERE (ISNULL(dbo.Job_InvoiceHeader.CancelProve, '') = '') AND (ISNULL(dbo.Job_ReceiptHeader.ReceiveRef, '') <> '') AND (dbo.Job_ClearHeader.DocStatus <> 99)  {0}
-GROUP BY dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.Job_Order.CustCode, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Commission, 
- dbo.Job_ReceiptDetail.InvoiceNo, dbo.Job_ReceiptDetail.ReceiptNo
 "
         Return String.Format(sql, sqlw)
     End Function
