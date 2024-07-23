@@ -2339,7 +2339,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         Function FormPackingList() As ActionResult
             Return GetView("FormPackingList")
         End Function
-        Friend Function GetView(vName As String, modName As String, funcName As String) As ActionResult
+        Friend Overloads Function GetView(vName As String, modName As String, funcName As String) As ActionResult
             Dim baseURL = Me.ControllerContext.RouteData.Values("Controller").ToString() & "\" & vName
             Try
                 LoadCompanyProfile()
@@ -2363,7 +2363,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 Return Redirect("~/index.html?message=" & ex.Message)
             End Try
         End Function
-        Friend Function GetView(vName As String, Optional modName As String = "") As ActionResult
+        Friend Overloads Function GetView(vName As String, Optional modName As String = "") As ActionResult
             Return GetView(vName, modName, vName)
         End Function
 

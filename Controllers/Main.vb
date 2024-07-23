@@ -1368,7 +1368,7 @@ FROM Job_ReceiptHeader rh INNER JOIN Job_ReceiptDetail rd ON rh.BranchCode=rd.Br
 INNER JOIN Job_ClearDetail cd ON rd.InvoiceNo=cd.LinkBillNo AND rd.InvoiceItemNo=cd.LinkItem
 WHERE cd.BranchCode='{0}' AND cd.JobNo='{1}'
 "
-        Return String.Format(sql, sqlw)
+        Return String.Format(sql, branch, job)
     End Function
     Function SQLSelectReceiptSummaryByInv(sqlW As String) As String
         Dim sql As String = "
@@ -2788,6 +2788,29 @@ b.BookingNo,b.CTN_NO,b.CTN_SIZE,h.Remark,h.PaymentRef
 ORDER BY h.PoNo,h.DocNo
 "
         Return String.Format(tSql, sqlW)
+    End Function
+    Function SQLSelectSumReceipt(sqlw As String) As String
+        Dim sql As String = "
+SELECT dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.Job_Order.CustCode, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, SUM(dbo.Job_ReceiptDetail.Net) AS SumReceipt,
+dbo.Job_Order.Commission, dbo.Job_ReceiptDetail.InvoiceNo, dbo.Job_ReceiptDetail.ReceiptNo, SUM(dbo.Job_ReceiptDetail.Net) * (dbo.Job_Order.Commission * 0.01) AS TotalComm
+FROM dbo.Job_ClearDetail INNER JOIN
+ dbo.Job_ClearHeader ON dbo.Job_ClearDetail.BranchCode = dbo.Job_ClearHeader.BranchCode INNER JOIN
+ dbo.Job_ReceiptDetail ON dbo.Job_ClearDetail.BranchCode = dbo.Job_ReceiptDetail.BranchCode AND 
+ dbo.Job_ClearDetail.LinkItem = dbo.Job_ReceiptDetail.InvoiceItemNo AND dbo.Job_ClearDetail.LinkBillNo = dbo.Job_ReceiptDetail.InvoiceNo INNER JOIN
+ dbo.Job_ReceiptHeader ON dbo.Job_ReceiptDetail.BranchCode = dbo.Job_ReceiptHeader.BranchCode AND 
+ dbo.Job_ReceiptDetail.ReceiptNo = dbo.Job_ReceiptHeader.ReceiptNo INNER JOIN
+ dbo.Job_Order ON dbo.Job_ClearDetail.BranchCode = dbo.Job_Order.BranchCode AND dbo.Job_ClearDetail.JobNo = dbo.Job_Order.JNo INNER JOIN
+ dbo.Job_InvoiceHeader ON dbo.Job_ReceiptDetail.BranchCode = dbo.Job_InvoiceHeader.BranchCode AND 
+ dbo.Job_ReceiptDetail.InvoiceNo = dbo.Job_InvoiceHeader.DocNo
+WHERE (ISNULL(dbo.Job_InvoiceHeader.CancelProve, '') = '') AND (ISNULL(dbo.Job_ReceiptHeader.ReceiveRef, '') <> '') AND (dbo.Job_ClearHeader.DocStatus <> 99)  {0}
+GROUP BY dbo.Job_Order.BranchCode, dbo.Job_Order.JNo, dbo.Job_Order.InvNo, dbo.Job_Order.CustCode, dbo.Job_Order.ManagerCode, dbo.Job_Order.CSCode, dbo.Job_Order.Commission, 
+ dbo.Job_ReceiptDetail.InvoiceNo, dbo.Job_ReceiptDetail.ReceiptNo
+"
+        Dim val = GetValueConfig("SQL", "SelectSumReceipt")
+        If val.Length > 0 Then
+            sql = val
+        End If
+        Return String.Format(sql, sqlw)
     End Function
     Public Sub UpdateClearStatus()
         Main.DBExecute(GetSession("ConnJob"), SQLUpdateClrStatusToClear())
