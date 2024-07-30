@@ -4,8 +4,13 @@
     ViewBag.ReportName = "Truck Order"
     ViewBag.Title = "ใบสั่งงานรถ (Truck Order)"
 End Code
+<style>
+    * {
+        font-size: 13px;
+    }
+</style>
 <div style="text-align:right;width:100%">
-    <b>DATE :</b> <label id="lblBookingDate"></label><br/>
+    <b>DATE :</b> <label id="lblBookingDate"></label><br />
     <b>JOB NUMBER :</b> <label id="lblJNo"></label>
 </div>
 <div style="width:100%">
@@ -15,14 +20,6 @@ End Code
         </div>
         <div style="flex:1">
             <label id="lblBookingNo"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
-            <b>Customer Invoice:</b>
-        </div>
-        <div style="flex:1">
-            <label id="lblCustInv"></label>
         </div>
     </div>
     <div style="display:flex">
@@ -68,11 +65,10 @@ End Code
     <div style="display:flex">
         <div style="flex:1">
             <b>หมายเลขตู้ / CONTAINER LISTS : </b>
-            <div style="flex:1">
-                <div id="lblContainerList"></div>
-            </div>
         </div>
-
+        <div style="flex:1">
+            <div id="lblContainerList"></div>
+        </div>
     </div>
     <div style="display:flex">
         <div style="flex:1">
@@ -80,22 +76,6 @@ End Code
         </div>
         <div style="flex:1">
             <label id="lblShippingName"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
-            <b>ท่าตรวจปล่อย / RELEASE PORT: </b>
-        </div>
-        <div style="flex:1">
-            <label id="lblReleasePort"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
-            <b>วันที่ตรวจปล่อย / INSPECTION DATE: </b>
-        </div>
-        <div style="flex:1">
-            <label id="lblInspectionDate"></label>
         </div>
     </div>
     <div style="display:flex">
@@ -113,6 +93,32 @@ End Code
         <div style="flex:1">
             <label id="lblFactoryPlace"></label>
             <div id="lblFactoryAddress"></div>
+        </div>
+    </div>
+    <div style="display:flex">
+        <div style="flex:1">
+            <b>ค่าขนส่ง / TRANSPORT COST :</b>
+        </div>
+        <div style="flex:1">
+            <label id="lblTransportCost"></label>
+            <div id="lblTransportCost"></div>
+        </div>
+    </div>
+    <div style="display:flex">
+        <div style="flex:1">
+            <b>ระยะทาง / DISTANCE :</b>
+        </div>
+        <div style="flex:1">
+            <label id="lblCostRemark"></label>
+            <div id="lblCostRemark"></div>
+        </div>
+    </div>
+    <div style="display:flex">
+        <div style="flex:1">
+            <b>วันเวลาที่ออกจากโกดังท่าเรือ / WAREHOUSE RENTAL FINISH :</b>
+        </div>
+        <div style="flex:1">
+            <label id="lblPackingDate"></label> / <label id="lblPackingTime"></label>
         </div>
     </div>
     <div style="display:flex">
@@ -157,14 +163,6 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>น้ำหนักรวมสินค้า / NET WEIGHT : </b>
-        </div>
-        <div style="flex:1">
-            <label id="lblNetWeight"></label>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1">
             <b>สรุปรายละเอียดงาน / JOB DETAILS : </b>
         </div>
         <div style="flex:1">
@@ -180,84 +178,53 @@ End Code
         </div>
     </div>
     <div style="display:flex">
-        <div style="flex:1">
-            <b>ที่อยู่ในการออกใบเสร็จค่าท่า,ค่าตู้ : </b>
+        <div style="flex:1;">
+            <b style="font-size:20px">ที่อยู่ในการออกใบเสร็จค่าท่า,ค่าตู้ : </b>
         </div>
+        <div style="flex:1;">
+            <div style="font-size:20px" id="lblBillToAddress"></div>
+        </div>
+    </div>
+    <div style="display:flex">
         <div style="flex:1">
-            <div id="lblBillToAddress"></div>
+            <b>REMARKS</b>
+            หากมีการเปลี่ยนแปลงสถานที่ส่งสินค้า/เพิ่มสถานที่ส่งสินค้ามากกว่า 1 จุด/ตกค้างในการส่งสินค้า หรือ อื่นๆ ให้ระบุมาในช่องหมายเหตุนี้
         </div>
     </div>
     <div style="display:flex">
         <div style="flex:1">
-            <b>NOTE:</b>
-        </div>
-        <div style="flex:1">
-            <div id="dvRemark"></div>
-        </div>
-    </div>
-    <div style="display:flex">
-        <div style="flex:1;text-align:center">
-            <br>   <br>
-            <br>   <br>
-            
-            <br>   <br>
-            ได้รับสินค้าสภาพครบถ้วนสมบูรณ์แล้ว <b> (The cargoes have been properly received)</b>
-            <br>
-            <br>
-            ผู้รับสินค้า.....................................................................................
-            <br>
-            (ตัวบรรจง)
-            <br>
-            <br>
-            วันที่ ............................ เวลา ............................ น
+            <table border="1" style="height:100px;width:100%;border-style:solid;border-width:thin;border-collapse:collapse;">
+                <tr>
+                    <td>
+                        <div id="dvRemark">
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
-    <div style="display:flex">
-        <div style="flex:2">
-
-        </div>
-        <div style="flex:2">
-
-        </div>
-        <div style="flex:1">
-            HANDLER BY : <br />
-            REVISED       :
-        </div>
-        <div style="flex:1">
-            <div> ..........................................................</div>
-            <div> ..........................................................</div>
-        </div>
-    </div>
-    <table>
-        <thead></thead>
-    </table>
 </div>
-    <script type="text/javascript">
+<script type="text/javascript">
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
-        var path = '@Url.Content("~")';
-
+    var path = '@Url.Content("~")';
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];
-            $.get(path + 'JobOrder/getjobsql?Branch=' + br + '&Jno=' + h.JNo).done(function (r) {
-                if (r.job !== null) {
-                    let j = r.job.data[0];
-                    $('#lblCustInv').text(j.InvNo);        
-                    $('#lblInspectionDate').text(ShowDate(j.DutyDate));
-                    $.get(path + 'Master/GetCustomsPort?code=' + j.ClearPort).done(function (r) {
-                        if (r.RFARS !== null) {
-                            let p = r.RFARS.data[0];
-                            $('#lblReleasePort').text(p.AreaCode);
-                        }    
-                    });
-                }
-            });
-        
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
             $('#lblJNo').text(h.JNo);
+            $.get(path + 'Adv/GetClearExpReport?Branch=' + br + '&Job=' + h.JNo).done(function (row) {
+                if (row.estimate.data.length > 0) {
+                    let e = row.estimate.data.filter(function (data) { return data.SICode == 'CST-096'; });
+                    if (e.length > 0) {
+                        $('#lblTransportCost').text(ShowNumber(e[0].AmountCharge + ' ' + e[0].CurrencyCode));
+                        $('#lblCostRemark').text(e[0].TRemark);
+                    }
+
+                }
+            });
             $('#lblTruckType').text(h.TRemark);
             $('#lblTotalContainer').text(h.TotalContainer);
             $('#lblForwarderName').text(h.ForwarderName);
@@ -266,43 +233,32 @@ End Code
             $('#lblShippingName').text(h.ShippingName + ' ' + h.ShippingTel);
             $('#lblFactoryDate').text(ShowDate(h.FactoryDate));
             $('#lblFactoryTime').text(ShowTime(h.FactoryTime));
+            $('#lblPackingDate').text(ShowDate(h.PackingDate));
+            $('#lblPackingTime').text(ShowTime(h.PackingTime));
             $('#lblFactoryPlace').text(h.FactoryPlace);
             $('#lblFactoryAddress').html(CStr(h.FactoryAddress));
             $('#lblFactoryContact').text(h.FactoryContact);
             $('#lblCarrierName').text(h.CarrierName);
             $('#lblConsignName').text(h.ConsigneeName);
             $('#lblInvProduct').text(h.InvProduct);
-            $('#lblGrossWeight').text(h.TotalGW + ' ' + h.GWUnit);
-            $('#lblNetWeight').text(h.TotalNW + ' ' + h.GWUnit);
+            $('#lblGrossWeight').text(h.TotalGW + ' '+ h.GWUnit);
             $('#lblDescription').html(CStr(h.Description));
             $('#lblBillToName').text(h.PaymentBy);
             $('#lblBillToAddress').html(CStr(h.PaymentCondition));
+            if (h.Remark!==null && CStr(h.Remark)!=="") {
+                $('#dvRemark').html(CStr(h.Remark));
+            }
 
-            $('#dvRemark').html(CStr(h.Remark));
-          
-             let ctnList = '';
+            let ctnList = '';
             for (let d of r.booking.data) {
                 if (d.CTN_NO !== '') {
                     if (ctnList.indexOf(d.CTN_NO) < 0) {
-                        if (ctnList !== '') ctnList += '';
-                        ctnList += " <tr><td>" + d.CTN_NO + "</td><td style='text-align:right'>" + d.GrossWeight + "</td><td style='text-align:right'>" + d.GrossWeight + "</td><td>" + d.LocationRoute + "</td></tr>";
+                        if (ctnList !== '') ctnList += ',';
+                        ctnList += d.CTN_NO;
                     }
                 }
             }
-            let html = `   <table>
-                <thead>
-                <tr>
-                    <th>Container</th>
-                    <th>Net Weight</th>
-                    <th>GrossWeight</th>
-                    <th>Route</th>
-                </tr>
-        </thead >
-                <tbody>
-                    ${ctnList}
-                </tbody>
-    </table >`;
-            $('#lblContainerList').html(html);
+            $('#lblContainerList').html(ctnList);
         }
     });
-    </script>
+</script>
