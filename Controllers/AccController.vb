@@ -3765,7 +3765,7 @@ order by 1,2,3
             html &= "</tbody>"
             html &= "</table>"
             ViewBag.DataGrid1 = html
-            Return GetView("Summary", "MODULE_CLR")
+            Return GetView("Summary", "MODULE_ACC")
         End Function
         Function GetDetailRevenueMonthly() As ActionResult
             Dim onYear = DateTime.Now.Year
@@ -4114,8 +4114,7 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
             Return Redirect(strUrl)
         End Function
         Function Worksheet() As ActionResult
-            LoadCompanyProfile()
-            Return View()
+            Return GetView("WorkSheet", "MODULE_ACC")
         End Function
     End Class
 End Namespace

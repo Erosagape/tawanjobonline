@@ -600,8 +600,6 @@ End Code
             row = {};
             row_d = {};
             row_i = {};
-//<th class="desktop">Remark</th>
-//{ data: "TRemark", title: "Remark" },
             let tb= $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

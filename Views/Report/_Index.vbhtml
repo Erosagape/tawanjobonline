@@ -1,6 +1,12 @@
 ﻿@Code
     ViewData("Title") = "Reports"
     End Code
+<style>
+	 * {
+        font-family: CORDIA NEW;
+        font-size: 16px;
+    }
+</style>
     <div class="row">
         <div class="col-sm-6">
             <div style="display:flex">

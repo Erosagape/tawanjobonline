@@ -71,32 +71,9 @@ End Code
     let br = getQueryString("BranchCode");
     let job = getQueryString("JNo");
     var path = '@Url.Content("~")';
-    $('#dvCompLogo').hide();
     $.get(path + 'JobOrder/GetJobReport?Branch=' + br + '&JNo=' + job).done(function (r) {
         if (r.job.data.length > 0) {
             let dr = r.job.data[0];
-            $.get(path + 'Master/GetCompany?Code=' + dr.CustCode + '&Branch=' + dr.CustBranch).done(function (r) {
-                if (r.company !== null) {
-                    let c = r.company.data[0];
-                    let newhead =
-                        `<div id="divCompany" >
-                                            <div style = "height:25px;text-align:left;color:darkblue;font-size:12px;" >
-                                                <b style="font-size:18px"> ${c.NameEng}</b>
-                                            </div >
-                                            <div style="font-size:14px;" id="dvCompAddr">${c.EAddress1 + " " + c.EAddress2}
-                                                <br>
-                                                    TEL  ${c.Phone ? c.Phone : " - "}    FAX ${c.FaxNumber ? c.FaxNumber : ' - '}
-                                                    <br>เลขประจำตัวผู้เสียภาษี ${c.FaxNumber ? c.FaxNumber : " - "} สาขา: ${c.Branch == "0000" ? "สำนักงานใหญ่" : c.Branch}
-                        	                </div>
-                             </div >`;
-
-                    newhead += ``
-                    $('#dvCompLogo').html(newhead);
-                    $('#dvCompLogo').show();
-                }
-            });
-
-         
             let strSub = '';
             let strTo = '';
             if (dr.JobType == 1) {

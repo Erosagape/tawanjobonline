@@ -1,6 +1,5 @@
 ﻿@Code
-   
-  Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
+    Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
 End Code
 <style>
     * {
@@ -33,62 +32,69 @@ End Code
         text-align:right;
     }
 
-    #pFooter{
- 	display:none
-     }
+    tbody tr td{
+	border: none;
+
+
+   }
+
+  .underline {
+	border-bottom:1px solid black;
+   }
 </style>
-<div id="topLeft" style="float:left;" onClick="rotateText()">
-    
+<div style="float:left;">
+    <b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />
+    <b>ฉบับที่ 2</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>
 </div>
-<div style="float:right;">
+<div style="text-align:right;width:99%;">
     เลขที่ <label id="txtDocNo"></label>
 </div>
-<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse" width="100%">
-    <tr>
-        <td colspan="4" style="text-align:center;vertical-align:top">
-            <b>หนังสือรับรองการหักภาษี ณ ที่จ่าย</b><br />
-            ตามมาตรา ๕๐ ทวิ แห่งประมวลรัษฏากร
-        </td>
-    </tr>
-    <tr>
+<div style="text-align:right;width:99%;">
+    Job No. <label id="txtJobNo"></label>
+</div>
+<br/>
+ <p style="text-align:center;vertical-align:top;"><b>หนังสือรับรองการหักภาษี ณ ที่จ่าย</b><br />
+            ตามมาตรา ๕๐ ทวิ แห่งประมวลรัษฏากร</p>
+<table border="1" style="border-style:solid;border-width:thin;border-collapse:collapse" width="99%">
+    <tr class="underline">
         <td colspan="4" style="vertical-align:top">
             <div style="float:right">
-                เลขประจำตัวผู้เสียภาษี : <label id="txtTaxNumber1" style="text-decoration:underline"></label>
+                เลขประจำตัวผู้เสียภาษี : <label id="txtTaxNumber1" ></label>
             </div>
             <b>ผู้มีหน้าที่หักภาษี ณ ที่จ่าย</b>
-            <p>ชื่อ <span><label id="txtTName1" style="text-decoration:underline"></label></span></p>
+            <p>ชื่อ <span><label id="txtTName1"></label></span></p>
             <i>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</i>
-            <p>ที่อยู่ <span><label id="txtTAddress1" style="text-decoration:underline"></label></span></p>
+            <p>ที่อยู่ <span><label id="txtTAddress1"></label></span></p>
             <i>(ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด และโทรศัพท์)</i>
         </td>
     </tr>
 
-    <tr>
+    <tr class="underline">
         <td colspan="4" style="vertical-align:top">
             <div style="float:right">
-                เลขประจำตัวผู้เสียภาษี : <label id="txtTaxNumber2" style="text-decoration:underline"></label>
+                เลขประจำตัวผู้เสียภาษี : <label id="txtTaxNumber2" ></label>
             </div>
             <b>กระทำแทนโดย</b>
-            <p>ชื่อ <span><label id="txtTName2" style="text-decoration:underline"></label></span></p>
+            <p>ชื่อ <span><label id="txtTName2" ></label></span></p>
             <i>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</i>
-            <p>ที่อยู่ <span><label id="txtTAddress2" style="text-decoration:underline"></label></span></p>
+            <p>ที่อยู่ <span><label id="txtTAddress2" ></label></span></p>
             <i>(ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด และโทรศัพท์)</i>
         </td>
     </tr>
 
-    <tr>
+    <tr class="underline">
         <td colspan="4" style="vertical-align:top">
             <div style="float:right;">
-                เลขประจำตัวผู้เสียภาษี : <label id="txtTaxNumber3" style="text-decoration:underline"></label>
+                เลขประจำตัวผู้เสียภาษี : <label id="txtTaxNumber3" ></label>
             </div>
             <b>ผู้ถูกหักภาษี ณ ที่จ่าย</b>
-            <p>ชื่อ <span><label id="txtTName3" style="text-decoration:underline"></label></span></p>
+            <p>ชื่อ <span><label id="txtTName3" ></label></span></p>
             <i>(ให้ระบุว่าเป็น บุคคล นิติบุคคล บริษัท สมาคม หรือคณะบุคคล)</i>
-            <p>ที่อยู่ <span><label id="txtTAddress3" style="text-decoration:underline"></label></span></p>
+            <p>ที่อยู่ <span><label id="txtTAddress3" ></label></span></p>
             <i>(ให้ระบุ ชื่ออาคาร/หมู่บ้าน ห้องเลขที่ ชั้นที่ เลขที่ ตรอก/ซอย หมู่ที่ ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด และโทรศัพท์)</i>
         </td>
     </tr>
-    <tr>
+    <tr class="underline">
         <td colspan="4" style="vertical-align:top">
             <div style="float:left">
                 ลำดับที่ <label id="txtSeqInform" style="width:100px;border:solid;border-width:thin;"></label> ในแบบ
@@ -107,7 +113,7 @@ End Code
             </div>
         </td>
     </tr>
-    <tr style="text-align:center;font-weight:bold">
+    <tr class="underline" style="text-align:center;font-weight:bold">
         <td width="60%">
             <label>ประเภทเงินได้ที่จ่าย</label>
         </td>
@@ -201,7 +207,7 @@ End Code
     <tr>
         <td>
             &nbsp;  &nbsp;  &nbsp;  &nbsp;&nbsp;&nbsp;
-            <input type="checkbox">(1.4) อัตราอื่นๆ (ระบุ)<label id="txtPayDesc8" style="text-decoration:underline"></label>ของกำไรสุทธิ
+            <input type="checkbox">(1.4) อัตราอื่นๆ (ระบุ)<label id="txtPayDesc8" ></label>ของกำไรสุทธิ
         </td>
         <td style="text-align:center"><label id="txtPayDate8"></label></td>
         <td class="amount"><label id="txtPayAmount8"></label></td>
@@ -252,9 +258,9 @@ End Code
         <td class="amount"><label id="txtPayAmount13"></label></td>
         <td class="amount"><label id="txtPayTax13"></label></td>
     </tr>
-    <tr>
+    <tr class="underline">
         <td>
-            6.อื่นๆ (ระบุ)<label id="txtPayDesc14" style="text-decoration:underline"></label>
+            6.อื่นๆ (ระบุ)<label id="txtPayDesc14" ></label>
         </td>
         <td style="text-align:center"><label id="txtPayDate14"></label></td>
         <td class="amount"><label id="txtPayAmount14"></label></td>
@@ -265,7 +271,7 @@ End Code
         <td><label id="txtSumPayAmount"></label></td>
         <td><label id="txtSumPayTax"></label></td>
     </tr>
-    <tr>
+    <tr class="underline">
         <td colspan="4">
             รวมเงินที่จ่ายและภาษีที่หักนำส่ง (ตัวอักษร)
             <div class="money_text right">
@@ -280,7 +286,7 @@ End Code
         </td>
     </tr>
 </table>
-<table border="1" style="border-style:solid;border-collapse:collapse;border-width:thin" width="100%">
+<table border="1" style="border-style:solid;border-collapse:collapse;border-width:thin" width="99%">
 
     <tr>
         <td>
@@ -289,13 +295,13 @@ End Code
             <input type="checkbox" id="chkPayTaxType1" name="chkPayTaxType">(1) หักภาษี ณ ที่จ่าย<br>
             <input type="checkbox" id="chkPayTaxType2" name="chkPayTaxType">(2) ออกภาษีให้ตลอดไป<br>
             <input type="checkbox" id="chkPayTaxType3" name="chkPayTaxType">(3) ออกภาษีให้ครั้งเดียว<br>
-            <input type="checkbox" id="chkPayTaxType4" name="chkPayTaxType">(4) อื่นๆ (ระบุ)<label id="txtPayTaxOther" style="text-decoration:underline"></label><br>
+            <input type="checkbox" id="chkPayTaxType4" name="chkPayTaxType">(4) อื่นๆ (ระบุ)<label id="txtPayTaxOther" ></label><br>
         </td>
 
         <td style="text-align:center">
             <p>ขอรับรองว่า ข้อความและตัวเลขดังกล่าวข้างต้นถูกต้องตรงกับความจริงทุกประการ</p><br /><br /><br />
-            (ลงชื่อ)<label id="txtUpdateName" style="text-decoration:underline"></label> ผู้มีหน้าที่หักภาษี ณ ที่จ่าย<br>
-            <label id="txtDocDate" style="text-decoration:underline"></label> วัน เดือน ปี ที่ออกหนังสือรับรอง
+            (ลงชื่อ)<label id="txtUpdateName" ></label> ผู้มีหน้าที่หักภาษี ณ ที่จ่าย<br>
+            <label id="txtDocDate" ></label> วัน เดือน ปี ที่ออกหนังสือรับรอง
         </td>
 
         <td>
@@ -304,33 +310,18 @@ End Code
     </tr>
 </table>
 
-<div>
+<div style="width:99%;">
     <b>หมายเหตุ</b> ให้สามารถอ้างอิงหรือสอบยันกันได้ระหว่างลำดับที่ตามหนังสือรับรองฯ กับแบบยื่นรายการภาษีหัก ณ ที่จ่าย<br />
     <b>คำเตือน</b> ผู้มีหน้าที่ออกหนังสือรับรองหักภาษี ณ ที่จ่าย ฝ่าฝืนไม่ปฏิบัติตามมาตรา 50 ทวิ แห่งประมวลรัษฏากรต้องรับโทษทางอาญาตามมาตรา 35 แห่งประมวลรัษฏากร
 </div>
 <script type="text/javascript">
-    const textList = ["<b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />",
-		    	" <b>ฉบับที่ 2</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>",
-			" <b>ฉบับที่ 3</b><i>(สำหรับผู้หักภาษี ณ ที่จ่าย ใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i>",
-			" <b>ฉบับที่ 4</b><i>(สำหรับผู้หักภาษี ณ  ที่จ่ายเก็บไว้เป็นหลักฐาน)</i>"
-		    ];
-    var rotateCount=0;
-    function rotateText(){
-	$("#topLeft").html(textList[rotateCount]);		
-	rotateCount++;
-	if(rotateCount> textList.length-1){
-		rotateCount=0
-	}
-    }
-
-    rotateText();
     let path = '@Url.Content("~")';
     //$(document).ready(function () {
         let branch = getQueryString('branch');
         let code = getQueryString('code');
         if (branch != "" && code != "") {
             $.get(path + 'acc/getwhtaxgrid?branch=' + branch + '&code=' + code, function (r) {
-                if (r.whtax.data !== undefined) {
+                if (r.whtax.data) {
                     let h = r.whtax.data[0];
                     $('#txtDocNo').text(h.DocNo);
                     $('#txtTaxNumber1').text(h.IDCard1);
@@ -364,7 +355,7 @@ End Code
                     $('#chkPayTaxType' + h.PayTaxType).prop('checked',true);
                     $('#txtUpdateName').text(h.UpdateName);
                     $('#txtDocDate').text(ShowDate(CDateTH(h.DocDate)));
-
+                    $('#txtJobNo').text(h.JNo);
                     let d = r.whtax.data;
                     let totalamt = 0;
                     let totaltax = 0;

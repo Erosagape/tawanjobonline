@@ -223,12 +223,10 @@ End Code
                                 <button id="btnCancel" class="btn btn-danger" onclick="CancelData()">Cancel</button>
                             </div>
                             <div style="display:flex;flex-direction:row">
-	
                                 <div style="flex:1">
                                     <label id="lblCancelDate">Cancel date</label>
                                     :<br /> <input type="date" id="txtCancelDate" class="form-control" disabled />
                                 </div>
-
                                 <div style="flex:1">
                                     <label id="lblCancelTime">Cancel Time</label>
                                     :<br /><input type="text" id="txtCancelTime" class="form-control" disabled />
@@ -251,44 +249,11 @@ End Code
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
                             </p>
-                            <label id="lblRemark">Remark</label>
+                            <label id="lblRemark">Remark</label><br/>
                             :
-			    <datalist id="listRemark1"></datalist>
-			    <datalist id="listRemark2"></datalist>
-			    <datalist id="listRemark3"></datalist>
-			     @*
-			    <div class="" style="display:flex">
-				<input type="text" id="txtRemark1"  list="listRemark1" class="form-control" style="flex:1" />
-				<input type="button" id="btnRemark1" class="btn btn-default" value="..." onclick="">
-		  	    </div>
-                             <div class="" style="display:flex">
-				<input type="text" id="txtRemark2" class="form-control" style="flex:1" />
-				<input type="button" id="btnRemark2" class="btn btn-default" value="..." onclick="">
-		  	    </div>
- 			    <div class="" style="display:flex">
-				<input type="text" id="txtRemark3" class="form-control" style="flex:1" />
-				<input type="button" id="btnRemark3" class="btn btn-default" value="..." onclick="">
-		  	    </div>
-			    *@
-			    <div class="" style="display:flex;flex-direction:row;">
-				<textarea id="txtRemark1" class="form-control" ></textarea>
-				<input type="button" id="btnBrowseRemarks" class="btn btn-default" value="..." onclick="SearchData('remark1')">
-			    </div>
-			     <div class="" style="display:flex;flex-direction:row;">
-				<textarea id="txtRemark2" class="form-control" ></textarea>
-				<input type="button" id="btnBrowseRemarks" class="btn btn-default" value="..." onclick="SearchData('remark2')">
-			    </div>
-			     <div class="" style="display:flex;flex-direction:row;">
-				<textarea id="txtRemark3" class="form-control" ></textarea>
-				<input type="button" id="btnBrowseRemarks" class="btn btn-default" value="..." onclick="SearchData('remark3')">
-			    </div>
-			  
-			@*
-			    <input type="text" id="txtRemark1" class="form-control"  list="listRemark1"  />
-                            <input type="text" id="txtRemark2" class="form-control"  list="listRemark2" />
-                            <input type="text" id="txtRemark3" class="form-control"  list="listRemark3" />
-			*@
-			@*
+                            Shipper : <input type="text" id="txtRemark1" class="form-control" />
+                            Consignee : <input type="text" id="txtRemark2" class="form-control" />
+                            Note : <input type="text" id="txtRemark3" class="form-control" />
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
                             <input type="text" id="txtRemark6" class="form-control" />
@@ -296,7 +261,6 @@ End Code
                             <input type="text" id="txtRemark8" class="form-control" />
                             <input type="text" id="txtRemark9" class="form-control" />
                             <input type="text" id="txtRemark10" class="form-control" />
-			*@
                         </div>
                     </div>
                 </div>
@@ -563,36 +527,6 @@ End Code
         if (code !== '') {
             w += '&Code=' + code;
         }
-  	$.get(path + 'JobOrder/GetDataDistinct?Field=Remark1&Table=Job_InvoiceHeader' , function (r)
-        {
-		let options = "";
-		for (let row of r) {
-  		console.log(row.val);
-			options+="<option value='"+row.val+"'> </option> ";
-		}
-		$("#listRemark1").html(options);
-	});
-	$.get(path + 'JobOrder/GetDataDistinct?Field=Remark2&Table=Job_InvoiceHeader' , function (r)
-        {
-		let options = "";
-		for (let row of r) {
-  		console.log(row.val);
-			options+="<option value='"+row.val+"'> </option> ";
-		}
-		$("#listRemark2").html(options);
-	});
-	$.get(path + 'JobOrder/GetDataDistinct?Field=Remark3&Table=Job_InvoiceHeader' , function (r)
-        {
-		let options = "";
-		for (let row of r) {
-  		console.log(row.val);
-			options+="<option value='"+row.val+"'> </option> ";
-		}
-		$("#listRemark3").html(options);
-	});
-
-
-
         $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
         {
             if (r.invdetail.data.length == 0) {
@@ -781,7 +715,6 @@ End Code
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 4);
-	    CreateLOV(dv, '#frmSearchRemark', '#tbRemark', 'Remark', response, 1);
         });
     }
     function LoadDetail(dt) {
@@ -807,9 +740,9 @@ End Code
         $('#txtFAmtDiscount').val(ShowNumber(dt.FAmtDiscount, 2));
         $('#txtIs50Tavi').val(dt.Is50Tavi);
         $('#txtRate50Tavi').val(dt.Rate50Tavi);
-        $('#txtAmt50Tavi').val(ShowNumber(dt.Amt50Tavi,3));
+        $('#txtAmt50Tavi').val(ShowNumber(dt.Amt50Tavi,2));
         $('#txtIsTaxCharge').val(dt.IsTaxCharge);
-        $('#txtAmtVat').val(ShowNumber(dt.AmtVat,3));
+        $('#txtAmtVat').val(ShowNumber(dt.AmtVat,2));
         $('#txtTotalAmt').val(ShowNumber(dt.TotalAmt,2));
         $('#txtFTotalAmt').val(ShowNumber(dt.FTotalAmt,2));
         $('#txtAmtAdvance').val(ShowNumber(dt.AmtAdvance,2));
@@ -842,8 +775,6 @@ End Code
             row_d.FTotalAmt = CNum($('#txtFTotalAmt').val());
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
-            row_d.AmtCredit = CNum($('#txtAmtCredit').val());
-            row_d.FAmtCredit = CNum($('#txtFAmtCredit').val());
             row_d.QtyUnit = $('#txtQtyUnit').val();
             row_d.IsTaxCharge = $('#txtIsTaxCharge').val();
             row_d.Is50Tavi = $('#txtIs50Tavi').val();
@@ -908,15 +839,6 @@ End Code
             case 'dcurrency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadDCurrency);
                 break;
-	    case 'remark1':
-		SetGridDataDistinct(path, '#tbRemark', '?Field=Remark1&Table=Job_InvoiceHeader', '#frmSearchRemark', ReadRemark1);
-		break;
-	    case 'remark2':
-		SetGridDataDistinct(path, '#tbRemark', '?Field=Remark2&Table=Job_InvoiceHeader', '#frmSearchRemark', ReadRemark2);
-		break;
-	    case 'remark3':
-		SetGridDataDistinct(path, '#tbRemark', '?Field=Remark1&Table=Job_InvoiceHeader', '#frmSearchRemark', ReadRemark3);
-		break;
         }
     }
     function SaveData() {
@@ -1097,18 +1019,6 @@ End Code
         $('#txtDCurrencyName').val(dt.TName);
         $('#txtDExchangeRate').focus();
     }
-    function ReadRemark1(dt) {
-        $('#txtRemark1').val(dt.val);
-        $('#txtRemark1').focus();
-    }
-    function ReadRemark2(dt) {
-        $('#txtRemark2').val(dt.val);
-        $('#txtRemark2').focus();
-    }
-    function ReadRemark3(dt) {
-        $('#txtRemark3').val(dt.val);
-        $('#txtRemark3').focus();
-    }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
@@ -1169,10 +1079,10 @@ End Code
         let amt = CNum($('#txtAmt').val())-CNum($('#txtAmtDiscount').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtDVATRate').val()) * 0.01;
-            $('#txtAmtVat').val(ShowNumber(vat,3));
+            $('#txtAmtVat').val(ShowNumber(vat,2));
         }
         let wht = amt * CNum($('#txtRate50Tavi').val()) * 0.01;
-        $('#txtAmt50Tavi').val(ShowNumber(wht, 3));
+        $('#txtAmt50Tavi').val(ShowNumber(wht, 2));
         CalNetAmount();
     }
     function CalNetAmount() {

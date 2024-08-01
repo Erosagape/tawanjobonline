@@ -11,11 +11,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300&display=swap" rel="stylesheet">
     <style>
-         //* {
-         //	font-family: CORDIA NEW;
-         //	font-size: 16px;	
-	 //	line-height: 1;
-    	 //}
+        * {
+            font-size: 16px;
+            font-family: 'Sarabun', sans-serif;
+        }
      /*   div {
             page-break-inside: avoid;
             page-break-after: auto;
@@ -53,7 +52,7 @@
                     <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" />
                 </div>
                 <div style="flex:4;padding:5px;">
-                    <div id="divCompany" style="text-align:left;color:darkblue;">
+                    <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px;">
                         <div style="height:25px;">
                             <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
                         </div>
@@ -61,12 +60,12 @@
                             <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
-            <div style="" id="dvCompAddr">
+            <div style="font-size:10px;" id="dvCompAddr">
                 @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
                 <br />@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
-                <br />Tax ID: @ViewBag.PROFILE_TAXNUMBER Branch: HEAD OFFICE
+                <br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
             </div>
 
             <div style="width:100%;text-align:center">
@@ -84,9 +83,8 @@
                             <div style="flex:35;vertical-align:middle">
                                 <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%" />
                             </div>
-			    <div style="flex:10;padding:5px;"></div>
-                            <div style="flex:55;padding:5px;">
-                                <div id="divCompany" style="text-align:left;color:darkblue;">
+                            <div style="flex:65;padding:5px;">
+                                <div id="divCompany" style="text-align:left;color:darkblue;font-size:12px;">
                                     <div style="height:25px;">
                                         <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME_EN</b>
                                     </div>
@@ -94,7 +92,7 @@
                                         <b style="font-size:18px">@ViewBag.PROFILE_COMPANY_NAME</b>
                                     </div>*@
                                 </div>
-	  			<div style="" id="dvCompAddr">
+	  			<div style="font-size:10px;" id="dvCompAddr">
                             		 @* @ViewBag.PROFILE_COMPANY_ADDR1 @ViewBag.PROFILE_COMPANY_ADDR2 โทร @ViewBag.PROFILE_COMPANY_TEL แฟกซ์ @ViewBag.PROFILE_COMPANY_FAX
                             		<br />*@
 
@@ -103,7 +101,7 @@
 					@ViewBag.PROFILE_COMPANY_ADDR2_EN 
 					<br />
 					TEL @ViewBag.PROFILE_COMPANY_TEL FAX @ViewBag.PROFILE_COMPANY_FAX
-                            		<br />Tax ID: @ViewBag.PROFILE_TAXNUMBER Branch: HEAD OFFICE
+                            		<br />เลขประจำตัวผู้เสียภาษี @ViewBag.PROFILE_TAXNUMBER สาขา: สำนักงานใหญ่
                         	</div>
                             </div>
                         </div>

@@ -3,11 +3,6 @@
     ViewBag.ReportName = "SHIPPING CLOSING SHEET"
     ViewBag.Title = "SHIPPING CLOSING SHEET"
 End Code
-<style>
-    #dvTitle {
-        display: none;
-    }
-</style>
 <div>
     <table id="divJobInfo" width="100%">
         <tr>
@@ -228,35 +223,35 @@ End Code
                 <td style="border-style:solid;border-width:thin;">ค่ามัดจำตู้</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่านายตรวจศุลกากร</td>
+                <td style="border-style:solid;border-width:thin;">ค่าปฏิบัติงานนอกสถานที่ (1)</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
                 <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 6ล้อ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
+                <td style="border-style:solid;border-width:thin;">ค่าปฏิบัติงานนอกสถานที่ (2)</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
                 <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 4ล้อ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
+                <td style="border-style:solid;border-width:thin;">ค่าปฏิบัติงานนอกสถานที่ (3)</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
                 <td style="border-style:solid;border-width:thin;">ค่าผ่านท่า</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ประมง</td>
+                <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
                 <td style="border-style:solid;border-width:thin;">ค่าคืนตู้เปล่า</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ อย</td>
+                <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
@@ -310,22 +305,23 @@ End Code
             </tr>
         </tbody>
     </table>
-    <table style="width:100%;border-collapse:collapse;vertical-align:top;border-color:black" border="1">
+    <table  style="width:100%;border-collapse:collapse;vertical-align:top;border-color:black" border="1">
         <thead>
             <tr>
                 <th>หมายเลขตู้</th>
                 <th>คนขับ</th>
                 <th>ทะเบียนรถ</th>
                 <th>การเดินทาง</th>
-                <th>PICKUP</th>
-                <th>LOAD</th>
-                <th>RETURN</th>
-                <th>YARD</th>
-                <th>EMPTY</th>
-                <th>FINISH</th>
+                <th>ปม.รับตู้</th>
+                <th>ปม.ส่งของ</th>
+                <th>ปม.คืนตู้</th>
+                <th>รับจริง</th>
+                <th>ส่งจริง</th>
+                <th>คืนจริง</th>
             </tr>
         </thead>
         <tbody id="containertb">
+          
         </tbody>
     </table>
     <table id="tblFooter" style="width:100%">
@@ -361,7 +357,7 @@ End Code
                     var rec = r.job.data[0];
                     DisplayData(rec);
                     $.get(path + 'joborder/gettransportdetail?branch=' + Branch + '&Job=' + Job + '& Code=' + rec.BookingNo).done(function (r) {
-
+                       
                         if (r.transport.detail.length > 0) {
                             let html = "";
                             for (t of r.transport.detail) {
@@ -486,3 +482,6 @@ End Code
     }
 
 </script>
+<style>
+* { font-size:12px }
+</style>

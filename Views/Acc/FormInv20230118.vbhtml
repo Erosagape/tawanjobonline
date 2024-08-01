@@ -162,7 +162,7 @@ End Code
             <td></td>
             <td><label id=""></label></td>
 
-            <td><label>Reference No.</label></td>
+            <td><label >Reference No.</label></td>
             <td>:</td>
             <td><label id="ref"></label></td>
         </tr>
@@ -243,7 +243,7 @@ End Code
             <td>:</td>
             <td><label id=""></label></td>
         </tr>
-
+      
     </tbody>
 </table>
 
@@ -251,16 +251,16 @@ End Code
     <thead>
         <tr class="upperLine underLine">
             <th class="bold align-top underLine" rowspan="2">DESCRIPTION</th>
-            @*<th id="insouce" class="center bold underLine" colspan="6">IN SOURCE CURRENCY</th>*@
+            <th id="insouce" class="center bold underLine" colspan="6">IN SOURCE CURRENCY</th>
             <th class="center bold underLine" colspan="3">AMOUNT IN THB</th>
         </tr>
         <tr class="upperLine">
-            @*<th class="center bold underLine">W/T</th>
-        <th class="center bold underLine">QTYs</th>
-        <th class="center bold underLine">UNIT</th>
-        <th class="center bold underLine">Curr.</th>
-        <th class="center bold underLine">Exc.</th>
-        <th class="center bold underLine">@@ UNIT</th>*@
+            <th class="center bold underLine">W/T</th>
+            <th class="center bold underLine">QTYs</th>
+            <th class="center bold underLine">UNIT</th>
+            <th class="center bold underLine">Curr.</th>
+            <th class="center bold underLine">Exc.</th>
+            <th class="center bold underLine">@@ UNIT</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
@@ -342,45 +342,40 @@ End Code
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </div>
 <div>
-    <br />
+<br/>
     <label id="remark"></label>
 </div>
 <br>
 <table class="table" style="width:100%">
     <tr>
-        <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Prepared By </td>
+	<td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Prepared By </td>
         <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
-        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
+        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>       
     </tr>
     <tr>
-        <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
+	<td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
         <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /> _________________________________________</td>
         <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /> _________________________________________</td>
-
+        
     </tr>
     <tr>
-        <td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
+	<td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-
+        
     </tr>
 </table>
 <br>
-Please make payment by crossed cheque with "A/C PAYEE ONLY" TO BOP EXPRESS CO.,LTD.
-<br />
-Or bank transfer to account "BOP EXPRESS CO.,LTD."
-<br />
-A/C No.466-1-07285-2 Bank: TMBThanachart Bank
-<br />
-A/C No.354-2-54700-7 Bank: Kasikorn Bank,Laemchabang Branch.
-<br />
+Please make payment by crossed cheque with "A/C PAYEE ONLY" TO BOP EXPRESS CO.,LTD.<br/>
+Or bank transfer to account "BOP EXPRESS CO.,LTD."<br/>
+A/C No.466-1-07285-2 Bank: TMB BANK PUBLIC COMPANY LIMITED Sriracha Branch.<br/>
+A/C No.354-2-54700-7 Bank: Kasikorn Bank,Laemchabang Branch.<br/>
+A/C No.491-1-13902-0 Bank: Krungsri Bank,Laemchabang Branch.<br/>
+A/C No.653-290641-9  Bank: Siam Commercial Bank,Laemchabang Branch.<br/>
 <br>
-REMARK
-<br>
-1.if the description on this invoice is incorrect. Please contact our office within 7 day otherwise no correction
-<br>
-2.Interest rate of 0.75% per month will be charged on all overdue accounts.
-<br>
+REMARK<br>
+1.if the description on this invoice is incorrect. Please contact our office within 7 day otherwise no correction<br>
+2.Interest rate of 0.75% per month will be charged on all overdue accounts. <br>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
@@ -410,7 +405,7 @@ REMARK
                 $("#dueDate").text(ShowDate(h.DueDate));
                 $("#id").text(h.BillToCustCode);
 	        });
-
+           
             $("#invoiceNo").text(h.DocNo);
             $("#invoiceDate").text(ShowDate(h.DocDate));
             $("#currency").text(h.CurrencyCode);
@@ -455,7 +450,7 @@ REMARK
             $("#hawb").text(j.HAWB);
             $("#mawb").text(j.MAWB);
             $("#commodity").text(j.InvProduct);
-
+            
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
             $("#totpkg").text(j.TotalQty + " PACKAGE");
             $("#newBlNo").text(j.BookingNo);
@@ -472,7 +467,7 @@ REMARK
             $("#ref").text(j.CustRefNO);
             $('#blno').text(j.BLNo);
             $("#qno").text(j.QNo);
-
+            
 
             //ShowCustomerEN(path, j.CustCode, j.CustBranch, '#shipper');
             //ShowCustomerEN(path, j.Consigneecode,'0000', '#consignee');
@@ -496,12 +491,12 @@ REMARK
             for (let row of d) {
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + '</td>';
-                //html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                //html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
-                //html += '            <td class="right">' + row.QtyUnit+'</td>';
-                //html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                //html += '            <td class="right">' + ShowNumber(row.ExchangeRate,4) + '</td>';
-                //html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice,2) + '</td>';
+                html += '            <td class="right">' + row.Rate50Tavi + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
+                html += '            <td class="right">' + row.QtyUnit+'</td>';
+                html += '            <td class="right">' + row.CurrencyCode + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.ExchangeRate,4) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice,2) + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt,2):''):'') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance &&row.AmtVat>0?ShowNumber(row.Amt,2) : '') + '</td>';
@@ -536,12 +531,12 @@ REMARK
             for (let i = 1; i <= blankRows; i++) {
                 html += '        <tr>';
                 html += '            <td><br/></td>';
-                //html += '            <td class="right"></td>';
-                //html += '            <td class="right"></td>';
-                //html += '            <td class="center"></td>';
-                //html += '            <td class="right"></td>';
-                //html += '            <td class="right"></td>';
-                //html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="center"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
+                html += '            <td class="right"></td>';
                 html += '            <td class="right"></td>';
                 html += '            <td class="right"></td>';
                 html += '            <td class="right"></td>';

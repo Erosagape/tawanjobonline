@@ -299,7 +299,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace2">Loading:</label>
+                <label id="lblPlace2">Delivery:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtPlace2" class="form-control" />
@@ -1050,7 +1050,7 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompany(path, '#tbCust','#frmSearchCust', ReadCustomer);
+                SetGridCompanyByGroup(path, '#tbCust', 'NOTIFY_PARTY', '#frmSearchCust', ReadCustomer);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -1374,7 +1374,6 @@ End Code
         $('#txtTotalTripC').val(countC);
     }
     function ReadContainer(dr) {
-        sortData(dr,'ItemNo','asc');
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
@@ -2089,8 +2088,7 @@ End Code
         $('#btnExpense2').attr('disabled', 'disabled');
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            //$.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
-		$.get(path + 'Acc/GetPayment?Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+            $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     $('#txtCTN_NO').attr('disabled', 'disabled');
                     let tb = $('#tbPayment').DataTable({

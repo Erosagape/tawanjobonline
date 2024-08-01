@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     ViewBag.Title = "Advance Information"
 End Code
 <div class="panel-body">
@@ -20,7 +19,7 @@ End Code
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
-                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('advance')" />
+                    <input type="button"  id="btnSearchDoc" class="btn btn-default" value="..." onclick="SearchData('advance')" />
                 </div>
             </div>
             <div class="col-sm-3">
@@ -563,6 +562,7 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
     let serv = []; //must be array of object
     let hdr = {}; //simple object
@@ -571,8 +571,8 @@ End Code
     let isjobmode = false;
     let chkmode = false;
     let jt = '';
+    let sb = '';
     //$(document).ready(function () {
-    SetLOVs();
     SetEvents();
     SetEnterToTab();
     CheckParam();
@@ -586,6 +586,13 @@ End Code
         return;
     }
     function CheckParam() {
+	jt=getQueryString('JobType');
+	sb=getQueryString('ShipBy');
+        if(userGroup!=='S')
+        {
+	  $('#btnSearchDoc').attr('disabled','disabled');
+        }
+        SetLOVs();
         ClearHeader();
         //read query string parameters
         let br = getQueryString('BranchCode');
@@ -633,10 +640,9 @@ End Code
             $('#cboJobType').attr('disabled', 'disabled');
             $('#cboShipBy').attr('disabled', 'disabled');
 
-            $('#txtAdvBy').val(user);
+            $('#txtAdvBy').val(user);           
             ShowUser(path, $('#txtAdvBy').val(), '#txtAdvName');
-
-            $('#txtAdvBy').focus();
+            $('#txtReqBy').val(user);           
         }
     }
     function SetEnterToTab() {
@@ -672,6 +678,7 @@ End Code
         }
         $('#txtAdv' + id.substr(3)).val(val);
         $('#txtAdv' + id.substr(3)).removeAttr('disabled');
+	SaveHeader();
     }
     function SetEvents() {
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
@@ -1240,11 +1247,11 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'JOB_TYPE=#cboJobType';
-        lists += ',SHIP_BY=#cboShipBy';
-        lists += ',ADV_STATUS=#cboDocStatus';
+        let lists = 'JOB_TYPE=#cboJobType|' + jt;
+        lists += ',SHIP_BY=#cboShipBy|' + sb;
+        lists += ',ADV_STATUS=#cboDocStatus|01';
         lists += ',ADV_STATUS=#cboStatus|';
-        lists += ',ADV_TYPE=#cboAdvType';
+        lists += ',ADV_TYPE=#cboAdvType|01';
 
         loadCombos(path, lists);
         loadServiceGroup(path, '#cboSTCode',true);
@@ -1341,7 +1348,6 @@ End Code
                 }
             }
         }
-if(job!=='') {
         if ($('#txtCustCode').val() == '') {
             ShowMessage('Please choose customer first',true);
             $('#txtCustCode').focus();
@@ -1367,7 +1373,6 @@ if(job!=='') {
             $('#cboShipBy').focus();
             return false;
         }
-}
         if ($('#cboAdvType').val() == 0) {
             ShowMessage('Please select type of advance',true);
             $('#cboAdvType').focus();
@@ -1637,7 +1642,7 @@ if(job!=='') {
         $('#txtAdvDate').val(GetToday());
         $('#txtPayChqDate').val(GetToday());
         $('#txtAdvBy').val(user);
-        $('#txtReqBy').val('');
+        $('#txtReqBy').val(user);
         $('#txtJNo').val('');
         $('#txtContainerNo').val('');
         $('#txtPayTo').val('');
@@ -1691,7 +1696,7 @@ if(job!=='') {
         $('#cboDocStatus').val('01');
 
         ShowUser(path, $('#txtAdvBy').val(), '#txtAdvName');
-        ShowUser(path, '', '#txtReqName');
+        ShowUser(path, $('#txtReqBy').val(), '#txtReqName');
 
         $('#chkApprove').removeAttr('disabled');
         $('#chkCancel').removeAttr('disabled');
@@ -1721,6 +1726,10 @@ if(job!=='') {
         if (userRights.indexOf('P') >= 0) {
             $('#btnPrint').removeAttr('disabled');
         }
+	    if(userGroup!=='S') {
+		$('#txtAdvBy').attr('readonly','readonly');
+		$('#btnBrowseEmp1').attr('disabled','disabled');
+            }
     }
     function SaveDetail() {
 
@@ -1757,44 +1766,18 @@ if(job!=='') {
                 return;
             }*/
             let jsonString = JSON.stringify({ data: obj });
-            if (obj.STCode == '') {
-                $.ajax({
-               		url: "@Url.Action("SaveAdvanceDetail", "Adv")",
-               		type: "POST",
-                	contentType: "application/json",
-                	data: jsonString,
-                	success: function (response) {
-                    		ShowMessage(response.result.msg);
-                    		ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
-                	}
-                });
-            } else {
-                $.get(path + 'JobOrder/getjobsql?Branch=' +  getQueryString('BranchCode')+ '&jno=' + $('#txtForJNo').val(), (r) => {
-            	if (r.job.data.length > 0) {
-                	if(r.job.data[0].TotalContainer){
-                        $.ajax({
-               			 url: "@Url.Action("SaveAdvanceDetail", "Adv")",
-               			 type: "POST",
-                		contentType: "application/json",
-                		data: jsonString,
-                		success: function (response) {
-                    			ShowMessage(response.result.msg);
-                    			ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
-                		}
-            			});
-                    } else {
-                        ShowMessage('Total CTN Not found,Cannot save', true);
-                    }
-                } else {
-                    ShowMessage('ไม่เจอเลขจ๊อบ', true);
-                    }
-                });
-            }
-
-
-
+            //ShowMessage(jsonString);
+            $.ajax({
+                url: "@Url.Action("SaveAdvanceDetail", "Adv")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonString,
+                success: function (response) {
+                    ShowMessage(response.result.msg);
+                    ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
+                }
+            });
             return;
-
         }
         ShowMessage('No data to Save',true);
     }
@@ -1968,10 +1951,10 @@ if(job!=='') {
             $('#txtVatType').val(dt.IsChargeVAT);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Rate50Tavi);
-            $('#txtAMT').val(CDbl(dt.AdvAmount,3));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
-            $('#txtWHT').val(CDbl(dt.Charge50Tavi,3));
-            $('#txtNET').val(CDbl(dt.AdvNet,3));
+            $('#txtAMT').val(CDbl(dt.AdvAmount,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Charge50Tavi,2));
+            $('#txtNET').val(CDbl(dt.AdvNet,2));
             $('#txtVenCode').val(dt.VenCode);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate > 0 ? true : false);
             $('#txtCurrencyCode').val(dt.CurrencyCode);
@@ -2217,9 +2200,9 @@ if(job!=='') {
     function GetParam() {
         let strParam = '?Status=0,1,2,3,4,5,6,7';
         strParam += '&Branch=' + $('#txtBranchCode').val();
-       	if($('#cboJobType').val()!=='00') strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
-	if($('#cboShipBy').val()!=='00') strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
-        if($('#txtCustCode').val()!=='') strParam += '&CustCode=' + $('#txtCustCode').val();
+        strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
+        strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
+        strParam += '&CustCode=' + $('#txtCustCode').val();
         return strParam;
     }
     function ShowCaption() {
@@ -2293,6 +2276,7 @@ if(job!=='') {
     function ReadVender2(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayTo').val(dt.TName);
+	$('#txtTRemark').val(dt.ContactAcc);
         $('#txtPayChqTo').val(dt.TName);
         $('#txtPayChqTo').focus();
     }
@@ -2318,6 +2302,7 @@ if(job!=='') {
         $('#txtReqName').val(dt.PreName + dt.Name);
     }
     function ReadReqBy(dt) {
+	$('#txtTRemark').val(dt.MobilePhone);
         $('#txtReqBy').val(dt.UserID);
         $('#txtReqName').val(dt.TName);
     }
@@ -2478,7 +2463,7 @@ if(job!=='') {
         let vat = CDbl($('#txtVAT').val(),3);
         let wht = CDbl($('#txtWHT').val(), 3);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),3));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
         $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {

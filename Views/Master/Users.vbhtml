@@ -41,10 +41,10 @@ End Code
                 <br />
                 <div style="display:flex">
                     <div style="flex:1">
-                        <input type="text" id="txtUserUpline" class="form-control" tabIndex="7">
+                        <input type="text" id="txtSupervisor" class="form-control" tabIndex="7">
                     </div>
                     <div>
-                        <input type="button" value="..." class="btn btn-default" onclick="SearchData('sup')" />
+                        <input id="btnUpline" type="button" value="..." class="btn btn-default" onclick="SearchData('sup')" />
                     </div>
                 </div>
             </div>
@@ -130,6 +130,7 @@ End Code
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let row = {};
+    let userGroup='@ViewBag.UserGroup';
     //$(document).ready(function () {
         SetEvents();
         SetEnterToTab();
@@ -177,6 +178,9 @@ End Code
         $('#txtUserID').keydown(function (event) {
             if (event.which == 13) {
                 var code = $('#txtUserID').val();
+		if(userGroup=='V') {
+			code='@ViewBag.UserUpline' + '-' + code;
+		}
                 $('#txtUPassword').val('');
                 $('#txtTName').val('');
                 $('#txtDeptID').val('');
@@ -185,7 +189,7 @@ End Code
                 $('#txtUPosition').val('');
                 $('#txtEMail').val('');
                 $('#txtMobilePhone').val('');
-                $('#txtUserUpline').val('');
+                $('#txtSupervisor').val('');
                 $('#txtUsedLanguage').val('');
                 $('#txtMaxRateDisc').val(0);
                 $('#txtGLAccountCode').val('');
@@ -199,10 +203,18 @@ End Code
                 SetGridAccountCode(path, '#tbAccount', '#frmSearchAccount','' ,ReadAccount);
                 break;
             case 'sup':
-                SetGridUser(path, '#tbSup', '#frmSearchSup', ReadSup);
+		if(userGroup=='V') {
+                     SetGridUserByUpline(path, '#tbSup','@ViewBag.UserUpline','#frmSearchSup', ReadSup);
+		     break;
+		}
+                SetGridUser(path, '#tbSup','#frmSearchSup', ReadSup);
                 break;
             case 'user':
-                SetGridUser(path, '#tbUser', '#frmSearchUser', ReadUser);
+		if(userGroup=='V') {
+                     SetGridUserByUpline(path, '#tbUser','@ViewBag.UserUpline','#frmSearchUser', ReadUser);
+		     break;
+		}
+                SetGridUser(path, '#tbUser','#frmSearchUser', ReadUser);
                 break;
         }
     }
@@ -210,17 +222,18 @@ End Code
         $('#txtGLAccountCode').val(dt.AccCode);
     }
     function ReadSup(dt) {
-        $('#txtUserUpline').val(dt.UserID);
-        $('#txtUserUpline').focus();
+        $('#txtSupervisor').val(dt.UserID);
+        $('#txtSupervisor').focus();
     }
     function ReadUser(dr) {
         if (dr.UserID != undefined) {
-            if(dr.UPassword=='ลาออกแล้ว') {
-		alert('This user is not active anymore');
-		return;
-            }
-            row = dr;	    
-            $('#txtUserID').val(dr.UserID);
+            row = dr;
+            let u=dr.UserID;
+	    if(userGroup=='V') {		
+		$('#txtUserID').val(dr.UserID.replace('@ViewBag.UserUpline'+'-',''));
+	    } else {
+	        $('#txtUserID').val(dr.UserID);
+	    }
             $('#txtUPassword').val(dr.UPassword);
             $('#txtTName').val(dr.TName);
             $('#txtEName').val(dr.EName);
@@ -228,7 +241,7 @@ End Code
             $('#txtUPosition').val(CCode(dr.UPosition));
             $('#txtEMail').val(dr.EMail);
             $('#txtMobilePhone').val(dr.MobilePhone);
-            $('#txtUserUpline').val(dr.UserUpline);
+            $('#txtSupervisor').val(dr.UserUpline);
             $('#txtUsedLanguage').val(dr.UsedLanguage);
             $('#txtDeptID').val(dr.DeptID);
             $('#txtGLAccountCode').val(dr.GLAccountCode);
@@ -241,7 +254,7 @@ End Code
                 $('#btnDel').attr('disabled', 'disabled');
             }
 
-            $.get(path + 'Config/GetUserRoleDetail?ID=' + dr.UserID, function (r) {
+            $.get(path + 'Config/GetUserRoleDetail?ID=' + u, function (r) {
                 let tb=$('#tbRole').dataTable({
                     data: r.userrole.detail,
                     columns: [
@@ -253,7 +266,7 @@ End Code
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbRole');
             });
-            $.get(path + 'Config/GetUserAuth?Code=' + dr.UserID, function (r) {
+            $.get(path + 'Config/GetUserAuth?Code=' + u, function (r) {
                 let tb=$('#tbAuthor').dataTable({
                     data: r.userauth.data,
                     columns: [
@@ -275,15 +288,20 @@ End Code
     function ClearData() {
         $.get(path + 'master/getnewuser', function (r) {
             if (r.user.data != undefined) {
-                ReadUser(r.user.data);
+                ReadUser(r.user.data);		
+		if(userGroup=='V') {
+                    $('#txtSupervisor').val('@ViewBag.UserUpline');
+                    $('#txtSupervisor').attr('disabled','disabled');
+                    $('#btnUpline').attr('disabled','disabled');
+		}
                 $('#txtUserID').focus();
                 return;
             }
         });
     }
-    function GetDataSave() {
+    function GetDataSave() {	
         var dr = {
-            UserID: $('#txtUserID').val().trim(),
+            UserID: (userGroup=='S' ? $('#txtUserID').val().trim() : '@ViewBag.UserUpline' + '-' + $('#txtUserID').val().trim()),
             UPassword: $('#txtUPassword').val(),
             TName: $('#txtTName').val(),
             EName: $('#txtEName').val(),
@@ -301,7 +319,7 @@ End Code
             IsAlertByAgent: row.IsAlertByAgent,
             IsAlertByEMail: row.IsAlertByEMail,
             IsAlertBySMS: row.IsAlertBySMS,
-            UserUpline: $('#txtUserUpline').val(),
+            UserUpline: $('#txtSupervisor').val(),
             GLAccountCode: $('#txtGLAccountCode').val(),
             UsedLanguage: $('#txtUsedLanguage').val(),
             DMailAccount: row.DMailAccount,
@@ -334,8 +352,11 @@ End Code
                     data: jsonText,
                     success: function (response) {
                         if (response.result.data!=null) {
-                            $('#txtUserID').val(response.result.data);
-                            $('#txtUserID').focus();
+                            //$('#txtUserID').val(response.result.data);
+                            if(userGroup=='V') {
+                                SaveUserRole(obj.UserID,'VEND');
+		            }
+		            $('#txtUserID').focus();
                         }
                         ShowMessage(response.result.msg);
                     },
@@ -352,35 +373,35 @@ End Code
         var code = $('#txtUserID').val();
         ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
-	    $('#txtUPassword').val('ลาออกแล้ว');
-	    var obj = GetDataSave();
-            if (obj.UserID == '') {
-                ShowMessage('Please input code',true);
-                return;
-            }
-            if (obj.TName == '') {
-                ShowMessage('Please input name',true);
-                return;
-            }
-                var jsonText = JSON.stringify({ data: obj });
-                //ShowMessage(jsonText);
-                $.ajax({
-                    url: "@Url.Action("SetUser", "Master")",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: jsonText,
-                    success: function (response) {
-                        if (response.result.data!=null) {
-                            $('#txtUserID').val(response.result.data);
-                            $('#txtUserID').focus();
-                        }
-                        ShowMessage(response.result.msg);
-                    },
-                    error: function (e) {
-                        ShowMessage(e,true);
-                    }
-                });
+            $.get(path + 'master/deluser?code=' + code, function (r) {
+                ShowMessage(r.user.result);
+                ClearData();
+            });
         });
     }
-
+    function SaveUserRole(id,role) {
+        var obj={			
+            RoleID: role,
+            UserID: id
+	    };
+        if (obj.RoleID != "" && obj.UserID != "") {
+                var jsonText = JSON.stringify({ data: obj });
+                //ShowMessage(jsonText);
+                var result =$.ajax({
+                    url: "@Url.Action("SetUserRoleDetail", "Config")",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: jsonText
+                });
+                result.done(function (response) {
+                    
+                    ShowMessage(response.result.msg);
+                });
+                result.fail(function (err) {
+                    ShowMessage(err,true);
+                });
+        } else {
+            ShowMessage('No data to Save',true);
+        }
+    }
 </script>

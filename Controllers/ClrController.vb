@@ -480,15 +480,24 @@ Namespace Controllers
                         Case "COST"
                             tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsExpense=1) "
                         Case "SERV"
-                            tSqlW &= " AND (p.ChargeCode + d.DocNo + '#0') NOT IN(SELECT x.SICode+x.VenderBillingNo FROM Job_ClearDetail x INNER JOIN Job_ClearHeader y ON x.BranchCode=y.BranchCode AND x.ClrNo=y.ClrNo WHERE y.DocStatus<>99 AND ISNULL(x.VenderBillingNo,'')<>'') "
+                            tSqlW &= " AND (p.ChargeCode + d.DocNo + '#0') NOT IN(
+SELECT x.SICode+x.VenderBillingNo 
+FROM Job_ClearDetail x INNER JOIN Job_ClearHeader y ON x.BranchCode=y.BranchCode AND x.ClrNo=y.ClrNo 
+WHERE y.DocStatus<>99 AND ISNULL(x.VenderBillingNo,'')<>'') "
                             isForCharge = True
                     End Select
                 End If
                 If Not IsNothing(Request.QueryString("JobNo")) Then
                     tSqlW &= " AND d.ForJNo='" & Request.QueryString("JobNo") & "' "
                 End If
+                If Not IsNothing(Request.QueryString("CustCode")) Then
+                    tSqlW &= " AND d.ForJNo in(select JNo from Job_Order where CustCode='" & Request.QueryString("CustCode") & "') "
+                End If
+                If Not IsNothing(Request.QueryString("ContainerNo")) Then
+                    tSqlW &= " AND h.RefNo='" & Request.QueryString("ContainerNo") & "' "
+                End If
                 If Not IsNothing(Request.QueryString("Vender")) Then
-                    tSqlW &= " AND h.VenCode IN(SELECT UserID FROM Mas_User WHERE DeptID='" & Request.QueryString("Vender") & "')"
+                    tSqlW &= " AND h.VenCode ='" & Request.QueryString("Vender") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlW &= " AND h.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
@@ -554,6 +563,15 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND c.DocStatus='" & Request.QueryString("Status") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("CustCode")) Then
+                    tSqlW &= " AND c.CustCode='" & Request.QueryString("CustCode") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("AdvBy")) Then
+                    tSqlW &= " AND c.AdvBy='" & Request.QueryString("AdvBy") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlW &= " AND a.VenCode='" & Request.QueryString("Vend") & "' "
                 End If
                 If Not IsNothing(Request.QueryString("AdvNo")) Then
                     tSqlW &= " AND c.AdvNo IN('" & Request.QueryString("AdvNo").ToString().Replace(",", "','") & "') "
@@ -636,17 +654,30 @@ Namespace Controllers
                 End If
 
                 Dim tSqlw As String = " WHERE ClrNo<>'' "
+                Dim tSqlD = ""
+                Dim Branch = ""
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                    Branch = Request.QueryString("Branch").ToString()
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ClrNo ='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlD &= String.Format("AND ClrNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-
+                If Not IsNothing(Request.QueryString("ClrBy")) Then
+                    tSqlw &= String.Format("AND ClrBy ='{0}' ", Request.QueryString("ClrBy").ToString)
+                    tSqlD &= String.Format("AND ClrBy ='{0}' ", Request.QueryString("ClrBy").ToString)
+                End If
                 Dim oData = New CClrHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-
-                Dim oDataD = New CClrDetail(GetSession("ConnJob")).GetData(tSqlw)
+                tSqlD = " WHERE ClrNo in(SELECT ClrNo from job_ClearHeader where BranchCode='" & Branch & "' " & tSqlD & ") "
+                If Not IsNothing(Request.QueryString("AdVNo")) Then
+                    tSqlD &= String.Format("AND AdvNO ='{0}' ", Request.QueryString("AdvNO").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    tSqlD &= String.Format("AND JobNo ='{0}' ", Request.QueryString("JobNo").ToString)
+                End If
+                Dim oDataD = New CClrDetail(GetSession("ConnJob")).GetData(tSqlD)
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
 
                 json = "{""clr"":{""header"":" & json & ",""detail"":" & jsonD & "}}"

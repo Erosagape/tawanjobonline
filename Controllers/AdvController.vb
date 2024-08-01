@@ -7,6 +7,10 @@ Imports System.Net
 Namespace Controllers
     Public Class AdvController
         Inherits CController
+
+        Protected Overrides Sub Finalize()
+            MyBase.Finalize()
+        End Sub
         ' GET: Advance
         Function Index() As ActionResult
             Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateAdvStatus())
@@ -718,12 +722,31 @@ Namespace Controllers
                     Branch = Request.QueryString("BranchCode")
                 End If
                 Dim tSqlW As String = String.Format(" WHERE BranchCode='{0}'", Branch)
+                Dim tSqlD = ""
                 If Not IsNothing(Request.QueryString("AdvNo")) Then
                     tSqlW &= " AND AdvNo='" & Request.QueryString("AdvNo") & "'"
+                    tSqlD &= " AND AdvNo='" & Request.QueryString("AdvNo") & "'"
                 End If
-
+                If Not IsNothing(Request.QueryString("AdvBy")) Then
+                    tSqlW &= " AND AdvBy='" & Request.QueryString("AdvBy") & "'"
+                    tSqlD &= " AND AdvBy='" & Request.QueryString("AdvBy") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("ReqBy")) Then
+                    tSqlW &= " AND EmpCode='" & Request.QueryString("ReqBy") & "'"
+                    tSqlD &= " AND EmpCode='" & Request.QueryString("ReqBy") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("CustCode")) Then
+                    tSqlW &= " AND CustCode='" & Request.QueryString("CustCode") & "'"
+                    tSqlD &= " AND CustCode='" & Request.QueryString("CustCode") & "'"
+                End If
                 Dim oDataH = oAdvH.GetData(tSqlW)
-                Dim oDataD = oADVD.GetData(tSqlW)
+                If tSqlD <> "" Then
+                    tSqlD = " WHERE AdvNo in(SELECT AdvNo from Job_AdvHeader where BranchCode='" & Branch & "' " & tSqlD & ")"
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlD &= " AND VenCode='" & Request.QueryString("Vend") & "'"
+                End If
+                Dim oDataD = oADVD.GetData(tSqlD)
 
                 Dim jsonh As String = JsonConvert.SerializeObject(oDataH)
                 Dim jsond As String = JsonConvert.SerializeObject(oDataD)

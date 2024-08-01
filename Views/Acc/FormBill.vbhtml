@@ -17,6 +17,7 @@ End Code
 	display:none;
     }  
 </style>
+<div id="dvCopy"></div>
         <div style="display:flex;">
             <div style="flex:1;" class="text-left">
                 <p>
@@ -50,19 +51,17 @@ End Code
                     <th class="text-center" width="50" rowspan="2">NO</th>
                     <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
                     <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-                    <th class="text-center" width="130" rowspan="2">CUST INV..</th>
+                    <th class="text-center" width="130" rowspan="2">DECLARE NO.</th>
                     @*<th class="text-center" width="130" rowspan="2">JOB NO.</th>*@
-                    <th class="text-center" colspan="3">AMOUNT</th>
+                    <th class="text-center" colspan="2">AMOUNT</th>
                     <th class="text-center" width="60" rowspan="2">VAT</th>
                     <th class="text-center" colspan="2">W/H</th>
-                    <th class="text-center" width="80" rowspan="2">TOTAL AMOUNT</th>
-		    <th class="text-center" width="80" rowspan="2">PREPAID</th>
+                    <th class="text-center" width="80" rowspan="2">PREPAID</th>
                     <th class="text-center" width="100" rowspan="2">NET</th>
                 </tr>
                 <tr>
-                    <th class="text-center" width="50">ADVANCE</th>
-                    <th class="text-center" width="40">NONVAT</th>
-                    <th class="text-center" width="40">SERVICE</th>
+                    <th class="text-center" width="100">ADVANCE</th>
+                    <th class="text-center" width="90">SERVICE</th>
                     <th class="text-center" width="50">1%</th>
                     <th class="text-center" width="50">3%</th>
                 </tr>
@@ -74,23 +73,27 @@ End Code
                 <tr>
                     <td style="text-align:right" colspan="4">TOTAL</td>
                     <td style="text-align:right"><label id="lblSumAdv"></label></td>
-                    <td style="text-align:right"><label id="lblSumNonvat"></label></td>
                     <td style="text-align:right"><label id="lblSumService"></label></td>
                     <td style="text-align:right"><label id="lblSumVat"></label></td>
                     <td style="text-align:right"><label id="lblSumWh1"></label></td>
                     <td style="text-align:right"><label id="lblSumWh3"></label></td>
-		    <td style="text-align:right"><label id="lblSumAmount"></label></td>
                     <td style="text-align:right"><label id="lblSumPrepaid"></label></td>
                     <td style="text-align:right"><label id="lblBillTotal"></label></td>
                 </tr>
                 <tr style="background-color:lightblue">
-                    <th class="text-center" colspan="13"><label id="lblBillTotalEng"></label></th>
+                    <th class="text-center" colspan="11"><label id="lblBillTotalEng"></label></th>
                 </tr>
             </tfoot>
         </table>
 
         <div style="margin-top:60px">
             <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
+	   <p>
+		Please make payment by crossed cheque with "A/C PAYEE ONLY" TO BOP EXPRESS CO.,LTD.<br/>
+		Or bank transfer to account "BOP EXPRESS CO.,LTD."<br/>
+		A/C No.466-1-07285-2 Bank: TMBThanachart Bank<br/>
+		A/C No.354-2-54700-7 Bank: Kasikorn Bank,Laemchabang Branch.<br/>
+	     </p>
             <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME_EN</p>
             <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
             <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
@@ -114,13 +117,12 @@ End Code
         </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-    $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
-  let ans = confirm('OK to print Original or Cancel For Copy');
-        if (ans == true) {
-            $('#dvCopy').html('<b style="font-size:30px">ORIGINAL</b>');
-        } else {
-            $('#dvCopy').html('<b style="font-size:30px">COPY</b>');
-        }   
+    let ans = confirm('OK to print Original or Cancel For Copy');
+    if (ans == true) {
+        $('#dvCopy').html('<b>**ORIGINAL**</b>');
+    } else {
+        $('#dvCopy').html('<b>**COPY**</b>');
+    }    
     let branch = getQueryString('branch');
     let billno = getQueryString('code');
     $.get(path + 'acc/getbilling?branch=' + branch + '&code=' + billno, function (r) {
@@ -139,7 +141,7 @@ End Code
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :0' + data.customer[0][0].CustBranch);
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].Branch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
 }
@@ -147,7 +149,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
 if(Number(data.customer[0][0].Branch)>0) {
-        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :0' + data.customer[0][0].CustBranch);
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].Branch);
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
 }
@@ -158,58 +160,49 @@ if(Number(data.customer[0][0].Branch)>0) {
         if (data.detail.length > 0) {
             let total = 0;
             let serv = 0;
-            let nonvat = 0;
             let adv = 0;
             let vat = 0;
             let wh1 = 0;
             let wh3 = 0;
-	    let sumAmount = 0 ;
             let prepaid = 0;
             let dv = $('#tbDetail');
             let html = '';
-            let dtl=data.detail[0];
-sortData(dtl,'ItemNo','asc');
-            for (let dr of dtl) {
+            
+            for (let dr of data.detail[0]) {
+		let caltotal=Number(dr.AmtAdvance)+Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT)+Number(dr.AmtVAT)-Number(dr.AmtWH1)-Number(dr.AmtWH1)-Number(dr.TotalCustAdv);
                 html += '<tr>';
                 html += '<td>' + dr.ItemNo + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
               /*  html += '<td>' + dr.RefNo + '</td>';*/
-                html += '<td>' + (dr.CustInv?dr.CustInv:dr.CustInvList) + '</td>';
+                html += '<td>' + dr.DeclareNumber + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT), 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeVAT), 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
-                /*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3, 2) + '</td>';*/
-                html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet+dr.AmtWH1+dr.AmtWH3, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.TotalCustAdv, 2) + '</td>';
-		html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(caltotal, 2) + '</td>';
                 html += '</tr>';
 
-                total += Number(dr.TotalNet);
-                serv += Number(dr.AmtChargeVAT);
-                nonvat += Number(dr.AmtChargeNonVAT);
+                //total += Number(dr.TotalNet);
+                total += caltotal;
+                serv += Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
                 prepaid += Number(dr.TotalCustAdv);
-                wh1 += Number(dr.AmtWH1);
-                wh3 += Number(dr.AmtWH3);
-                //sumAmount += dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3;
-		sumAmount += dr.TotalNet+dr.AmtWH1+dr.AmtWH3;
+                wh1 += Number(ShowNumber(dr.AmtWH1, 2));
+                wh3 += Number(ShowNumber(dr.AmtWH3, 2));
             }
             dv.html(html);
             $('#lblSumAdv').text(ShowNumber(adv, 2));
-            $('#lblSumNonvat').text(ShowNumber(nonvat, 2));
             $('#lblSumService').text(ShowNumber(serv, 2));
             $('#lblSumVat').text(ShowNumber(vat, 2));
             $('#lblSumWh1').text(ShowNumber(wh1, 2));
             $('#lblSumWh3').text(ShowNumber(wh3, 2));
- 	    $('#lblSumAmount').text(ShowNumber(sumAmount , 2));
-            $('#lblSumPrepaid').text(ShowNumber(prepaid , 2));
+            $('#lblSumPrepaid').text(ShowNumber(prepaid, 2));
             $('#lblBillTotal').text(ShowNumber(total,2));
-            $('#lblBillTotalEng').text(CNumEng(total.toFixed(2)));
+            $('#lblBillTotalEng').text(CNumEng(total));
         }
     }
 </script>

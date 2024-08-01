@@ -175,9 +175,6 @@ End Code
                     <button class="btn btn-info" onclick="PrintData()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Data</b>
                     </button>
-                    <button class="btn btn-info" onclick="PrintCredit()">
-                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Credit Note</b>
-                    </button>
                 </div>
             </div>
             <div id="tabDetail" class="tab-pane fade">
@@ -466,7 +463,8 @@ End Code
         $('#btnAdd').hide();
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtVenCode').attr('disabled', 'disabled');
-        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+    let userUpline='@ViewBag.UserUpline';
+        $.get(path + 'Master/GetVender?Code=' + userUpline).done(function (r) {
             if (r.vender.data.length > 0) {
                 let dr = r.vender.data[0];
                 vend = dr.VenCode;
@@ -1278,8 +1276,6 @@ End Code
             $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
-            $('#txtIsTaxCharge').prop('checked', false);
-            $('#txtIs50Tavi').prop('checked', false);
             if (dt.IsTaxCharge == 1) {
                 $('#txtIsTaxCharge').prop('checked', true);
             }
@@ -1391,8 +1387,5 @@ End Code
     }
     function PrintData() {
         window.open(path + 'Acc/FormExpense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
-    }
-    function PrintCredit() {
-        window.open(path + 'Acc/Forminv?form=credit&BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
     }
 </script>

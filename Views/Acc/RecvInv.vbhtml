@@ -213,6 +213,7 @@ End Code
                                     <th class="all">Net</th>
                                 </tr>
                             </thead>
+			    <tbody></tbody>
                         </table>
                     </div>
                 </div>
@@ -277,6 +278,17 @@ End Code
     let dtl = [];
     let list = [];
     let docno = '';
+	 $('#tbHeader tbody').on('click', 'tr',function () {
+                if ($(this).hasClass('selected') == true) {
+                    $(this).removeClass('selected');
+                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                    RemoveData(data); //callback function from caller
+                    return;
+                }
+                $(this).addClass('selected');
+                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                AddData(data); //callback function from caller
+            });
     //$(document).ready(function () {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
@@ -422,7 +434,7 @@ End Code
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
         }
-        $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getinvforreceive?show=fullpay&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbSummary tbody').on('click', 'tr', function () { });
                 $('#tbHeader').DataTable().clear().draw();
@@ -494,7 +506,12 @@ End Code
                 }
             });
 
-            let h = r.invdetail.data;
+            let h = r.invdetail.data.filter(r=>r.LastReceiptNo&&(!r.LastControlNo));
+	    for(row of h){
+		row.Amt = row.Amt + row.ReceivedAmt;
+		row.Net = row.Net + row.ReceivedNet;
+	    }
+	    
             let tb2=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -506,7 +523,7 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "ReceiptNo", title: "Receipt No" },
+                    { data: "LastReceiptNo", title: "Receipt No" },
                     { data: "SICode", title: "Code" },
                     { data: "SDescription", title: "Expenses" },
                     { data: "AmtAdvance", title: "Advance",
@@ -545,17 +562,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody tr').on('click', function () {
-                if ($(this).hasClass('selected') == true) {
-                    $(this).removeClass('selected');
-                    let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
-                    return;
-                }
-                $(this).addClass('selected');
-                let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                AddData(data); //callback function from caller
-            });
+           
         });
     }
     function SetStatusInput(d, bl, ctl) {

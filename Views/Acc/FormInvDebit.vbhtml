@@ -66,11 +66,10 @@ End Code
 </style>
 <div class="center bold">
     <br />
-    <label style="font-size:16px">INVOICE / ใบแจ้งหนี้</label>
-<br/>
+    <label style="font-size:16px">DEBIT NOTE</label>
 </div>
 
-<div style="display:flex;width:98%;margin-top:5px;">
+<div style="display:flex;width:98%">
     <div style="flex:60%" class="curveBorder">
         <table class="table table-borderless">
             <tbody>
@@ -161,9 +160,9 @@ End Code
             <td><label id="destinyLbl">POL/ POD</label></td>
             <td>:</td>
             <td>
-                <label id="origin"></label> TO
                 <label id="port"></label>
-                <label id="destiny"></label>
+                <label id="origin"></label>
+                to <label id="destiny"></label>
             </td>
 
 
@@ -328,15 +327,12 @@ End Code
 <br>
 
 <p>
-   Remark:<br/>
-   <label id="remark"></label><br/>
-   <label id="remark2"></label><br/>
-   <label id="remark3"></label><br/>
+    Remark:
+    <label id="remark"></label>
 </p>
-@*
 <br />
 <br />
-<table class="table" style="display:none;width:100%">
+<table class="table" style="width:100%">
     <tr>
         <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
 
@@ -356,20 +352,74 @@ End Code
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
     </tr>
 </table>
-*@
+<b>
+    <br />
+    1. PLEASE ADVISE YOUR CONFIRMATION BEFORE CLEAR BALANCE
+    <br />
+    2. PLEASE PAY TO OUR BANK:
+    <br />
+</b>
+BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td colspan="2">ACCOUNT NAME </td>
+            <td>: UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.</td>
+        </tr>
+        <tr>
+            <td colspan="2">BANK NAME & ADDRESS</td>
+            <td>KASITKORN BANK PUBLIC CO.,LTD. HEAD OFFICE</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>RATBURANA ROAD BANKOK 10140 THAILAND</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>CABLE ADDRESS "FARMERS BANGKOK"</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>TELEX NO TH 82542 TH 84798</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>CONTACT : OVERSEAS MONEY TRANSFER DIVSION</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>TEL : 02-4701444,02-4701429-40</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td>TANANIN PHETBURI TATANAI BRANCH</td>
+        </tr>
+        <tr>
+            <td style="color:transparent">___________</td>
+            <td style="">ACCOUNT No. </td>
+            <td>028-109-641-9</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>SWIFT BANK CODE </td>
+            <td>: KASITHBK</td>
+        </tr>
+    </tbody>
+
+</table>
+
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
 
-    $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
-  let ans = confirm('OK to print Original or Cancel For Copy');
-        if (ans == true) {
-            $('#dvCopy').html('<b style="font-size:30px">ORIGINAL</b>');
-        } else {
-            $('#dvCopy').html('<b style="font-size:30px">COPY</b>');
-        }
+    if(confirm("show company header?")==false){
+	    $('#imgLogo').css('display','none');
+	    $('#divCompany').css('display','none');
+	    $('#dvCompAddr').css('display','none');
+	    $('#dvCompLogo').css('height','90px');
+    }
 
     $.get(path + 'Acc/GetInvoice?Branch=' + branch + '&Code=' + code).done(function (r) {
         if (r.invoice.header.length > 0) {
@@ -403,20 +453,16 @@ End Code
             //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
-	    $("#remark").text(h.Remark1);
-	    $("#remark2").text(h.Remark2);
-	    $("#remark3").text(h.Remark3);
+            $("#remark").text(h.Remark1);
             if (j.JobType == 1) {
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#port');
-                ShowCountry(path, j.InvCountry, '#origin');
-                ShowCountry(path, j.InvFCountry, '#destiny');
-                
+                ShowCountry(path, j.InvFCountry, '#origin');
+                ShowCountry(path, j.InvCountry, '#destiny');
             } else {
 
                 ShowInterPort(path, j.InvCountry, j.InvInterPort, '#port');
-                ShowCountry(path, j.InvFCountry, '#origin');
-                ShowCountry(path, j.InvCountry, '#destiny');
-
+                ShowCountry(path, j.InvFCountry, '#destiny');
+                ShowCountry(path, j.InvCountry, '#origin');
             }
             $("#jobNo").text(j.JNo);
             $("#vessel").text(j.VesselName);

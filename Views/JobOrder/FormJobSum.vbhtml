@@ -54,7 +54,7 @@ End Code
 </div>
 <div style="display: flex;">
     <div style="flex:70%"></div>
-    <div id="salesbyLbl" style="flex:10%">CS by</div>
+    <div id="salesbyLbl" style="flex:10%">Sals by</div>
     <div id="salesby" style="flex:20%"></div>
 </div>
 <table class="table table-borderless">
@@ -73,8 +73,8 @@ End Code
             <td>:</td>
             <td id="BLNo"></td>
         </tr>
-        @*<tr>
-            <td id="agentLbl">Vender</td>
+        <tr>
+            <td id="agentLbl">Agent</td>
             <td>:</td>
             <td id="agent"></td>
 
@@ -85,9 +85,9 @@ End Code
             <td></td>
             <td></td>
             <td></td>
-        </tr>*@
+        </tr>
         <tr>
-            <td id="shipperLbl">Importer/Exporter</td>
+            <td id="shipperLbl">Shipper</td>
             <td>:</td>
             <td id="shipper"></td>
 
@@ -102,18 +102,18 @@ End Code
         <tr>
             <td id="consigneeNameLbl">Consignee</td>
             <td>:</td>
-            <td id="consigneeName" colspan="4"></td>
+            <td id="consigneeName"></td>
 
-            <td id="etdLbl">ETD</td>
+            <td id="termLbl">Term</td>
             <td>:</td>
-            <td id="etd"></td>
+            <td id="term"></td>
 
-            <td id="etaLbl">ETA</td>
-            <td>:</td>
-            <td id="eta"></td>
+            <td></td>
+            <td></td>
+            <td></td>
 
         </tr>
-        @*<tr>
+        <tr>
             <td id="shippingAgentLbl">Shipping Agent</td>
             <td>:</td>
             <td id="shippingAgent"></td>
@@ -151,32 +151,29 @@ End Code
             <td id="volumeLbl">Volume</td>
             <td>:</td>
             <td id="volume"></td>
-        </tr>*@
-    <tr>
-        <td id="remarkLbl">REMARK</td>
-        <td>:</td>
-        <td id="remark" colspan="4"></td>
+        </tr>
+        <tr>
+            <td id="remarkLbl">REMARK</td>
+            <td>:</td>
+            <td id="remark"></td>
 
-        @*<td id="sellUSDTHBLbl">Selling USD:THB</td>
-        <td>:</td>
-        <td id="sellUSDTHB"></td>
+            <td id="sellUSDTHBLbl">Selling USD:THB</td>
+            <td>:</td>
+            <td id="sellUSDTHB"></td>
 
-        <td id="buyUSDTHBLbl">Buying USD:THB</td>
-        <td>:</td>
-        <td id="buyUSDTHB"></td>*@
-        <td id="volumeLbl">Volume</td>
-        <td>:</td>
-        <td id="volume"></td>
-    </tr>
+            <td id="buyUSDTHBLbl">Buying USD:THB</td>
+            <td>:</td>
+            <td id="buyUSDTHB"></td>
+        </tr>
     </tbody>
 </table>
 
 <table class="table" border="1" style="width:100%;border-collapse:collapse;border-width:thin;">
     <tr>
         <td rowspan="2" style="width:30%">Description</td>
-        @*<td class="center" rowspan="2" style="width:8em">Customer Pay</td>*@
+        <td class="center" rowspan="2" style="width:8em">Customer Pay</td>
         @*<td class="center" rowspan="2">Settle with</td>*@
-        <td class="center" colspan="9">TOTAL REVENUE</td>
+        <td class="center" colspan="8">TOTAL REVENUE</td>
     </tr>
     <tr>
         <td class="center">Unit price</td>
@@ -185,7 +182,6 @@ End Code
         <td class="center">Amount</td>
         <td class="center">VAT</td>
         <td class="center">WHD</td>
-	<td class="center">RATE</td>
         <td class="center">Advance</td>
         <td class="center">Revenue</td>
         <td class="center">Total</td>
@@ -197,9 +193,9 @@ End Code
 <table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
     <tr>
         <td rowspan="2">Description</td>
-        @*<td class="center" rowspan="2" style="width:8em">Company Pay</td>*@
+        <td class="center" rowspan="2" style="width:8em">Company Pay</td>
         @*<td class="center" rowspan="2">Settle with</td>*@
-        <td class="center" colspan="9">TOTAL COST</td>
+        <td class="center" colspan="8">TOTAL COST</td>
     </tr>
     <tr>
         <td class="center">Unit price</td>
@@ -208,7 +204,6 @@ End Code
         <td class="center">Amount</td>
         <td class="center">VAT</td>
         <td class="center">WHD</td>
-	<td class="center">RATE</td>
         <td class="center">Advance</td>
         <td class="center">Cost</td>
         <td class="center">Total</td>
@@ -216,8 +211,7 @@ End Code
     <tbody id="dt2">
     </tbody>
 </table>
-
-<div class="row">
+@*<div class="row">
     <div class="col-8"></div>
     <div class="col-4">
         <p class="right bold" style="border: 1px solid black; padding:5px">
@@ -225,7 +219,7 @@ End Code
             <label id="netAmount"></label>
         </p>
     </div>
-</div>
+</div>*@
 <div class="row">
     <div class="col-8"></div>
     <div class="col-4">
@@ -235,71 +229,14 @@ End Code
         </p>
     </div>
 </div>
-<div class="row">
-    <div class="col-8" id="dvLog">
-    </div>
-</div>
-
-<br />
-<table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
-    <tr>
-	<th>Adv No.</th>
-        <th>Description</th>
-        <th>Doc Status</th>
-        <th>Net Payment</th>
-    </tr>
-
-    <tbody id="dt3">
-    </tbody>
-    
-</table>
 <script src="~/Scripts/Func/reports.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString('BranchCode');
     let job = getQueryString('JNo');
     let commissionCode = 'CST-138,CST-147';
+    let earnestCode='ERN-002,ERN-001';
     if (branch != "" && job != "") {
-        $.get(path + 'JobOrder/GetJobOrderLog?Branch=' + branch + '&Code=' + job, (r) => {
-            if (r.joborderlog.data.length > 0) {
-                let htm = '';
-                for (let i = 0; i < r.joborderlog.data.length; i++) {
-                    let d = r.joborderlog.data[i];
-                    if (i > 0) htm += '<br>';
-                    htm += d.TRemark;
-                }
-                $('#dvLog').html(htm);
-           }
-        });
-	 $.get(path + 'Adv/getadvancereport?branchcode=' + branch + '&jobno=' + job, (r) => {
-	    r.adv.data = r.adv.data.filter((data) => {
-                    return data.DocStatus >= 2 && data.DocStatus <= 3  ;
-            });
-            if (r.adv.data.length > 0) {
-                let htm = '';
-		let sumAdvNet= 0;
-                for (let i = 0; i < r.adv.data.length; i++) {
-                    let d = r.adv.data[i];
-                	htm += '<tr>';
-                	htm += '<td>'+d.AdvNo+'</td>';
-			htm += '<td>'+d.SICode+' '+d.SDescription+'</td>';
-			htm += '<td>'+d.advDocStatus+'</td>';
-			htm += '<td style="text-align:right">'+ ShowNumber(d.AdvNet,2)+'</td>';
-                	htm += '</tr>';		
-			sumAdvNet += 	d.AdvNet;
-                }
-		htm += '<tr>';
-                htm += '<td colspan="3"><b>TOTAL</b></td>';
-		
-		htm += '<td style="text-align:right">'+ ShowNumber(sumAdvNet,2)+'</td>';
-                htm += '</tr>';		
-		
-		$("#dt3").html(htm);
-
-                //console.log(r);
-           }
-        });
-
         let url = path + 'clr/getclearingreport?branch=' + branch + '&job=' + job;
         $.get(url, (r) => {
             if (r.data.length> 0) {
@@ -312,31 +249,31 @@ End Code
                 $("#from").text(h.ClearPortNo);
                 $("#shipper").text(h.NameEng);
                 $("#to").text(h.JobCondition);
-                ShowCustomerEN(path, h.consigneecode, h.CustBranch, 'consigneeName');
+                ShowCustomerEN(path, h.Consigneecode, h.CustBranch, '#consigneeName');
                 $("#term").text(h.JobDesc);
                 ShowVender(path, h.ForwarderCode, '#shippingAgent');
-   		        $("#salesby").text(h.CSName);
+   		$("#salesby").text(h.SalesEName);
                 $("#etd").text(ShowDate(h.ETDDate));
                 $("#eta").text(ShowDate(h.ETADate));
                 ShowUser(path, h.ShippingEmp, '#customsBroker');
                 $("#shed").text(h.DeliveryTo);
                 ShowReleasePort(path, h.ClearPort, '#terminal');
-                $("#feeder").text(h.MVesselName);
+                $("#feeder").text(h.MVesselName+" "+h.VesselName);
                 $("#cbm").text(h.Measurement);
-                $("#volume").text(h.TotalContainer);
+                $("#volume").text(h.TotalQty);
                 $("#remark").text(h.ShippingCmd);
                 $("#sellUSDTHB").text(h.InvCurRate);
                 $("#buyUSDTHB").text(h.InvCurRate);
 
                 let d = r.data;
                 let dt1 = d.filter((data) => {
-                    return data.IsCredit == 1 || data.IsExpense == 0;
+                    return (data.IsCredit == 1 || data.IsExpense == 0) && data.BNet>0;
                 });
 
                 let html = '';
                 html += '<tr>';
                 html += '<td>{0}</td>';
-                //html += `<td class="center"><a href="${path}/acc/voucher?Branch=${branch}&Code={1}" target="_blank" >{1}</a></td>`;
+                html += `<td class="center"><a href="${path}/acc/voucher?Branch=${branch}&Code={1}" target="_blank" >{1}</a></td>`;
                 //html += '<td class="">{2}</td>';
                 html += '<td class="right">{3}</td>';
                 html += '<td class="right">{12}</td>';
@@ -345,7 +282,6 @@ End Code
                 //html += '<td class="right">{6}</td>';
                 html += '<td class="right">{7}</td>';
                 html += '<td class="right">{8}</td>';
-		html += '<td class="right">{13}</td>';
                 html += '<td class="right">{9}</td>';
                 html += '<td class="right">{10}</td>';
                 html += '<td class="right">{11}</td>';
@@ -353,12 +289,10 @@ End Code
 
                 let htmlTotal = '';
                 htmlTotal += '<tr>';
-                //htmlTotal += '<td colspan="5"></td>';
-                htmlTotal += '<td colspan="4"></td>';
+                htmlTotal += '<td colspan="5"></td>';
                 htmlTotal += '<td class="right">{3}</td>';
                 htmlTotal += '<td class="right">{4}</td>';
                 htmlTotal += '<td class="right">{5}</td>';
-		htmlTotal += '<td class="right"></td>';
                 htmlTotal += '<td class="right">{0}</td>';
                 htmlTotal += '<td class="right">{1}</td>';
                 htmlTotal += '<td class="right">{2}</td>';
@@ -371,15 +305,14 @@ End Code
                 let sumv1 = 0;
                 let sumw1 = 0;
                 let sum1 = 0;
-
+                let sume = 0;
                 //alert(dt1.length);
                 for (let i = 0; i < dt1.length; i++) {
                     let tmp = html;
                     tmp =tmp.replaceAll('{0}', dt1[i].SDescription);
             /*        tmp = tmp.replaceAll('{1}', dt1[i].LinkBillNo);*/
                     //tmp = tmp.replaceAll('{2}', dt1[i].CustCode);
-                    //tmp = tmp.replaceAll('{1}', dt1[i].ReceiveRef);
-   	                //tmp = tmp.replaceAll('{1}', dt1[i].VenderCode);
+                    tmp = tmp.replaceAll('{1}', dt1[i].ReceiveRef);
                     tmp = tmp.replaceAll('{3}', ShowNumber(dt1[i].UnitPrice, 2));
                     tmp = tmp.replaceAll('{12}', dt1[i].Qty);
                     tmp = tmp.replaceAll('{4}', dt1[i].CurrencyCode);
@@ -387,9 +320,8 @@ End Code
                                         //tmp = tmp.replaceAll('{6}', dt1[i].CurRate);
                     tmp = tmp.replaceAll('{7}', ShowNumber(dt1[i].ChargeVAT, 2));
                     tmp = tmp.replaceAll('{8}', ShowNumber(dt1[i].Tax50Tavi, 2));
-		    tmp = tmp.replaceAll('{13}', dt1[i].VATRate+'/'+dt1[i].Tax50TaviRate);
                     tmp = tmp.replaceAll('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].BNet, 2) : '');
-                    tmp = tmp.replaceAll('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].BNet, 2):'');
+                    tmp = tmp.replaceAll('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].UsedAmount, 2):'');
                     tmp = tmp.replaceAll('{11}', ShowNumber(dt1[i].BNet, 2));
 
                     if (dt1[i].IsCredit == 1)
@@ -397,7 +329,7 @@ End Code
                         suma1 += dt1[i].BNet;
                     }
                     if (dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0) {
-                        sumc1 += dt1[i].BNet;
+                        sumc1 += dt1[i].UsedAmount;
                         sumv1 += dt1[i].ChargeVAT;
                         sumw1 += dt1[i].Tax50Tavi;
                     }
@@ -418,7 +350,7 @@ End Code
                 $('#dt1').html(html1);
 
                 let dt2 = d.filter((data) => {
-                    return data.IsCredit == 1 || data.IsExpense == 1;
+                    return (data.IsCredit == 1 || data.IsExpense == 1) && data.BNet>0;
                 });
 
                 let html2 = '';
@@ -438,14 +370,18 @@ End Code
                     console.log(commissionCode.indexOf(dt2[i].SICode) );
                     console.log("------------");
                     if (commissionCode.indexOf(dt2[i].SICode) >= 0) {
-
+                       
                         sumcomm += dt2[i].BNet;
+                    }
+                    if (earnestCode.indexOf(dt2[i].SICode) >= 0) {
+                       
+                        sume += dt2[i].BNet;
                     }
                     let tmp = html;
                     tmp = tmp.replaceAll('{0}', dt2[i].SDescription);
                  /*   tmp = tmp.replaceAll('{1}', dt2[i].LinkBillNo);*/
-                    //tmp = tmp.replaceAll('{1}', dt2[i].AdvPay ? dt2[i].AdvPay : dt2[i].ClrPay );
-                    tmp = tmp.replaceAll('{1}', dt2[i].VenderCode);
+                    tmp = tmp.replaceAll('{1}', dt2[i].AdvPay ? dt2[i].AdvPay : dt2[i].ClrPay );
+                    //tmp = tmp.replaceAll('{2}', dt2[i].VenderCode);
                     //tmp = tmp.replaceAll('{6}', dt2[i].CurRate);
                     tmp = tmp.replaceAll('{3}', ShowNumber(dt2[i].UnitCost, 2));
                     tmp = tmp.replaceAll('{12}', dt2[i].Qty);
@@ -453,7 +389,6 @@ End Code
                     tmp = tmp.replaceAll('{5}', ShowNumber(dt2[i].UsedAmount, 2));
                     tmp = tmp.replaceAll('{7}', ShowNumber(dt2[i].ChargeVAT, 2));
                     tmp = tmp.replaceAll('{8}', ShowNumber(dt2[i].Tax50Tavi, 2));
-                    tmp = tmp.replaceAll('{13}', dt2[i].VATRate+'/'+dt2[i].Tax50TaviRate);
                     tmp = tmp.replaceAll('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].BNet, 2) : '');
                     tmp = tmp.replaceAll('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].BNet, 2) : '');
                     tmp = tmp.replaceAll('{11}', ShowNumber(dt2[i].BNet, 2));
@@ -482,8 +417,8 @@ End Code
                 $('#dt2').html(html2);
                 console.log(sum1);
                 console.log(sumt1);
-                $("#netAmount").text(ShowNumber(sum1 - sum2, 2));
-                $("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));
+                $("#netAmount").text(ShowNumber(sume+sumt1 - sumt2, 2));
+                $("#netProfit").text(ShowNumber(sume+sumc1 - sumc2 + sumcomm, 2));
             }
         });
 

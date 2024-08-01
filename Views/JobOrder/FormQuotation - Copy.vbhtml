@@ -97,7 +97,7 @@ End Code
             <th width="7%">QTY</th>
             <th width="15%">UNIT PRICE</th>
             <th width="5%">EXC</th>
-            <th width="10%">AMOUNT<br />(THB)</th>
+            <th width="10%">AMOUNT<br />(FC)</th>
             <th width="10%">NET<br />(THB)</th>
         </tr>
     </thead>
@@ -257,9 +257,6 @@ End Code
                 return data.SeqNo == d.SeqNo;
             });
 	    let itemid=0;
-	    let sumTotalAmt = 0;
-	    let sumAmtTotal = 0;
-
             for (let i of items) {
 		itemid++;
                 let desc = i.DescriptionThai;
@@ -277,17 +274,7 @@ End Code
 
                 $('#tbDetail').append(html);
                 service += amtTotal;
-		sumTotalAmt += i.TotalAmt.toFixed(2)-0;
-		sumAmtTotal += amtTotal.toFixed(2)-0;
             }
-	    html = '<tr style="background-color:lightgreen;"><td></td>';
-            html += '<td colspan="3"></td>';
-            html += '<td colspan="2"></td>';
-            html += '<td style="text-align:right">'+ShowNumber(sumTotalAmt,2) +'</td>';
-	    html += '<td style="text-align:right">'+ShowNumber(sumAmtTotal,2) +'</td>';
-            html += '</tr>';
-            //rowid++;
-            $('#tbDetail').append(html);
         }
         $('#lblTotalCharge').text(ShowNumber(service, 2));
     }
