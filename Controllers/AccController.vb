@@ -2003,131 +2003,131 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                 Dim cliteria As String = data.ReportCliteria
                 Select Case data.ReportCode
                     Case "PRD1"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=1 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD1D"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=1 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=1 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD1S"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=2 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD1SD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=2 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=2 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD2"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=3 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD2D"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=3 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=3 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD2K"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=5 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD2KD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=5 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=5 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD3K"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=6 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD3KD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=6 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=6 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD3"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD3A"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>'' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD53"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>''  AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD53A"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = "
-SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate) as TaxYear,Month(DocDate) as TaxMonth,
+SELECT a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate) as TaxYear,Month(PayDate) as TaxMonth,
 sum(a.PayAmount) as SumPayAmount,sum(a.PayTax) as SumPayTax,Count(DISTINCT a.DocNo) as CountDoc
 FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>''  AND isnull(h.TaxNumber2,'')<>'' " & sqlW & ") a 
-GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(DocDate),Month(DocDate)
+GROUP BY a.IDCard1,a.TaxNumber1,a.TName1,a.TAddress1,Branch1,FormType,TaxLawNo,Year(PayDate),Month(PayDate)
 ORDER BY a.TName1
 "
                     Case "PRD3D"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD53D"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')='' " & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD3AD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=4 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                     Case "PRD53AD"
-                        sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
+                        sqlW = GetSQLCommand(cliteria, "d.PayDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber2", "h.TaxLawNo", "h.BranchCode")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
-                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.DocDate,a.DocNo"
+                        sqlM = "SELECT a.* FROM (" & SQLSelectWHTax() & " WHERE h.FormType=7 AND NOT ISNULL(h.CancelProve,'')<>'' AND isnull(h.TaxNumber2,'')<>''" & sqlW & ") a ORDER BY a.TAddress1,a.PayDate,a.DocNo"
                 End Select
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlM, True)
                 Dim json As String = JsonConvert.SerializeObject(oData)
