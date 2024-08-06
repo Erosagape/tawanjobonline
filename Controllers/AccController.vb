@@ -4022,11 +4022,11 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
                     str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("InvBill")) & "]"
                     str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
                 Else
-                    Str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
+                    str = ",[""Cost""," & CDbl("0" & oData.Rows(0)("Cost")) & "]"
                     str &= ",[""Billed""," & CDbl("0" & oData.Rows(0)("InvBill")) & "]"
                     str &= ",[""Non-Bill""," & CDbl("0" & oData.Rows(0)("InvUnBill")) & "]"
                 End If
-                chartstr = String.Format("[[""Type"",""Value""]{0}]", Str)
+                chartstr = String.Format("[[""Type"",""Value""]{0}]", str)
             End If
             Dim json = "{""table"":" & JsonConvert.SerializeObject(oData) & ",""data"":" & chartstr & ",""period"":""" & onYear & "/" & onMonth & """,""where"":""" & sqlW & """}"
             Return Content(json, jsonContent)
