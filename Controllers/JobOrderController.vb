@@ -1189,6 +1189,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
                 End If
+                If Not IsNothing(Request.QueryString("Consignee")) Then
+                    tSqlW &= " AND j.Consigneecode='" & Request.QueryString("Consignee") & "'"
+                End If
                 If Not IsNothing(Request.QueryString("CSCode")) Then
                     tSqlW &= " AND j.CSCode='" & Request.QueryString("CSCode") & "'"
                 Else
@@ -1325,6 +1328,9 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                 End If
                 If Not IsNothing(Request.QueryString("CustCode")) Then
                     tSqlW &= " AND CustCode='" & Request.QueryString("CustCode") & "'"
+                End If
+                If Not IsNothing(Request.QueryString("Consignee")) Then
+                    tSqlW &= " AND Consigneecode='" & Request.QueryString("Consignee") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("Vend")) Then
                     tSqlW &= " AND AgentCode='" & Request.QueryString("Vend") & "'"
