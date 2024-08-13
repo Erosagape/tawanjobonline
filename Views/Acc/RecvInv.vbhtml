@@ -476,7 +476,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
-            $('#tbSummary tbody tr').on('click', function () {
+            $('#tbSummary tbody').on('click','tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
 
@@ -551,7 +551,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody tr').on('click', function () {
+            $('#tbHeader tbody').on('click','tr', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
                     let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -682,12 +682,27 @@ End Code
         });
         let filter_sum = {
             sumamount: 0,
+            sumpayment: 0,
+            sumvat: 0,
+            sumwht: 0,
+            sumnet: 0,
             currencycode : '@ViewBag.PROFILE_CURRENCY',
             exchangerate : 1
         };
         for (let i = 0; i < filter_data.length; i++) {
-
-            filter_sum.sumamount += Number(filter_data[i].Net);
+            if (filter_data[i].AmtCharge > 0) {
+                filter_sum.sumnet += Number(filter_data[i].Net);
+                filter_sum.sumpayment += Number(filter_data[i].Net + filter_data[i].Amt50Tavi);
+                filter_sum.sumvat += Number(filter_data[i].AmtVAT);
+                filter_sum.sumwht += Number(filter_data[i].Amt50Tavi);
+                filter_sum.sumamount += Number(filter_data[i].Net + filter_data[i].Amt50Tavi - filter_data[i].AmtVAT);
+            } else {
+                filter_sum.sumnet += Number(filter_data[i].Net);
+                filter_sum.sumpayment += Number(filter_data[i].Net);
+                filter_sum.sumvat += 0;
+                filter_sum.sumwht += 0;
+                filter_sum.sumamount += Number(filter_data[i].Net);
+            }
         }
         return filter_sum;
     }
@@ -708,7 +723,7 @@ End Code
                 BankCode: $('#fldBankCodeCash').val(),
                 BankBranch: $('#fldBankBranchCash').val(),
                 ChqDate: '',
-                CashAmount: Math.abs(sum_cash.sumamount),
+                CashAmount: Math.abs(sum_cash.sumpayment),
                 ChqAmount: 0,
                 CreditAmount: 0,
                 SumAmount: sum_cash.sumamount,
@@ -716,10 +731,10 @@ End Code
                 ExchangeRate: sum_cash.exchangerate,
                 TotalAmount: Math.abs(sum_cash.sumamount),
                 VatInc: 0,
-                VatExc: 0,
+                VatExc: Math.abs(sum_cash.sumvat),
                 WhtInc: 0,
-                WhtExc: 0,
-                TotalNet: Math.abs(sum_cash.sumamount),
+                WhtExc: Math.abs(sum_cash.sumwht),
+                TotalNet: Math.abs(sum_cash.sumnet),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: $('#txtCashTranDate').val() + '-' + $('#txtCashTranTime').val(),
@@ -746,17 +761,17 @@ End Code
                 BankBranch: '',
                 ChqDate: CDateEN($('#txtChqCashTranDate').val()),
                 CashAmount: 0,
-                ChqAmount: Math.abs(sum_chqcash.sumamount),
+                ChqAmount: Math.abs(sum_chqcash.sumpayment),
                 CreditAmount: 0,
                 SumAmount:  Math.abs(sum_chqcash.sumamount),
                 CurrencyCode: sum_chqcash.currencycode,
                 ExchangeRate: sum_chqcash.exchangerate,
-                TotalAmount:  Math.abs(sum_chqcash.sumamount),
+                TotalAmount: Math.abs(sum_chqcash.sumamount),
                 VatInc: 0,
-                VatExc: 0,
+                VatExc: Math.abs(sum_chqcash.sumvat),
                 WhtInc: 0,
-                WhtExc: 0,
-                TotalNet: Math.abs(sum_chqcash.sumamount),
+                WhtExc: Math.abs(sum_chqcash.sumwht),
+                TotalNet: Math.abs(sum_chqcash.sumnet),
                 IsLocal: 0,
                 ChqStatus: $('#chkStatusChq').prop('checked')==true? 'P':'',
                 TRemark: '',
@@ -783,17 +798,17 @@ End Code
                 BankBranch: $('#fldBankBranchChqCash').val(),
                 ChqDate: CDateEN($('#txtChqTranDate').val()),
                 CashAmount: 0,
-                ChqAmount: Math.abs(sum_chq.sumamount),
+                ChqAmount: Math.abs(sum_chq.sumpayment),
                 CreditAmount: 0,
                 SumAmount: Math.abs(sum_chq.sumamount),
                 CurrencyCode: sum_chq.currencycode,
                 ExchangeRate: sum_chq.exchangerate,
                 TotalAmount: Math.abs(sum_chq.sumamount),
                 VatInc: 0,
-                VatExc: 0,
+                VatExc: Math.abs(sum_chq.sumvat),
                 WhtInc: 0,
-                WhtExc: 0,
-                TotalNet: Math.abs(sum_chq.sumamount),
+                WhtExc: Math.abs(sum_chq.sumwht),
+                TotalNet: Math.abs(sum_chq.sumnet),
                 IsLocal: $('#chkIsLocal').prop('checked') == true ? 'P' : '',
                 ChqStatus: '',
                 TRemark: '',
@@ -821,16 +836,16 @@ End Code
                 ChqDate: CDateEN($('#txtCredTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: 0,
-                CreditAmount: Math.abs(sum_cr.sumamount),
-                SumAmount:Math.abs(sum_cr.sumamount),
+                CreditAmount: Math.abs(sum_cr.sumpayment),
+                SumAmount: Math.abs(sum_cr.sumamount),
                 CurrencyCode: sum_cr.currencycode,
                 ExchangeRate: sum_cr.exchangerate,
                 TotalAmount: Math.abs(sum_cr.sumamount),
                 VatInc: 0,
-                VatExc: 0,
+                VatExc: Math.abs(sum_cr.sumvat),
                 WhtInc: 0,
-                WhtExc: 0,
-                TotalNet: Math.abs(sum_cr.sumamount),
+                WhtExc: Math.abs(sum_cr.sumwht),
+                TotalNet: Math.abs(sum_cr.sumnet),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: '',

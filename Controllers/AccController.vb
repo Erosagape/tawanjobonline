@@ -1572,9 +1572,11 @@ select * from vc WHERE PaidAmount>0 order by PRType DESC,DocNo
                 Dim tSqlH As String = " AND ControlNo IN(SELECT ControlNo FROM Job_CashControl " & tSqlw & " "
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlH &= " AND VoucherDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
+                    tSqlw &= " AND VoucherDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlH &= " AND VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
+                    tSqlw &= " AND VoucherDate<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
                 If Not IsNothing(Request.QueryString("DocDateFrom")) Then
                     tSqlH &= " AND DocDate>='" & Request.QueryString("DocDateFrom") & " 00:00:00'"
