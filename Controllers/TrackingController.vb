@@ -1,4 +1,5 @@
-﻿Imports System.Web.Mvc
+﻿Imports System.IO
+Imports System.Web.Mvc
 
 Namespace Controllers
     Public Class TrackingController
@@ -6,16 +7,108 @@ Namespace Controllers
 
         ' GET: Tracking
         Function Index() As ActionResult
-            Return GetView("Index")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Index" & formName)
+        End Function
+        Function Planing() As ActionResult
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Planing" & formName)
         End Function
         Function Document() As ActionResult
-            Return GetView("Document")
+            Return GetView("Document", "MODULE_CS")
+        End Function
+        Function Planload() As ActionResult
+            Dim sql As String = GetValueConfig("SQL", "SelectPlanload")
+            Dim sqlW As String = " WHERE j.JobStatus<>99 "
+            If Not IsNothing(Request.QueryString("Show")) Then
+                Select Case Request.QueryString("Show")
+                    Case "Cancel"
+                        sqlW = " WHERE j.JobStatus>90 "
+                    Case "Unclear"
+                        sqlW = " WHERE j.JobStatus<4 "
+                    Case "Unbill"
+                        sqlW = " WHERE j.JobStatus<6 AND j.JobStatus>3 "
+                    Case "Billed"
+                        sqlW = " WHERE j.JobStatus>5 AND j.JobStatus<90 "
+                End Select
+            End If
+            If Not IsNothing(Request.QueryString("Branch")) Then
+                sqlW &= String.Format(" AND j.BranchCode='{0}' ", Request.QueryString("Branch").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("HBL")) Then
+                sqlW &= String.Format(" AND j.HAWB='{0}' ", Request.QueryString("HBL").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("MBL")) Then
+                sqlW &= String.Format(" AND j.MAWB='{0}' ", Request.QueryString("MBL").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("JobType")) Then
+                sqlW &= String.Format(" AND j.JobType={0} ", Request.QueryString("JobType").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("ShipBy")) Then
+                sqlW &= String.Format(" AND j.ShipBy={0} ", Request.QueryString("ShipBy").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Agent")) Then
+                sqlW &= String.Format(" AND j.ForwarderCode='{0}' ", Request.QueryString("Agent").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Transport")) Then
+                sqlW &= String.Format(" AND j.AgentCode='{0}' ", Request.QueryString("Transport").ToString)
+            End If
+            Dim dateBy As String = "a.DutyDate"
+            If Not IsNothing(Request.QueryString("DateBy")) Then
+                dateBy = Request.QueryString("DateBy")
+            End If
+            If Not IsNothing(Request.QueryString("DateFrom")) Then
+                sqlW &= " AND " & dateBy & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
+            End If
+            If Not IsNothing(Request.QueryString("DateTo")) Then
+                sqlW &= " AND " & dateBy & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
+            End If
+            If Not IsNothing(Request.QueryString("Status")) Then
+                sqlW &= String.Format(" AND j.JobStatus={0} ", Request.QueryString("Status").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Cust")) Then
+                sqlW &= String.Format(" AND j.CustCode='{0}' ", Request.QueryString("Cust").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Cons")) Then
+                sqlW &= String.Format(" AND j.consigneecode='{0}' ", Request.QueryString("Cons").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("Shipping")) Then
+                sqlW &= String.Format(" AND j.ShippingEmp='{0}' ", Request.QueryString("Shipping").ToString)
+            End If
+            If Not IsNothing(Request.QueryString("CS")) Then
+                sqlW &= String.Format(" AND j.CSCode='{0}' ", Request.QueryString("CS").ToString)
+            End If
+            sql = sql.Replace("{0}", sqlW)
+            Dim dt = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
+            ViewBag.DataTable = dt
+            Return GetView("Planload")
         End Function
         Function Timeline() As ActionResult
-            Return GetView("Timeline")
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Timeline" & formName)
+        End Function
+        Function Dashboard() As ActionResult
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("Dashboard" & formName)
         End Function
         Function PublicIndex() As ActionResult
-            Return View()
+            Dim formName = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return View("PublicIndex" & formName)
         End Function
         Function UploadDocument() As ActionResult
             Dim msg As String = ""
@@ -42,22 +135,23 @@ Namespace Controllers
                                 Dim path = System.IO.Path.Combine(saveFolder, filename)
                                 File.SaveAs(path)
 
-                                Dim oFile As New CDocument(GetSession("ConnJob"))
-                                oFile.BranchCode = branch
-                                oFile.JNo = job
-                                oFile.ItemNo = 0
-                                oFile.DocType = typ
-                                oFile.FileType = System.IO.Path.GetExtension(filename).ToLower
-                                oFile.FilePath = saveTo + "/" + job + "_" + typ + "/" + filename
-                                oFile.DocNo = filename
-                                oFile.Description = saveFolder + "/" + filename
-                                oFile.DocDate = DateTime.MinValue
-                                oFile.FileSize = File.ContentLength
-                                oFile.UploadBy = GetSession("CurrUser")
-                                oFile.UploadDate = DateTime.Now
-                                oFile.CheckedBy = ""
-                                oFile.CheckedDate = DateTime.MinValue
-                                oFile.ApproveBy = ""
+                                Dim oFile As New CDocument(GetSession("ConnJob")) With {
+                                    .BranchCode = branch,
+                                    .JNo = job,
+                                    .ItemNo = 0,
+                                    .DocType = typ,
+                                    .FileType = System.IO.Path.GetExtension(filename).ToLower,
+                                    .FilePath = saveTo + "/" + job + "_" + typ + "/" + filename,
+                                    .DocNo = filename,
+                                    .Description = saveFolder + "/" + filename,
+                                    .DocDate = DateTime.MinValue,
+                                    .FileSize = File.ContentLength,
+                                    .UploadBy = GetSession("CurrUser"),
+                                    .UploadDate = DateTime.Now,
+                                    .CheckedBy = "",
+                                    .CheckedDate = DateTime.MinValue,
+                                    .ApproveBy = ""
+                                }
                                 oFile.CheckedDate = DateTime.MinValue
                                 oFile.CheckNote = ""
                                 oFile.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2}", branch, job, oFile.ItemNo))
@@ -77,6 +171,29 @@ Namespace Controllers
             End Try
             If msg = "" Then msg = "[Error] No File To Upload"
             Return Content(msg, textContent)
+        End Function
+        Function UploadImage() As ActionResult
+            ViewBag.ImageShow = "<br/><b>No Image</b><br/>"
+            If Not Request.QueryString("Path") Is Nothing Then
+                Dim path = Request.QueryString("Path")
+                Dim html = ""
+                Dim dir = Server.MapPath("~/Resource/Import/" + path)
+                If System.IO.Directory.Exists(dir) = False Then
+                    System.IO.Directory.CreateDirectory(dir)
+                End If
+
+                Dim files = System.IO.Directory.GetFiles(dir)
+                For Each fileName As String In files
+                    Dim file As FileInfo = New FileInfo(fileName)
+                    html = html & "<br/>"
+                    html = html & "<div>"
+                    html = html & "<b>" & file.Name & "</b><br/>"
+                    html = html & "<img src=""../Resource/Import/" + path & "/" & file.Name & """ />"
+                    html = html & "</div>"
+                Next
+                ViewBag.ImageShow = html
+            End If
+            Return GetView("UploadImage")
         End Function
     End Class
 End Namespace
