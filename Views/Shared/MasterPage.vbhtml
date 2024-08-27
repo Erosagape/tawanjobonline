@@ -354,6 +354,7 @@
                                 <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenLink('DeclareType')">Declare Type</button>
                                 <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenLink('CustomsPort')">Customs Port</button>
                                 <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenLink('CustomsUnit')">Product Units</button>
+                                <button id="mnuMasG10" class="btn btn-default btn-block" onclick="OpenLink('Container')">Container</button>
                             </div>
                         </div>
                     </div>
