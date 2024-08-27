@@ -3523,6 +3523,178 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
             End If
             Return Content(String.Format("Copy from {0} to {1} Complete (" & oTotalRec & " Records) ", fromJob, toJob), textContent)
         End Function
+        Function SetContainer(<FromBody()> data As CContainer) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    data.SetConnect(GetSession("ConnJob"))
+                    If "" & data.CTN_NO = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter Container No""}}", jsonContent)
+                    End If
+                    If "" & data.CTN_SIZE = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter Container Size""}}", jsonContent)
+                    End If
+                    If "" & data.VenderCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter Container Vender""}}", jsonContent)
+                    End If
+                    If "" & data.AcquisitionDate = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter Acquire date""}}", jsonContent)
+                    End If
+                    If "" & data.CountryCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please enter Country Code""}}", jsonContent)
+                    End If
+                    Dim msg As String = data.SaveData(String.Format(" WHERE CTN_NO='{0}'", data.CTN_NO))
+                    Dim json = "{""result"":{""data"":""" & data.CTN_NO & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No Data to save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetContainer", ex.Message, ex.StackTrace, True)
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+        Function GetContainer() As ActionResult
+            Try
+                Dim conn As String = GetSession("ConnJob")
+                Dim sqlW As String = ""
+                If Request.QueryString("CTN_NO") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" CTN_NO='{0}'", Request.QueryString("CTN_NO").ToString())
+                End If
+                If Request.QueryString("Cont") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" CTN_NO Like '%{0}%'", Request.QueryString("Cont").ToString())
+                End If
+                If Request.QueryString("VenderCode") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" VenderCode='{0}'", Request.QueryString("VenderCode").ToString())
+                End If
+                If Request.QueryString("CountryCode") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" CountryCode='{0}'", Request.QueryString("CountryCode").ToString())
+                End If
+                If Request.QueryString("DateFrom") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" AcquisitionDate>='{0}'", Request.QueryString("DateFrom").ToString())
+                End If
+                If Request.QueryString("DateTo") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" AcquisitionDate<='{0}'", Request.QueryString("DateTo").ToString())
+                End If
+                If Request.QueryString("DateEnd") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" EndDate<='{0}'", Request.QueryString("DateEnd").ToString())
+                End If
+                If Request.QueryString("CTN_SIZE") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" CTN_SIZE='{0}'", Request.QueryString("CTN_SIZE").ToString())
+                End If
+                If Request.QueryString("Remark") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" Remark like '%{0}%'", Request.QueryString("Remark").ToString())
+                End If
+                If sqlW <> "" Then
+                    sqlW = " WHERE " & sqlW
+                End If
+                Dim oData = New CContainer(conn).GetData(sqlW)
+                Dim json = JsonConvert.SerializeObject(oData)
+                Return Content("{""container"":{""data"":" + json + ",""msg"":""Complete""}}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetContainer", ex.Message, ex.StackTrace, True)
+                Return Content("{""container"":{""data"":[],""msg"":""" & ex.Message & """}}", jsonContent)
+            End Try
+        End Function
+        Function Container() As ActionResult
+            Return GetView("Container")
+        End Function
+        Function GetContainerReport() As ActionResult
+            Dim conn As String = GetSession("ConnJob")
+            Dim sqlW As String = ""
+            Try
+                If Request.QueryString("CTN_NO") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.CTN_NO='{0}'", Request.QueryString("CTN_NO").ToString())
+                End If
+                If Request.QueryString("Cont") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.CTN_NO Like '%{0}%'", Request.QueryString("Cont").ToString())
+                End If
+                If Request.QueryString("VenderCode") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.VenderCode='{0}'", Request.QueryString("VenderCode").ToString())
+                End If
+                If Request.QueryString("CountryCode") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.CountryCode='{0}'", Request.QueryString("CountryCode").ToString())
+                End If
+                If Request.QueryString("InvCountry") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" j.InvCountry='{0}'", Request.QueryString("InvCountry").ToString())
+                End If
+                If Request.QueryString("InvFCountry") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" j.InvFCountry='{0}'", Request.QueryString("InvFCountry").ToString())
+                End If
+                If Request.QueryString("CustCode") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" j.CustCode='{0}'", Request.QueryString("CustCode").ToString())
+                End If
+                If Request.QueryString("AgentCode") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" j.AgentCode='{0}'", Request.QueryString("AgentCode").ToString())
+                End If
+                If Request.QueryString("DateFrom") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.AcquisitionDate>='{0}'", Request.QueryString("DateFrom").ToString())
+                End If
+                If Request.QueryString("DateTo") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.AcquisitionDate<='{0}'", Request.QueryString("DateTo").ToString())
+                End If
+                If Request.QueryString("DateEnd") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.EndDate<='{0}'", Request.QueryString("DateEnd").ToString())
+                End If
+                If Request.QueryString("DateReturn") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ld.ReturnDate>='{0}'", Request.QueryString("DateReturn").ToString())
+                End If
+                If Request.QueryString("DatePickupBegin") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ld.TargetYardDate>='{0}'", Request.QueryString("DatePickupBegin").ToString())
+                End If
+                If Request.QueryString("DatePickupEnd") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ld.TargetYardDate<='{0}'", Request.QueryString("DatePickupEnd").ToString())
+                End If
+                If Request.QueryString("CTN_SIZE") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.CTN_SIZE='{0}'", Request.QueryString("CTN_SIZE").ToString())
+                End If
+                If Request.QueryString("Remark") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.Remark like '%{0}%'", Request.QueryString("Remark").ToString())
+                End If
+                Dim sql = Main.GetValueConfig("SQL", "SelectContainerTracking")
+                If sql = "" Then
+                    sql = "SELECT ld.*,ct.VenderCode,ct.AcquisitionDate,ct.EndDate,ct.CountryCode,ct.Remark as CTN_REMARK,j.ETDDate,j.ETADate,j.InvNo,j.AgentCode,j.CustCode,j.consigneeCode,j.ForwarderCode,j.DeclareNumber,j.HAWB,j.MAWB,j.CSCode,j.DutyDate,j.LoadDate,j.InvCountry,j.InvFCountry,j.InvInterPort,j.ClearPort,j.ClearPortNo  
+FROM Job_LoadInfoDetail ld inner join Mas_Container ct ON ld.CTN_NO=ct.CTN_NO 
+inner join Job_Order j on ld.BranchCode=j.BranchCode and ld.JNo=j.JNo 
+"
+                End If
+                If sqlW <> "" Then
+                    sqlW = " WHERE " & sqlW
+                End If
+                Dim oData = New CUtil(conn).GetTableFromSQL(sql & sqlW)
+                Dim json = JsonConvert.SerializeObject(oData)
+                Return Content("{""cliteria"":""" + sqlW + """,""data"":" + json + ",""msg"":""Complete""}", jsonContent)
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetContainer", ex.Message, ex.StackTrace, True)
+                Return Content("{""cliteria"":""" + sqlW + """,""data"":[],""msg"":""" & ex.Message & """}", jsonContent)
+            End Try
+        End Function
     End Class
 
 End Namespace

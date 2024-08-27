@@ -458,7 +458,11 @@ End Code
                     </div>
                     <div style="flex:2">
                         <label id="lblContainerNo">Container </label>
-                        :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
+                        : <a href="Container">Add</a><br />
+                        <div style="display:flex">
+                            <input type="text" id="txtCTN_NO" class="form-control">
+                            <input type="button" id="btnChooseCon" class="btn btn-default" value="..." onclick="SearchData('container')" />
+                        </div>
                     </div>
                     <div style="flex:1">
                         <label id="lblContainerSize">Size</label>
@@ -1044,6 +1048,8 @@ End Code
             CreateLOV(dv, '#frmSearchCar', '#tbCar', 'Car License', response, 2);
             //Emp
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Driver', response, 2);
+            //Cont
+            CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container', response, 2);
         });
     }
     function SearchData(type) {
@@ -1110,11 +1116,18 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;            
+                break;
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
+            case 'container':
+                SetGridContainer(path, '#tbCont', '#frmSearchCont', ReadCont);
+                break;
         }
+    }
+    function ReadCont(dt) {
+        $('#txtCTN_NO').val(dt.CTN_NO);
+        $('#txtCTN_SIZE').val(dt.CTN_SIZE);
     }
     function ReadEmp(dt) {
         $('#txtDriver').val(dt.EmpCode);
@@ -1319,7 +1332,7 @@ End Code
             $('#txtJNo').val(job);
         } else {
             $('#txtJNo').val(dr.JNo);
-        }        
+        }
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');
