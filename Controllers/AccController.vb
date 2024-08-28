@@ -3637,6 +3637,9 @@ ORDER BY ReceiptDate DESC
             End Try
         End Function
         Function Summary() As ActionResult
+            Return GetView("Summary", "MODULE_ACC")
+        End Function
+        Function Summary_Old() As ActionResult
             Dim sqlClrByTruck = "
 select r.Yearly,r.Monthly,r.TruckNo
 ,sum(ISNULL(SumRevenue,0)) as TotalRevenue 

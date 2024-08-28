@@ -1,142 +1,250 @@
 ﻿@Code
-    Layout = Nothing
-
     ViewData("Title") = "WorkSheet"
-    Dim sql = "
-    select j.JNo,j.JobType,j.ShipBy,j.DocDate,j.ETDDate,j.ETADate,j.custRefNo,
-j.CustCode,j.HAWB,j.BookingNo,j.DeclareNumber,j.TotalContainer,h.ClrDate,h.CTN_NO,
-d.Date50Tavi as SlipDate,d.SlipNO,g.GroupName,
-s.IsExpense,s.IsCredit,s.NameEng as ServiceNameEN,s.NameThai as ServiceNameTH,
-(case when s.IsCredit=1 and s.IsExpense=0 then d.UsedAmount else 0 end) as AdvAmount,
-(case when s.IsCredit=1 and s.IsExpense=0 then d.ChargeVAT else 0 end) as AdvVat,
-(case when s.IsCredit=1 and s.IsExpense=0 then d.Tax50Tavi else 0 end) as AdvWht,
-(case when s.IsCredit=1 and s.IsExpense=0 then d.BNet else 0 end) as AdvNet,
-(case when s.IsCredit=0 and s.IsExpense=0 then d.UsedAmount else 0 end) as SalesAmount,
-(case when s.IsCredit=0 and s.IsExpense=0 then d.ChargeVAT else 0 end) as SalesVat,
-(case when s.IsCredit=0 AND s.IsExpense=0 then d.Tax50Tavi else 0 end) as SalesWht,
-(case when s.IsCredit=0 AND s.IsExpense=0 then d.BNet else 0 end) as SalesNet,
-(case when s.IsExpense=1 then d.UsedAmount else 0 end) as CostAmount,
-(case when s.IsExpense=1 then d.ChargeVAT else 0 end) as CostVat,
-(case when s.IsExpense=1 then d.Tax50Tavi else 0 end) as CostWht,
-(case when s.IsExpense=1 then d.BNet else 0 end) as CostNet,
-(case when s.IsCredit=1 then 0 else d.UsedAmount*(CASE WHEN s.IsExpense=1 then -1 else 1 end) end) as ProfitAmt,
-d.VenderBillingNo,d.VenderCode,d.AdvNO,a.PaymentDate,d.AdvItemNo,
-i.DocNo as InvNo,i.DocDate as InvDate,i.DueDate as InvDueDate,i.BillAcceptNo,i.BillIssueDate,i.BillAcceptDate,
-rh.ReceiptNo,rh.ReceiptDate
-from Job_Order j left join Job_ClearDetail d
-on concat(j.branchcode,j.jno)=concat(d.BranchCode,d.JobNo)
-left join Job_ClearHeader h
-on concat(d.branchcode,d.clrno)=concat(h.branchcode,h.clrno)
-left join job_AdvHeader a
-on concat(d.BranchCode,d.AdvNO)=concat(a.BranchCode,a.AdvNo)
-left join Job_InvoiceHeader i
-on concat(d.branchcode,d.linkbillno)=concat(i.branchcode,i.docno)
-left join Job_SrvSingle s
-on d.SICode=s.SIcode 
-left join Job_SrvGroup g
-on s.GroupCode =g.GroupCode
-left join Job_ReceiptDetail rd
-on concat(d.branchcode,d.linkbillno,d.linkitem)=concat(rd.branchcode,rd.invoiceno,rd.invoiceitemno)
-left join Job_ReceiptHeader rh 
-on concat(rd.branchcode,rd.receiptno)=concat(rh.branchcode,rh.receiptno)
-where isnull(h.DocStatus,0)<>99 and isnull(i.CancelProve,'')='' and isnull(rh.CancelPRove,'')=''
-"
-    Dim sqlwhere = "
-"
-    Dim onDate = "j.DocDate"
-    If Request.QueryString("OnDate") IsNot Nothing Then
-        onDate = Request.QueryString("OnDate")
-    End If
-    If Request.QueryString("Datefrom") IsNot Nothing Then
-        sqlwhere &= " AND " & onDate & ">='" & Request.QueryString("DateFrom") & "'"
-    Else
-        sqlwhere &= " AND j.DocDate>='" & New Date(DateTime.Now.Year, DateTime.Now.Month, 1).ToString("yyyy-MM-dd") & "'"
-    End If
-    If Request.QueryString("DateTo") IsNot Nothing Then
-        sqlwhere &= " AND " & onDate & "<='" & Request.QueryString("DateTo") & "'"
-    Else
-        sqlwhere &= " AND j.DocDate<='" & New Date(DateTime.Now.Year, DateTime.Now.Month + 1, 1).AddDays(-1).ToString("yyyy-MM-dd") & "'"
-    End If
-
-    If Request.QueryString("CustCode") IsNot Nothing Then
-        sqlwhere &= " AND j.CustCode='" & Request.QueryString("CustCode") & "'"
-    End If
+    Dim branch = Request.Form("branch")
+    Dim jobtype = Request.Form("jobtype")
+    Dim shipby = Request.Form("shipby")
+    Dim yy = Request.Form("fiscalyear")
+    Dim mm = Request.Form("fiscalmonth")
     If Request.QueryString("JobType") IsNot Nothing Then
-        sqlwhere &= " AND j.JobType=" & Request.QueryString("JobType") & ""
+        jobtype = Request.QueryString("JobType").ToString()
     End If
     If Request.QueryString("ShipBy") IsNot Nothing Then
-        sqlwhere &= " AND j.ShipBy=" & Request.QueryString("ShipBy") & ""
+        shipby = Request.QueryString("ShipBy").ToString()
     End If
-    Dim sqlsort = "order by j.JNo"
-    Dim tb = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sql & sqlwhere & sqlsort)
+    Dim cliteria = "Year=" & yy & ",Month=" & mm & ",Job Type=" & jobtype & ",Ship By=" & shipby & ",Branch=" & branch
+    Dim bLogin = False
+    If ViewBag.User <> "" Then
+        bLogin = True
+    End If
 End Code
-<h2>Costing Worksheet</h2>
-<table style="border-collapse:collapse" border="1">
-    <thead>
-        <tr>
-            <th>Job#</th>
-            <th>ETD/ETA</th>
-            <th>Cust.Ref#</th>
-            <th>Booking</th>
-            <th>B/L</th>
-            <th>Adv.No</th>
-            <th>Adv.Date</th>
-            <th>Charges</th>
-            <th>Cust.Adv</th>
-            <th>Company.Chg</th>
-            <th>Company.Cost</th>
-            <th>Invoice / Billing</th>
-            <th>Invoice Date</th>
-            <th>Receipt</th>
-            <th>Receipt Date</th>
-        </tr>
-    </thead>
-    <tbody>
-        @For Each dr As Data.DataRow In tb.Rows
-                    @<tr>
-            <td>@dr("JNo")</td>
-            <td>
-                @If dr("JobType") = "1" Then
-                    If dr.IsNull("ETADate") = False Then
-                        @Convert.ToDateTime(dr("ETADate")).ToString("dd/MM/yyyy")
-                    End If
-                Else
-                    If dr.IsNull("ETDDate") = False Then
-                        @Convert.ToDateTime(dr("ETDDate")).ToString("dd/MM/yyyy")
-                    End If
-                End If
-            </td>
-            <td>@dr("CustReFNo")</td>
-            <td>@dr("BookingNo")</td>
-            <td>@dr("HAWB")</td>
-            <td>@dr("AdvNO")</td>
-            <td>
-                @If dr.IsNull("PaymentDate") = False Then
-                    @Convert.ToDateTime(dr("PaymentDate")).ToString("dd/MM/yyyy")
-                End If                    
-            </td>
-            <td>@dr("ServiceNameTH")</td>
-            <td>@dr("AdvNet")</td>
-            <td>@dr("SalesNet")</td>
-            <td>@dr("CostNet")</td>
-            <td>@dr("InvNo") / @dr("BillAcceptNo")</td>
-            <td>
-                @If dr.IsNull("InvDate") = False Then
-                    @Convert.ToDateTime(dr("InvDate")).ToString("dd/MM/yyyy")
-                End If
-            </td>
-            <td>@dr("ReceiptNo")</td>
-            <td>
-                @If dr.IsNull("ReceiptDate") = False Then
-                    @Convert.ToDateTime(dr("ReceiptDate")).ToString("dd/MM/yyyy")
-                End If
-            </td>
-        </tr>
-
-        Next
-    </tbody>
-</table>
+<div class="container">
+    <form method="post" action="">
+        <div class="row">
+            <div class="col-sm-2">
+                <label for="cboBranch" id="lblBranch">Branch</label>
+                <select id="cboBranch" name="branch" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-2">
+                <label for="cboJobType" id="lblJobType">Job Type</label>
+                <select id="cboJobType" name="jobtype" class="form-control dropdown" onchange="CheckJobType()"></select>
+            </div>
+            <div class="col-sm-2">
+                <label for="cboShipBy" id="lblShipBy">Ship By</label>
+                <select id="cboShipBy" name="shipby" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-2">
+                <label for="cboYear" id="lblYear">Year</label>
+                <select id="cboYear" name="fiscalyear" class="form-control dropdown"></select>
+            </div>
+            <div class="col-sm-1">
+                <label for="cboMonth" id="lblMonth">Month</label>
+                <select id="cboMonth" name="fiscalmonth" class="form-control dropdown"></select>
+            </div>
+        </div>
+        <input type="submit" value="Refresh" class="btn btn-success" />
+        <label id="lblCliteria">@cliteria</label>
+    </form>
+    <div class="panel">
+        @If bLogin Then
+            @<b>Summary Advance Payment</b>
+            Dim sqlAdv = "
+select adv.AccCode,adv.AdvDesc as AdvDescription
+,sum(case when adv.IsCreditAdv=1 then adv.PaymentAmt else 0 end) as CustomerAdv
+,sum(case when adv.IsCreditAdv=1 then adv.WhtAmt else 0 end) as CustomerWht
+,sum(case when adv.IsCreditAdv=0 then adv.PaymentAmt else 0 end) as CompanyAdv
+,sum(case when adv.IsCreditAdv=0 then adv.WhtAmt else 0 end) as CompanyWht
+,sum(adv.PaymentAmt-adv.WhtAmt) as PaymentNet
+from
+(
+select isnull(s.GLAccountCodeCost,'') as AccCode,concat(isnull(s.SICode,'N'),'/',ISNULL(Trim(s.NameThai),'A')) as AdvDesc,ad.ForJNo,ah.EmpCode,ah.PaymentDate,
+ad.AdvNet+ad.Charge50Tavi as PaymentAmt
+,ad.Charge50Tavi as WhtAmt,isnull(s.IsCredit,0) as IsCreditAdv
+from Job_AdvDetail ad inner join Job_AdvHeader ah
+on ad.AdvNo=ah.AdvNo and ad.BranchCode=ah.BranchCode
+left join Mas_User u on ah.EmpCode=u.UserID
+left join Job_SrvSingle s on ad.SICode=s.SICode
+left join Job_Order j on ad.ForJNo=j.JNo and ad.BranchCode=j.BranchCode
+where ah.PaymentRef<>'' and not ah.PaymentNo<>'' {0}
+) adv
+group by adv.AccCode,adv.AdvDesc
+order by adv.AccCode,adv.AdvDesc
+"
+            Dim sqlWhere = String.Format(" AND ah.BranchCode='{0}'", branch)
+            If jobtype <> "" Then
+                sqlWhere &= String.Format(" AND ah.JobType='{0}'", jobtype)
+            End If
+            If shipby <> "" Then
+                sqlWhere &= String.Format(" AND j.ShipBy='{0}'", shipby)
+            End If
+            If yy <> "" Then
+                sqlWhere &= String.Format(" AND YEAR(ah.PaymentDate)='{0}'", yy)
+            End If
+            If mm <> "" Then
+                sqlWhere &= String.Format(" AND MONTH(ah.PaymentDate)='{0}'", mm)
+            End If
+            sqlAdv = String.Format(sqlAdv, sqlWhere)
+            Dim dt = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlAdv)
+            Dim sumAdvPayment As Double = 0
+            Dim sumCompAdvPayment As Double = 0
+            Dim sumCustAdvPayment As Double = 0
+            Dim sumCompAdvWht As Double = 0
+            Dim sumCustAdvWht As Double = 0
+            If dt.Rows.Count > 0 Then
+                @<table border="1" class="table table-bordered">
+                    <thead>
+                        <tr>
+                            @For Each dc As System.Data.DataColumn In dt.Columns
+                                @<th>@dc.ColumnName</th>
+                            Next
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @For Each dr As System.Data.DataRow In dt.Rows
+                            sumAdvPayment += Convert.ToDouble(dr("PaymentNet"))
+                            sumCompAdvPayment += Convert.ToDouble(dr("CompanyAdv"))
+                            sumCompAdvWht += Convert.ToDouble(dr("CompanyWht"))
+                            sumCustAdvPayment += Convert.ToDouble(dr("CustomerAdv"))
+                            sumCustAdvWht += Convert.ToDouble(dr("CustomerWht"))
+                            @<tr>
+                                @For each dc As System.Data.DataColumn In dt.Columns
+                                    Select Case dc.ColumnName
+                                        Case "PaymentNet", "CustomerAdv", "CompanyAdv", "CompanyWht", "CustomerWht"
+                                            @<td style="text-align:right">@Convert.ToDouble(dr(dc.ColumnName)).ToString("#,##0.0000")</td>
+                                        Case Else
+                                            @<td>@dr(dc.ColumnName)</td>
+                                    End Select
+                                Next
+                            </tr>
+                        Next
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color:yellow;font-weight:bold;">
+                            <td colspan="2"><b>Total</b></td>
+                            <td style="text-align:right">@sumCustAdvPayment.ToString("#,##0.0000")</td>
+                            <td style="text-align:right">
+                                @sumCustAdvWht.ToString("#,##0.0000")
+                            </td>
+                            <td style="text-align:right">
+                                @sumCompAdvPayment.ToString("#,##0.0000")
+                        </td>
+                        <td style="text-align:right">@sumCompAdvWht.ToString("#,##0.0000")</td>
+                        <td style="text-align:right">@sumAdvPayment.ToString("#,##0.0000")</td>
+                    </tr>
+                </tfoot>
+            </table>
+            End If
+        @<b>Summary Account Payables</b>
+            Dim sqlAP = "
+select AccCode,VenderName,
+sum(case when IsCreditAdv=1 then Total+AmtWHT else 0 end) as TotalCustAP,
+sum(case when IsCreditAdv=1 then AmtWHT else 0 end) as TotalCustWHT,
+sum(case when IsCreditAdv=0 then Total+AmtWHT else 0 end) as TotalCompAP,
+sum(case when IsCreditAdv=0 then AmtWHT else 0 end) as TotalCompWHT,
+sum(Total) as TotalPayment
+from
+(
+select v.GLAccountCode as AccCode,v.Tname as VenderName,
+s.NameThai as PayDescription,pd.ForJNo,ph.DocDate,ph.PaymentRef,ph.PaymentDate,
+isnull(s.IsCredit,0) as IsCreditAdv,pd.Amt,pd.AmtVAT,pd.AmtWHT,pd.Total,ph.CurrencyCode,ph.ExchangeRate,pd.FTotal,
+cd.BNet as ClrNet,cd.UsedAmount as ClrAmt,cd.ChargeVAT as ClrVAT,cd.Tax50Tavi as ClrWHT
+from
+job_paymentdetail pd inner join Job_paymentheader ph
+on pd.DocNo=ph.DocNo and pd.BranchCode=ph.branchcode
+inner join Mas_Vender v on ph.VenCode=v.VenCode
+inner join Job_Order j on pd.ForJNo=j.JNo and pd.BranchCode=j.BranchCode
+left join Job_SrvSingle s on pd.SIcode=s.SICode
+left join Job_clearDetail cd on  pd.ClrRefNo=cd.ClrNo and pd.ClrItemNo=cd.ItemNo and pd.BranchCode=cd.BranchCode
+where not ph.cancelprove<>'' and ph.AdvRef='' {0}
+) as ap
+group by AccCode,VenderName
+"
+            sqlWhere = String.Format(" AND ph.BranchCode='{0}'", branch)
+            If jobtype <> "" Then
+                sqlWhere &= String.Format(" AND j.JobType='{0}'", jobtype)
+            End If
+            If shipby <> "" Then
+                sqlWhere &= String.Format(" AND j.ShipBy='{0}'", shipby)
+            End If
+            If yy <> "" Then
+                sqlWhere &= String.Format(" AND YEAR(ph.DocDate)='{0}'", yy)
+            End If
+            If mm <> "" Then
+                sqlWhere &= String.Format(" AND MONTH(ph.DocDate)='{0}'", mm)
+            End If
+            sqlAP = String.Format(sqlAP, sqlWhere)
+            dt = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sqlAP)
+            If dt.Rows.Count > 0 Then
+                Dim totalAP As Double = 0
+            @<table border="1" class="table table-bordered">
+                <thead>
+                    <tr>
+                        @For Each dc As System.Data.DataColumn In dt.Columns
+                            @<th>@dc.ColumnName</th>
+                        Next
+                    </tr>
+                </thead>
+                <tbody>
+                    @For Each dr As System.Data.DataRow In dt.Rows
+                        totalAP += Convert.ToDouble(dr("TotalPayment"))
+                        @<tr>
+                            @For each dc As System.Data.DataColumn In dt.Columns
+                                Select Case dc.ColumnName
+                                    Case "TotalCustAP", "TotalCustWHT", "TotalCompAP", "TotalCompWHT", "TotalPayment"
+                                        @<td style="text-align:right">@Convert.ToDouble(dr(dc.ColumnName)).ToString("#,##0.0000")</td>
+                                    Case Else
+                                        @<td>@dr(dc.ColumnName)</td>
+                                End Select
+                            Next
+                        </tr>
+                    Next
+                </tbody>                
+        <tfoot>
+            <tr style="background-color:yellow;font-weight:bold;">
+                <td colspan="6">Total</td>
+                <td style="text-align:right;">@totalAP.ToString("#,##0.0000")</td>
+            </tr>
+        </tfoot>
+        </table>
+            End If
+        Else
+    @<span>Please Login First</span>
+End If
+    </div>
+    
+</div>
 <script type="text/javascript">
-    const path = '@Url.Content("~")';
-</script>
+    let path = '@Url.Content("~")';
+    let user = '@ViewBag.User';
+    let userGroup = '@ViewBag.UserGroup';
+    let jt = '@jobtype';
+    let sb = '@shipby';
+    let custcode = getQueryString("custcode");
 
+    loadCombo();
+
+    function CheckJobType() {
+        if (jt !== $('#cboJobType').val()) {
+            jt = $('#cboJobType').val();
+            loadShipByByType(path, jt, '#cboShipBy');
+            return;
+        }
+        return;
+    }
+
+    function loadCombo() {
+        let lists = 'JOB_TYPE=#cboJobType|' + jt;
+        lists += ',SHIP_BY=#cboShipBy|' + sb;
+        loadBranch(path);
+        loadMonth('#cboMonth');
+        loadYear(path);
+        loadCombos(path, lists);
+        setDefaultValue();
+    }
+    function setDefaultValue() {
+        $('#cboBranch').val('@branch');
+        $('#cboJobType').val('@jobtype');
+        $('#cboShipBy').val('@shipby');
+        $('#cboYear').val('@yy');
+        $('#cboMonth').val(Number('@mm'));
+    }
+</script>

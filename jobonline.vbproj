@@ -919,7 +919,7 @@
     <Content Include="Views\Report\TruckProfit.vbhtml" />
     <Content Include="Views\Report\Summary.vbhtml" />
     <Content Include="Views\JobOrder\Summary.vbhtml" />
-    <Content Include="Views\Acc\Summary.vbhtml" />
+    <Content Include="Views\Acc\Summary_old.vbhtml" />
     <Content Include="Views\Adv\Summary.vbhtml" />
     <Content Include="Views\Clr\Summary.vbhtml" />
     <Content Include="Views\JobOrder\CreateTransport.vbhtml" />
@@ -940,7 +940,7 @@
     <Content Include="Views\Admin\Test.vbhtml" />
     <Content Include="Views\Report\ImportExcel.vbhtml" />
     <Content Include="Views\Acc\GLProcess.vbhtml" />
-    <Content Include="Views\Acc\WorkSheet.vbhtml" />
+    <Content Include="Views\Acc\WorkSheet_old.vbhtml" />
     <Content Include="Views\Tracking\Dashboard6_v1.vbhtml" />
     <Content Include="Views\Tracking\Dashboard5.vbhtml" />
     <Content Include="Views\Admin\Partial1.vbhtml" />
@@ -961,6 +961,8 @@
     <Content Include="Views\Acc\FormInv_LandScape.vbhtml" />
     <Content Include="Views\Tracking\Dashboard5_V2.vbhtml" />
     <Content Include="Views\JobOrder\Container.vbhtml" />
+    <Content Include="Views\Acc\Summary.vbhtml" />
+    <Content Include="Views\Acc\WorkSheet.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />
