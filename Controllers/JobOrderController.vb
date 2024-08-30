@@ -874,7 +874,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
-                    If "" & data.CTN_NO <> "" Then
+                    If "" & data.CTN_NO <> "" And Main.GetValueConfig("PROFILE", "CHECK_CONTAINER", "Y") = "Y" Then
                         If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
                             Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
                         End If
@@ -3626,11 +3626,18 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                     If sqlW <> "" Then sqlW &= " AND "
                     sqlW &= String.Format(" ct.Remark like '%{0}%'", Request.QueryString("Remark").ToString())
                 End If
+                If Request.QueryString("JobType") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" j.JobType='{0}'", Request.QueryString("JobType").ToString())
+                End If
+
                 Dim sql = Main.GetValueConfig("SQL", "SelectContainerTracking")
                 If sql = "" Then
-                    sql = "SELECT ld.*,ct.VenderCode,ct.AcquisitionDate,ct.EndDate,ct.CountryCode,ct.Remark as CTN_REMARK,j.ETDDate,j.ETADate,j.InvNo,j.AgentCode,j.CustCode,j.consigneeCode,j.ForwarderCode,j.DeclareNumber,j.HAWB,j.MAWB,j.CSCode,j.DutyDate,j.LoadDate,j.InvCountry,j.InvFCountry,j.InvInterPort,j.ClearPort,j.ClearPortNo  
+                    sql = "SELECT ld.*,ct.VenderCode,ct.AcquisitionDate,ct.EndDate,ct.CountryCode,ct.Remark as CTN_REMARK,j.ETDDate,j.ETADate,j.InvNo,j.AgentCode,j.CustCode,j.consigneeCode,j.ForwarderCode,j.DeclareNumber,j.HAWB,j.MAWB,j.CSCode,j.DutyDate,j.LoadDate,j.InvCountry,j.InvFCountry,j.InvInterPort,j.ClearPort,j.ClearPortNo,(case when j.JobType=1 then j.ETADate else j.ETDDate end) as PortDate,ip.PortName as InterPortName
 FROM Job_LoadInfoDetail ld inner join Mas_Container ct ON ld.CTN_NO=ct.CTN_NO 
 inner join Job_Order j on ld.BranchCode=j.BranchCode and ld.JNo=j.JNo 
+left join jobmaster.dbo.Mas_RFIPC ip on j.InvInterPort=ip.PortCode 
+and (case when j.jobType=1 then j.InvFCountry else j.InvCountry end)=ip.CountryCode
 "
                 End If
                 If sqlW <> "" Then

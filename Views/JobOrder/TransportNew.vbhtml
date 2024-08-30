@@ -212,7 +212,7 @@ End Code
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Instruction</option>
                 @*<option value="BLW">Bill of Lading - WALMAY</option>*@
-                <option value="BLE">Bill of Lading</option>
+                <option value="BLE">Bill of Lading - UGLOBE</option>
                 @*<option value="BFT">Bill of Lading - BETTER</option>*@
                 <option value="BLS">Sea Way Bill</option>
                 <option value="HAW">House Air Way Bill</option>
@@ -299,7 +299,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblPlace2">Delivery:</label>
+                <label id="lblPlace2">Loading:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtPlace2" class="form-control" />
@@ -805,7 +805,7 @@ End Code
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtTruckType" class="form-control">
-                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carlicense2')" />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
                                 </div>
                             </div>
                         </div>
@@ -1043,7 +1043,6 @@ End Code
             CreateLOV(dv, '#frmSearchPlace3', '#tbPlace3', 'Return', response, 1);
             //Car
             CreateLOV(dv, '#frmSearchCar', '#tbCar', 'Car License', response, 2);
-	        CreateLOV(dv, '#frmSearchCar2', '#tbCar2', 'Car License', response, 2);
             //Emp
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Driver', response, 2);
             //Cont
@@ -1057,7 +1056,7 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompanyByGroup(path, '#tbCust', 'NOTIFY_PARTY', '#frmSearchCust', ReadCustomer);
+                SetGridCompany(path, '#tbCust','#frmSearchCust', ReadCustomer);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -1114,17 +1113,13 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;        
-            case 'carlicense2':
-                SetGridCar(path, '#tbCar2', '#frmSearchCar2', ReadCar2);
-                break;                
+                break;
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
             case 'container':
                 SetGridContainer(path, '#tbCont', '#frmSearchCont', ReadCont);
                 break;
-
         }
     }
     function ReadCont(dt) {
@@ -1136,10 +1131,6 @@ End Code
     }
     function ReadCar(dt) {
         $('#txtTruckNO').val(dt.CarNo);
-        //$('#txtDriver').val(dt.EmpCode);
-    }
-    function ReadCar2(dt) {
-        $('#txtTruckType').val(dt.CarNo);
         //$('#txtDriver').val(dt.EmpCode);
     }
     function ReadRoute(dt) {
@@ -1335,7 +1326,7 @@ End Code
             $('#txtJNo').val(job);
         } else {
             $('#txtJNo').val(dr.JNo);
-        }        
+        }
         $('#txtBookingNo').val(dr.BookingNo);
         $('#txtVenderCode').val(dr.VenderCode);
         ShowVender(path, dr.VenderCode, '#txtVenderName');
@@ -1396,6 +1387,7 @@ End Code
         $('#txtTotalTripC').val(countC);
     }
     function ReadContainer(dr) {
+        sortData(dr,'ItemNo','asc');
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
@@ -1632,7 +1624,7 @@ End Code
                 window.open(path + 'JobOrder/FormTransport?Type=WALMAY&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'BLE':
-                window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'HAW':
                 window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
@@ -2110,7 +2102,8 @@ End Code
         $('#btnExpense2').attr('disabled', 'disabled');
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+            //$.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+		$.get(path + 'Acc/GetPayment?Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     $('#txtCTN_NO').attr('disabled', 'disabled');
                     let tb = $('#tbPayment').DataTable({

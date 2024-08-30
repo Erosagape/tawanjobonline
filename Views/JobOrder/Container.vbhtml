@@ -98,11 +98,11 @@ End Code
                         <th>CTN_NO</th>
                         <th>JNo</th>
                         <th>InvNo</th>
-                        <th>InterPort</th>
+                        <th>Port</th>
                         <th>PickupDate</th>
                         <th>LoadDate</th>
                         <th>ReturnDate</th>
-                        <th>Transport</th>
+                        <th>ReturnPlace</th>
                     </tr>
                 </thead>
                 <tbody />
@@ -234,6 +234,30 @@ End Code
         $('#txtCountryName').val(dt.CTYName);
     }
     function SaveData() {
+        if ($('#txtCTN_NO').val() == '') {
+            ShowMessage('Please enter Container No', true);
+            return;
+        }
+        if ($('#txtCTN_SIZE').val() == '') {
+            ShowMessage('Please enter Container Size', true);
+            return;
+        }
+        if ($('#txtVenderCode').val() == '') {
+            ShowMessage('Please enter Vender', true);
+            return;
+        }
+        if ($('#txtAcquisitionDate').val() == '') {
+            ShowMessage('Please enter Acquire Date', true);
+            return;
+        }
+        if ($('#txtCountryCode').val() == '') {
+            ShowMessage('Please enter Country Code', true);
+            return;
+        }
+        if ($('#txtRemark').val() == '') {
+            ShowMessage('Please enter Remark', true);
+            return;
+        }
         var obj = {
             CTN_NO: $('#txtCTN_NO').val(),
             VenderCode: $('#txtVenderCode').val(),
@@ -302,11 +326,11 @@ End Code
                         { data: "CTN_NO", title: "Container" },
                         { data: "JNo", title: "Job" },
                         { data: "InvNo", title: "C.Inv" },
-                        { data: "InvInterPort", title: "Port" },
+                        { data: "InterPortName", title: "Port" },
                         { data: "TargetYardDate", title: "Yard", render: function (data) { return ShowDate(data); }  },
                         { data: "LoadDate", title: "Load", render: function (data) { return ShowDate(data); }  },
                         { data: "ReturnDate", title: "Return", render: function (data) { return ShowDate(data); } },
-                        { data: "ForwarderCode", title: "Transport" },
+                        { data: "PlaceName3", title: "Transport" },
                     ],
                     destroy: true, pageLength: 100
                 });

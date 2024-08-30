@@ -29,8 +29,8 @@ delete from Job_ReceiptDetail
 delete from Job_ReceiptHeader
 delete from Job_WHTax
 delete from Job_WHTaxDetail
---delete from Job_TransportRoute
---delete from Job_TransportPlace
+delete from Job_TransportRoute
+delete from Job_TransportPlace
 delete from Job_TransportPrice
 --delete from Job_SrvGroup
 --delete from Job_SrvSingle
@@ -46,6 +46,6 @@ delete from Job_TransportPrice
 --delete from Mas_UserRole
 --delete from Mas_UserRolePolicy
 --delete from Mas_UserRoleDetail where UserID<>'ADMIN'
---delete from Mas_Vender
+delete from Mas_Vender
 --delete from Mas_Config
 

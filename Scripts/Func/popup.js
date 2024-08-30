@@ -1716,7 +1716,8 @@ function SetGridContainer(p, g, d, ev) {
         columns: [ //กำหนด property ของ header column
             { data: null, title: "#" },
             { data: "CTN_NO", title: mainLanguage == "TH" ? "No" : "No" },
-            { data: "CTN_SIZE", title: mainLanguage == "TH" ? "Size" : "Size" }
+            { data: "CTN_SIZE", title: mainLanguage == "TH" ? "Size" : "Size" },
+            { data: "VenderCode", title: mainLanguage == "TH" ? "Vender" : "Vender" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {
