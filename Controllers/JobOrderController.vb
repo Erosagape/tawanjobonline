@@ -1578,7 +1578,6 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     oJob.InvNo = "" & Request.QueryString("Inv")
                 End If
 
-                Dim sql As String = String.Format(" WHERE BranchCode='{0}' AND JobType='{1}' AND ShipBy='{2}' ", oJob.BranchCode, oJob.JobType, oJob.ShipBy)
                 If Not IsNothing(Request.QueryString("Cust")) Then
                     oJob.CustCode = "" & Request.QueryString("Cust").Split("|")(0)
                     oJob.CustBranch = "" & Request.QueryString("Cust").Split("|")(1)
@@ -1589,22 +1588,24 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""Customer not found""}}", jsonContent)
                     End If
                 End If
-                sql &= String.Format(" AND CustCode='{0}' And CustBranch='{1}' And InvNo='{2}' AND JobStatus<>99 ", oJob.CustCode, oJob.CustBranch, oJob.InvNo)
-                Dim FindJob = oJob.GetData(sql)
-                If FindJob.Count > 0 Then
-                    If GetSession("CurrentLang") = "TH" Then
-                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""อินวอย '" + oJob.InvNo + "' ถูกเปิดไปแล้วในเลขที่ '" + FindJob(0).JNo + "' ""}}", jsonContent)
-                    Else
-                        Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""invoice '" + oJob.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                If oJob.InvNo <> "" Then
+                    Dim sql As String = String.Format(" WHERE BranchCode='{0}' AND JobType='{1}' AND ShipBy='{2}' ", oJob.BranchCode, oJob.JobType, oJob.ShipBy)
+                    sql &= String.Format(" AND CustCode='{0}' And CustBranch='{1}' And InvNo='{2}' AND JobStatus<>99 ", oJob.CustCode, oJob.CustBranch, oJob.InvNo)
+                    Dim FindJob = oJob.GetData(sql)
+                    If FindJob.Count > 0 Then
+                        If GetSession("CurrentLang") = "TH" Then
+                            Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""อินวอย '" + oJob.InvNo + "' ถูกเปิดไปแล้วในเลขที่ '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                        Else
+                            Return Content("{""job"":{""data"":[],""status"":""N"",""result"":""invoice '" + oJob.InvNo + "' has been opened for job '" + FindJob(0).JNo + "' ""}}", jsonContent)
+                        End If
                     End If
                 End If
-
                 Dim CopyFrom As String = ""
                 If Not IsNothing(Request.QueryString("CopyFrom")) Then
                     CopyFrom = "" & Request.QueryString("CopyFrom")
                 End If
                 If CopyFrom <> "" Then
-                    FindJob = oJob.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", oJob.BranchCode, CopyFrom))
+                    Dim FindJob = oJob.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}'", oJob.BranchCode, CopyFrom))
                     If FindJob.Count > 0 Then
                         oJob = FindJob(0)
                         oJob.JNo = ""

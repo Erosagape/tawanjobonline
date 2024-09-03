@@ -1,22 +1,20 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportWhTaxLandscape.vbhtml"
+    Layout = "~/Views/Shared/_ReportNoHeadLandscape.vbhtml"
 End Code
 <style>
     * {
-        /*font-family: AngsanaUPC;*/
+        font-family: AngsanaUPC;
         font-size: 12px;
     }
 
-    table{
-        width:100%
-    }
-    #pFooter,#dvFooter {
+    #pFooter, #dvFooter {
         display: none;
     }
 
     p {
-        margin:2px;
+        margin: 2px;
     }
+
     thead {
         text-align: center;
     }
@@ -44,23 +42,28 @@ End Code
             line-height: 20px;
             font-size: 7px;
         }
+
+	*{
+		 page-break-inside: auto !important;page-break-after:auto !important;
+	}
 </style>
+<div style="padding:20px;width:100%;">
 <table>
     <tr>
         <td>
-            <div style="display:flex">
+            <div style="display:flex;width:98%;">
                 <div style="flex:15%">
                     ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.53</label>
                 </div>
                 <div style="flex:65%">
                     <br />
                     เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
-                    สาขา : <label id="lblBranch1"></label><br/>ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
+                    สาขา : <label id="lblBranch1"></label><br />ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
 
                     ที่อยู่ : <label id="lblTAddress1"></label>
                 </div>
                 <div style="flex:20%;text-align:right">
-                                        <br />                    
+                    <br />
                     หน้าที่ 1 ใน <span id="dvPages"></span> หน้า
                 </div>
             </div>
@@ -68,7 +71,7 @@ End Code
     </tr>
     <tr>
         <td>
-            <div id="report" style="width:100%">
+            <div id="report" style="width:98%">
                 <table id="tbDetail" border="1" style="border-style:solid;border-width:thin;border-collapse:collapse;display:none">
                     <thead style="text-align:center">
                         <tr></tr>
@@ -170,6 +173,7 @@ End Code
         </td>
     </tr>
 </table>
+</div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let data = getQueryString("data");
@@ -213,6 +217,7 @@ End Code
                     let n = 0;
                     let c = 0;
                     let p = 1;
+                    let rows = 6;
                     let sumamt = 0;
                     let sumtax = 0;
                     let template = '';
@@ -235,10 +240,10 @@ End Code
                             d += 1;
                         }
                     }
-                    if (d > 4) {
+                    if (d > (rows-1)) {
                         let r = 1;
-                        for (let i = 5; i <= d; i++) {
-                            if (r == 5||i==d) {
+                        for (let i = rows; i <= d; i++) {
+                            if (r == rows||i==d) {
                                 t += 1;
                                 r = 1;
                             } else {
@@ -259,14 +264,14 @@ End Code
                                 template = template.replace('{4}', field4);
                                 template = template.replace('{5}', field5);
 
-                                if ((p == 1 && n == 5) || (((n - 5) % 5) == 0 && p > 1)) {
+                                if ((p == 1 && n == rows) || (((n - rows) % rows) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 
                                     htmlAll = htmlAll.replace('{0}', htmlHead);
                                     htmlAll = htmlAll.replace('{1}', template);
                                     htmlAll = htmlAll.replace('{2}', htmlFoot);
-                                    
+
                                     if (p > 1) {
                                         htmlAll = '<div style="width:98%;text-align:right;page-break-before:always"><br/>หน้าที่ ' + p + ' จาก ' + t + ' หน้า </div>' + htmlAll;
                                     }
@@ -290,7 +295,7 @@ End Code
                             field4 = '';
                             field5 = '';
 
-                            template += '<tr style="height:82px">';
+                            template += '<tr style="height:70px">';
                             template += '<td>' + n + '</td>';
                             template += '<td>';
                             template += '<p class="text-left">';
@@ -298,17 +303,8 @@ End Code
                             template += '<br />';
                             template += 'ชื่อ : ' + r.TName3;
                             template += '<br />';
-                            //if (r.TAddress3.length >= 20) {
-                            //    let i = 20;
-                            //    console.log(r.TAddress3.length);
-                            //    while (r.TAddress3 .charCodeAt(i) != 32) { i++;}
-                            //    let text = r.TAddress3.slice(0, i) + '<br>' + r.TAddress3.slice(i);
-                            //    console.log(r.TAddress3.slice(0, i) );
-                            //    template += 'ที่อยู่ : ' + text;
-                            //} else {
-                                template += 'ที่อยู่ : ' + r.TAddress3 + '<br>';
-                            //}
-                           
+                            template += 'ที่อยู่ : ' + r.TAddress3 + '<br>';
+
                             template += '</p>';
                             template += '</td>';
                             template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
@@ -318,7 +314,7 @@ End Code
                             template += '<td style="text-align:right">{3}</td>';
                             template += '<td style="text-align:right">{4}</td>';
                             template += '<td>' + r.PayTaxType + '</td>';
-                            docno = r.DocNo;   
+                            docno = r.DocNo;
                         }
 
                         field1 += '<br/>' + ShowDate(r.PayDate);
