@@ -293,15 +293,16 @@ End Code
                     $('#lblTName1').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
                     $('#lblTAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN');
                     if (params.ReportCode == 'PRD53A') {
+			$('#lblIDCard1').text(tb.IDCard1);
+                        $('#lblTaxNumber1').text(tb.TaxNumber1);
+                        $('#lblBranch1').val('00'+CCode(tb.Branch1));
+                        $('#lblTName1').text(tb.TName1);
+                        $('#lblTAddress1').text(tb.TAddress1);
                         $('#txtTaxPosition').val('กระทำการแทน');
                     } else {
                         $('#txtTaxPosition').val('@ViewBag.TaxPosition');
                     }
-                    //$('#lblIDCard1').text(tb.IDCard1);
-                    //$('#lblTaxNumber1').text(tb.TaxNumber1);
-                    //$('#lblBranch1').val('00'+CCode(tb.Branch1));
-                    //$('#lblTName1').text(tb.TName1);
-                    //$('#lblTAddress1').text(tb.TAddress1);
+                    
                     $('#txtTaxYear').val(tb.TaxYear + 543);
                     $('#chkMo' + tb.TaxMonth).prop('checked', true);
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
@@ -309,13 +310,14 @@ End Code
                     let tax = 0;
                     let t = 1;
                     let d = 0;
+                    let rows = 6;
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 7) {
+                    if (d > (rows-1)) {
                         let r = 1;
-                        for (let i = 8; i <= d; i++) {
-                            if (r == 8 || i == d) {
+                        for (let i = rows; i <= d; i++) {
+                            if (r == rows || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {
