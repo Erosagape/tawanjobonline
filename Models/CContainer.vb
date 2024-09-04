@@ -7,6 +7,11 @@ Public Class CContainer
     Private mEndDate As DateTime
     Private mCountryCode As String
     Private mRemark As String
+    Private mPurpose As String
+    Private mCoolerBrand As String
+    Private mCoolerInstallDate As DateTime
+    Private mCoolerRefillDate As DateTime
+    Private mCTN_STATUS As String
     Private conn As String
     Public Property CTN_NO As String
         Get
@@ -64,6 +69,46 @@ Public Class CContainer
             mEndDate = value
         End Set
     End Property
+    Public Property Purpose As String
+        Get
+            Return mPurpose
+        End Get
+        Set(value As String)
+            mPurpose = value
+        End Set
+    End Property
+    Public Property CoolerBrand As String
+        Get
+            Return mCoolerBrand
+        End Get
+        Set(value As String)
+            mCoolerBrand = value
+        End Set
+    End Property
+    Public Property CoolerInstallDate As DateTime
+        Get
+            Return mCoolerInstallDate
+        End Get
+        Set(value As DateTime)
+            mCoolerInstallDate = value
+        End Set
+    End Property
+    Public Property CoolerRefillDate As DateTime
+        Get
+            Return mCoolerRefillDate
+        End Get
+        Set(value As DateTime)
+            mCoolerRefillDate = value
+        End Set
+    End Property
+    Public Property CTN_STATUS As String
+        Get
+            Return mCTN_STATUS
+        End Get
+        Set(value As String)
+            mCTN_STATUS = value
+        End Set
+    End Property
     Public Sub New()
 
     End Sub
@@ -91,6 +136,15 @@ Public Class CContainer
                     End If
                     row.CountryCode = rd.GetString(rd.GetOrdinal("CountryCode"))
                     row.Remark = rd.GetString(rd.GetOrdinal("Remark"))
+                    row.CTN_STATUS = rd.GetString(rd.GetOrdinal("CTN_STATUS")).ToString()
+                    row.CoolerBrand = rd.GetString(rd.GetOrdinal("CoolerBrand")).ToString()
+                    row.Purpose = rd.GetString(rd.GetOrdinal("Purpose")).ToString()
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CoolerInstallDate"))) = False Then
+                        row.CoolerInstallDate = rd.GetValue(rd.GetOrdinal("CoolerInstallDate"))
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CoolerRefillDate"))) = False Then
+                        row.CoolerRefillDate = rd.GetValue(rd.GetOrdinal("CoolerRefillDate"))
+                    End If
                     lst.Add(row)
                 End While
                 rd.Close()
@@ -118,6 +172,11 @@ Public Class CContainer
                         dr("EndDate") = Main.GetDBDate(Me.EndDate)
                         dr("CountryCode") = Me.CountryCode
                         dr("Remark") = Me.Remark
+                        dr("Purpose") = Me.Purpose
+                        dr("CoolerBrand") = Me.CoolerBrand
+                        dr("CTN_STATUS") = Me.CTN_STATUS
+                        dr("CoolerRefillDate") = Main.GetDBDate(Me.CoolerRefillDate)
+                        dr("CoolerInstallDate") = Main.GetDBDate(Me.CoolerInstallDate)
                         If dt.Rows.Count = 0 Then
                             dt.Rows.Add(dr)
                         End If

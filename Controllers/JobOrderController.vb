@@ -2029,7 +2029,7 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlw &= " AND " & useDate & ">='" & Request.QueryString("DateFrom") & " 00:00:00'"
                 End If
-                
+
                 If Not IsNothing(Request.QueryString("DateTo")) Then
                     tSqlw &= " AND " & useDate & "<='" & Request.QueryString("DateTo") & " 23:59:00'"
                 End If
@@ -2629,7 +2629,7 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                     type = Convert.ToInt16(Request.QueryString("type").ToString()) - 1
                 End If
                 If dbPaperless = "ECS" Then
-                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(Type)
+                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(type)
                     Dim dt As New DataTable
                     Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
                         cn.Open()
@@ -2638,7 +2638,7 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                     End Using
                     Return Content(msg, textContent)
                 Else
-                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(Type)
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
                     Dim dt As New DataTable
                     Using cn As MySqlConnection = New MySqlConnection(connStr)
                         cn.Open()
@@ -3592,6 +3592,14 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                     If sqlW <> "" Then sqlW &= " AND "
                     sqlW &= String.Format(" CTN_SIZE='{0}'", Request.QueryString("CTN_SIZE").ToString())
                 End If
+                If Request.QueryString("CTN_STATUS") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" CTN_STATUS='{0}'", Request.QueryString("CTN_STATUS").ToString())
+                End If
+                If Request.QueryString("Purpose") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" Purpose like '%{0}%'", Request.QueryString("Purpose").ToString())
+                End If
                 If Request.QueryString("Remark") IsNot Nothing Then
                     If sqlW <> "" Then sqlW &= " AND "
                     sqlW &= String.Format(" Remark like '%{0}%'", Request.QueryString("Remark").ToString())
@@ -3674,13 +3682,18 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
                     If sqlW <> "" Then sqlW &= " AND "
                     sqlW &= String.Format(" ct.CTN_SIZE='{0}'", Request.QueryString("CTN_SIZE").ToString())
                 End If
+                If Request.QueryString("STATUS") IsNot Nothing Then
+                    If sqlW <> "" Then sqlW &= " AND "
+                    sqlW &= String.Format(" ct.CTN_STATUS='{0}'", Request.QueryString("CTN_STATUS").ToString())
+                End If
                 If Request.QueryString("Remark") IsNot Nothing Then
                     If sqlW <> "" Then sqlW &= " AND "
                     sqlW &= String.Format(" ct.Remark like '%{0}%'", Request.QueryString("Remark").ToString())
                 End If
                 Dim sql = Main.GetValueConfig("SQL", "SelectContainerTracking")
                 If sql = "" Then
-                    sql = "SELECT ld.*,ct.VenderCode,ct.AcquisitionDate,ct.EndDate,ct.CountryCode,ct.Remark as CTN_REMARK,j.ETDDate,j.ETADate,j.InvNo,j.AgentCode,j.CustCode,j.consigneeCode,j.ForwarderCode,j.DeclareNumber,j.HAWB,j.MAWB,j.CSCode,j.DutyDate,j.LoadDate,j.InvCountry,j.InvFCountry,j.InvInterPort,j.ClearPort,j.ClearPortNo  
+                    sql = "SELECT ld.*,ct.VenderCode,ct.AcquisitionDate,ct.EndDate,ct.CountryCode,ct.Remark as CTN_REMARK,ct.Purpose,ct.CoolerBrand,ct.CTN_STATUS,ct.CoolerInstallDate,ct.CoolerRefillDate,
+j.ETDDate,j.ETADate,j.InvNo,j.AgentCode,j.CustCode,j.consigneeCode,j.ForwarderCode,j.DeclareNumber,j.HAWB,j.MAWB,j.CSCode,j.DutyDate,j.LoadDate,j.InvCountry,j.InvFCountry,j.InvInterPort,j.ClearPort,j.ClearPortNo,(case when j.JobType=1 then j.ETADate else j.ETDDate end) as PortDate,ip.PortName as InterPortName
 FROM Job_LoadInfoDetail ld inner join Mas_Container ct ON ld.CTN_NO=ct.CTN_NO 
 inner join Job_Order j on ld.BranchCode=j.BranchCode and ld.JNo=j.JNo 
 "
