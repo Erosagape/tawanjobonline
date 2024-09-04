@@ -3696,6 +3696,8 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
 j.ETDDate,j.ETADate,j.InvNo,j.AgentCode,j.CustCode,j.consigneeCode,j.ForwarderCode,j.DeclareNumber,j.HAWB,j.MAWB,j.CSCode,j.DutyDate,j.LoadDate,j.InvCountry,j.InvFCountry,j.InvInterPort,j.ClearPort,j.ClearPortNo,(case when j.JobType=1 then j.ETADate else j.ETDDate end) as PortDate,ip.PortName as InterPortName
 FROM Job_LoadInfoDetail ld inner join Mas_Container ct ON ld.CTN_NO=ct.CTN_NO 
 inner join Job_Order j on ld.BranchCode=j.BranchCode and ld.JNo=j.JNo 
+left join jobmaster.dbo.Mas_RFIPC ip on (case when j.JobType=1 then j.InvFCountry else j.InvCountry end)=ip.CountryCode
+and j.InvInterPort=ip.PortCode
 "
                 End If
                 If sqlW <> "" Then

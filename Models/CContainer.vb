@@ -136,9 +136,15 @@ Public Class CContainer
                     End If
                     row.CountryCode = rd.GetString(rd.GetOrdinal("CountryCode"))
                     row.Remark = rd.GetString(rd.GetOrdinal("Remark"))
-                    row.CTN_STATUS = rd.GetString(rd.GetOrdinal("CTN_STATUS")).ToString()
-                    row.CoolerBrand = rd.GetString(rd.GetOrdinal("CoolerBrand")).ToString()
-                    row.Purpose = rd.GetString(rd.GetOrdinal("Purpose")).ToString()
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CTN_STATUS"))) = False Then
+                        row.CTN_STATUS = rd.GetString(rd.GetOrdinal("CTN_STATUS")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CoolerBrand"))) = False Then
+                        row.CoolerBrand = rd.GetString(rd.GetOrdinal("CoolerBrand")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Purpose"))) = False Then
+                        row.Purpose = rd.GetString(rd.GetOrdinal("Purpose")).ToString()
+                    End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("CoolerInstallDate"))) = False Then
                         row.CoolerInstallDate = rd.GetValue(rd.GetOrdinal("CoolerInstallDate"))
                     End If
