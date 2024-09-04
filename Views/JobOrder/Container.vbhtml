@@ -183,13 +183,58 @@ End Code
                 </div>
                 <div class="row">
                     <div class="col-sm-4">
+                        Purpose
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" id="txtPurpose" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        Cooler Brand
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="text" id="txtCoolerBrand" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        Installation Date
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="date" id="txtCoolerInstallDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
+                        Refill Date
+                    </div>
+                    <div class="col-sm-8">
+                        <input type="date" id="txtCoolerRefillDate" class="form-control" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4">
                         Remark
                     </div>
                     <div class="col-sm-8">
                         <textarea id="txtRemark" class="form-control"></textarea>
                     </div>
                 </div>
-
+                <div class="row">
+                    <div class="col-sm-4">
+                        Status
+                    </div>
+                    <div class="col-sm-8">
+                        <select id="cboCTN_STATUS" class="form-control dropdown">
+                            <option value="">N/A</option>
+                            <option value="Y">Avaiable</option>
+                            <option value="N">Not Avaiable</option>
+                            <option value="C">Need Cleaning</option>
+                            <option value="R">Need Repairing</option>
+                        </select>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer" style="text-align:left;">
                 <input type="button" class="btn btn-success" value="Save" onclick="SaveData()" />
@@ -258,6 +303,14 @@ End Code
             ShowMessage('Please enter Remark', true);
             return;
         }
+        if ($('#cboCTN_STATUS').val() == '') {
+            ShowMessage('Please enter status', true);
+            return;
+        }
+        if ($('#txtPurpose').val() == '') {
+            ShowMessage('Please enter Purpose', true);
+            return;
+        }
         var obj = {
             CTN_NO: $('#txtCTN_NO').val(),
             VenderCode: $('#txtVenderCode').val(),
@@ -265,7 +318,12 @@ End Code
             AcquisitionDate: CDateEN($('#txtAcquisitionDate').val()),
             EndDate: CDateEN($('#txtEndDate').val()),
             CountryCode: $('#txtCountryCode').val(),
-            Remark: $('#txtRemark').val()
+            Remark: $('#txtRemark').val(),
+            Purpose: $('#txtPurpose').val(),
+            CoolerBrand: $('#txtCoolerBrand').val(),
+            CoolerInstallDate: CDateEN($('#txtCoolerInstallDate').val()),
+            CoolerRefillDate: CDateEN($('#txtCoolerRefillDate').val()),
+            CTN_STATUS: $('#cboCTN_STATUS').val()
         };
         var jsonText = JSON.stringify({ data: obj });
         $.ajax({
@@ -294,6 +352,11 @@ End Code
         $('#txtAcquisitionDate').val('');
         $('#txtEndDate').val('');
         $('#txtRemark').val('');
+        $('#txtPurpose').val('');
+        $('#txtCoolerBrand').val('');
+        $('#txtCoolerInstallDate').val('');
+        $('#txtCoolerRefillDate').val('');
+        $('#cboCTN_STATUS').val('Y');
         $('#dvEditor').modal('show');
     }
     function ShowData(c) {
@@ -352,6 +415,11 @@ End Code
                 $('#txtAcquisitionDate').val(CDateEN(d.AcquisitionDate));
                 $('#txtEndDate').val(CDateEN(d.EndDate));
                 $('#txtRemark').val(d.Remark);
+                $('#txtPurpose').val(d.Purpose);
+                $('#txtCoolerBrand').val(d.CoolerBrand);
+                $('#txtCoolerInstallDate').val(CDateEN(d.CoolerInstallDate));
+                $('#txtCoolerRefillDate').val(CDateEN(d.CoolerRefillDate));
+                $('#cboCTN_STATUS').val(d.CTN_STATUS);
                 $('#dvEditor').modal('show');
             }
         });
