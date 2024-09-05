@@ -1848,6 +1848,41 @@ End Code
             }
         });
     }
+    function LoadPaperlessKSOFT() {
+        let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
+        $.get(path + 'JobOrder/GetPaperless' + url).done(function (r) {
+            if (r.length > 0) {
+                $('#txtInvNo').val(r[0].dcl_invno);
+                $('#txtInvProduct').val(r[0].edesc01);
+                $('#txtInvTotal').val(r[0].total_duty);
+                $('#txtInvCurrency').val(r[0].currency);
+                $('#txtInvCurRate').val(r[0].exratethb);
+                $('#txtHAWB').val(r[0].housebl);
+                $('#txtMAWB').val(r[0].bl);
+                $('#txtInvPackQty').val(r[0].nopkg);
+                $('#txtInvQty').val(r[0].qty);
+                $('#txtInvUnit').val(r[0].qtyunit);
+                $('#txtNetWeight').val(r[0].netww);
+                $('#txtGrossWeight').val(r[0].grsww);
+                $('#txtWeightUnit').val(r[0].grswwunit);
+                $('#txtInvFCountry').val(r[0].im_consignmentcountry);
+                $('#txtInvCountry').val(r[0].ex_destinationcountry);
+                $('#txtETDDate').val(r[0].departdd);
+                $('#txtETADate').val(r[0].imdate_submitdate);
+                $('#txtImExDate').val(r[0].jobdate);
+                $('#txtDeclareType').val(r[0].dcltype);
+                $('#txtDeclareNo').val(r[0].xdeclareno);
+                $('#txtDutyAmt').val(r[0].duty_amt);
+                $('#txtReleasePort').val(r[0].released);
+                $('#txtPortNo').val(r[0].loaded);
+
+                ShowMessage('Update Complete');
+            } else {
+                ShowMessage('Data not found', true);
+            }
+        });
+    }
+
     function PrintForm() {
         window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }

@@ -2280,6 +2280,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
             End Try
         End Function
         Function GetPaperless() As ActionResult
+            Dim sql As String = ""
             Try
                 Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
                 Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
@@ -2298,7 +2299,6 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     Dim dt As New DataTable
                     Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
                         cn.Open()
-                        Dim sql As String = ""
                         If type = 0 Then
                             sql = "SELECT * FROM qDecI_Declare where ECS_JobNO='{0}'"
                         Else
@@ -2311,12 +2311,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End Using
                     Dim json = JsonConvert.SerializeObject(dt)
                     Return Content(json, jsonContent)
-                Else
+                ElseIf dbPaperless = "TAWAN" Then
                     Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
                     Dim dt As New DataTable
                     Using cn As MySqlConnection = New MySqlConnection(connStr)
                         cn.Open()
-                        Dim sql As String = String.Format("Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' ", job)
+                        sql = String.Format("Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' ", job)
                         Using da As New MySqlDataAdapter(sql, cn)
                             da.Fill(dt)
                         End Using
@@ -2324,9 +2324,24 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     End Using
                     Dim json = JsonConvert.SerializeObject(dt)
                     Return Content(json, jsonContent)
+                ElseIf dbPaperless = "KSOFT" Then
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(type)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        sql = String.Format("Select * from job_tawan where cusrefno='{0}' ", job)
+                        Using da As New MySqlDataAdapter(sql, cn)
+                            da.Fill(dt)
+                        End Using
+                        cn.Close()
+                    End Using
+                    Dim json = JsonConvert.SerializeObject(dt)
+                    Return Content(json, jsonContent)
+                Else
+                    Return Content("[]", jsonContent)
                 End If
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaperless", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetPaperless", ex.Message, sql, True, ex.StackTrace)
                 Return Content("[]", jsonContent)
             End Try
         End Function
