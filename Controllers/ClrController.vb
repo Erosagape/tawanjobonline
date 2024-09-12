@@ -844,7 +844,19 @@ WHERE y.DocStatus<>99 AND ISNULL(x.VenderBillingNo,'')<>'') "
                             Return Content("{""result"":{""data"":[],""msg"":""You are not allow to add""}}", jsonContent)
                         End If
                     End If
-
+                    If Main.GetValueConfig("PROFILE", "DUPLICATE_SLIP", "Y") = "N" Then
+                        Dim sqlCheck = Main.GetValueConfig("SQL", "SQLSelectDuplicateSlip")
+                        If sqlCheck = "" Then
+                            sqlCheck = "SELECT MAX(d.ClrNo) as t from Job_ClearDetail d inner join Job_ClearHeader h
+on d.ClrNo=h.ClrNo and d.BranchCode=h.BranchCode 
+where CONCAT(d.ClrNo,'#',d.ItemNo)<>'{0}' And d.SICode='{1}' and d.SlipNO='{2}' and d.VenderCode='{3}' and d.JobNo='{4}' and LEN(d.SlipNo)>3 and h.DocStatus<>99"
+                        End If
+                        sqlCheck = String.Format(sqlCheck, data.ClrNo + "#" + data.ItemNo, data.SICode, data.SlipNO, data.VenderCode, data.JobNo)
+                        Dim valCheck = Main.GetValueSQL(GetSession("ConnJob"), sqlCheck)
+                        If valCheck.Result <> "" And valCheck.IsError = False Then
+                            Return Content(String.Format("{""result"":{""data"":[],""msg"":""This slip '{0}' is used in Clearing No '{1}' of Job '{2}' ""}}", data.SlipNO, valCheck.Result, data.JobNo), jsonContent)
+                        End If
+                    End If
                     data.SetConnect(GetSession("ConnJob"))
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND ClrNo='{1}' AND ItemNo={2} ", data.BranchCode, data.ClrNo, data.ItemNo))
                     Dim json = "{""result"":{""data"":""" & data.ClrNo & """,""msg"":""" & msg & """}}"
