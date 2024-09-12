@@ -725,7 +725,7 @@ function SetGridInv(p, g, d, t, ev) {
 function SetGridJob(p, g, d, t, ev) {
     $(g).DataTable({
         ajax: {
-            url: p + 'joborder/getjobsql'+ t, //web service ที่จะ call ไปดึงข้อมูลมา
+            url: p + 'joborder/getjobsql' + t + '&Status=1,2,3,4,5,6,98', //web service ที่จะ call ไปดึงข้อมูลมา
             dataSrc: 'job.data'
         },
         selected: true, //ให้สามารถเลือกแถวได้
