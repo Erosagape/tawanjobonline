@@ -150,7 +150,7 @@ End Code
                 <th rowspan="2">DESCRIPTION</th>
                 <th colspan="3">COST</th>
                 <th>SELLING</th>
-                <th rowspan="2" colspan="2">PROFIT</th>
+                <th rowspan="2">PROFIT</th>
             </tr>
             <tr>
                 <th>CUSTOMER-SLIP</th>
@@ -168,14 +168,14 @@ End Code
                 <td id="sumService" style ="text-align: right" colspan="5"></td>
             </tr>
             <tr>
-                <td></td>
+        		<td></td>   
                 <td>Cost</td>
                 <td id="sumCost" style ="text-align: right" colspan="5"></td>
             </tr>
             <tr>
-                <td></td>
+		<td></td>
                 <td>Balance</td>
-                <td id="sumBalance"  style ="text-align: right" colspan="5"></td>
+                <td id="sumBalance"  style ="text-align: right" colspan="6"></td>
             </tr>
             <tr>
                 <td colspan="7">Price @@ <label id="remark1">_________________________</label>  CTN (<label id="remark2">_________________________</label>)</td>
@@ -325,18 +325,23 @@ End Code
                 let noSlipSum = 0;
                 let servSum = 0;
                 let profitSum = 0;
+                sortData(d, 'SlipNO', 'asc');
+                let slipNo = '0';
                 for (let i = 0; i < d.length; i++) {
                     let html = '';
+                    if (slipNo !== d[i].SlipNO) {
+                        slipNo = d[i].SlipNO;
+
+                        html = '<tr><td colspan="7"><b>' + d[i].SlipNO + ' / ' + d[i].VenderName + '</b></td></tr>';
+                        tb.append(html);
+                    }
+
                     let amt = d[i].UsedAmount;
-                    //let adv = (d[i].IsCredit == 1 ? amt : 0);
-                    //let cost = (d[i].IsExpense == 1 || d[i].IsCredit == 1 ? amt : 0);                
                     let customerSlip = (d[i].IsHaveSlip == 1 && d[i].IsCredit == 1 ? amt : 0);
                     let companySlip = (d[i].IsHaveSlip == 1 && d[i].IsExpense == 1 ? amt : 0);
                     let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
                     let profit = (d[i].IsExpense == 1 ? amt * -1 : d[i].IsCredit == 1 ? 0 : d[i].UsedAmount);
-                    //amtadv += adv;
-                    //amtserv += serv;
                     customerSlipSum += customerSlip;
                     companySlipSum += companySlip;
                     noSlipSum += noSlip;
@@ -352,16 +357,7 @@ End Code
                     }
                     html = '<tr>';
                     html += '<td>' + d[i].ClrNo + '#' + d[i].ItemNo + '</td>';
-                    html += '<td>' + d[i].SICode + '-' + d[i].SDescription;
-                    //if (d[i].AdvNO !== null) html += ' จากใบเบิก ' + d[i].AdvNO;
-                    //if (d[i].SlipNO !== null) html += ' ใบเสร็จเลขที่ ' + d[i].SlipNO;
-
-                    html += '</td>';
-                    //if (customerSlip > 0) {
-                    //    html += '<td style="text-align:right">' + customerSlip > 0 ? CCurrency(CDbl(customerSlip, 2)) : '' + '</td>';//CUSTOMER-SLIP
-                    //} else {
-                    //    html += '<td style="text-align:right"></td>';//CUSTOMER-SLIP
-                    //}
+                    html += '<td>' + d[i].SICode + '-' + d[i].SDescription + '</td>';
                     html += '<td style="text-align:right">' + (customerSlip != 0 ? CCurrency(CDbl(customerSlip, 2)) : '') + '</td>';//CUSTOMER-SLIP
                     html += '<td style="text-align:right">' + (companySlip != 0 ? CCurrency(CDbl(companySlip, 2)) : '') + '</td>';//COMPANY-SLIP
                     html += '<td style="text-align:right">' + (noSlip != 0 ? CCurrency(CDbl(noSlip, 2)) : '') + '</td>';//NO-SLIP
@@ -369,18 +365,11 @@ End Code
                     html += '<td style="text-align:right">' + (profit != 0 ? CCurrency(CDbl(profit, 2)) : '') + '</td>';//PROFIT
                     html += '</tr>';
 
-
-
-                    //amtcost += cost;
-                    //amttotal += serv + adv;
-                    //amtprofit += profit;
-
                     tb.append(html);
                 }
                 let summary = ` <tr>
                <td></td>
                <td></td>
-
                <td style="text-align:right">${customerSlipSum != 0 ? CCurrency(CDbl(customerSlipSum, 2)) : ""}</td>
                <td style="text-align:right">${companySlipSum != 0 ? CCurrency(CDbl(companySlipSum, 2)) : ""}</td>
                <td style="text-align:right">${noSlipSum != 0 ? CCurrency(CDbl(noSlipSum, 2)) : ""}</td>
@@ -388,24 +377,10 @@ End Code
                <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
            </tr >`;
                 tb.append(summary);
+                $("#sumService").text(CCurrency(CDbl(customerSlipSum + servSum, 2)));
                 $("#sumCost").text(CCurrency(CDbl(customerSlipSum + noSlipSum, 2)));
                 $("#sumBalance").text(CCurrency(CDbl(sService - (customerSlipSum + noSlipSum),2)));
             }
-            //$('#lblSumAdv').text(CCurrency(CDbl(amtadv, 2)));
-            //$('#lblSumServ').text(CCurrency(CDbl(amtserv, 2)));
-
-            //$('#lblSumCharge').text(CCurrency(CDbl(amttotal, 2)));
-            //$('#lblSumTax').text(CCurrency(CDbl(amtwht, 2)));
-            //$('#lblSumCost').text(CCurrency(CDbl(amtcost, 2)));
-            //$('#lblSumProfit').text(CCurrency(CDbl(amtprofit, 2)));
-            //$('#lblTotalVAT').text(CCurrency(CDbl(amtvat, 2)));
-            //if (amtprofit > 0) {
-            //    $('#lblCommRate').text(CCurrency(CDbl(amtprofit * (commrate / 100), 2)));
-            //    $('#lblNetProfit').text(CCurrency(CDbl(amtprofit - (amtprofit * (commrate / 100)), 2)));
-            //} else {
-            //    $('#lblCommRate').text(CCurrency(CDbl(0, 2)));
-            //    $('#lblNetProfit').text(CCurrency(CDbl(amtprofit, 2)));
-            //}
         });
     }
 </script>
