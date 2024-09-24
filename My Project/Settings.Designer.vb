@@ -53,13 +53,10 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
-        
-        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("STM")>  _
+
         Public ReadOnly Property LicenseTo() As String
             Get
-                Return CType(Me("LicenseTo"),String)
+                Return CType(Me("LicenseTo"), String)
             End Get
         End Property
     End Class
