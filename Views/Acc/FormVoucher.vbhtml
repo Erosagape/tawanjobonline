@@ -332,7 +332,7 @@ End Code
                             }
                             sum += Number(CDbl(d.PaidAmount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;
-			    if (d.Remark !== '') desc += '<br/>' + d.Remark;
+                            if (d.Remark !== '') desc += '<br/>' + d.Remark;
                             appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
                         }
                         appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');

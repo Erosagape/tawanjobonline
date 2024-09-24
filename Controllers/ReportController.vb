@@ -1872,7 +1872,8 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
 
             Return Content(strAll, textContent)
         End Function
-        Function TruckProfit() As ActionResult
+
+        Function THESOTruckProfit() As ActionResult
             Dim sql As String = GetValueConfig("SQL", "SelectCostByLoading")
             Dim sqlW As String = " "
 
@@ -1931,7 +1932,7 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
             ViewBag.DataTable = dt
             Return GetView("TruckProfit")
         End Function
-        Function TruckProfitDetail() As ActionResult
+        Function THESOTruckProfitDetail() As ActionResult
             Dim sql As String = GetValueConfig("SQL", "SelectCostByLoading")
             Dim sqlW As String = " "
 
@@ -2344,6 +2345,19 @@ FROM Job_Order GROUP BY Year(DocDate),Month(DocDate)
             End Try
             Return dt
         End Function
-
+        Function TruckProfit() As ActionResult
+            Dim formName As String = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("TruckProfit" & formName)
+        End Function
+        Function TruckProfitDetail() As ActionResult
+            Dim formName As String = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form")
+            End If
+            Return GetView("TruckProfitDetail" & formName)
+        End Function
     End Class
 End Namespace

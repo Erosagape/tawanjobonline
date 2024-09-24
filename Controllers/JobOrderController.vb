@@ -2602,6 +2602,45 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 Return Content("[]", jsonContent)
             End Try
         End Function
+        Function TestPaperless() As ActionResult
+            Try
+                Dim listPaperless = Main.GetValueConfig("PAPERLESS", "DBLINK")
+                Dim hostPaperless = Main.GetValueConfig("PAPERLESS", "DBHOST")
+                Dim dbPaperless = Main.GetValueConfig("PAPERLESS", "DBTYPE")
+                If dbPaperless = "ECS" Then
+                    Dim connStr = hostPaperless & ";Initial Catalog=" & listPaperless.Split(",")(0)
+                    Dim dt As New DataTable
+                    Using cn As SqlClient.SqlConnection = New SqlClient.SqlConnection(connStr)
+                        cn.Open()
+                        cn.Close()
+                    End Using
+                    Dim json = "Connected"
+                    Return Content(json, textContent)
+                ElseIf dbPaperless = "TAWAN" Then
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(0)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        cn.Close()
+                    End Using
+                    Dim json = "Connected"
+                    Return Content(json, textContent)
+                ElseIf dbPaperless = "KSOFT" Then
+                    Dim connStr = hostPaperless & ";database=" & listPaperless.Split(",")(0)
+                    Dim dt As New DataTable
+                    Using cn As MySqlConnection = New MySqlConnection(connStr)
+                        cn.Open()
+                        cn.Close()
+                    End Using
+                    Dim json = "Connected"
+                    Return Content(json, textContent)
+                Else
+                    Return Content("Nothing", textContent)
+                End If
+            Catch ex As Exception
+                Return Content(ex.Message, "text/json")
+            End Try
+        End Function
         Function GetPaperless() As ActionResult
             Dim sql As String = ""
             Try
