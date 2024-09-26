@@ -3637,64 +3637,6 @@ ORDER BY ReceiptDate DESC
             End Try
         End Function
         Function Summary() As ActionResult
-            Dim ds As New System.Data.DataSet
-            Dim sqlBillPay As String = "
-select Year(h.DocDate) as DocYear,h.CurrencyCode,
-sum(case when h.CancelProve<>'' then 1 else 0 end) as TotalDocCancel, 
-sum(case when NOT h.CancelProve<>'' then 1 else 0 end) as TotalDocActive, 
-sum(case when NOT h.CancelProve<>'' then d.Total+d.AmtWHT else 0 end) as TotalAP,
-sum(case when NOT h.PaymentBy<>'' and NOT h.CancelProve<>'' then d.Total+d.AmtWHT else 0 end) as AccruedAP,
-sum(case when h.PaymentBy<>'' and NOT h.CancelProve<>'' then d.Total+d.AmtWHT else 0 end) as PaymentedAP,
-sum(case when h.PaymentBy<>'' and NOT h.CancelProve<>'' then d.AmtVAT else 0 end) as VATPaymented,
-sum(case when h.PaymentBy<>'' and NOT h.CancelProve<>'' then d.AmtWHT else 0 end) as WHTPaymented,
-sum(case when h.CancelProve<>'' then d.Total+d.AmtWHT else 0 end) as CancelledAP
-from Job_PaymentHeader h
-inner join Job_PaymentDetail d
-on h.DocNo=d.DocNo and h.BranchCode=d.BranchCode 
-group by Year(h.DocDate),h.CurrencyCode
-"
-            Dim sqlInvoice As String = "
-select Year(h.DocDate) as DocYear,h.CurrencyCode,
-sum(case when h.CancelProve<>'' then 1 else 0 end) as TotalDocCancel, 
-sum(case when NOT h.CancelProve<>'' then 1 else 0 end) as TotalDocActive, 
-sum(case when NOT h.CancelProve<>'' then d.TotalAmt else 0 end) as TotalAR,
-sum(case when NOT h.CancelProve<>'' and d.AmtCharge=0 then d.TotalAmt else 0 end) as AdvanceAR,
-sum(case when NOT h.CancelProve<>'' and d.AmtCharge>0 then d.TotalAmt else 0 end) as ServiceAR,
-sum(case when h.CancelProve<>'' then d.TotalAmt else 0 end) as CancelAR
-from Job_InvoiceHeader h
-inner join Job_InvoiceDetail d
-on h.DocNo=d.DocNo and h.BranchCode=d.BranchCode 
-group by Year(h.DocDate),h.CurrencyCode
-"
-            Dim sqlReceive As String = "select Year(rh.ReceiptDate) as DocYear,h.CurrencyCode,
-sum(case when rh.CancelProve<>'' then 1 else 0 end) as TotalDocCancel, 
-sum(case when NOT rh.CancelProve<>'' then 1 else 0 end) as TotalDocActive, 
-sum(case when NOT rh.CancelProve<>'' then rd.Net else 0 end) as TotalRC,
-sum(case when NOT rh.CancelProve<>'' and d.AmtCharge=0 then rd.Net else 0 end) as AdvanceRC,
-sum(case when NOT rh.CancelProve<>'' and d.AmtCharge>0 then rd.Net else 0 end) as ServiceRC,
-sum(case when rh.CancelProve<>'' then rd.Net else 0 end) as CancelRC
-from Job_InvoiceHeader h
-inner join Job_InvoiceDetail d 
-on h.DocNo=d.DocNo and h.BranchCode=d.BranchCode 
-inner join Job_ReceiptDetail rd
-on rd.BranchCode=d.BranchCode 
-and rd.InvoiceNo=d.DocNo 
-and rd.InvoiceItemNo=d.ItemNo 
-inner join Job_ReceiptHeader rh
-on rd.ReceiptNo=rh.ReceiptNo 
-and rd.BranchCode=rh.BranchCode 
-group by Year(rh.ReceiptDate),h.CurrencyCode
-"
-            Dim dtBillPay As System.Data.DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlBillPay)
-            Dim dtInvoice As System.Data.DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlInvoice)
-            Dim dtReceive As System.Data.DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlReceive)
-            ds.Tables.Add(dtBillPay)
-            ds.Tables.Add(dtInvoice)
-            ds.Tables.Add(dtReceive)
-            ViewBag.DataSet = ds
-            Return GetView("Summary", "MODULE_ACC")
-        End Function
-        Function Summary_Old() As ActionResult
             Dim sqlClrByTruck = "
 select r.Yearly,r.Monthly,r.TruckNo
 ,sum(ISNULL(SumRevenue,0)) as TotalRevenue 

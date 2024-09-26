@@ -655,6 +655,7 @@
     <Content Include="Scripts\Func\popup.js" />
     <Content Include="Scripts\Func\reports.js" />
     <Content Include="Scripts\Func\util.js" />
+    <Content Include="Scripts\Func\xlsx.full.min.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.js" />
     <Content Include="Scripts\i18n\defaults-ar_AR.min.js" />
     <Content Include="Scripts\i18n\defaults-bg_BG.js" />

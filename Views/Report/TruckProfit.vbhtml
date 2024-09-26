@@ -1,163 +1,184 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportLandscape.vbhtml"
-    ViewData("Title") = "Profit & Costing By Truck"
-    Dim SumProfit = 0
-    Dim SumSumAdv = 0
-    Dim SumSumTrip = 0
-    Dim SumTotalFuelAmount = 0
-    Dim SumSumCost = 0
-    Dim SumSumCharge = 0
+    ViewData("Title") = "Profit Report By Truck"
+
 End Code
-<style>
-    * {
-        font-size: 10px
-    }
+<div class="container">
+    <h2>Profit Report By Truck</h2>
+    <div class="row">
+        <div class="col-sm-3">
+            <label>Job Date From:</label>
+            <br />
+            <div style="display:flex;flex-direction:row">
+                <input type="date" class="form-control" id="txtDateFrom" style="width:100%" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label id="txtDateFrom">Job Date To:</label>
+            <br />
+            <div style="display:flex;flex-direction:row">
+                <input type="date" class="form-control" id="txtDateTo" style="width:100%" />
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <label id="lblCSName" for="#txtCSCode">Support By :</label>
+            <div style="display:flex;flex-direction:row">
+                <input type="text" id="#txtCSCode" class="form-control" style="width:100%" disabled />
+                <input type="button" id="btnBrowseCS" class="btn btn-default" value="..." onclick="SearchData('driver')" />
+            </div>
+        </div>
+    </div>
 
-    .right {
-        text-align: right;
-    }
+    @*<div class="row">
+            <div class="col-sm-6">
+                <label id="lblCustomer" for="#txtCustCode">Im/Ex porter:</label>
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="#txtCustCode" class="form-control" style="width:100%" disabled />
+                    <input type="button" id="btnBrowseCustomer" class="btn btn-default" value="..." onclick="SearchData('customer')" />
+                </div>
+            </div>
 
-    tr td {
-        border-style: none;
-        border-color: white
-    }
+            <div class="col-sm-6">
+                <label id="lblVender" for="#txtVenderCode">Transport Vender:</label>
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" id="#txtVenderCode" class="form-control" style="width:100%" disabled />
+                    <input type="button" id="btnBrowseVender" class="btn btn-default" value="..." onclick="SearchData('vender')" />
+                </div>
+            </div>
+        </div>*@
 
-    .table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td {
-        border-style: none;
-        padding: 0px 5px;
-    }
-</style>
-<div>
-    <table class="table">
-        <tbody>
-            @For Each dr As System.Data.DataRow In ViewBag.DataTable.Rows
-                @<tr>
-                    <td width="5%"> Customer</td>
-                    <td width="10%">@dr("CustomerName").ToString()</td>
-                    <td width="8%"></td>
-                    <td width="8%"> Shipper</td>
-                    <td width="10%">@dr("ShipperName").ToString()</td>
-                    <td width="8%"> วันที่ส่งตู้บรรจุ</td>
-                    @If IsDate(dr("LoadDate")) Then
-                        @<td width="5%">@String.Format(dr("LoadDate"), "dd/MM/yyyy")</td>
-                    Else
-                        @<td width="5%"></td>
-                    End If
-                    <td width="8%"> Job#</td>
-                    <td width="5%">@dr("JNo").ToString()</td>
-                    <td width="8%"> Order#</td>
-                    <td width="5%">@dr("HAWB").ToString()</td>
-                    <td width="20%" rowspan="5">
-                        <Table Class="table">
-                            <tbody>
-                                @Code
-                                    Try
-                                        SumProfit += dr("Profit")
-                                        SumSumAdv += dr("SumAdv")
-                                        SumSumTrip += dr("SumTrip")
-                                        SumTotalFuelAmount += dr("TotalFuelAmount")
-                                        SumSumCost += dr("SumCost")
-                                        SumSumCharge += dr("SumCharge")
-                                    Catch ex As Exception
+<div class="row">
+    <div class="col-sm-6">
+        <label id="lblCustCode">Im/Ex porter:</label>
+        <br />
+        <div style="display:flex;flex-direction:row">
+            <input type="text" id="txtCustCode" class="form-control" style="width:130px" disabled />
+            <input type="text" id="txtCustBranch" class="form-control" style="width:70px" disabled />
+            <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+            <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <label id="lblVenCode">Transport Vender:</label>
+        <br />
+        <div style="display:flex;flex-direction:row">
+            <input type="text" class="form-control" id="txtVenCode" style="width:20%" disabled />
+            <button id="btnBrowseVend" class="btn btn-default" onclick="SearchData('vender')">...</button>
+            <input type="text" class="form-control" id="txtVenName" style="width:100%" disabled />
+        </div>
+    </div>
 
-                                    End Try
-                                End Code
-                                <tr style="border-bottom: 1px solid black">
-                                    <td>กำไร/ขาดทุน</td>
-                                    <td Class="right">@Format(dr("Profit").ToString(), "Fixed")</td>
-                                </tr>
-                                <tr>
-                                    <td> ค่าเที่ยวสิ้นเดือน</td>
-                                    <td Class="right">@Format(dr("SumTrip").ToString(), "Fixed")</td>
-                                </tr>
-                                <tr>
-                                    <td> ค่าน้ำมัน/แก๊ส</td>
-                                    <td Class="right">@Format(dr("TotalFuelAmount").ToString(), "Fixed")</td>
-                                </tr>
-                                <tr>
-                                    <td> Total Cost</td>
-                                    <td Class="right">@Format(dr("SumCost").ToString(), "Fixed")</td>
-                                </tr>
-                                <tr>
-                                    <td> Total sale</td>
-                                    <td Class="right">@Format(dr("SumCharge").ToString(), "Fixed")</td>
-                                </tr>
-                                <tr>
-                                    <td> Total Adv</td>
-                                    <td Class="right">@Format(dr("SumAdv").ToString(), "Fixed")</td>
-                                </tr>
-                            </tbody>
-                        </Table>
-                    </td>
-                </tr>
-                @<tr>
-                    <td> พขร</td>
-                    <td>@dr("Driver").ToString()</td>
-                    <td>@dr("TruckNo").ToString()</td>
-                    <td> สถานที่รับตู้</td>
-                    <td> @dr("PickupPlace").ToString()</td>
-                    <td> สถานที่บรรจุ</td>
-                    <td colspan="3"> @dr("PackingPlace").ToString()</td>
-
-                    <td> สถานที่คืนตู้</td>
-                    <td> @dr("ReturnPlace").ToString()</td>
-                    <td></td>
-                </tr>
-                @<tr>
-                    <td> เบอร์ตู้</td>
-                    <td colspan="2"> @dr("CTN_SIZE").ToString(), @dr("CTN_NO").ToString()</td>
-                    <td> Booking no.</td>
-                    <td> @dr("BookingNo").ToString()</td>
-                    <td> Cust Inv.</td>
-                    <td colspan="3">@dr("InvNo").ToString()</td>
-                    <td> น้ำมัน(ลิตร)</td>
-                    <td> @dr("TotalFuelUsed").ToString()</td>
-                </tr>
-                @<tr>
-                    <td> Cost</td>
-                    <td colspan="10"> @dr("DetailCost").ToString()</td>
-                </tr>
-                @<tr>
-                    <td> Sale</td>
-                    <td colspan="10"> @dr("DetailCharge").ToString()</td>
-                </tr>
-                @<tr style="border-bottom:1px solid black;margin-bottom:10px">
-                    <td> Advance</td>
-                    <td colspan="10"> @dr("DetailAdv").ToString()</td>
-                </tr>
-                                    Next
-            <tr>
-                <td colspan="11"></td>
-                <td>
-                    <table class="table">
-                        <tbody>
-                            <tr style="border-bottom: 1px solid black">
-                                <td>กำไร/ขาดทุน</td>
-                                <td Class="right">@Format(SumProfit, "Fixed")</td>
-                            </tr>
-                            <tr>
-                                <td>ค่าเที่ยวสิ้นเดือน</td>
-                                <td class="right"> @Format(SumSumTrip, "Fixed")</td>
-                            </tr>
-                            <tr>
-                                <td>ค่าน้ำมัน/แก๊ส</td>
-                                <td class="right"> @Format(SumTotalFuelAmount, "Fixed") </td>
-                            </tr>
-                            <tr>
-                                <td>Total Cost</td>
-                                <td class="right">@Format(SumSumCost, "Fixed")</td>
-                            </tr>
-                            <tr>
-                                <td>Total sale</td>
-                                <td class="right">@Format(SumSumCharge, "Fixed")</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-
-
-
-            </tr>
-        </tbody>
-    </table>
 </div>
+
+    <input type="button" class="btn btn-success" value="Print" onclick="PrintData()" />
+</div>
+<script type="text/javascript" src="~/Scripts/Func/combo.js"></script>
+<script type="text/javascript">
+    let path = '@Url.Content("~")';
+    let user = '@ViewBag.User';
+
+
+
+    function PrintData() {
+        let w = '?Form=';
+        if ($('#txtDateFrom').val() !== '') {
+            w += '&DateFrom=' + $('#txtDateFrom').val();
+        }
+        if ($('#txtDateTo').val() !== '') {
+            w += '&DateTo=' + $('#txtDateTo').val();
+        }
+        if ($('#txtCSCode').val() !== '') {
+            w += '&CSCode=' + $('#txtCSCode').val();
+        }
+        if ($('#txtCustCode').val() !== '') {
+            w += '&CustCode=' + $('#txtCustCode').val();
+        }
+        if ($('#txtVenCode').val() !== '') {
+            w += '&VenCode=' + $('#txtVenCode').val();
+        }
+        window.location.href = path + 'Report/TruckProfitDetail' + w;
+    }
+
+    function SearchData(type) {
+        let w = '';
+        switch (type) {
+            case 'vender':
+                SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
+                break;
+            case 'customer':
+                SetGridCompanyByGroup(path, '#tbCust', 'NOTIFY_PARTY', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'branch':
+                SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
+                break;
+            case 'job':
+                w = '';
+                if (userGroup == 'V') {
+                    w += '&Vend=' + $('#txtVenderCode').val();
+                }
+                if (userGroup == 'C') {
+                    w += '&CustCode=' + cust;
+                }
+                SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val() + w, ReadJobFull);
+                break;
+            case 'servunit':
+                SetGridServUnitFilter(path, '#tbUnitS', '?Type=0', '#frmSearchUnitS', ReadUnit);
+                break;
+            case 'carunit':
+                SetGridServUnitFilter(path, '#tbUnitC', '?Type=2', '#frmSearchUnitC', ReadCarUnit);
+                break;
+            case 'booking':
+                w = '?Branch=' + $('#txtBranchCode').val();
+                if (userGroup == 'V') {
+                    w += '&Vend=' + $('#txtVenderCode').val();
+                }
+                if (userGroup == 'C') {
+                    w += '&Cust=' + cust;
+                }
+                if ($('#txtJNo').val() !== '') {
+                    w += '&Job=' + $('#txtJNo').val();
+                }
+                SetGridTransport(path, '#tbBook', '#frmSearchBook', w, ReadBooking);
+                break;
+            case 'servicecode1':
+                SetGridSICode(path, '#tbServ1', '', '#frmSearchServ1', ReadService1);
+                break;
+            case 'servicecode2':
+                SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
+                break;
+            case 'location':
+                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val(), ReadMainRoute);
+                break;
+            case 'route':
+                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Vend=' + $('#txtVenderCode').val(), ReadRoute);
+                break;
+            case 'place1':
+                SetGridLocation(path, '#tbPlace1', '#frmSearchPlace1', '?Place=1', ReadPickup);
+                break;
+            case 'place2':
+                SetGridLocation(path, '#tbPlace2', '#frmSearchPlace2', '?Place=2', ReadDelivery);
+                break;
+            case 'place3':
+                SetGridLocation(path, '#tbPlace3', '#frmSearchPlace3', '?Place=3', ReadReturn);
+                break;
+            case 'carlicense':
+                SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
+                break;
+            case 'driver':
+                SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
+                break;
+        }
+    }
+
+    function ReadCustomer(dt) {
+        $('#txtCustCode').val(dt.CustCode);
+        $('#txtCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+    }
+    function ReadVender(dt) {
+        $('#txtVenCode').val(dt.VenCode);
+        ShowVender(path, dt.VenCode, '#txtVenName');
+    }
+</script>
+
+
+
