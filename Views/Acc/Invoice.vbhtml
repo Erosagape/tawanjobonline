@@ -113,7 +113,7 @@ End Code
                         <div class="col-sm-3">
                             <label id="lblDocDate">Doc.Date:</label>
                             <br />
-                            <input type="date" id="txtDocDate" class="form-control" />
+                            <input type="date" id="txtDocDate" class="form-control"/>
                         </div>
                         <div class="col-sm-6">
                             <label id="lblDCustCode">Customer:</label>
@@ -121,7 +121,6 @@ End Code
                             <div style="display:flex">
                                 <input type="text" id="txtDCustCode" class="form-control" style="width:20%" disabled />
                                 <input type="text" id="txtDCustBranch" class="form-control" style="width:15%" disabled />
-                                <input type="button" class="btn btn-default" value="..." onclick="SearchData('customer2');" />
                                 <input type="text" id="txtDCustName" class="form-control" style="width:65%" disabled />
                             </div>
                         </div>
@@ -379,7 +378,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblIsTaxCharge">VAT</label>
                                             <br />
-                                            <select id="txtIsTaxCharge" class="form-control dropdown">
+                                            <select id="txtIsTaxCharge" class="form-control dropdown" >
                                                 <option value="0">NO</option>
                                                 <option value="1">EX</option>
                                                 <option value="2">IN</option>
@@ -388,7 +387,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblDVATRate">Rate</label>
                                             <br />
-                                            <input type="text" id="txtDVATRate" class="form-control" onchange="CalVATWHT(0)" />
+                                            <input type="text" id="txtDVATRate" class="form-control" />
                                         </div>
                                         <div style="flex:1">
                                             <br />
@@ -412,7 +411,7 @@ End Code
                                         <div style="flex:1">
                                             <label id="lblRate50Tavi">Rate</label>
                                             <br />
-                                            <input type="text" id="txtRate50Tavi" class="form-control" onchange="CalVATWHT(0)" />
+                                            <input type="text" id="txtRate50Tavi" class="form-control" />
                                         </div>
                                         <div style="flex:1">
                                             <br />
@@ -494,16 +493,9 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
-    let code = getQueryString("Code");
-    let branch = getQueryString("Branch");
-
     let row = {};
     let row_d = {};
     SetLOVs();
-    if (branch !== '' && code !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowHeader();
-    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
@@ -522,9 +514,6 @@ End Code
             w += '&show=CANCEL';
         } else {
             w += '&show=ACTIVE';
-        }
-        if (code !== '') {
-            w += '&Code=' + code;
         }
         $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
         {
@@ -592,7 +581,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -701,7 +689,6 @@ End Code
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
-            CreateLOV(dv, '#frmSearchCust2', '#tbCust2', 'Customers', response, 3);
             //Customers
             CreateLOV(dv, '#frmSearchBill', '#tbBill', 'Billing Place', response, 3);
 
@@ -768,7 +755,6 @@ End Code
             row_d.FTotalAmt = CNum($('#txtFTotalAmt').val());
             row_d.AmtAdvance = CNum($('#txtAmtAdvance').val());
             row_d.AmtCharge = CNum($('#txtAmtCharge').val());
-            row_d.Qty = $('#txtQty').val();
             row_d.QtyUnit = $('#txtQtyUnit').val();
             row_d.IsTaxCharge = $('#txtIsTaxCharge').val();
             row_d.Is50Tavi = $('#txtIs50Tavi').val();
@@ -820,9 +806,6 @@ End Code
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
-                break;
-            case 'customer2':
-                SetGridCompany(path, '#tbCust2', '#frmSearchCust2', ReadCustomer2);
                 break;
             case 'billing':
                 SetGridCompany(path, '#tbBill', '#frmSearchBill', ReadBilling);
@@ -991,11 +974,6 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
-    }
-    function ReadCustomer2(dt) {
-        $('#txtDCustCode').val(dt.CustCode);
-        $('#txtDCustBranch').val(dt.Branch);
-        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtDCustName');
     }
     function ReadBilling(dt) {
         $('#txtBillToCustCode').val(dt.CustCode);

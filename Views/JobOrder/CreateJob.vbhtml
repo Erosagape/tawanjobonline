@@ -518,9 +518,6 @@ End Code
     function ReadQuo(dt) {
         $('#txtQNo').val(dt.QNo);
         $('#txtRevise').val(dt.SeqNo);
-        $('#txtManagerCode').val(dt.ManagerCode);
-        $('#txtContactPerson').val(dt.ContactName);
-
     }
     function SearchData(type) {
         switch (type) {
@@ -587,8 +584,7 @@ End Code
     }
     function GetQuotation() {
         let branch = $('#txtBranchCode').val();
-        //let cust = $('#txtCustCode').val(); //Get From Customer
-        let cust = $('#txtConsignee').val(); //Get From Consignee for ANT Global
+        let cust = $('#txtCustCode').val();
         let jtype = $('#cboJobType').val();
         let sby = $('#cboShipBy').val();
         $('#txtQNo').val('');

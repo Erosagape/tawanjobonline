@@ -18,9 +18,9 @@ End Code
         margin-bottom: 4px;
     }
 
-        .block tr td {
-            text-align: center;
-        }
+    .block tr td {
+        text-align: center;
+    }
 
     .textleft {
         text-align: left !important;
@@ -30,140 +30,126 @@ End Code
         text-align: right !important;
     }
 </style>
-<div style="display:flex;flex-direction:column">
-    <div class="block">
-        <div style="float:left">
-            <input type="checkbox" id="chkExport" />OUTBOUND
-            <input type="checkbox" id="chkImport" />INBOUND
-            <input type="checkbox" id="chkOther" />SHIPPING
+<div style="display:flex;flex-direction:column" class="table">
+    <div class="block" style="display:flex;flex-direction:row">
+        <div style="flex:1">
+            <b>Job Date</b>
+            <span id="dvJobDate"></span>
         </div>
-        <div style="float:right;width:50%;">
-            <div style="width:100%;display:flex">
-                <div style="flex:1;">
-                    O BL/AWB NO:
-                </div>
-                <div id="dvMAWB" class="underline" style="flex:3">
-
-                </div>
-            </div>
-            <div style="width:100%;display:flex">
-                <div style="flex:1;">
-                    H BL/AWB NO:
-                </div>
-                <div id="dvHAWB" class="underline" style="flex:3">
-
-                </div>
-            </div>
+        <div style="flex:1">
+            <b>Shipping</b>
+            <span id="dvShipping"></span>
+        </div>
+        <div style="flex:1">
+            <b>Port</b>
+            <span id="dvClearPort"></span>
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            JOB NO:
-        </div>
-        <div id="dvJNo" class="underline" style="flex:2">
-
+            <b>Job Number</b>
+            <span id="dvJobNo"></span>
         </div>
         <div style="flex:1">
-            CUSTOMER INV.NO:
-        </div>
-        <div id="dvInvNo" class="underline" style="flex:2">
-
+            <b>TP</b>
+            <span id="dvPoNo"></span>
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            SHIPPER/CONSIGNEE:
-        </div>
-        <div id="dvConsignee" class="underline" style="flex:2">
-
+            <b>Customer</b>
+            <span id="dvCustomer"></span>
         </div>
         <div style="flex:1">
-            ETD:
-        </div>
-        <div id="dvETDDate" class="underline" style="flex:2">
-
+            <b>Im/Ex Name</b>
+            <span id="dvConsignee"></span>
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            CONTACT:
-        </div>
-        <div id="dvContactName" class="underline" style="flex:2">
-
+            <b>Inv</b>
+            <span id="dvCustInv"></span>
         </div>
         <div style="flex:1">
-            ETA:
-        </div>
-        <div id="dvETADate" class="underline" style="flex:2">
-
+            <b>B/L,BKG</b>
+            <span id="dvBooking"></span>
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            FEEDER:
-        </div>
-        <div id="dvVesselName" class="underline" style="flex:2">
-
+            <b>ETD</b>
+            <span id="dvETDDate"></span>
         </div>
         <div style="flex:1">
-            D/O DATE:
+            <b>ETA</b>
+            <span id="dvETADate"></span>
         </div>
-        <div id="dvEstDeliverDate" class="underline" style="flex:2">
-
+        <div style="flex:1">
+            <b>Total Container</b>
+            <span id="dvTotalContainer"></span>
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            FROM PORT:
-        </div>
-        <div class="underline" style="flex:2">
-            <span id="dvFromPort"></span>
-            <span id="dvFromCountry"></span>
+            <b>QTY</b>
+            <span id="dvInvProd"></span>
         </div>
         <div style="flex:1">
-            AGENT:
+            <b>G.W.</b>
+            <span id="dvGrossWeight"></span>
         </div>
-        <div id="dvAgentName" class="underline" style="flex:2">
-
+        <div style="flex:1">
+            <b>Measurement</b>
+            <span id="dvMeasurement"></span>
         </div>
     </div>
     <div class="block" style="display:flex;flex-direction:row">
         <div style="flex:1">
-            TO PORT:
-        </div>
-        <div class="underline" style="flex:2">
-            <span id="dvToPort"></span>
-            <span id="dvToCountry"></span>
+            <b>Receive D/O Date:</b>
+            <span id="dvReadyClear"></span>
         </div>
         <div style="flex:1">
-            CONTAINER.DEPOSIT:
-        </div>
-        <div id="dvDeposit" class="underline" style="flex:2">
-
+            <b>Receive Cheque Date:</b>
+            <span id="dvChqDate"></span>
         </div>
     </div>
-    <table class="block" border="1">
-        <tr>
-            <td>DESCRIPTION</td>
-            <td>WEIGHT</td>
-            <td>CBM(M3)</td>
-            <td>CONTAINER</td>
-        </tr>
-        <tbody>
-            <tr>
-                <td id="dvProduct"></td>
-                <td id="dvGrossWeight"></td>
-                <td id="dvMeasurement"></td>
-                <td id="dvTotalContainer"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="block" style="display:flex;flex-direction:row">
+        <div style="flex:1">
+            <b>Clearing Date:</b>
+            <span id="dvClearDate"></span>
+        </div>
+        <div style="flex:1">
+            <b>Delivery Date:</b>
+            <span id="dvDeliveryDate"></span>
+        </div>
+    </div>
+    <div class="block" style="display:flex;flex-direction:row">
+        <div style="flex:1">
+            <b>Delivery To</b>
+            <span id="dvDeliveryTo"></span>
+        </div>
+        <div style="flex:1">
+            <b>Date</b>
+            <span id="dvUnloadDate"></span>
+        </div>
+        <div style="flex:1">
+            <b>Time</b>
+            <span id="dvUnloadTime"></span>
+        </div>
+    </div>
+    <div class="block" style="display:flex;flex-direction:row">
+        <div style="flex:1">
+            <b>Truck Company</b>
+            <span id="dvTransport"></span>
+        </div>
+    </div>
+
     <table class="block" border="1">
         <tr>
             <td rowspan="2">
                 Exchange Rate: <div id="dvInvCurRate"></div>
             </td>
-            <td colspan="6"  style="width:45%">
+            <td colspan="6" style="width:45%">
                 COST
             </td>
             <td colspan="2" style="width:15%">SELLING</td>
@@ -173,13 +159,13 @@ End Code
             <td colspan="2" style="width:15%">
                 CUSTOMER-SLIP
             </td>
-            <td colspan="2"  style="width:15%">
+            <td colspan="2" style="width:15%">
                 COMPANY-SLIP
             </td>
-            <td colspan="2"  style="width:15%">
+            <td colspan="2" style="width:15%">
                 NO-SLIP
             </td>
-            <td colspan="2" >
+            <td colspan="2">
                 SERVICES
             </td>
         </tr>
@@ -575,7 +561,14 @@ End Code
                 <td class="textright" style="width:4%"></td>
             </tr>
             <tr>
-                <td class="textleft" colspan="11">REMARK</td>
+                <td class="textleft" colspan="11">
+                    REMARK
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                </td>
             </tr>
             <tr>
                 <td class="textright" colspan="9">NET PROFIT</td>
@@ -588,7 +581,7 @@ End Code
         <div style="flex:1">
             HANDLE BY:
         </div>
-        <div class="underline" style="flex:2">
+        <div  style="flex:2">
 
         </div>
     </div>
@@ -601,85 +594,48 @@ End Code
         $.get(path + 'JobOrder/GetJobSql?Branch=' + branch + '&JNo=' + job).done(function (r) {
             if (r.job.data.length > 0) {
                 let dr = r.job.data[0];
-                $('#chkImport').prop('checked', dr.JobType == 1 ? true : false);
-                $('#chkExport').prop('checked', dr.JobType == 2 ? true : false);
-                $('#chkOther').prop('checked', dr.JobType > 2 ? true : false);
-                $('#dvMAWB').html(CStr(dr.MAWB));
-                $('#dvHAWB').html(CStr(dr.HAWB));
-                $('#dvJNo').html(CStr(dr.JNo));
-                $('#dvInvNo').html(CStr(dr.InvNo));
-                $('#dvContactName').html(CStr(dr.CustContactName));
+                $('#dvJobDate').html(ShowDate(dr.DocDate));
+                $('#dvShipping').html(CStr(dr.ShippingEmp));
+                $('#dvJobNo').html(CStr(dr.JNo));
+                $('#dvPoNo').html(CStr(dr.CustRefNO));
+                $('#dvCustInv').html(CStr(dr.InvNo));
+                $('#dvBooking').html(CStr(dr.BookingNo));
                 $('#dvETDDate').html(ShowDate(dr.ETDDate));
                 $('#dvETADate').html(ShowDate(dr.ETADate));
-                $('#dvEstDeliverDate').html(ShowDate(dr.EstDeliverDate));
-                $('#dvVesselName').html(CStr(dr.VesselName));
-                $('#dvProduct').html(CStr(dr.InvProduct));
+                $('#dvTotalContainer').html(CStr(dr.TotalContainer));
+                $('#dvInvProd').html(CStr(dr.InvProductQty + ' ' + dr.InvProductUnit));
                 $('#dvGrossWeight').html(CStr(dr.TotalGW + ' ' + dr.GWUnit));
                 $('#dvMeasurement').html(CStr(dr.Measurement));
-                $('#dvTotalContainer').html(CStr(dr.TotalContainer));
-                let intercountry = dr.InvFCountry;
-                if (dr.JobType !== 1) {
-                    intercountry = dr.InvCountry;
-                    $.get(path + 'Master/GetInterPort?Key=' + intercountry + '&Code=' + dr.InvInterPort).done((r) => {
-                        if (r.interport.length > 0) {
-                            let p = r.interport.data[0];
-                            $('#dvToPort').html(p.PortName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
-                        if (r.RFARS.length > 0) {
-                            let p = r.RFARS.data[0];
-                            $('#dvFromPort').html(p.AreaName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + intercountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvToCountry').html(c.CTYName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + dr.InvFCountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvFromCountry').html(c.CTYName);
-                        }
-                    });
-                } else {
-                    $.get(path + 'Master/GetInterPort?Key=' + intercountry + '&Code=' + dr.InvInterPort).done((r) => {
-                        if (r.interport.length > 0) {
-                            let p = r.interport.data[0];
-                            $('#dvFromPort').html(p.PortName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
-                        if (r.RFARS.length > 0) {
-                            let p = r.RFARS.data[0];
-                            $('#dvToPort').html(p.AreaName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + intercountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvFromCountry').html(c.CTYName);
-                        }
-                    });
-                    $.get(path + 'Master/GetCountry?Code=' + dr.InvCountry).done((r) => {
-                        if (r.country.data.length > 0) {
-                            let c = r.country.data[0];
-                            $('#dvToCountry').html(c.CTYName);
-                        }
-                    });
-                }
+                $('#dvReadyClear').html(ShowDate(dr.ReadyToClearDate));
+                $('#dvChqDate').html(ShowDate(dr.ConfirmChqDate));
+                $('#dvClearDate').html(ShowDate(dr.DutyDate));
+                $('#dvDeliveryDate').html(ShowDate(dr.EstDeliverDate));
+                $('#dvDeliveryTo').html(CStr(dr.DeliveryTo));
+                $('#dvUnloadDate').html(ShowDate(dr.LoadDate));
+                //$('#dvUnloadTime').html('');
+
+                $.get(path + 'Master/GetCustomsPort?Code=' + dr.ClearPort).done((r) => {
+                    if (r.RFARS.length > 0) {
+                        let p = r.RFARS.data[0];
+                        $('#dvClearPort').html(p.AreaName);
+                    }
+                });
+                $.get(path + 'Master/GetCompany?Code=' + dr.CustCode + '&Branch=' + dr.CustBranch).done((r) => {
+                    if (r.company.data.length > 0) {
+                        let c = r.company.data[0];
+                        $('#dvCustomer').html(CStr(c.NameEng));
+                    }
+                });
                 $.get(path + 'Master/GetCompany?Code=' + dr.Consigneecode).done((r) => {
                     if (r.company.data.length > 0) {
                         let c = r.company.data[0];
                         $('#dvConsignee').html(CStr(c.NameEng));
                     }
                 });
-                $.get(path + 'Master/GetVender?Code=' + dr.ForwarderCode).done((r) => {
+                $.get(path + 'Master/GetVender?Code=' + dr.AgentCode).done((r) => {
                     if (r.vender.data.length > 0) {
                         let c = r.vender.data[0];
-                        $('#dvAgentName').html(CStr(c.English));
+                        $('#dvTransport').html(CStr(c.English));
                     }
                 });
             }

@@ -12,6 +12,14 @@ End Code
             display: block !important;
         }
     }
+    #tbHeader tbody tr * {
+        white-space: nowrap;
+        font-size:13px       
+    }
+    #tbHeader tbody *:nth-child(7) {
+        white-space: normal
+    }
+ 
 </style>
 <div class="panel-body">
     <div class="container">
@@ -448,20 +456,26 @@ End Code
             let h = r.clr.data[0].Table;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
+            //  { data: "ForJNo", title: "JobNo" },
+            //  { data: "SICode", title: "Adv.Code" },
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
                 columns: [ //กำหนด property ของ header column
-                    { data:($('#chkFromClr').prop('checked') ? "ClrNo" : "AdvNo"), title: "Adv No" },
+                    { data: ($('#chkFromClr').prop('checked') ? "ClrNo" : "AdvNo"), title: "Adv No" },
+                   
                     {
                         data: ($('#chkFromClr').prop('checked') ? "ClrDate" : "PaymentDate"), title: "Payment date",
                         render: function (data) {
                             return CDateEN(data);
                         }
                     },
+
+                    { data: "ForJNo", title: "JobNo" },
+                    { data: "EmpCode", title: "Employee" },
                     { data: "CustCode", title: "Customer" },
                     { data: "ItemNo", title: "No" },
-                    { data: "SICode", title: "Adv.Code" },
+                  
                     { data: "SDescription", title: "Adv.Expenses" },
                     {
                         data: "AdvNet", title: "Adv Total",

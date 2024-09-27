@@ -511,7 +511,7 @@ End Code
                     AmtVATRate:obj.VATRate,
                     AmtWH: obj.Total50Tavi,
                     AmtWHRate: (Number(obj.Total50Tavi) > 0 ? (((Number(obj.TotalCharge) / Number(obj.Total50Tavi))/100)==1 ? 1 :3) : 0),
-                    AmtTotal: obj.TotalNet,
+                    AmtTotal: Number(obj.TotalNet)-Number(obj.Total50Tavi),
                     AmtCustAdvance: obj.TotalCustAdv,
                     AmtDiscount: obj.TotalDiscount,
                     AmtDiscRate: obj.DiscountRate,

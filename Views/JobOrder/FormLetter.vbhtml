@@ -31,14 +31,14 @@ End Code
     มีสินค้าเข้ามากับเรือ <label id="lblVesselName"></label>
     <br />
     เที่ยววันที่ <label id="lblETADate"></label> ตาม B/L No: <label id="lblHAWB"></label>
-    จำนวน <label id="lblProductQty"></label>  <label id="lblProductUnit"></label>
+    จำนวน <label id="lblProductQty"></label> <input type="text" id="txtPackUnit" style="width:200px;" value="PACKAGES" />
     <br />
     ซึ่งผู้ขายของบริษัทฯ ได้ทำการ <input type="text" id="txtType2" style="width:200px;" value="SURRENDER ORIGINAL B/L" />
     <br />ไว้กับทางต้นทางเรียบร้อยแล้ว
     <br />
     <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  ดังนั้นทางบริษัทฯ จึงขอรับ D/O โดยใช้จดหมายของทางบริษัทฯ เพิ้อไปทำการปล่อยสินค้า
-    <br/>ซึ่งในการนี้ หากเกิดความเสียหายใดๆ เกิดขึ้นทุกประการ ทางบริษัทฯ ยินดีจะรับผิดชอบความเสียหายที่เกิดขึ้นนั้นตามจริง
+    <br />ซึ่งในการนี้ หากเกิดความเสียหายใดๆ เกิดขึ้นทุกประการ ทางบริษัทฯ ยินดีจะรับผิดชอบความเสียหายที่เกิดขึ้นนั้นตามจริง
     <br />
     <br />
     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  จึงเรียนมาเพื่อทราบและโปรดพิจารณาดำเนินการ
@@ -83,8 +83,8 @@ End Code
             $('#lblVesselName').text(dr.VesselName);
             $('#lblForwarderName').text(dr.ForwarderName);
             $('#lblNameThai').text(dr.CustTName);
-            $('#lblProductQty').text(dr.InvProductQty);
-            ShowInvUnit(path, dr.InvProductUnit, '#lblProductUnit');
+            $('#lblProductQty').text(dr.TotalQty);
+            //ShowInvUnit(path, dr.InvProductUnit, '#lblProductUnit');
             $('#lblHAWB').text(dr.HAWB);
         }
     });

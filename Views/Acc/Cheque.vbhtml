@@ -377,7 +377,6 @@ End Code
     let branch = getQueryString("BranchCode");
     let job = getQueryString("JNo");
     if (branch !== '' && job !== '') {
-        $('#txtTRemark').val('CHQ JOB#' + job);
         $('#txtBranchCode').val(branch);
         $('#txtForJNo').val(job);
         $('#txtForJNo').attr('disabled', 'disabled');
@@ -584,11 +583,7 @@ End Code
         //$('#txtBranchName').val('');
         $('#txtControlNo').val('');
         $('#txtVoucherDate').val(GetToday());
-        if (job !== '') {
-            $('#txtTRemark').val('CHQ JOB#' + job);
-        } else {
-            $('#txtTRemark').val('');
-        }
+        $('#txtTRemark').val('');
         $('#txtCustCode').val('');
         $('#txtCustBranch').val('');
         $('#txtCustName').val('');
@@ -619,10 +614,6 @@ End Code
         ClearPayment();
     }
     function AddPayment() {
-        if ($('#txtControlNo').val() == '') {
-            ShowMessage('Please save document before add detail', true);
-            return;
-        }
         if (userRights.indexOf('I') < 0) {
             ShowMessage('You are not allow to add',true);
             return;

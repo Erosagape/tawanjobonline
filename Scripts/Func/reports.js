@@ -9,6 +9,37 @@ function ShowBranch(path, Branch, ControlID) {
             }
         });
 }
+function ShowJobTypeShipBy(path, jt, sb, js, ControlJT, ControlSB, ControlST) {
+    $(ControlJT).text('');
+    $(ControlSB).text('');
+    if (jt < 10) jt = '0' + jt;
+    if (sb < 10) sb = '0' + sb;
+    $.get(path + 'Config/GetConfig?Code=JOB_TYPE&Key=' + jt)
+        .done(function (r) {
+            let b = r.config.data;
+            if (b.length > 0) {
+                $(ControlJT).text(b[0].ConfigValue);
+            }
+        });
+    $.get(path + 'Config/GetConfig?Code=SHIP_BY&Key=' + sb)
+        .done(function (r) {
+            let b = r.config.data;
+            if (b.length > 0) {
+                $(ControlSB).text(b[0].ConfigValue);
+            }
+        });
+    if (ControlST != "") {
+        $(ControlST).val('');
+        if (js < 10) js = '0' + js;
+        $.get(path + 'Config/GetConfig?Code=JOB_STATUS&Key=' + js)
+            .done(function (r) {
+                let b = r.config.data;
+                if (b.length > 0) {
+                    $(ControlST).text(b[0].ConfigValue);
+                }
+            });
+    }
+}
 function ShowInvUnit(path, unitCode, ControlID) {
     $(ControlID).text(unitCode);
     if (unitCode != "") {
@@ -239,6 +270,7 @@ function GetVoucherType() {
 }
 function LoadCliteria(reportID) {
     $('#tbCode').hide();
+    $('#tbCTN').hide();
     switch (reportID) {
         case 'JOBDAILY':
         case 'JOBCS':
@@ -366,6 +398,16 @@ function LoadCliteria(reportID) {
             $('#tbJob').hide();  //hide
             $('#tbVend').hide();  //hide
             $('#tbCode').show();
+            break;
+        case 'JOBLIST':
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').show();
+            $('#tbJob').show();
+            $('#tbVend').show();
+            $('#tbGroup').hide();
+            $('#tbCTN').show();
             break;
     }
 }
@@ -817,7 +859,7 @@ function LoadReport(path, reportID, obj, lang) {
                             }
                         }
                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
-                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0) {
+                        if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0 || key.indexOf('TaxNumber') >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
                             if (IsSummaryColumn(key) == true) {
@@ -869,15 +911,26 @@ function LoadReport(path, reportID, obj, lang) {
                     for (let c in r) {
                         if (c !== groupField) {
                             if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                                html += '<td style="border:1px solid black;text-align:left;white-space: nowrap;">' + ShowDate(r[c]) + '</td>';
                             } else {
                                 if (r[c] !== null) {
                                     if (sumGroup[col].isSummary == true) {
                                         sumGroup[col].value += Number(r[c]);
                                         sumTotal[col] += Number(r[c]);
-                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                                        html += '<td style="border:1px solid black;text-align:right;white-space: nowrap;">' + ShowNumber(r[c], 2) + '</td>';
                                     } else {
-                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                        if((r[c]+"").length<21){
+                                            // try{
+                                            //     parseFloat(r[c]+"");
+                                            //     html += '<td style="border:1px solid black;text-align:right;white-space: nowrap;">' + r[c] + '</td>';
+                                            // }catch(e){
+                                                html += '<td style="border:1px solid black;text-align:left;white-space: nowrap;">' + r[c] + '</td>';
+                                            // }
+                                           
+                                        }else{
+                                            html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                                        }
+                                        
                                     }
                                 } else {
                                     html += '<td style="border:1px solid black;text-align:left;"></td>';
@@ -893,7 +946,7 @@ function LoadReport(path, reportID, obj, lang) {
                     html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
                     for (let i = 1; i < colCount; i++) {
                         if (sumGroup[i].isSummary == true) {
-                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+                            html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;white-space: nowrap;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
                         } else {
                             html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
                         }
@@ -906,7 +959,7 @@ function LoadReport(path, reportID, obj, lang) {
                 html += '<tfoot><tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
                 for (let i = 1; i < colCount; i++) {
                     if (sumGroup[i].isSummary == true) {
-                        html += '<td style="border:1px solid black;text-align:right;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
+                        html += '<td style="border:1px solid black;text-align:right;white-space: nowrap;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
                     } else {
                         html += '<td style="border:1px solid black;text-align:right;"></td>';
                     }

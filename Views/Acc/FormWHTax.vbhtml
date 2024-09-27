@@ -31,6 +31,9 @@ End Code
     .amount {
         text-align:right;
     }
+    #dvFooter,#pFooter {
+	display:none;
+    }  
 </style>
 <div style="float:left;">
     <b>ฉบับที่ 1</b><i>(สำหรับผู้ถูกหักภาษี ณ ที่จ่ายใช้แนบพร้อมกับแบบแสดงรายการภาษี)</i><br />
@@ -272,7 +275,6 @@ End Code
     <tr>
         <td colspan="4">
             <b>เงินที่จ่ายเข้า  </b>กองทุนสงเคราะห์ครูโรงเรียนเอกชน <label id="txtTeacherAmt"></label> บาท  กองทุนประกันสังคม <label id="txtSoLicenseAmt"></label> บาท กองทุนสำรองเลี้ยงชีพ <label id="txtSoAccAmount"></label>บาท
-            <br/>เลชที่ประจำตัวนายจ้าง <label id="txtSoTaxNo" style="text-decoration-line:underline"></label>
         </td>
     </tr>
 </table>
@@ -286,8 +288,8 @@ End Code
             <input type="checkbox" id="chkPayTaxType2" name="chkPayTaxType">(2) ออกภาษีให้ตลอดไป<br>
             <input type="checkbox" id="chkPayTaxType3" name="chkPayTaxType">(3) ออกภาษีให้ครั้งเดียว<br>
             <input type="checkbox" id="chkPayTaxType4" name="chkPayTaxType">(4) อื่นๆ (ระบุ)<label id="txtPayTaxOther" style="text-decoration:underline"></label><br>
+            Job# <span id="lblJobNo"></span>
         </td>
-
         <td style="text-align:center">
             <p>ขอรับรองว่า ข้อความและตัวเลขดังกล่าวข้างต้นถูกต้องตรงกับความจริงทุกประการ</p><br /><br /><br />
             (ลงชื่อ)<label id="txtUpdateName" style="text-decoration:underline"></label> ผู้มีหน้าที่หักภาษี ณ ที่จ่าย<br>
@@ -338,8 +340,7 @@ End Code
                     $('#chkFormType' + h.FormType).prop('checked',true);
                     $('#txtTeacherAmt').text(CCurrency(CDbl(h.TeacherAmt,2)));
                     $('#txtSoLicenseAmt').text(CCurrency(CDbl(h.SoLicenseAmount,2)));
-                    $('#txtSoAccAmount').text(CCurrency(CDbl(h.SoAccAmount, 2)));
-                    $('#txtSoTaxNo').text(h.SoTaxNo);
+                    $('#txtSoAccAmount').text(CCurrency(CDbl(h.SoAccAmount,2)));
                     $('#txtPayTaxType').text(h.PayTaxType);
                     $('input:checkbox[name=chkPayTaxType]:checked').prop('checked', false);
                     $('#chkPayTaxType' + h.PayTaxType).prop('checked',true);
@@ -350,6 +351,7 @@ End Code
                     let totalamt = 0;
                     let totaltax = 0;
                     for (let i = 0; i < d.length; i++) {
+                        $('#lblJobNo').html(d[i].JNo);
                         let incType = CNum(d[i].IncType);
                         if (incType > 0 && incType <= 14) {
                             let oldData = $('#txtPayDate' + incType).html();
@@ -363,15 +365,18 @@ End Code
                             totalamt += Number(d[i].PayAmount);
                             totaltax += Number(d[i].PayTax);
 
-                            oldData = $('#txtPayAmount' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData +=''+ ShowNumber(amt,2);
-                            $('#txtPayAmount' + incType).html(oldData);
-
-                            oldData = $('#txtPayTax' + incType).html();
-                            if (oldData !== '') oldData += '<br/>';
-                            oldData += ''+ ShowNumber(tax,2);
-                            $('#txtPayTax' + incType).html(oldData);
+                            if (totalamt > 0) {
+                                oldData = $('#txtPayAmount' + incType).html();
+                                if (oldData !== '') oldData += '<br/>';
+                                oldData += '' + ShowNumber(amt, 2);
+                                $('#txtPayAmount' + incType).html(oldData);
+                            }
+                            if (totaltax > 0) {
+                                oldData = $('#txtPayTax' + incType).html();
+                                if (oldData !== '') oldData += '<br/>';
+                                oldData += '' + ShowNumber(tax, 2);
+                                $('#txtPayTax' + incType).html(oldData);
+                            }
 
                             switch (incType) {
                                 case 8:
@@ -387,9 +392,13 @@ End Code
                             }
                         }
                     }
-                    $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt,2)));
-                    $('#txtSumPayTax').text(CCurrency(CDbl(totaltax,2)));
-                    $('#txtPayTaxMoney').text(CNumThai(CDbl(totaltax,2)));
+                    if (totalamt > 0) {
+                        $('#txtSumPayAmount').text(CCurrency(CDbl(totalamt, 2)));
+                    }
+                    if (totaltax > 0) {
+                        $('#txtSumPayTax').text(CCurrency(CDbl(totaltax, 2)));
+                        $('#txtPayTaxMoney').text(CNumThai(ShowNumber(totaltax,2)));
+                    }
                 }
             });
         }

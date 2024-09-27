@@ -3,155 +3,163 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Voucher Slip"
 End Code
-<table id="tbAdvInfo" width="100%">
-    <tr>
-        <td colspan="3" style="font-size:11px">
-            <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
-        </td>
-        <td align="right" style="font-size:11px">
-            <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
-        </td>
-    </tr>
-    <tr>
-        <td colspan="3" style="font-size:11px">
-            <b>Remark</b>
-            <label id="txtRemark" style="text-decoration-line:underline;"></label>
-        </td>
-        <td align="right" style="font-size:11px">
-            <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
-        </td>
-    </tr>
-</table>
-<div style="display:flex;border:1px solid black;border-radius:5px;">
-    <div style="flex:2">
-        <div class="row">
-            <p class="col-sm-12">
-                FROM :
-                <label id="lblFromCountry"></label> TO :
-                <label id="lblToCountry"></label>
-            </p>
+<style>
+	#tbData{
+		page-break-inside: auto;
+	}
+</style>
+<div style="display:flex;flex-direction:column;">
+    <table id="tbAdvInfo" width="100%">
+        <tr>
+            <td colspan="3" style="font-size:11px">
+                <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
+            </td>
+            <td align="right" style="font-size:11px">
+                <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" style="font-size:11px">
+                <b>Remark</b>
+                <label id="txtRemark" style="text-decoration-line:underline;"></label>
+            </td>
+            <td align="right" style="font-size:11px">
+                <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
+            </td>
+        </tr>
+    </table>
+    <div style="display:flex;border:1px solid black;border-radius:5px;">
+        <div style="flex:2">
+            <div class="row">
+                <p class="col-sm-12">
+                    FROM :
+                    <label id="lblFromCountry"></label> TO :
+                    <label id="lblToCountry"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    PORT :
+                    <label id="lblInterPort"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    FLIGHT/VESSEL :
+                    <label id="lblVesselName"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    QUANTITY :
+                    <label id="lblQtyGross"></label>
+                    <label id="lblQtyUnit"></label>
+                    <br />
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    JOB NO :
+                    <label id="lblJobNo"></label>
+                </p>
+            </div>
         </div>
-        <div class="row">
-            <p class="col-sm-12">
-                PORT :
-                <label id="lblInterPort"></label>
-            </p>
+        <div style="flex:2">
+            <div class="row">
+                <p class="col-sm-12">
+                    ETD :
+                    <label id="lblETDDate"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    HBL/HAWB :
+                    <label id="lblHAWB"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    MEASUREMENT :
+                    <label id="lblMeasurement"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    NET WEIGHT :
+                    <label id="lblNetWeight"></label>
+                    <label id="lblWeightUnit"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CUSTOMER INV :
+                    <label id="lblCustInvNo"></label>
+                </p>
+            </div>
         </div>
-        <div class="row">
-            <p class="col-sm-12">
-                FLIGHT/VESSEL :
-                <label id="lblVesselName"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                QUANTITY :
-                <label id="lblQtyGross"></label>
-                <label id="lblQtyUnit"></label>
-                <br />
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                JOB NO :
-                <label id="lblJobNo"></label>
-            </p>
+        <div style="flex:2">
+            <div class="row">
+                <p class="col-sm-12">
+                    ETA :
+                    <label id="lblETADate"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    MBL/MAWB :
+                    <label id="lblMAWB"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CUSTOMER :
+                    <br />
+                    <label id="lblCustName"></label>
+                </p>
+            </div>
         </div>
     </div>
-    <div style="flex:2">
-        <div class="row">
-            <p class="col-sm-12">
-                ETD :
-                <label id="lblETDDate"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                HBL/HAWB :
-                <label id="lblHAWB"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                MEASUREMENT :
-                <label id="lblMeasurement"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                NET WEIGHT :
-                <label id="lblNetWeight"></label>
-                <label id="lblWeightUnit"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                CUSTOMER INV :
-                <label id="lblCustInvNo"></label>
-            </p>
-        </div>
-    </div>
-    <div style="flex:2">
-        <div class="row">
-            <p class="col-sm-12">
-                ETA :
-                <label id="lblETADate"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                MBL/MAWB :
-                <label id="lblMAWB"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                CUSTOMER :
-                <br />
-                <label id="lblCustName"></label>
-            </p>
-        </div>
-    </div>
+    <br />
+    <table id="tbData" style="border-collapse:collapse;width:100%">
+        <tbody></tbody>
+    </table>
+    <br />
+    <table width="100%" style="border-collapse:collapse;">
+        <tr>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                CREATED.BY
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                APPROVE.BY
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                PAYER
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
+                PAYEE
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
+                <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
+                <label id="txtRecDate" style="font-size:9px">__/__/____</label>
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
+                <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                <label style="font-size:10px">(__________________)</label><br />
+                <label style="font-size:9px">__/__/____</label>
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+                <label style="font-size:9px">(__________________)</label><br />
+                <label style="font-size:9px">__/__/____</label>
+            </td>
+        </tr>
+    </table>
+
 </div>
-<br />
-<table id="tbData" style="border-collapse:collapse;width:100%">
-    <tbody></tbody>
-</table>
-<br />
-<table width="100%" style="border-collapse:collapse;">
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            CREATED.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            APPROVE.BY
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            PAYER
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-            PAYEE
-        </td>
-    </tr>
-    <tr>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            <label id="txtRecBy" style="font-size:10px">(__________________)</label><br />
-            <label id="txtRecDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label id="txtPostedBy" style="font-size:10px">(__________________)</label><br />
-            <label id="txtPostedDate" style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label style="font-size:10px">(__________________)</label><br />
-            <label style="font-size:9px">__/__/____</label>
-        </td>
-        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            <label style="font-size:9px">(__________________)</label><br />
-            <label style="font-size:9px">__/__/____</label>
-        </td>
-    </tr>
-</table>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let vcType='P';
@@ -274,7 +282,7 @@ End Code
                         //let strDoc = '';
                         let lastvender = '';
                         for (d of doc) {
-                            if (d.JobNo !== '' && jobno=='') {
+                            if (d.JobNo !== '') {
                                 jobno = d.JobNo;
                             }
                             if (lastvender!==d.VenderName) {
@@ -289,6 +297,7 @@ End Code
                             sum += Number(CDbl(d.PaidAmount, 2));
                             desc = d.DocRefNo + ' : ' + d.SDescription;
                             if (d.Remark !== '') desc += '<br/>' + d.Remark+' '+ d.VenderName;
+			    desc += ' / ' + d.JobNo;
                             appendLine(div, desc, CDbl(d.PaidAmount / CNum(obj.ExchangeRate), 2) + ' ' + obj.CurrencyCode + ' (Rate=' + obj.ExchangeRate + ')', CCurrency(CDbl(d.PaidAmount, 2)));
                         }
                         appendLine(div,'','<b>TOTAL</b>','<b>'+ShowNumber(sum,2)+'</b>');

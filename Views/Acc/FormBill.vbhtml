@@ -2,79 +2,113 @@
 @Code
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "Billing Slip"
-    ViewBag.ReportName = "BILLING NOTE"
+    ViewBag.ReportName = "ใบวางบิล (BILLING COVER SHEET)"
 End Code
 <style>
-    td {
-        font-size: 11px;
+    * {
+       font-size: 12px;
     }
 
     table {
         border-width: thin;
         border-collapse: collapse;
     }
-
+    #dvFooter {
+	display:none;
+    }  
 </style>
-<div style="display:flex;float:right;">
-    <div style="flex:1;" class="text-right">
-        <b>NO :</b> <label id="lblBillAcceptNo"></label>
-        <br />
-        <b>DATE :</b> <label id="lblBillDate"></label>
-    </div>
-</div>
-<br/>
-<div style="display:flex;">
-    <div class="text-left">
-        <p>
-            <b>NAME :</b> <label id="lblCustName"></label>
-            <br />
-            <b>ADDRESS :</b> <label id="lblCustAddress"></label>
-        </p>
-    </div>
-</div>
-<p>
-    <br/>
-    I have already received billing note and will pay the amount followed.
-</p>
-<br/>
-<table border="1" style="border-style:solid;width:100%;margin-top:5px ">
-    <thead>
-        <tr>
-            <th class="text-center" rowspan="2" width="50">Items</th>
-            <th class="text-center" rowspan="2" width="130">Billing No.</th>
-            <th class="text-center" rowspan="2" width="100">Issuring Date</th>
-            <th class="text-center" rowspan="2">Re-imbursement</th>
-            <th class="text-center" colspan="2">Service Charges</th>
-            <th class="text-center" rowspan="2">Vat</th>
-            <th class="text-center" rowspan="2">Wht</th>
-            <th class="text-center" rowspan="2">Net</th>
-        </tr>
-        <tr>            
-            <th class="text-center" width="100">NON-VAT</th>
-            <th class="text-center" width="100">VAT</th>
-        </tr>
-    </thead>
-    <tbody id="tbDetail"></tbody>
-    <tfoot>
-        <tr>
-            <td style="text-align:right" colspan="8">TOTAL</td>
-            <td style="text-align:right"><label id="lblBillTotal"></label></td>
-        </tr>
-    </tfoot>
-</table>
-<p>
-    <br/>
-    I have received billing note amount in good order
-</p>
-<p>
-    <br/>
-    Bill Receiver _______________________________________ 
-    Date of Collection : <label id="lblPaymentDueDate"></label>
-</p>
+        <div style="display:flex;">
+            <div style="flex:1;" class="text-left">
+                <p>
+                  TAX-ID : <label id="lblTaxNumber"></label>
+                </p>
+            </div>
+            <div style="flex:1;" class="text-right">
+                DOC NO : <label id="lblBillAcceptNo"></label>
+                <br />DATE : <label id="lblBillDate"></label>
+            </div>
+        </div>
+        <div style="display:flex;">
+            <div class="text-left">
+                <p>
+                    NAME : <label id="lblCustName"></label>
+                </p>
+            </div>
+        </div>
+        <div style="display:flex;flex-direction:column">
+            <div style="flex:1" class="text-left">
+                <label id="lblCustAddress"></label>
+            </div>
+            <div style="flex:1"  class="text-left">
+                <br/>
+                PLEASE APPROVE BEFORE PAYMENT             
+            </div>                
+        </div>
+        <table border="1" style="border-style:solid;width:100%;margin-top:5px ">
+            <thead>
+                <tr>
+                    <th class="text-center" width="100" rowspan="2">ITEMS</th>
+                    <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
+                    <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
+                    <th class="text-center" width="130" rowspan="2">JOB NO.</th>
+                    <th class="text-center" colspan="2">AMOUNT</th>
+                    <th class="text-center" width="60" rowspan="2">VAT</th>
+                    <th class="text-center" colspan="2">W/H</th>
+                    <th class="text-center" width="100" rowspan="2">TOTAL</th>
+                </tr>
+                <tr>
+                    <th class="text-center" width="130">REIMBURSEMENT</th>
+                    <th class="text-center" width="90">SERVICE</th>
+                    <th class="text-center" width="50">1%</th>
+                    <th class="text-center" width="50">3%</th>
+                </tr>
+            </thead>
+            <tbody id="tbDetail">
 
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td style="text-align:right" colspan="4">TOTAL</td>
+                    <td style="text-align:right"><label id="lblSumAdv"></label></td>
+                    <td style="text-align:right"><label id="lblSumService"></label></td>
+                    <td style="text-align:right"><label id="lblSumVat"></label></td>
+                    <td style="text-align:right"><label id="lblSumWh1"></label></td>
+                    <td style="text-align:right"><label id="lblSumWh3"></label></td>
+                    <td style="text-align:right"><label id="lblBillTotal"></label></td>
+                </tr>
+                <tr style="background-color:lightblue">
+                    <th class="text-center" colspan="10"><label id="lblBillTotalEng"></label></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div>
+            PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label><br/>
+            PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME<br />
+            PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME<br />
+            SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME<br/>
+            FAX. @ViewBag.PROFILE_COMPANY_FAX<br />
+        </div>
+
+        <div style="display:flex">
+            <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
+                FOR THE CUSTOMER<br/>
+                <br/><br /><br /><br />
+                __________________________________________<br/>
+                .........................................<br />
+                _____/______/______
+            </div>
+            <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
+                FOR @ViewBag.PROFILE_COMPANY_NAME<br />
+                <br /><br /><br /><br />
+                __________________________________________<br />
+                .........................................<br />
+                _____/______/______
+            </div>
+        </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
-
+    
     let branch = getQueryString('branch');
     let billno = getQueryString('code');
     $.get(path + 'acc/getbilling?branch=' + branch + '&code=' + billno, function (r) {
@@ -89,7 +123,13 @@ End Code
             $('#lblPaymentDueDate').text(ShowDate(CDateTH(data.header[0][0].DuePaymentDate)));
         }
         if (data.customer.length > 0) {
-            //$('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' Branch : '+ data.customer[0][0].Branch);
+	
+            $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
+            if(Number(data.customer[0][0].Branch)>0) {
+                $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :0000' + Number(data.header[0][0].CustBranch));
+            } else {
+                    $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
+            }
             $('#lblCustName').text(data.customer[0][0].NameEng);
             $('#lblCustAddress').text(data.customer[0][0].EAddress1 + '\n' + data.customer[0][0].EAddress2);
         }
@@ -100,7 +140,7 @@ End Code
             let vat = 0;
             let wh1 = 0;
             let wh3 = 0;
-
+            sortData(data.detail[0],'ItemNo','asc');
             let dv = $('#tbDetail');
             let html = '';
             let i = 0;
@@ -108,27 +148,35 @@ End Code
                 i += 1;
                 html += '<tr>';
                 html += '<td>' + i + '</td>';
-                html += '<td>' + dr.InvNo + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
+                html += '<td>' + dr.InvNo + '</td>';
+                html += '<td>' + dr.RefNo + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeNonVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtChargeVAT, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
+                html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
+                //html += '<td style="text-align:right">' + ShowNumber((dr.AmtTotal-dr.AmtCustAdvance), 2) + '</td>';
+		html += '<td style="text-align:right">' + ShowNumber(dr.AmtTotal, 2) + '</td>';
                 html += '</tr>';
 
+                //total += (Number(dr.AmtTotal)-Number(dr.AmtCustAdvance));
                 total += Number(dr.AmtTotal);
-                serv += Number(dr.AmtChargeNonVAT);
+                serv += Number(dr.AmtChargeNonVAT+dr.AmtChargeVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
-                wh1 += Number(dr.AmtWHRate == 1 ? ShowNumber(dr.AmtWH, 2) : 0);
-                wh3 += Number(dr.AmtWHRate !== 1 ? ShowNumber(dr.AmtWH, 2) : 0);
+                wh1 += Number(dr.AmtWH1);
+                wh3 += Number(dr.AmtWH3);
             }
             dv.html(html);
+            $('#lblSumAdv').text(ShowNumber(adv, 2));
+            $('#lblSumService').text(ShowNumber(serv, 2));
+            $('#lblSumVat').text(ShowNumber(vat, 2));
+            $('#lblSumWh1').text(ShowNumber(wh1, 2));
+            $('#lblSumWh3').text(ShowNumber(wh3, 2));
 
             $('#lblBillTotal').text(ShowNumber(total,2));
-            //$('#lblBillTotalEng').text(CNumEng(total));
+            $('#lblBillTotalEng').text(CNumEng(ShowNumber(total,2)));
         }
     }
 </script>

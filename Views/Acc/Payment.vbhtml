@@ -823,6 +823,7 @@ End Code
                 success: function (response) {
                     if (response.result.data != null) {
                         //SaveClearing();
+			PrintVoucher($('#txtBranchCode').val(),$('#txtControlNo').val());
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
                     }

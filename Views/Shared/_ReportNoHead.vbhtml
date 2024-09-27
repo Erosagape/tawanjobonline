@@ -15,3 +15,9 @@
     </div>
 </body>
 </html>
+<style>
+	table{
+		page-break-inside: auto;
+    		page-break-after: auto;
+	}
+</style>

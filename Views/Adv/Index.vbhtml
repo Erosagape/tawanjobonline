@@ -16,7 +16,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <label id="lblAdvNo">Advance No:</label>
+                <label id="lblAdvNo" ondblclick="SaveHeader()">Advance No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -300,17 +300,14 @@ End Code
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-sm-2">
-                                            <label id="lblItemNo" for="txtItemNo">No :</label>
+                                            <label id="lblItemNo" for="txtItemNo" ondblclick="SaveDetail()">No :</label>
                                             <input type="text" id="txtItemNo" class="form-control" disabled />
                                         </div>
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-5">
                                             <label id="lblSTCode">Service Type</label>
-                                            <div style="display:flex">
-                                                <select id="cboSTCode" class="form-control dropdown"></select>
-                                                <input type="button" id="btnBrowseS" class="btn btn-default" value="Estimate" onclick="SearchData('estimate')" />
-                                            </div>                                                                                        
+                                            <select id="cboSTCode" class="form-control dropdown"></select>
                                         </div>
-                                        <div class="col-sm-4">
+                                        <div class="col-sm-5">
                                             <label id="lblDuplicate" for="chkDuplicate">Can Partial Clear</label><br />
                                             <input type="checkbox" id="chkDuplicate" />
                                         </div>
@@ -319,13 +316,13 @@ End Code
                                         <div class="col-sm-4">
                                             <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
                                             <div style="display:flex">
-                                                <input type="text" id="txtSICode" class="form-control" tabindex="12" />
+                                                <input type="text" id="txtSICode" class="form-control" style="width:100%" tabindex="12" />
                                                 <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('servicecode')" />
                                             </div>
                                         </div>
                                         <div class="col-sm-8">
                                             <label id="lblSDescription">Advance Description</label><br />
-                                            <input type="text" id="txtSDescription" class="form-control" tabindex="13" />
+                                            <input type="text" id="txtSDescription" class="form-control" style="width:100%" tabindex="13" />
                                         </div>
                                     </div>
                                     <div class="row">
@@ -870,9 +867,7 @@ End Code
             CreateLOV(dv, '#frmSearchSICode', '#tbServ', 'Service Code', response,2);
             //Currency
             CreateLOV(dv, '#frmSearchSubCur', '#tbSubCur', 'Currency Code', response,2);
-            CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response, 2);
-            //Estimate
-            CreateLOV(dv, '#frmSearchEstimate', '#tbEstimate', 'Estimate Price', response, 3);
+            CreateLOV(dv, '#frmSearchExpCur', '#tbExpCur', 'Currency Code', response,2);
         });
     }
     function ShowData(branchcode, advno) {
@@ -1357,31 +1352,31 @@ End Code
                 {
                     data: "UnitPrice", title: "Price",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "AdvAmount", title: "Amount",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "ChargeVAT", title: "VAT",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "Charge50Tavi", title: "WH-Tax",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 },
                 {
                     data: "AdvNet", title: "Net",
                     render: function (data) {
-                        return ShowNumber(data, 3);
+                        return ShowNumber(data, 2);
                     }
                 }
             ],
@@ -1665,9 +1660,6 @@ End Code
             case 'advance':
                 SetGridAdv();
                 break;
-            case 'estimate':
-                SetGridEstimateCost(path, '#tbEstimate', '?status=NOCLR&group=' + $('#cboSTCode').val() + '&Job=' + $('#txtForJNo').val(), '#frmSearchEstimate', ReadEstimate);
-                break;
             case 'payment':
                 if ($('#txtPaymentNo').val() !== '') {
                     ShowMessage('Bill-payment had been choosed',true);
@@ -1783,35 +1775,6 @@ End Code
         $('#txtCustCode').val(dt.CustCode);
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
-    }
-    function ReadEstimate(dt) {
-        $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.SDescription);
-        $('#txtVatType').val(dt.IsTaxCharge);
-        $('#txtVATRate').val(dt.AmtVatRate);
-        $('#txtWHTRate').val(dt.AmtWhtRate == "0" ? "0" : dt.AmtWhtRate);
-        if (dt.IsTaxCharge == "2") {
-            $('#txtAMT').attr('disabled', 'disabled');
-            $('#txtVATRate').attr('disabled', 'disabled');
-            $('#txtWHTRate').attr('disabled', 'disabled');
-            $('#txtVAT').attr('disabled', 'disabled');
-            $('#txtWHT').attr('disabled', 'disabled');
-        } else {
-            $('#txtAMT').removeAttr('disabled');
-            $('#txtVATRate').removeAttr('disabled');
-            $('#txtWHTRate').removeAttr('disabled');
-            $('#txtVAT').removeAttr('disabled');
-            $('#txtWHT').removeAttr('disabled');
-        }
-        $('#txtCurrencyCode').val(dt.CurrencyCode);
-        ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
-        $('#txtCurRate').val(dt.ExchangeRate);
-        $('#txtUnitPrice').val(CDbl(dt.AmountCharge, 2));
-        $('#txtAdvQty').val(CNum(dt.Qty));
-        $('#txtUnitCode').val(dt.QtyUnit);
-        $('#txtVenCode').val(dt.VenderCode);
-        ShowVender(path, dt.VenderCode, '#txtPayChqTo');
-        CalAmount();
     }
     function ReadService(dt) {
         if (dt != undefined) {
@@ -1960,8 +1923,8 @@ End Code
             vat = amt * vatrate * 0.01;
             wht = amt * whtrate * 0.01;
         }
-        $('#txtVAT').val(CDbl(vat.toFixed(3),3));
-        $('#txtWHT').val(CDbl(wht.toFixed(3),3));
+        $('#txtVAT').val(CDbl(vat.toFixed(2),2));
+        $('#txtWHT').val(CDbl(wht.toFixed(2),2));
         CalTotal();
     }
     function GetExchangeRate() {

@@ -1184,7 +1184,7 @@ End Code
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
             case 'chequecust':
-                SetGridCheque(path, '#tbChq', '#frmSearchChq', '?type=CU&Cancel=N&Branch=' + $('#txtBranchCode').val(), ReadCheque);
+                SetGridCheque(path, '#tbChq', '#frmSearchChq', '?type=CU&Voucher=R&Cancel=N&Branch=' + $('#txtBranchCode').val(), ReadCheque);
                 break;
         }
     }
@@ -1384,6 +1384,7 @@ End Code
             rowProcess +=1;
             if (currCode !== obj.SICode) {
                 if (currCode !== '') {
+                    clearList = clearList.substr(0, clearList.length - 1);
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
@@ -1414,15 +1415,17 @@ End Code
                 key.AmtCredit+= CNum(obj.AmtCredit);
                 key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate), 2);
             }
-            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo)) < 0) {
-                clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+            if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo+',')) < 0) {
+                //clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+                clearList += (obj.ClrNo + '/' + obj.ClrItemNo) +',';
             }
             if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
             }
-            if (rowProcess==arr_sel.length) {
+            if (rowProcess == arr_sel.length) {
+                clearList = clearList.substr(0, clearList.length - 1);
                 key.ClrNo = '';
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
@@ -1563,52 +1566,25 @@ End Code
         $('#txtAmtNET').val(ShowNumber(net,2));
     }
     function MoveUp() {
-        let arr_cost = arr.filter(function (d) {
-            return d.AmtCost > 0;
-        });
-        let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge > 0 || d.AmtAdvance > 0;
-        });
-        //sortData(arr_sel, 'ItemNo', 'asc');
-        let idx = arr_sel.indexOf(arr_split);
-        if (idx <= 0 || idx > (arr_sel.length - 1) || arr_sel[idx - 1].ItemNo == 0) {
+        let idx = arr.indexOf(arr_split);
+        if (idx <= 0 || idx > (arr.length - 1) || arr[idx - 1].ItemNo == 0) {
             alert('cannot move up');
         } else {
             //swap data
-            [arr_sel[idx - 1], arr_sel[idx]] = [arr_sel[idx], arr_sel[idx - 1]];
-
-            for (let v of arr_cost) {
-                arr_sel.push(v);
-            }
-            arr = arr_sel;
-
+            [arr[idx - 1], arr[idx]] = [arr[idx], arr[idx - 1]];
             $('#dvEditor').modal('hide');
-            CalSummary();
+            ShowDetail();
         }
     }
     function MoveDown() {
-        let arr_cost = arr.filter(function (d) {
-            return d.AmtCost > 0;
-        });
-        let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge > 0 || d.AmtAdvance > 0;
-        });
-        //sortData(arr_sel, 'ItemNo', 'asc');
-
-        let idx = arr_sel.indexOf(arr_split);
-        if (idx >= (arr_sel.length - 1) || idx < 0 || arr_sel[idx + 1].itemNo == 0) {
+        let idx = arr.indexOf(arr_split);
+        if (idx >= (arr.length - 1) || idx < 0 || arr[idx + 1].itemNo == 0) {
             alert('cannot move down');
         } else {
             //swap data
-            [arr_sel[idx], arr_sel[idx + 1]] = [arr_sel[idx + 1], arr_sel[idx]];
-
-            for (let v of arr_cost) {
-                arr_sel.push(v);
-            }
-            arr = arr_sel;
-
+            [arr[idx], arr[idx + 1]] = [arr[idx + 1], arr[idx]];
             $('#dvEditor').modal('hide');
-            CalSummary();
+            ShowDetail();
         }
     }
 </script>

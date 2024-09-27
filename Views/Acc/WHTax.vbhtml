@@ -560,7 +560,10 @@ End Code
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
-            CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Documents', response, 3);
+            CreateLOV(dv, '#frmSearchDoc1', '#tbDoc1', 'Documents', response, 3);
+            CreateLOV(dv, '#frmSearchDoc2', '#tbDoc2', 'Documents', response, 3);
+            CreateLOV(dv, '#frmSearchDoc3', '#tbDoc3', 'Documents', response, 3);
+            CreateLOV(dv, '#frmSearchDoc4', '#tbDoc4', 'Documents', response, 3);
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Number', response, 3);
         });
     }
@@ -633,6 +636,7 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbControl');
             $('#tbControl tbody').on('click', 'tr', function () {
@@ -690,6 +694,23 @@ End Code
         $('#txtJNo').val(dr.ForJNo);
         $('#txtDocRefNo').val(dr.AdvNo);
     }
+    function ReadPay(dr) {
+        $('#txtPayDate').val(CDateEN(dr.DocDate));
+        $('#txtPayAmount').val(dr.Amt);
+        $('#txtPayTax').val(dr.AmtWHT);
+        $('#txtJNo').val(dr.ForJNo);
+        $('#txtDocRefNo').val(dr.DocNo);
+        $('#txtPayRate').val(dr.TaxRate);
+    }
+    function ReadRcv(dr) {
+        $('#txtPayDate').val(CDateEN(dr.ReceiptDate));
+        $('#txtPayAmount').val(dr.Amt);
+        $('#txtPayTax').val(dr.Amt50Tavi);
+        $('#txtJNo').val(dr.JobNo);
+        $('#txtDocRefNo').val(dr.ReceiptNo);
+        $('#txtPayRate').val(3);
+    }
+
     function ReadClr(dr) {
         $('#txtPayDate').val(CDateEN(dr.ClrDate));
         $('#txtPayAmount').val(dr.Base50Tavi);
@@ -705,13 +726,13 @@ End Code
         let reftype = $('#txtDocRefType').val();
         switch (reftype) {
             case "1": //ADV
-                $.get(path + 'Adv/GetAdvanceDetail' + '?branchcode=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), function (r) {
+                $.get(path + 'Adv/GetAdvanceDetail' + '?branchcode=' + $('#txtBranchCode').val(), function (r) {
                     docSel = r.adv;
                     let d = docSel.detail;
                     let c = d.filter(function (chk) {
                         return chk.Rate50Tavi >0
                     });
-                    let tb=$('#tbDoc').DataTable({
+                    let tb=$('#tbDoc1').DataTable({
                         data: c,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
@@ -732,23 +753,24 @@ End Code
                         ],
                         responsive:true,
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                        , pageLength: 100
                     });
-                    $('#tbDoc tbody').on('click', 'button', function () {
-                        let dt = GetSelect('#tbDoc', this); //read current row selected
+                    $('#tbDoc1 tbody').on('click', 'button', function () {
+                        let dt = GetSelect('#tbDoc1', this); //read current row selected
                         ReadAdv(dt); //callback function from caller
-                        $('#frmSearchDoc').modal('hide');
+                        $('#frmSearchDoc1').modal('hide');
                     });
-                    $('#tbDoc tbody').on('click', 'tr', function () {
-                        $('#tbDoc tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
+                    $('#tbDoc1 tbody').on('click', 'tr', function () {
+                        $('#tbDoc1 tbody > tr').removeClass('selected'); //ล้างทุก row ที่มีการ select ก่อน
                         $(this).addClass('selected'); //select row ใหม่
                     });
-                    $('#frmSearchDoc').modal('show');
+                    $('#frmSearchDoc1').modal('show');
                 });
                 break;
             case "2": //CLR
-                $.get(path + 'Clr/GetClearingGrid' + '?branchcode=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), function (r) {
+                $.get(path + 'Clr/GetClearingGrid' + '?branchcode=' + $('#txtBranchCode').val(), function (r) {
                     let d = r.clr.data[0].Table;
-                    $(g).DataTable({
+                    $('#tbDoc2').DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
@@ -769,18 +791,74 @@ End Code
                         ],
                         responsive:true,
                         destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                        , pageLength: 100
                     });
-                    BindEvent('#tbDoc', '#frmSearchDoc', ReadClr);
+                    BindEvent('#tbDoc2', '#frmSearchDoc2', ReadClr);
                 });
                 break;
             case "3": //PAY
+                $.get(path + 'Acc/GetPaymentGrid' + '?branchcode=' + $('#txtBranchCode').val(), function (r) {
+                    let d = r.payment.data[0].Table;
+                    $('#tbDoc3').DataTable({
+                        data: d,
+                        selected: true, //ให้สามารถเลือกแถวได้
+                        columns: [ //กำหนด property ของ header column
+                            { data: null, title: "#" },
+                            { data: "DocNo", title: "รหัส" },
+                            { data: "BookingRefNo", title: "บุคกิ้ง" },
+                            { data: "Amt", title: "ยอดเงิน" }
+                        ],
+                        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                            {
+                                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    let html = "<button class='btn btn-warning'>Select</button>";
+                                    return html;
+                                }
+                            }
+                        ],
+                        responsive: true,
+                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                        , pageLength: 100
+                    });
+                    BindEvent('#tbDoc3', '#frmSearchDoc3', ReadPay);
+                });
+
                 break;
             case "4": //TAX
+                $.get(path + 'Acc/GetReceiveReport' + '?branch=' + $('#txtBranchCode').val(), function (r) {
+                    let d = r.receipt.data[0].Table;
+                    $('#tbDoc4').DataTable({
+                        data: d,
+                        selected: true, //ให้สามารถเลือกแถวได้
+                        columns: [ //กำหนด property ของ header column
+                            { data: null, title: "#" },
+                            { data: "ReceiptNo", title: "ใบเสร็จ" },
+                            { data: "SDescription", title: "ค่าใช้จ่าย" },
+                            { data: "Amt", title: "ยอดเงิน" }
+                        ],
+                        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                            {
+                                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    let html = "<button class='btn btn-warning'>Select</button>";
+                                    return html;
+                                }
+                            }
+                        ],
+                        responsive: true,
+                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                        , pageLength: 100
+                    });
+                    BindEvent('#tbDoc4', '#frmSearchDoc4', ReadRcv);
+                });
                 break;
         }
     }
     function GetJobNo() {
-        SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val() + '&taxnumber=' + $('#txtTaxNumber1').val(), ReadJob);
+        SetGridJob(path, '#tbJob', '#frmSearchJob', '?branch=' + $('#txtBranchCode').val(), ReadJob);
     }
     function ReadData(dr,dt) {
         $('#txtBranchCode').val(dr.BranchCode);
@@ -847,6 +925,7 @@ End Code
             ],
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+            , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
         $('#tbDetail tbody').on('click', 'tr', function () {

@@ -105,7 +105,6 @@ End Code
                                     <th class="desktop">Req.date</th>
                                     <th>Job No</th>
                                     <th class="desktop">Inv.No</th>
-					 <th class="desktop">MAWB</th>
                                     <th class="desktop">customer</th>
                                     <th class="desktop">Cash/Transfer</th>
                                     <th class="desktop">Company Chq</th>
@@ -488,7 +487,6 @@ End Code
                     },
                     { data: "JobNo", title: "Job Number" },
                     { data: "CustInvNo", title: "InvNo" },
-			 { data: "MAWBs", title: "MAWBs" },
                     { data: "CustCode", title: "Customer" },
                     {
                         data: "AdvCashCal", title: "Cash/Transfer",

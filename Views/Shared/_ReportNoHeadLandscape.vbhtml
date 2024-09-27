@@ -15,8 +15,11 @@
     <script src="~/Scripts/Func/reports.js"></script>
     <style>
 table{
-    width:100%;
+    	width:100%;
+	page-break-inside: auto;
+   	page-break-after: auto;
 }
+
 table td{
     white-space: nowrap;  /** added **/
 }
@@ -37,7 +40,7 @@ table td{
             </tr>
             <tr>
                 <td colspan="2">
-                    <p id="pFooter" style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
                 </td>
             </tr>
         </table>

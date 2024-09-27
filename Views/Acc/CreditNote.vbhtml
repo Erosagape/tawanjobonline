@@ -133,12 +133,12 @@ End Code
                             </div>
                         </div>
                         <p>
-                            <label id="lblCustNo">Customer:</label>
+                            <label id="lblCustNo" onclick="SearchData('customer2')">Customer:</label>
                             <br />
                             <div style="display:flex">
 
-                                <input type="text" id="txtHCustCode" class="form-control" style="width:25%" disabled />
-                                <input type="text" id="txtHCustBranch" class="form-control" style="width:15%" disabled />
+                                <input type="text" id="txtHCustCode" class="form-control" style="width:25%"  />
+                                <input type="text" id="txtHCustBranch" class="form-control" style="width:15%"  />
                                 <input type="text" id="txtHCustName" class="form-control" style="width:60%" disabled />
                             </div>
                         </p>
@@ -489,6 +489,7 @@ End Code
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+            CreateLOV(dv, '#frmSearchHCust', '#tbHCust', 'Customers', response, 3);
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency', response, 2);
             //Branch
@@ -502,6 +503,9 @@ End Code
                 break;
             case 'customer':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'customer2':
+                SetGridCompany(path, '#tbHCust', '#frmSearchHCust', ReadCustomer2);
                 break;
             case 'currency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
@@ -758,6 +762,12 @@ End Code
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
     }
+    function ReadCustomer2(dt) {
+        $('#txtHCustCode').val(dt.CustCode);
+        $('#txtHCustBranch').val(dt.Branch);
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtHCustName');
+    }
+
     function ReadCurrency(dt) {
         $('#txtDCurrencyCode').val(dt.Code);
         $('#txtCurrencyName').val(dt.TName);

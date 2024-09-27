@@ -74,7 +74,7 @@ End Code
         <u><b>UNIT</b></u>
     </div>
     <div style="width:20%">
-        <u><b>EXPENSES</b></u>
+        <u><b>REIMBURSEMENT</b></u>
     </div>
     <div style="width:20%">
         <u><b>CHARGES</b></u>
@@ -84,7 +84,7 @@ End Code
 </div>
 <hr style="border-style:solid;" />
 <div style="width:80%;text-align:right;float:left">
-    <b>Expenses:</b><br />
+    <b>Reimbursement:</b><br />
     <b>Charges:</b><br />
     <b>Vat:</b><br />
     <b>Total:</b><br />
@@ -103,12 +103,6 @@ End Code
         <label id="lblSumTotal"></label>
     </div>
 </div>
-<p>
-    PLEASE REMIT TO ACCOUNT NO:<br />999-99999-9<br />
-    "TAWAN TECHNOLOGY CO.,LTD"<br />
-    SIAM COMMERCIAL BANK PUBLIC LIMITED<br />
-    THE MALL RAMKAMHAENG BRANCH
-</p>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString("Branch");
@@ -133,7 +127,6 @@ End Code
         $('#lblMVesselName').text(dr.MVesselName);
         $('#lblInvProduct').text(dr.InvProduct);
         $('#lblInvQty').text(dr.InvProductQty);
-        ShowCountry(path, dr.InvCountry, '#lblCountryPort');
         ShowInvUnit(path, dr.InvProductUnit, '#lblInvQtyUnit');
         $('#lblMeasurement').text(dr.Measurement);
         $('#lblBLStatus').text(dr.BookingNo);
@@ -168,21 +161,18 @@ End Code
             html += '<div style="width:15%;text-align:center">' + r.CurrencyCode + '</div>';
             html += '<div style="width:10%;text-align:center">' + r.Qty + '</div>';
             html += '<div style="width:10%;text-align:center">' + r.QtyUnit + '</div>';
-            if (r.IsCredit==1) {
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal, 2)) + '</div>';
+            if (r.SICode.substr(0,3) !== 'SRV') {
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmountCharge, 2)) + '</div>';
                 html += '<div style="width:20%;text-align:right">0.00</div>';
+                totcost += CNum(r.AmountCharge);
             } else {
                 html += '<div style="width:20%;text-align:right">0.00</div>';
-                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmtTotal,2)) + '</div>';
+                html += '<div style="width:20%;text-align:right">' + CCurrency(CDbl(r.AmountCharge,2)) + '</div>';
+                totamt += CNum(r.AmountCharge);
             }
             html += '</div>';
-            if (r.IsCredit==0) {
-                totamt += CNum(r.AmountCharge*r.Qty);
-            } else {
-                totcost += CNum(r.AmountCharge*r.Qty);
-            }
             totvat += CNum(r.AmtVat);
-            total += CNum(r.AmountCharge*r.Qty) + CNum(r.AmtVat);
+            total += CNum(r.AmountCharge) + CNum(r.AmtVat);
         }
         $('#dvDetail').html(html);
         $('#lblSumCost').text(CCurrency(CDbl(totcost,2)));

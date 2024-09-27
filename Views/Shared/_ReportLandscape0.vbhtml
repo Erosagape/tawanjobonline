@@ -16,14 +16,16 @@
     <script src="~/Scripts/Func/popup.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
     <style>
-        table,
+
         table tr td,
         table tr th {
             page-break-inside: avoid;
+		page-break-after: auto;
         }
 
-	*{
-		 page-break-inside: auto !important;page-break-after:auto !important;
+	table {
+		page-break-inside: auto;
+    		page-break-after: auto;
 	}
     </style>
 </head>
@@ -31,26 +33,21 @@
     <div class="page" contenteditable="false">
         <table id="tblHeader" width="100%">
             <tr>
-                <td width="20%">
+                <td width="10%" style="text-align:center">
                     <img id="imgLogo" src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:50px"/>
                 </td>
-                <td width="80%">
-                    <div id="divCompany" style="text-align:left;color:darkblue;">
+                <td width="90%">
+                    <div id="divCompany" style="text-align:left;color:darkblue;font-size:9px;">
                         <b>@ViewBag.PROFILE_COMPANY_NAME</b>
                         <br />@ViewBag.PROFILE_COMPANY_ADDR1 <br/> @ViewBag.PROFILE_COMPANY_ADDR2
                         <br />Tel @ViewBag.PROFILE_COMPANY_TEL Fax @ViewBag.PROFILE_COMPANY_FAX E-mail/Website @ViewBag.PROFILE_COMPANY_EMAIL
-                        <br />Tax-Reference ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
+                        <br />Tax ID : @ViewBag.PROFILE_TAXNUMBER Branch @ViewBag.PROFILE_TAXBRANCH
                     </div>
                 </td>
             </tr>
-    
             <tr>
                 <td colspan="2" width="100%" style="text-align:center">
                     <h2>@ViewBag.ReportName</h2>
-                </td>
-            </tr>
-	     <td colspan="2" width="100%">
-                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
                 </td>
             </tr>
             <tr>
@@ -59,7 +56,10 @@
                 </td>
             </tr>
             <tr>
-           
+                <td colspan="2" width="100%">
+                    <p style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
+                </td>
+            </tr>
         </table>
     </div>
 </body>

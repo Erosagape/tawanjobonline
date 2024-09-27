@@ -129,7 +129,7 @@ End Code
                                 </div>
                                 <div>
                                     <label id="lblDescription" for="txtDescription">Descriptions : </label>
-                                    <textarea id="txtDescription" style="width:180px" tabindex="6"></textarea>
+                                    <textarea id="txtDescription" style="width:100%;height:150px;" tabindex="6"></textarea>
                                 </div>
 
                             </div>
@@ -571,13 +571,13 @@ End Code
                                 <th class="all">
                                     Document No
                                 </th>
-                                <th class="desktop">
+                                <th class="all">
                                     Item
                                 </th>
                                 <th class="desktop">
                                     Expenses
                                 </th>
-                                <th class="all">
+                                <th class="desktop">
                                     Amount
                                 </th>
                                 <th class="desktop">
@@ -1360,7 +1360,7 @@ End Code
     }
     //This section is For Save Data function
     function CancelJob() {
-        if (rec.JobStatus < 99) {
+        if (rec.JobStatus <99) {
             if (rec.JobStatus < 2||rec.JobStatus==98) {
                 if ($('#txtCancelReason').val() !== '') {
                     rec.JobStatus = 99;
