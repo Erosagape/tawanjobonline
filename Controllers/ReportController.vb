@@ -1650,7 +1650,7 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
                 Return Content("{""result"":[],""group"":null,""msg"":""" & ex.Message & """,""sql"":""" & sqlW & """}")
             End Try
         End Function
-        Function GetWHTax53Export() As ActionResult
+        Function GetWHTaxExport() As ActionResult
             Dim yy As String = DateTime.Now.Year.ToString("yyyy")
             If Not Request.QueryString("Year") Is Nothing Then
                 yy = Request.QueryString("Year").ToString
@@ -1663,29 +1663,40 @@ WHERE NOT ISNULL(h.CancelProve,'')<>''
             If Not Request.QueryString("Code") Is Nothing Then
                 tx = Request.QueryString("Code").ToString
             End If
+            Dim frm As String = "7"
+            If Not Request.QueryString("Form") Is Nothing Then
+                frm = Request.QueryString("Form").ToString
+            End If
 
             Dim strHeader As String = ""
             Dim strDetail As String = ""
             Dim strAll As String = ""
-            Dim sqlH = "
+            Dim sqlH = GetValueConfig("SQL", "SelectWHTaxExport" & frm)
+            If sqlH = "" Then
+                sqlH = "
 select h.TaxNumber1,Convert(numeric,'0'+h.Branch1) as Branch1,h.TaxNumber2,Convert(numeric,'0'+h.Branch2) as Branch2,h.SeqInForm,h.TaxLawNo,
 count(distinct d.DocNo) as TotalDoc,SUM(d.PayAmount) as TotalPayAmount,sum(d.PayTax) as TotalPayTax
 from Job_WHTax h left join Job_WHTaxDetail d
 on h.BranchCode=d.BranchCode and h.DocNo=d.DocNo
-where h.FormType=7 AND Year(h.DocDate)={0} AND Month(h.DocDate)={1} AND h.TaxNumber1='{2}'
+where h.FormType=" & frm & " AND Year(h.DocDate)={0} AND Month(h.DocDate)={1} AND h.TaxNumber1='{2}'
 group by h.TaxNumber1,Convert(numeric,'0'+h.Branch1),h.TaxNumber2,Convert(numeric,'0'+h.Branch2),h.SeqInForm,h.TaxLawNo
 "
-            Dim sqlD = "
+            End If
+            Dim sqlD = GetValueConfig("SQL", "SelectWHTaxExport" & frm & "Detail")
+            If sqlD = "" Then
+                sqlD = "
 select h.DocNo,h.TaxNumber3,Convert(numeric,'0'+h.Branch3) as Branch3,MAX(h.TName3) as TName3,MAX(h.TAddress3) as TAddress3,
 d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType,
 SUM(d.PayAmount) as PayAmount,sum(d.PayTax) as PayTax
 from Job_WHTax h left join Job_WHTaxDetail d
 on h.BranchCode=d.BranchCode and h.DocNo=d.DocNo
-where h.FormType=7 AND Year(h.DocDate)={0} AND Month(h.DocDate)={1} AND h.TaxNumber1='{2}'
+where h.FormType=" & frm & " AND Year(h.DocDate)={0} AND Month(h.DocDate)={1} AND h.TaxNumber1='{2}'
 AND h.TaxNumber2='{3}' AND Convert(numeric,'0'+h.Branch2)={4} AND h.SeqInForm='{5}' AND h.TaxLawNo='{6}'
 group by h.DocNo,h.TaxNumber3,Convert(numeric,'0'+h.Branch3),
 d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
 "
+            End If
+
             Dim th = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(sqlH, yy, mm, tx))
             For Each rh As DataRow In th.Rows
                 strHeader = "H" & "|"   '#1
@@ -1869,7 +1880,6 @@ d.PayRate,d.PayDate,d.PayTaxDesc,d.DocRefType
                 End If
                 strAll &= strHeader & strDetail
             Next
-
             Return Content(strAll, textContent)
         End Function
 

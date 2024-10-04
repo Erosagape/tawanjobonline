@@ -961,6 +961,7 @@
     <Content Include="Views\JobOrder\Container.vbhtml" />
     <Content Include="Views\Acc\Summary.vbhtml" />
     <Content Include="Views\Acc\WorkSheet.vbhtml" />
+    <Content Include="Views\Acc\FormPP30.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />

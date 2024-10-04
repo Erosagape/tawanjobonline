@@ -4120,5 +4120,12 @@ where ch.DocStatus<>99 and  not isnull(ih.CancelProve,'')<>'' and  not isnull(rh
         Function Worksheet() As ActionResult
             Return GetView("WorkSheet", "MODULE_ACC")
         End Function
+        Function FormPP30() As ActionResult
+            Dim formName As String = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = Request.QueryString("Form").ToString()
+            End If
+            Return GetView("FormPP30" & formName)
+        End Function
     End Class
 End Namespace
