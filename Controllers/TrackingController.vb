@@ -150,10 +150,17 @@ Namespace Controllers
                                     .UploadDate = DateTime.Now,
                                     .CheckedBy = "",
                                     .CheckedDate = DateTime.MinValue,
-                                    .ApproveBy = ""
+                                    .ApproveBy = "",
+                                    .ApproveDate = DateTime.MinValue,
+                                    .CheckNote = ""
                                 }
-                                oFile.CheckedDate = DateTime.MinValue
-                                oFile.CheckNote = ""
+                                If oFile.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND DocType='{2}'", branch, job, typ)).Count > 0 Then
+                                    oFile = oFile.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND DocType='{2}'", branch, job, typ))(0)
+                                    oFile.FileType = System.IO.Path.GetExtension(filename).ToLower
+                                    oFile.FilePath = saveTo + "/" + job + "_" + typ + "/" + filename
+                                    oFile.DocNo = filename
+                                    oFile.Description = saveFolder + "/" + filename
+                                End If
                                 oFile.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo={2}", branch, job, oFile.ItemNo))
                                 msg = msg + "Upload " + filename + " successfully" + vbCrLf
                             Catch ex As Exception

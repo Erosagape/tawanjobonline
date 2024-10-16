@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     ViewBag.Title = "Documents Tracking"
 End Code
     <div class="row">
@@ -63,26 +62,26 @@ End Code
             <button id="btnShow" class="btn btn-primary" onclick="RefreshGrid()">Show</button>
         </div>
     </div>
-    <div>
-        <button id="btnAddFile" class="btn btn-primary" onclick="AddFile()">Add File</button>
-        <table id="tbDocument" class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>DocType</th>
-                    <th>JNo</th>
-                    <th>DocNo</th>
-                    <th>DocDate</th>
-                    <th>Comment</th>
-                    <th>CheckDate</th>
-                    <th>ApproveDate</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <a href="#" class="btn btn-danger" id="btnDelItem" onclick="DeleteFile()">
-            <i class="fa fa-lg fa-trash"></i>&nbsp;<b><label id="lblDelFile">Delete File</label></b>
-        </a>
+    <div>        
+        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">Add Document</a>
+            <table id="tbDocument" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>DocType</th>
+                        <th>JNo</th>
+                        <th>DocNo</th>
+                        <th>DocDate</th>
+                        <th>Comment</th>
+                        <th>CheckDate</th>
+                        <th>ApproveDate</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <a href="#" class="btn btn-danger" id="btnDelItem" onclick="DeleteFile()">
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b><label id="lblDelFile">Delete File</label></b>
+            </a>
     </div>
 <div id="dvEditor" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -125,8 +124,12 @@ End Code
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-5">
-                        <label id="lblDocNo">Doc No</label><br/>
-                        <input type="text" id="txtDocNo" class="form-control" />
+                        <label id="lblDocNo">Doc No</label>
+                        <br/>
+                        <div style="display:flex;">
+                            <input type="text" id="txtDocNo" class="form-control" />
+                            <input type="button" class="btn btn-default" value="+" onclick="AddFile()"/>
+                        </div>                        
                     </div>
                     <div class="col-sm-7">
                         <label id="lblDescription">Description</label><br/>
@@ -290,6 +293,7 @@ End Code
     }
     function ReadData(dt) {
         $('#txtItemNo').val(dt.ItemNo);
+        $('#txtJNo').val(dt.JNo);
         $('#txtDocTypeD').val(dt.DocType);
         $('#txtDocDate').val(CDateEN(dt.DocDate));
         $('#txtDocNo').val(dt.DocNo);
@@ -384,7 +388,7 @@ End Code
     }
     function AddFile() {
         if ($('#txtJNo').val() !== '') {
-            if ($('#txtDocType').val() !== '') {
+            if ($('#txtDocTypeD').val() !== '') {
                 $('#dvAddFile').modal('show');
             } else {
                 ShowMessage('Please choose some type of documents', true);
@@ -392,6 +396,33 @@ End Code
         } else {
             ShowMessage('Please select job number', true);
         }
+    }
+    function AddHeader() {
+        row = GetNewData();
+        ReadData(row);
+        $('#dvEditor').modal('show');
+    }
+    function GetNewData() {
+        let r = {
+            BranchCode: $('#txtBranchCode').val(),
+            JNo: $('#txtJNo').val(),
+            ItemNo: 0,
+            DocType: $('#txtDocType').val(),
+            FileType: '',
+            FilePath: '',
+            DocNo: '',
+            Description: '',
+            DocDate: null,
+            FileSize: 0,
+            UploadBy: '',
+            UploadDate: null,
+            CheckedBy: "",
+            CheckedDate: null,
+            ApproveBy : "",
+            ApproveDate : null,
+            CheckNote : ''
+        };
+        return r;
     }
     function SaveData() {
         row.DocDate = CDateEN($('#txtDocDate').val());
@@ -401,10 +432,11 @@ End Code
         row.CheckedBy = $('#txtCheckedBy').val();
         row.CheckedDate = CDateEN($('#txtCheckedDate').val());
         row.DocNo = $('#txtDocNo').val();
+        row.ItemNo = $('#txtItemNo').val();
         row.ApproveBy = $('#txtApproveBy').val();
         row.ApproveDate = CDateEN($('#txtApproveDate').val());
-
-        if (row.ItemNo != "") {
+        //row.FilePath = $('#txtFileType').val();             
+        if (row.ItemNo !== "") {
             ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: row });
@@ -463,7 +495,7 @@ End Code
             let data = new FormData();
             data.append(file.name, file);
             var xhr = new XMLHttpRequest();
-            xhr.open('POST',path +'Tracking/UploadDocument?Branch='+ $('#txtBranchCode').val() +'&Code='+ $('#txtJNo').val() +'&Type='+ $('#txtDocType').val() +'&Path=' + saveTo);
+            xhr.open('POST',path +'Tracking/UploadDocument?Branch='+ $('#txtBranchCode').val() +'&Code='+ $('#txtJNo').val() +'&Type='+ $('#txtDocTypeD').val() +'&Path=' + saveTo);
             xhr.send(data);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState == 4 && xhr.status == 200) {
@@ -473,8 +505,10 @@ End Code
                             $('#objFile').val('');
                         }
                         ShowMessage(fname);
-                        $('#dvAddFile').modal('hide');
+                        $('#txtDocNo').val(fname);
+                        $('#dvAddFile').modal('hide');                        
                         RefreshGrid();
+                        $('#dvEditor').modal('hide');
                         return;
                     }
                     ShowMessage(xhr.responseText,true);
