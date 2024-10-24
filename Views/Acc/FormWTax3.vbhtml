@@ -233,7 +233,7 @@ End Code
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
         ตำแหน่ง <input type="text" style="border-style:none;text-align:center" id="txtTaxPosition" value="@ViewBag.TaxPosition" /> <br>
-        ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+        ยื่นวันที่ <input type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
 </div>
 <div style="page-break-before:always">
@@ -287,11 +287,13 @@ End Code
                     return;
                 }
                 if (res.result.length > 0) {
+                    let dateIssue = prompt('กรุณาใส่วันที่ออกเอกสาร');
                     if (params.ReportCode == 'PRD3A') {
                         $('#txtTaxPosition').val('กระทำการแทน');
                     } else {
                         $('#txtTaxPosition').val('@ViewBag.TaxPosition');
                     }
+                    $('#txtIssueDate').val(dateIssue);
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
@@ -305,13 +307,14 @@ End Code
                     let tax = 0;
                     let t = 1;
                     let d = 0;
+                    let rows = 5;
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 7) {
+                    if (d > (rows-1)) {
                         let r = 1;
-                        for (let i = 8; i <= d; i++) {
-                            if (r == 8 || i == d) {
+                        for (let i = rows; i <= d; i++) {
+                            if (r == rows || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {

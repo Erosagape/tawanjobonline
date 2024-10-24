@@ -232,7 +232,7 @@ End Code
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
         ตำแหน่ง <input type="text" id="txtTaxPosition" style="border-style:none;text-align:center" value="@ViewBag.TaxPosition" /> <br>
-        ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+        ยื่นวันที่ <input type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
     </div>
 </div>
 <div style="page-break-before:always">
@@ -287,13 +287,14 @@ End Code
                 }
                 if (res.result.length > 0) {
                     var tb = res.result[0];
+                    let dateIssue = prompt('กรุณาใส่วันที่ออกเอกสาร');
                     //$('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text('@ViewBag.PROFILE_TAXNUMBER');
                     $('#lblBranch1').val('@ViewBag.PROFILE_TAXBRANCH');
                     $('#lblTName1').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
                     $('#lblTAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN');
                     if (params.ReportCode == 'PRD53A') {
-			$('#lblIDCard1').text(tb.IDCard1);
+                        $('#lblIDCard1').text(tb.IDCard1);
                         $('#lblTaxNumber1').text(tb.TaxNumber1);
                         $('#lblBranch1').val('00'+CCode(tb.Branch1));
                         $('#lblTName1').text(tb.TName1);
@@ -302,7 +303,7 @@ End Code
                     } else {
                         $('#txtTaxPosition').val('@ViewBag.TaxPosition');
                     }
-                    
+                    $('#txtIssueDate').val(dateIssue);
                     $('#txtTaxYear').val(tb.TaxYear + 543);
                     $('#chkMo' + tb.TaxMonth).prop('checked', true);
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
@@ -310,7 +311,7 @@ End Code
                     let tax = 0;
                     let t = 1;
                     let d = 0;
-                    let rows = 6;
+                    let rows = 5;
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }

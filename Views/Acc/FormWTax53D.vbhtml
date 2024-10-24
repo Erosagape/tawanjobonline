@@ -4,15 +4,17 @@ End Code
 <style>
     * {
         font-family: AngsanaUPC;
-        font-size: 12px;
+	font-weight:bold;
+    }
+    thead,tfoot {
+        font-size: 14px;
+    }
+    tbody {
+        font-size: 15px;
     }
 
     #pFooter, #dvFooter {
         display: none;
-    }
-
-    p {
-        margin: 2px;
     }
 
     thead {
@@ -28,7 +30,7 @@ End Code
         border-radius: 50%;
         text-align: center;
     }
-
+/*
     .flex-container {
         display: flex;
         flex-wrap: nowrap;
@@ -42,6 +44,7 @@ End Code
             line-height: 20px;
             font-size: 7px;
         }
+*/
 
 	*{
 		 page-break-inside: auto !important;page-break-after:auto !important;
@@ -56,14 +59,12 @@ End Code
                     ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.53</label>
                 </div>
                 <div style="flex:65%">
-                    <br />
                     เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
                     สาขา : <label id="lblBranch1"></label><br />ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
 
                     ที่อยู่ : <label id="lblTAddress1"></label>
                 </div>
                 <div style="flex:20%;text-align:right">
-                    <br />
                     หน้าที่ 1 ใน <span id="dvPages"></span> หน้า
                 </div>
             </div>
@@ -160,7 +161,7 @@ End Code
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
                                 (<input readonly type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
                                 ตำแหน่ง <input readonly type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
-                                ยื่นวันที่ <input readonly type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+                                ยื่นวันที่ <input readonly type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="{d}" />
                             </td>
                             <td colspan="2">
                                 <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
@@ -214,10 +215,11 @@ End Code
                     $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
+                    let dateIssue=prompt('กรุณาใส่วันที่ออกเอกสาร');
                     let n = 0;
                     let c = 0;
                     let p = 1;
-                    let rows = 6;
+                    let rows = 5;
                     let sumamt = 0;
                     let sumtax = 0;
                     let template = '';
@@ -230,7 +232,7 @@ End Code
                     let htmlHead = $('#tbDetail thead').html();
                     let htmlFoot = $('#tbDetail tfoot').html();
                     let rd = res.result;
-                    sortData(rd, 'DocNo', 'asc');
+                    //sortData(rd, 'DocNo', 'asc');
                     let docno = '';
                     let t = 1;
                     let d = 0;
@@ -265,6 +267,7 @@ End Code
                                 template = template.replace('{5}', field5);
 
                                 if ((p == 1 && n == rows) || (((n - rows) % rows) == 0 && p > 1)) {
+                                    htmlFoot = htmlFoot.replace('{d}', dateIssue);
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 
@@ -296,7 +299,7 @@ End Code
                             field5 = '';
 
                             template += '<tr style="height:70px">';
-                            template += '<td>' + n + '</td>';
+                            template += '<td style="text-align:center">' + n + '</td>'; 
                             template += '<td>';
                             template += '<p class="text-left">';
                             template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
@@ -335,6 +338,7 @@ End Code
                             template = template.replace('{4}', field4);
                             template = template.replace('{5}', field5);
 
+                            htmlFoot = htmlFoot.replace('{d}', dateIssue);
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 
