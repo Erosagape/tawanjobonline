@@ -310,7 +310,14 @@ End Code
 
                             template += '</p>';
                             template += '</td>';
-                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+                            //template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+			    let Branch3 = CCode(r.Branch3);
+			    if (Branch3 == '00') {
+				Branch3 = 'สำนักงานใหญ่';
+			    } else {
+			    	Branch3 = '00'+CCode(r.Branch3);
+		 	    }
+			    template += '<td>' + Branch3 + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';

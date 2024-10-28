@@ -69,9 +69,9 @@ End Code
                         <td>
                             <p>เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีเงินได้)</p>
                         </td>
-                        <td>
+                        @*<td>
                             <p>สาขา</p>
-                        </td>
+                        </td>*@
                         <td colspan="4">
                             <p>รายละเอียดเกี่ยวกับการจ่ายเงิน</p>
                         </td>
@@ -80,7 +80,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td>
                             ชื่อผู้มีเงินได้
                             (ให้ระบุให้ชัดเจนว่าเป็น นาย นาง นางสาวหรือยศ)
                         </td>
@@ -114,7 +114,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td>
                             ที่อยู่ของผู้มีเงินได้ (ให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)
                         </td>
                     </tr>
@@ -122,7 +122,7 @@ End Code
                 <tbody></tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="5">
                             <p>รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ <b>ใบแนบ ภ.ง.ด.3 </b>แผ่นอื่น(ถ้ามี))</p>
                         </td>
                         <td style="text-align:right">{0}</td>
@@ -130,7 +130,7 @@ End Code
                         <td></td>
                     </tr>
                     <tr>
-                        <td class="text-left" colspan="4">
+                        <td class="text-left" colspan="3">
                             (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                             <br>
                             <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์<br/>
@@ -297,7 +297,7 @@ End Code
                             template += 'ที่อยู่ : ' + r.TAddress3;
                             template += '</p>';
                             template += '</td>';
-                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+                            //template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';
