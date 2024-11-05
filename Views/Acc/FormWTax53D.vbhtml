@@ -327,7 +327,7 @@ End Code
                             docno = r.DocNo;
                         }
 
-                        field1 += '<br/>' + ShowDate(r.PayDate);
+                        field1 += '<br/>' + ShowDate(CDateTH(r.PayDate));
                         field2 += '<br/>' + r.PayRate;
                         field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
                         field4 += '<br/>' + ShowNumber(r.PayTax, 2);
