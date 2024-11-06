@@ -3032,10 +3032,10 @@ WHERE d.BranchCode='{0}' AND d.JobNo='{1}' AND h.DocStatus<>99"
 SELECT 
 Sum(UsedAmount) as SumAmt,Sum(ChargeVAT) as SumVat,
 sum(Tax50Tavi) as SumWht,Sum(BNet) as SumNet,
-d.ClrNo,CTN_NO,ClrDate,IsCredit,IsExpense,BranchCode,JobNo 
+ClrNo,CTN_NO,ClrDate,IsCredit,IsExpense,BranchCode,JobNo 
 FROM (" & sqlSource & ") t 
 GROUP BY 
-d.ClrNo,CTN_NO,ClrDate,IsCredit,IsExpense,BranchCode,JobNo 
+ClrNo,CTN_NO,ClrDate,IsCredit,IsExpense,BranchCode,JobNo 
 "
                     Using oDocument = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sqlSummary)
                         If oDocument.Rows.Count > 0 Then
