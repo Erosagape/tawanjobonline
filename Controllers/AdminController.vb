@@ -152,7 +152,27 @@ Namespace Controllers
             Return View()
         End Function
         Function TestFunction() As String
-            Return "Test Function Called"
+            Dim retStr As String = ""
+            Dim numStr As String = ""
+            Dim formatStr As String = ""
+            Dim val As String = "BL-25010058"
+            Dim i As Integer = 0
+            For i = 1 To val.Length
+                If IsNumeric(val.Substring(val.Length - i, 1)) Then
+                    numStr = val.Substring(val.Length - i, 1) & numStr
+                    formatStr &= "0"
+                Else
+                    Exit For
+                End If
+            Next
+            If numStr <> "" Then
+                retStr = val.Substring(0, val.Length - i + 1) & Format(CLng(numStr) + 1, formatStr)
+            End If
+            If retStr = "" Then
+                Dim j As Integer = "BL-2501____".Count(Function(c As Char) c = "_")
+                retStr = Replace("BL_2501____", Strings.StrDup(j, "_"), Format(1, Strings.StrDup(j, "0")))
+            End If
+            Return retStr
         End Function
     End Class
 End Namespace

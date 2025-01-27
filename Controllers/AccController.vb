@@ -2584,6 +2584,58 @@ ORDER BY a.TName1
                 Return Content(json, jsonContent)
             End Try
         End Function
+        Function SetBillHeaderTest(<FromBody()> data As CBillHeader) As ActionResult
+            Try
+                If Not IsNothing(data) Then
+                    If "" & data.BranchCode = "" Then
+                        Return Content("{""result"":{""data"":null,""msg"":""Please input branch""}}", jsonContent)
+                    End If
+                    data.SetConnect(GetSession("ConnJob"))
+                    Dim msg = "Test"
+                    If "" & data.BillAcceptNo = "" Then
+                        If data.BillDate = DateTime.MinValue Then
+                            data.BillDate = Today.Date
+                        End If
+                        Dim fmt = Main.GetValueConfig("RUNNING", "BILL")
+                        If fmt <> "" Then
+                            If fmt.IndexOf("bb") >= 0 Then
+                                fmt = fmt.Replace("bb", data.BillDate.AddYears(543).ToString("yy"))
+                            End If
+                            If fmt.IndexOf("MM") >= 0 Then
+                                fmt = fmt.Replace("MM", data.BillDate.ToString("MM"))
+                            End If
+                            If fmt.IndexOf("yy") >= 0 Then
+                                fmt = fmt.Replace("yy", data.BillDate.ToString("yy"))
+                            End If
+                        Else
+                            fmt = data.BillDate.ToString("yyMM") & "____"
+                        End If
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "BILL", billPrefix) & fmt)
+
+                        'Get Due Date from Customers
+                        Dim oCust = New CCompany(GetSession("ConnJob")).GetData(String.Format(" WHERE CustCode='{0}' AND Branch='{1}'", data.CustCode, data.CustBranch))
+                        If oCust.Count > 0 Then
+                            Dim creditdays = CInt(oCust(0).CreditLimit)
+                            data.DuePaymentDate = data.BillDate.AddDays(creditdays)
+                        End If
+                        msg = Main.GetValueSQL(GetSession("ConnJob"), String.Format("SELECT MAX(BillAcceptNo) as t FROM Job_BillAcceptHeader WHERE BillAcceptNo Like '%{0}' ", GetValueConfig("RUNNING_FORMAT", "BILL", billPrefix) & fmt)).Result
+                    Else
+                        msg = "Case 2 " & data.BillAcceptNo
+                    End If
+
+                    Dim json = "{""result"":{""data"":""" & data.BillAcceptNo & """,""msg"":""" & msg & """}}"
+                    Return Content(json, jsonContent)
+                Else
+                    Dim json = "{""result"":{""data"":null,""msg"":""No data to Save""}}"
+                    Return Content(json, jsonContent)
+                End If
+            Catch ex As Exception
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "SetBillHeader", ex.Message, ex.StackTrace, True)
+                Dim json = "{""result"":{""data"":null,""msg"":""" & ex.Message & """}}"
+                Return Content(json, jsonContent)
+            End Try
+        End Function
+
         Function DelBillHeader() As ActionResult
             Try
                 Dim tSqlw As String = " WHERE BillAcceptNo<>'' "
