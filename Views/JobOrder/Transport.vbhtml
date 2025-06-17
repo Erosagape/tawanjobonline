@@ -76,7 +76,7 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
+                    <a href="../Master/Customers" target="_blank">
                         <label id="lblNotify">Notify Party:</label>
                     </a>
                     <br />
@@ -904,6 +904,7 @@ End Code
     const user = '@ViewBag.User';
     const userGroup ='@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
+    let jobtype = 0;
     let cust = '';
     let row = {};
     let drivers = [];
@@ -950,6 +951,7 @@ End Code
     });
     function AddDetail() {
         ClearDetail();
+        ChangeLabel(jobtype);
         $('#dvContainer').modal('show');
     }
     function SetEvents() {
@@ -1057,7 +1059,7 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompany(path, '#tbCust',  '#frmSearchCust', ReadCustomer);
+                SetGridCompany(path, '#tbCust','#frmSearchCust', ReadCustomer);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -1327,6 +1329,7 @@ End Code
                 LoadData();
             }
         }
+        ChangeLabel(dr.JobType);
     }
     function ReadBooking(dr, loadcont = true) {
         $('#txtBranchCode').val(dr.BranchCode);
@@ -1367,6 +1370,7 @@ End Code
         $('#txtTransMode').val(dr.TransMode);
         $('#txtPaymentCondition').val(CStr(dr.PaymentCondition));
         $('#txtPaymentBy').val(dr.PaymentBy);
+        ChangeLabel(dr.JobType);
         if (loadcont == true) {
             LoadDetail(dr.BranchCode, dr.BookingNo);
         }
@@ -1462,6 +1466,7 @@ End Code
             row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
             ClearDetail();
             ReadDetail(row);
+            ChangeLabel(jobtype);
         });
         $('#tbDetail tbody').on('dblclick', 'tr', function () {
             $('#dvContainer').modal('show');
@@ -2258,5 +2263,46 @@ End Code
     }
     function SetTime(id) {
         $(id).val(GetTime());
+    }
+    function ChangeLabel(t) {
+        //Addition by PK for Everbest new transport tracking concept
+        jobtype = t;
+        if (t == 1) {
+            if ($('#cboLanguage').val() == 'TH') {
+                $('#lblPickup').text('ถึงหน้าด่าน');
+                $('#lblPickupTarget').text('วันข้ามด่าน');
+                $('#lblPickupActual').text('ข้ามด่านจริง');
+                $('#lblDeliveryTarget').text('วันโหลดลง');
+                $('#lblDeliveryActual').text('วันโหลดเสร็จ');
+                $('#lblReturnTarget').text('วันคืนตู้ลานไทย');
+                $('#lblReturnActual').text('วันคืนจริง');
+            } else {
+                $('#lblPickup').text('Arrival');
+                $('#lblPickupTarget').text('Border Pass');
+                $('#lblPickupActual').text('Actual Pass');
+                $('#lblDeliveryTarget').text('Unload Target');
+                $('#lblDeliveryActual').text('Unload Actual');
+                $('#lblReturnTarget').text('Return Depot');
+                $('#lblReturnActual').text('Depot Out');
+            }
+        } else {
+            if ($('#cboLanguage').val() == 'TH') {
+                $('#lblReturn').text('ถึงหน้าด่าน');
+                $('#lblPickupTarget').text('วันรับตู้เปล่า');
+                $('#lblPickupActual').text('วันรับตู้จริง');
+                $('#lblDeliveryTarget').text('วันโหลดสินค้า');
+                $('#lblDeliveryActual').text('วันโหลดเสร็จ');
+                $('#lblReturnTarget').text('วันข้ามด่าน');
+                $('#lblReturnActual').text('วันรับตู้กลับ');
+            } else {
+                $('#lblReturn').text('Departure');
+                $('#lblPickupTarget').text('Pickup Target');
+                $('#lblPickupActual').text('Pickup Actual');
+                $('#lblDeliveryTarget').text('Load Target');
+                $('#lblDeliveryActual').text('Load Actual');
+                $('#lblReturnTarget').text('Border Pass');
+                $('#lblReturnActual').text('Depot In');
+            }
+        }
     }
 </script>
