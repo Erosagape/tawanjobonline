@@ -2302,7 +2302,7 @@ ORDER BY a.TName1
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "WAITPAY" Then
                         bCheckVoucher = True
-                        tSqlw = " AND ISNULL(r.LastReceiptNo,'')<>'' AND ISNULL(r.LastControlNo,'')='' "
+                        tSqlw = " AND ISNULL(r.LastControlNo,'')='' "
                         tSqlw &= " AND " & defaultWhere & ">=0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "ALL" Then
