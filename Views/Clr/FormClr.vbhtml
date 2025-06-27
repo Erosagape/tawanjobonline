@@ -12,6 +12,13 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
+ 
+    @@media print{
+ 	#summaryclr{
+		margin-top:30px;
+	}
+     }
+
 </style>
 <div style="display:flex">
     <div style="flex:1" class="text-left">
@@ -70,14 +77,9 @@ End Code
         </thead>
         <tbody></tbody>
     </table>
-    <table border="1" width="100%">
-        <tr class="text-center">
-            <td width="10%"></td>
-            <td width="50%"></td>
-            <td width="20%"></td>
-            <td width="10%"></td>
-            <td width="10%"></td>
-        </tr>
+    <table id="summaryclr" border="1" width="100%" style="">
+	<thead></thead>
+	<tbody>
         <tr>
             <td colspan="4">
                 <div style="display:flex">
@@ -123,6 +125,7 @@ End Code
                 </div>
             </td>
         </tr>
+	</tbody>
     </table>
     <div id="dvSummary">
     </div>
@@ -142,7 +145,7 @@ End Code
             <td>&nbsp;</td>
         </tr>
         <tr Class="text-center">
-            <td>
+            <td style="text-align:center">
                 <br />
                 <br />
                 <label id="txtClrBy"></label>
@@ -160,12 +163,12 @@ End Code
                 <label id="txtReceiveBy"></label>
                 <label id="txtReceiveDate"></label>
             </td>
-            <td>
+            <td style="text-align:center">
                 <br />
                 <br />
                 ________/_______/_______
             </td>
-            <td>
+            <td  style="text-align:center">
                 <br />
                 <br />
                 ________/_______/_______
@@ -229,13 +232,13 @@ End Code
 
                         html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
-                        if (d[i].ChargeVAT > 0) {
+                        if (d[i].ChargeVAT > 0 ||d[i].ChargeVAT < 0 ) {
                             amtforvat += d[i].UsedAmount;
                             amtvat += d[i].ChargeVAT;
                         } else {
                             amtnonvat += d[i].UsedAmount;
                         }
-                        if (d[i].Tax50Tavi > 0) {
+                        if (d[i].Tax50Tavi > 0||d[i].Tax50Tavi < 0) {
                             if (d[i].Tax50TaviRate == 1) {
                                 amtwht1 += d[i].Tax50Tavi;
                             } else {
@@ -246,13 +249,13 @@ End Code
                     }
                     $('#tbDetail tbody').html(html);
 
-                    $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,2)));
-                    $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,2)));
-                    $('#txtVat').text(CCurrency(CDbl(amtvat, 2)));
-                    $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,2)));
-                    $('#txtWht3').text(CCurrency(CDbl(amtwht3,2)));
-                    $('#txtWht1').text(CCurrency(CDbl(amtwht1,2)));
-                    $('#txtTotal').text(CCurrency(CDbl(amttotal, 2)));
+                    $('#txtAmtVat').text(CCurrency(CDbl(amtforvat,4)));
+                    $('#txtAmtNonVat').text(CCurrency(CDbl(amtnonvat,4)));
+                    $('#txtVat').text(CCurrency(CDbl(amtvat, 4)));
+                    $('#txtSumVat').text(CCurrency(CDbl(amtvat+amtforvat+amtnonvat,4)));
+                    $('#txtWht3').text(CCurrency(CDbl(amtwht3,4)));
+                    $('#txtWht1').text(CCurrency(CDbl(amtwht1,4)));
+                    $('#txtTotal').text(CCurrency(CDbl(amttotal, 4)));
                     if (advlist !== '') {
                         advlist = advlist.substr(1, advlist.length - 1);
                         console.log("if1");

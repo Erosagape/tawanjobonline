@@ -93,7 +93,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-4" style="display:flex">
                             <div style="flex:1">
-                                <label id="lblInvDate" >Invoice Date :</label>
+                                <label id="lblInvDate">Invoice Date :</label>
                                 <br />
                                 <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             </div>
@@ -101,10 +101,11 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="IVS-">Service</option>
+                                    <option value="IVS-">Import Service</option>
+				    <option value="EVS-">Export Service</option>
                                     <option value="IVT-">Transport</option>
                                     <option value="IVF-">Freight</option>
-				                    <option value="IVD-">Debit Note</option>
+                                    <option value="IVD-">Debit Note</option>
                                 </select>
 
                             </div>
@@ -256,12 +257,12 @@ End Code
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                            <br/>
+                            <br />
                             Remark :
-                            <br/>
-                            <b>Shipper</b> : <input type="text" id="txtRemark1" class="form-control" /><br />
-                            <b>Consignee</b> : <input type="text" id="txtRemark2" class="form-control" /><br />
-                            Note : <input type="text" id="txtRemark3" class="form-control" /><br />
+                            <br />
+                            <input type="text" id="txtRemark1" class="form-control" /><br />
+                            <input type="text" id="txtRemark2" class="form-control" /><br />
+                            <input type="text" id="txtRemark3" class="form-control" /><br />
                             <input type="text" id="txtRemark4" class="form-control" /><br />
                             <input type="text" id="txtRemark5" class="form-control" /><br />
                             <input type="text" id="txtRemark6" class="form-control" /><br />
@@ -611,14 +612,16 @@ End Code
         let totalsumdisc = 0;
 
         for (let obj of arr) {
-            totaladv += (obj.AmtAdvance > 0 ? CNum(CDbl(obj.AmtAdvance,2)) : 0);
-            totalcharge += (obj.AmtCharge > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-            totalcost += CNum(CDbl(obj.AmtCost,2));
-            if (CNum(obj.AmtCharge) > 0) {
-                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-                totalvat += CNum(CDbl(obj.AmtVat,2));
-                total50tavi += CNum(CDbl(obj.Amt50Tavi,2));
+            totaladv += (obj.AmtAdvance !== 0 ? CNum(CDbl(obj.AmtAdvance,2)) : 0);
+            totalcharge += (obj.AmtCharge !== 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+            if (CNum(CDbl(obj.AmtCost,2))>0) {
+               totalcost += CNum(CDbl(obj.AmtCost,2));
+            }
+            if (CNum(obj.AmtCharge) !== 0) {
+                totalistaxcharge += (obj.AmtVat !== 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+                totalis50tavi += (obj.Amt50Tavi !== 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+                totalvat += CNum(CDbl(obj.AmtVat,4));
+                total50tavi += CNum(CDbl(obj.Amt50Tavi,4));
             }
             totalnet += CNum(CDbl(obj.AmtNet,2));
             totalsumdisc += CNum(CDbl(obj.AmtDiscount,2));
@@ -659,8 +662,7 @@ End Code
         }
 
         CalSummary();
-        $('#txtRemark1').val(arr[0].DeliverTo);
-        $('#txtRemark2').val(arr[0].JobDesc);
+
         $('#txtDocNo').val('');
         $('#btnGen').show();
         $('#dvCreate').modal('show');
@@ -669,7 +671,8 @@ End Code
         arr_split = {};
         let iRow = 0;
         let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge > 0 || d.AmtAdvance > 0;
+            //return d.AmtCharge > 0 || d.AmtAdvance > 0;
+            return d.AmtCost==0;
         });
         for (let o of arr_sel) {
             iRow += 1;
@@ -1100,7 +1103,7 @@ End Code
         let joblist = [];
         let retstr = '';
         for (let obj of arr) {
-            if (joblist.indexOf(obj.JobNo) < 0) {
+            if (joblist.indexOf(obj.JobNo.trim()) < 0) {
                 joblist.push(obj.JobNo);
                 if (retstr !== '') retstr += ',';
                 retstr += obj.JobNo;
@@ -1279,7 +1282,7 @@ End Code
         let i = 0;
         let custadv = CNum($('#txtTotalCustAdv').val());
         for (let obj of o) {
-            if (obj.AmtCharge > 0 || obj.AmtAdvance > 0) {
+            if (obj.AmtCost==0) {
                 let creditamt = 0;
                 if (custadv > 0) {
                     if ((custadv - CNum(obj.AmtNet)) < 0) {
@@ -1292,13 +1295,14 @@ End Code
                     custadv=0
                 }
                 i = i + 1;
+                //let newDesc=(obj.CTN_NO!=='' && obj.CTN_NO!=='N/A' ? obj.SDescription+' No.'+obj.CTN_NO:obj.SDescription);
                 data.push({
                     BranchCode: obj.BranchCode,
                     ClrNoList: obj.ClrNoList,
                     DocNo: no,
                     ItemNo: obj.ItemNo,
                     SICode: obj.SICode,
-                    SDescription: obj.SDescription,
+                    SDescription: obj.SDescription, //newDesc,
                     ExpSlipNO: obj.ExpSlipNO,
                     SRemark: obj.SRemark,
                     CurrencyCode: $('#txtCurrencyCode').val(),
@@ -1320,8 +1324,8 @@ End Code
                     AmtVat: CDbl(obj.AmtVat,2),
                     TotalAmt: CDbl(obj.AmtNet,2),
                     FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
-                    AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
-                    AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
+                    AmtAdvance: (obj.AmtAdvance !== 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
+                    AmtCharge: (obj.AmtCharge !== 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
                     AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
@@ -1382,7 +1386,7 @@ End Code
                     break;
                 default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code , '_blank');
             }
-            
+
         }
     }
     function MergeData() {
@@ -1463,7 +1467,6 @@ End Code
         arr = arr_new;
         CalSummary();
     }
-
     function ClearVariable() {
         arr = [];
         arr_split = {};
