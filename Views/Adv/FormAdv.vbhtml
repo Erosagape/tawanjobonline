@@ -100,15 +100,21 @@ End Code
             <b>Advance Expenses</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
+            <b>Job</b>
+        </td>
+        <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>With-holding Tax</b>
         </td>
         <td style="border-style:solid;border-width:thin;font-size:11px">
             <b>Amount</b>
         </td>
     </tr>
-    <tr style="height:450px;vertical-align:top">
+    <tr style="height:400px;vertical-align:top">
         <td style="border-style:solid;border-width:thin;text-align:left">
             <div id="divDesc" style="font-size:12px"></div>
+        </td>
+       <td style="border-style:solid;border-width:thin;text-align:right">
+            <div id="divJob" style="font-size:12px"></div>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divWht" style="font-size:12px"></div>
@@ -118,7 +124,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
+        <td colspan="2" style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCash" /> CASH/TRANSFER :
             <label id="lblAccNo">______________</label>
             <label id="txtAdvCash"></label>
@@ -129,7 +135,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
+        <td colspan="2" style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCustChq" /> CUST.CHQ NO :
             <label id="lblcustChqNo">__________</label> DEP.DATE :
             <label id="lblDepDate">________</label>
@@ -143,7 +149,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px">
+        <td colspan="2" style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCompChq" /> CHQ NO :
             <label id="lblCompChqNo">__________</label> CHQ.DATE :
             <label id="lblChqDate">________</label>
@@ -155,7 +161,7 @@ End Code
         </td>
     </tr>
     <tr>
-        <td style="text-align:left;font-size:11px;">
+        <td colspan="2" style="text-align:left;font-size:11px;">
             <input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Total</td>
@@ -237,11 +243,11 @@ End Code
                 }
             });
     }
-    function LoadServices(d,h) {
+    function LoadServices(d,h,j) {
         $.get(path +'Master/GetServiceCode')
             .done(function (r) {
                 serv = r.servicecode.data;
-                ShowDetail(d,h);
+                ShowDetail(d,h,j.ProjectName);
             });
     }
     function ShowPendingAmount(branch, reqby) {
@@ -327,10 +333,10 @@ End Code
 
                     }
                 });
+	        LoadServices(d,h,j);
             }
         });
        
-        LoadServices(d,h);
     }
     function ShowCustomer(Code, Branch) {
         $('#lblCustName').text('-');
@@ -344,7 +350,7 @@ End Code
                 });
         }
     }
-    function ShowDetail(r,h) {
+    function ShowDetail(r,h,pjName) {
         //Dummy Data
         let strDesc = '';
         let strJob = '';
@@ -353,6 +359,7 @@ End Code
         let totAmt = 0;
         //let vat = 0;
         //let wht = 0;
+        strJob='';
         for (i = 0; i < r.length; i++) {
             let d = r[i];
             if (serv.length > 0) {
@@ -367,13 +374,15 @@ End Code
             } else {
                 strDesc = strDesc + (d.SICode + `&emsp;` + (d.PayChqTo ? " Pay to : " + d.PayChqTo : "") + (d.TRemark ? '<br/>' + "Remark :" + d.TRemark : "") + '<br/>'  );
             }
+	    strJob = strJob + d.ForJNo +'<br/><br/>';
             strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + (d.TRemark?'<br/>':'')+'<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + (d.TRemark ? '<br/>' : '')+ '<br/>');
             totAmt += d.AdvAmount;
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
-        $('#divDesc').html(strDesc);
+        $('#divDesc').html(strDesc +'<br/>'+ pjName);
+        $('#divJob').html(strJob);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
     }

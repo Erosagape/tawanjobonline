@@ -23,7 +23,8 @@ End Code
             :
         </div>
         <div class="col-sm-8" style="display:flex">
-            <input type="text" id="txtEmpCode" class="form-control">
+            <input type="text" id="txtEmpCode" class="form-control" style="width:20%;">
+            <input type="text" id="txtEmpName" class="form-control" style="width:100%;" readonly>
             <input type="button" class="btn btn-default" id="btnBrowseType" value="..." onclick="SearchData('driver')" />
         </div>
 
@@ -173,6 +174,7 @@ End Code
         $('#txtCarNo').val(dr.CarNo);
         $('#txtCarLicense').val(dr.CarLicense);
         $('#txtEmpCode').val(dr.EmpCode);
+	ShowEmployee(path,dr.EmpCode,'#txtEmpName');
         $('#txtDateStart').val(CDateEN(dr.DateStart));
         $('#txtCarBrand').val(dr.CarBrand);
         $('#txtModelYear').val(dr.ModelYear);
@@ -228,6 +230,7 @@ End Code
         $('#txtCarNo').val('');
         $('#txtCarLicense').val('');
         $('#txtEmpCode').val('');
+        $('#txtEmpName').val('');
         $('#txtDateStart').val('');
         $('#txtCarBrand').val('');
         $('#txtModelYear').val('');
@@ -253,7 +256,8 @@ End Code
 
     function ReadDriver(dr) {
         //popup step3
-        $('#txtEmpCode').val(dr.Name);
+        $('#txtEmpCode').val(dr.EmpCode);
+        $('#txtEmpName').val(dr.Name);
     }
 </script>
 

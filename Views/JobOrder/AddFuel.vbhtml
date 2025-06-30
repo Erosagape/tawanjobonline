@@ -98,8 +98,9 @@ End Code
             <label id="lblFuelType">Fuel Type</label>            
             :
         </div>
-        <div class="col-sm-4">
-            <select id="txtFuelType" class="form-control dropdown"></select>
+        <div class="col-sm-4" style="display:flex;">
+            <input type="text" id="txtFuelType" class="form-control" disabled />
+            <input type="button" class="btn btn-default" id="btnBrowseFuelType" value="..." onclick="SearchData('fueltype')" />
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -107,8 +108,9 @@ End Code
                     <label id="lblStationCode">Station Code</label>                    
                     :
                 </div>
-                <div class="col-sm-8">
-                    <select id="txtStationCode" class="form-control dropdown"></select>
+                <div class="col-sm-8" style="display:flex;">
+                    <input type="text" id="txtStationCode" class="form-control" disabled />
+                    <input type="button" class="btn btn-default" id="btnBrowseStation" value="..." onclick="SearchData('station')" />
                 </div>
             </div>
 
@@ -119,9 +121,9 @@ End Code
             <label id="lblPaymentType">Payment Type</label>            
             :
         </div>
-        <div class="col-sm-4">
-            <select id="txtPaymentType" class="form-control dropdown">
-            </select>
+        <div class="col-sm-4" style="display:flex;">
+            <input type="text" id="txtPaymentType" class="form-control" disabled />
+            <input type="button" class="btn btn-default" id="btnBrowsePayType" value="..." onclick="SearchData('paymenttype')" />
         </div>
         <div class="col-sm-5">
             <div class="row">
@@ -425,10 +427,10 @@ End Code
     }
     function SetEvents() {
         ClearData();
-        var lists = 'FUEL_PAYMENT=#txtPaymentType';
-        lists += ',FUEL_TYPE=#txtFuelType';
-        lists += ',FUEL_STATION=#txtStationCode';
-        loadCombos(path, lists);
+        //var lists = 'FUEL_PAYMENT=#txtPaymentType';
+        //lists += ',FUEL_TYPE=#txtFuelType';
+        //lists += ',FUEL_STATION=#txtStationCode';
+        //loadCombos(path, lists);
         $('#txtDocNo').keydown(function (event) {
             if (event.which == 13) {
                 let code=$('#txtDocNo').val();
@@ -448,6 +450,10 @@ End Code
             CreateLOV(dv, '#frmSearchDriver', '#tbDriver', 'Driver', response, 2);
             //CarLicense
             CreateLOV(dv, '#frmSearchCarLicense', '#tbCarLicense', 'Car License', response, 2);
+            //configs
+            CreateLOV(dv, '#frmSearchPayType', '#tbPayType', 'Payment Type', response, 3);
+            CreateLOV(dv, '#frmSearchStation', '#tbStation', 'Station Code', response, 3);
+            CreateLOV(dv, '#frmSearchFuelType', '#tbFuelType', 'Fuel Type', response, 3);
         });
     }
     //CRUD Functions used in HTML Java Scripts
@@ -641,7 +647,25 @@ End Code
             case 'carlicense':
                 SetGridCar(path, '#tbCarLicense', '#frmSearchCarLicense', ReadCarLicense);
                 break;
+            case 'fueltype':
+                SetGridConfigVal(path, '#tbFuelType', 'FUEL_TYPE', '#frmSearchFuelType', ReadFuelType);
+                break;
+            case 'paymenttype':
+                SetGridConfigVal(path, '#tbPayType', 'FUEL_PAYMENT', '#frmSearchPayType', ReadPayType);
+                break;
+            case 'station':
+                SetGridConfigVal(path, '#tbStation', 'FUEL_STATION', '#frmSearchStation', ReadStation);
+                break;
         }
+    }
+    function ReadFuelType(dt) {
+        $('#txtFuelType').val(dt.ConfigKey);
+    }
+    function ReadPayType(dt) {
+        $('#txtPaymentType').val(dt.ConfigKey);
+    }
+    function ReadStation(dt) {
+        $('#txtStationCode').val(dt.ConfigKey);
     }
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);

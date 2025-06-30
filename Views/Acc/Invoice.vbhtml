@@ -62,9 +62,9 @@ End Code
                         <th class="all">DocNo</th>
                         <th class="desktop">DocDate</th>
                         <th class="desktop">CustCode</th>
-                        <th class="desktop">BillTo</th>
-                        <th>Remark</th>
-                        <th class="desktop">BillAcceptNo</th>
+                        <th>BillTo</th>
+                        <th>RefNo</th>
+                        <th class="desktop">Discount</th>
                         <th class="desktop">Cust.Adv</th>
                         <th class="desktop">Advance</th>
                         <th class="desktop">Charge</th>
@@ -100,6 +100,9 @@ End Code
     </div>
     <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrint">Print</b>
+    </a>
+    <a href="#" class="btn btn-warning" id="btnPrintEng" onclick="PrintDataEng()">
+        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrint">Print Eng</b>
     </a>
     <div id="frmHeader" class="modal modal-lg fade">
         <div class="modal-dialog-lg">
@@ -271,6 +274,12 @@ End Code
                         </a>
                         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
                             <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
+                        </a>
+                        <a href="#" class="btn btn-warning" id="btnPrintEng" onclick="PrintDataEng()">
+                            <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Eng</b>
+                        </a>
+                        <a href="#" class="btn btn-primary" id="btnGenWHTax" onclick="AutoGenWHTax()">
+                            <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveTax">Create WH-Tax</b>
                         </a>
                     </div>
                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -495,16 +504,10 @@ End Code
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
-    let code = getQueryString("Code");
-    let branch = getQueryString("Branch");
-
     let row = {};
     let row_d = {};
+    let rows = [];
     SetLOVs();
-    if (branch !== '' && code !== '') {
-        $('#txtBranchCode').val(branch);
-        ShowHeader();
-    }
     $('#btnShow').on('click', function () {
         ShowHeader();
     });
@@ -523,9 +526,6 @@ End Code
             w += '&show=CANCEL';
         } else {
             w += '&show=ACTIVE';
-        }
-        if (code !== '') {
-            w += '&Code=' + code;
         }
         $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
         {
@@ -554,9 +554,13 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
-                    { data: "BillToCustCode", title: "BillTo" },
-                    { data: "RefNo", title: "Reference Number" },
-                    { data: "BillAcceptNo", title: "Billing.No" },
+                    { data: "RefNo", title: "Job Number" },
+                    { data: "LinkJobNo", title: "Ref Number" },
+                    { data: "TotalDiscount", title: "Discount",
+                            render: function (data) {
+                                return ShowNumber(data, 2);
+                        }
+                    },
                     { data: "TotalCustAdv", title: "Cust.Adv",
                             render: function (data) {
                                 return ShowNumber(data, 2);
@@ -590,7 +594,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page,
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -619,11 +622,19 @@ End Code
             window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code,'_blank');
         }
     }
+    function PrintDataEng() {
+        let code = row.DocNo;
+        if (code !== '') {
+            let branch = row.BranchCode;
+            window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&Form=Eng','_blank');
+        }
+    }
     function ShowDetail(branch, code) {
         $('#tbDetail').DataTable().clear().draw();
         $.get(path + 'Acc/GetInvDetail?branch=' + branch + '&code=' + code, function (r) {
             if (r.invdetail.data.length > 0) {
                 let d = r.invdetail.data;
+                rows = d;
                 let tb=$('#tbDetail').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
@@ -754,7 +765,9 @@ End Code
             row_d.SRemark = $('#txtSRemark').val();
             row_d.CurrencyCode = $('#txtDCurrencyCode').val();
             row_d.ExchangeRate = $('#txtDExchangeRate').val();
-            row_d.FUnitPrice = CNum($('#txtFUnitPrice').val());
+            row_d.UnitPrice = CNum($('#txtUnitPrice').val());
+            row_d.Amt = CNum($('#txtAmt').val());
+            row_d.UnitPrice = CNum($('#txtUnitPrice').val());
             row_d.FAmt = CNum($('#txtFAmt').val());
             row_d.DiscountType = $('#txtDiscountType').val();
             row_d.DiscountPerc = CNum($('#txtDiscountPerc').val());
@@ -1092,6 +1105,125 @@ End Code
         }
         window.open(path +'clr/generateinv?branch=' + $('#txtBranchCode').val() + w, '_blank');
     }
+    function AutoGenWHTax() {
+        $.get(path + 'master/getcompany?Code=' + $('#txtBillToCustCode').val() + '&Branch' + $('#txtBillToCustBranch').val()).done(function (r) {
+            let dr = r.company.data;
+            if (dr.length > 0) {
+                SaveWHTax(dr[0]);
+            }
+        });
+    }
+    function GetWHTaxHeader(dt) {
+        let obj = {
+            BranchCode: $('#txtBranchCode').val(),
+            DocNo: '',
+            DocDate: row.DocDate,
+            TaxNumber1: dt.TaxNumber,
+            TName1: dt.NameThai,
+            TAddress1: dt.TAddress1 + ' ' + dt.TAddress2,
+            TaxNumber2: '',
+            TName2: '',
+            TAddress2: '',
+            TaxNumber3: '@ViewBag.PROFILE_TAXNUMBER',
+            TName3: '@ViewBag.PROFILE_COMPANY_NAME',
+            TAddress3: '@ViewBag.PROFILE_COMPANY_ADDR1' + '' + '@ViewBag.PROFILE_COMPANY_ADDR2',
+            IDCard1: '',
+            IDCard2: '',
+            IDCard3: '',
+            SeqInForm: 0,
+            FormType: 7,
+            TaxLawNo: 5,
+            IncRate: 3,
+            IncOther: '',
+            UpdateBy: user,
+            TotalPayAmount: 0,
+            TotalPayTax: 0,
+            SoLicenseNo: '',
+            SoLicenseAmount: 0,
+            SoAccAmount: 0,
+            PayeeAccNo: '',
+            SoTaxNo: '',
+            PayTaxType: '',
+            PayTaxOther: '',
+            CancelProve: '',
+            CancelReason: '',
+            CancelDate: null,
+            LastUpdate: CDateEN(GetToday()),
+            TeacherAmt: 0,
+            Branch1: '',
+            Branch2: '',
+            Branch3: ''
+        };
+        return obj;
+    }
+    function SaveWHTax(dt) {
+        let obj = GetWHTaxHeader(dt);
+        let jsonText = JSON.stringify({ data: obj });
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetWHTaxHeader", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data != '') {
+                    SetWHTaxDetail(response.result.data);
+                    //ShowMessage(response.result.msg);
+                    let whtdoc = response.result.data;                    
+                    $('#txtRemark10').val('W/T# '+ whtdoc);
+	            SaveData();
+		    //ShowMessage(response.result.msg);
+                    window.open(path + 'Acc/WHTax?branch=' + $('#txtBranchCode').val() + '&code=' + whtdoc);
+                    return;
+                }
+                ShowMessage(response.result.msg,true);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
+    function SetWHTaxDetail(docno) {
+        let i = 0;
+        let j = 0;
+        for (let d of rows) {
+            if (d.Amt50Tavi > 0) {
+                i += 1;
+                let obj = {
+                    BranchCode: $('#txtBranchCode').val(),
+                    DocNo: docno,
+                    ItemNo: i,
+                    IncType: 14,
+                    PayDate: CDateEN(GetToday()),
+                    PayAmount: d.Amt,
+                    PayTax: d.Amt50Tavi,
+                    PayTaxDesc: d.SDescription,
+                    JNo: row.RefNo,
+                    DocRefType: 5,
+                    DocRefNo: d.DocNo,
+                    PayRate: d.Rate50Tavi
+                };
+                SaveWHTaxDetail(obj);
+            }
+        }
+    }
+    function SaveWHTaxDetail(obj) {
+        let jsonText = JSON.stringify({ data: obj });
+        //ShowMessage(jsonText);
+        $.ajax({
+            url: "@Url.Action("SetWHTaxDetail", "Acc")",
+            type: "POST",
+            contentType: "application/json",
+            data: jsonText,
+            success: function (response) {
+                if (response.result.data != '') {
+                    j = response.result.data;
+                    return;
+                }
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
+    }
 </script>
-
-

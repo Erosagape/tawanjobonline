@@ -119,12 +119,12 @@ End Code
         } else {
             w = w + '&Show=ACTIVE';
         }
-        $.get(path + 'acc/getvouchergrid?branch=' + $('#txtBranchCode').val() + w, function (r) {
+        $.get(path + 'acc/getvouchergrid?branch=' + $('#txtBranchCode').val() + w).done(function (r) {
             if (r.voucher.data.length == 0) {
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.voucher.data[0].Table;
+            let h = r.voucher.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

@@ -393,9 +393,6 @@ End Code
             $('#btnPrnJob').show();
             SetSelect('#tbReportList', this);
             reportID = data.ReportCode;
-            if (reportID.substr(0, 3) == 'PRD') {
-                $('#txtCustCliteria').val('[CUST]=@ViewBag.PROFILE_TAXNUMBER');
-            }
             if (src.ReportType == 'DEV') {
                 $('#cboDateBy').empty();
                 let cliteria = src.ReportCliteria.split('|');

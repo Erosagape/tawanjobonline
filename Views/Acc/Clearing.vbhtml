@@ -58,7 +58,7 @@ End Code
             </div>
             <div class="col-sm-2">
                 Job No :<br />
-                <input type="text" id="txtJNo" />
+                <input type="text" id="txtJNo" class="form-control" />
             </div>
         </div>
         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddClearing()">
@@ -166,7 +166,7 @@ End Code
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -236,4 +236,3 @@ End Code
         window.open(path + 'clr/index', '', '');
     }
 </script>
-

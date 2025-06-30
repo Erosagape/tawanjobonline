@@ -15,7 +15,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <label id="lblClrNo">Clearing No:</label>
+                <label id="lblClrNo" ondblclick="SaveHeader()">Clearing No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtClrNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -37,18 +37,18 @@ End Code
                 <div class="row">
                     <div class="col-sm-7">
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <label id="lblClrBy">Clear By :</label>
 
                             </div>
-                            <div class="col-sm-10" style="display:flex">
+                            <div class="col-sm-9" style="display:flex">
                                 <input type="text" id="txtEmpCode" class="form-control" style="width:100px" disabled />
                                 <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('clrby')" tabindex="2">...</button>
                                 <input type="text" id="txtEmpName" class="form-control" style="width:100%" disabled />
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
                                 <label id="lblClrType">Clear Type :</label>
                             </div>
                             <div class="col-sm-4">
@@ -57,22 +57,23 @@ End Code
                             <div class="col-sm-2">
                                 <label id="lblAdvRefNo">Ref No :</label>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <input type="text" id="txtAdvRefNo" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-sm-2">
+                            <div class="col-sm-3">
+				<input type="checkbox" id="chkContainer" onclick="CheckContainer()" checked />
                                 <label id="lblContNo" style="color:red">Container No:</label>
                             </div>
                             <div class="col-sm-4" style="display:flex">
-                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" />
+                                <input type="text" id="txtCTN_NO" class="form-control" tabindex="6" disabled />
                                 <button class="btn btn-default" onclick="SearchData('container')">...</button>
                             </div>
                             <div class="col-sm-2">
                                 <label id="lblClearanceDate">Clearance Date :</label>
                             </div>
-                            <div class="col-sm-4" style="display:flex">
+                            <div class="col-sm-3" style="display:flex">
                                 <input type="date" id="txtClearanceDate" class="form-control" />
                             </div>
                         </div>
@@ -294,7 +295,7 @@ End Code
                                     <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtSICode" class="form-control" tabindex="12" />
+                                        <input type="text" id="txtSICode" class="form-control" tabindex="12" readonly />
                                         <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('servicecode')" />
                                     </div>
                                 </div>
@@ -619,6 +620,11 @@ End Code
         SetEnterToTab();
         CheckParam();
     //});
+    function CheckContainer() { 
+	if($('#chkContainer').prop('checked')==false){
+		$('#txtCTN_NO').val('N/A');
+	}
+    }
     function ToggleClearBtn() {
         //if ($('#txtAdvNo').val() == '') {
         //    $('#btnAddD').show();
@@ -656,7 +662,8 @@ End Code
             isjobmode = true;
             $('#txtForJNo').val(job);
             $('#txtClrNo').attr('disabled', 'disabled');
-            CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
+	    setTimeout(() => {   CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob); }, 2000);
+           
         }
     }
     function LoadJob(dt) {
@@ -742,10 +749,6 @@ End Code
 
         $('#chkCancel').on('click', function () {
             chkmode = this.checked;
-            if (chkmode == true && $('#cboDocStatus').val().substr(0,2) !== '01') {
-                ShowMessage('Cannot cancel on this document status', true);
-                return;
-            }
             CallBackAuthorize(path, 'MODULE_CLR', 'Index', 'D', SetCancel);
         });
 
@@ -1009,6 +1012,11 @@ End Code
         if ($('#txtBranchName').val() == '') {
             ShowMessage('Please input branch',true);
             $('#txtBranchCode').focus();
+            return false;
+        }
+        if ($('#txtCTN_NO').val() == '') {
+            ShowMessage('Please input container',true);
+            $('#txtCTN_NO').focus();
             return false;
         }
         if ($('#cboJobType').val() == 0) {
@@ -1362,7 +1370,22 @@ End Code
             $('#txtDate50Tavi').focus();
             return false;
         }
-
+        //if (Number($('#txtQty').val()) == 0) {
+        //    ShowMessage('Please check quantity', true);
+        //    return;
+        //}
+        //if (Number($('#txtUnitPrice').val()) == 0) {
+        //    ShowMessage('Please check unit price', true);
+        //    return;
+        //}
+        if (Number($('#txtCurRate').val()) == 0) {
+            ShowMessage('Please check exchange rate', true);
+            return;
+        }
+        //if (Number($('#txtAMT').val()) == 0) {
+        //    ShowMessage('Please check amount', true);
+        //    return;
+        //}
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
@@ -1384,11 +1407,11 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     ShowMessage(response.result.msg);
-                    SaveHeader();
-                    //ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
-                    if ($('#txtAdvNo').val() !== '' && $('#chkDuplicate').prop('checked') == false) {
-                        $('#frmDetail').modal('hide');
-                    }
+                    //SaveHeader();
+                    ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
+                    //if ($('#txtAdvNo').val() !== '' && $('#chkDuplicate').prop('checked') == false) {
+                    //    $('#frmDetail').modal('hide');
+                    //}
                 }
             });
             return;
@@ -1399,7 +1422,6 @@ End Code
     function ReadClrDetail(dt) {
         let tb=$('#tbDetail').DataTable({
             data:dt,
-            selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
                 { data: null, title: "Edit" },                
                 { data: "JobNo", title: "Job" },
@@ -1449,6 +1471,7 @@ End Code
                     }
                 }
             ],
+            selected: true, //ให้สามารถเลือกแถวได้
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             , pageLength: 100
@@ -1693,7 +1716,7 @@ End Code
             $('#txtInvNo').val('');
             $('#txtQNo').val('');
         }
-        $('#txtRemark').val('');
+        $('#txtRemark').val($('#txtCTN_NO').val());
         $('#txt50Tavi').val('');
         $('#txtDate50Tavi').val('');
         $('#txtPayChqTo').val('');
@@ -1767,7 +1790,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.clr.data[0].Table;
+            let h = r.clr.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -1793,7 +1816,7 @@ End Code
                     { data: "CTN_NO", title: "Container" },
                     { data: "AdvNO", title: "Adv No" },
                     {
-                        data: "AdvNet", title: "Adv.Total",
+                        data: "TotalAdvance", title: "Adv.Total",
                         render: function (data) {
                             return ShowNumber(data, 2);
                         }
@@ -2112,7 +2135,7 @@ End Code
         //$.get(path + 'Clr / GetAdvForClear ? branchcode = '+branch+' & jtype=' + jtype + GetClrFrom(cfrom), function (r) {
         $.get(path + 'Clr/GetAdvForClear?branchcode=' + branch + '&jtype=' + jtype).done(function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data[0].Table;
+                let d = r.clr.data;
                 $('#tbAdvance').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
@@ -2257,7 +2280,7 @@ End Code
         var payclick = 0;
         $.get(path + 'Clr/GetPaymentForClear?branch=' + branch + w).done(function (r) {
             if (r.clr.data.length > 0) {
-                let d = r.clr.data[0].Table;
+                let d = r.clr.data;
                 $('#tbPayment').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้

@@ -231,8 +231,8 @@ End Code
     if (branch != "" && job != "") {
         let url = path + 'clr/getclearingreport?branch=' + branch + '&job=' + job;
         $.get(url, (r) => {
-            if (r.data[0].Table.length > 0) {
-                let h = r.data[0].Table[0];
+            if (r.data.length > 0) {
+                let h = r.data[0];
                 $("#number").text(h.JobNo);
                 $("#date").text(ShowDate(h.JobDate));
                 $("#reference").text(h.CustRefNO);
@@ -256,7 +256,7 @@ End Code
                 $("#sellUSDTHB").text(h.InvCurRate);
                 $("#buyUSDTHB").text(h.InvCurRate);
 
-                let d = r.data[0].Table;
+                let d = r.data;
                 let dt1 = d.filter((data) => {
                     return data.IsCredit == 1 || data.IsExpense == 0;
                 });
@@ -300,7 +300,7 @@ End Code
                         htmlHead += '</tr>';
                         html1 += htmlHead;
                     }
-                    let total = dt1[i].UsedAmount * dt1[i].Qty;
+                    let total = dt1[i].UsedAmount;
                     let tmp = html;
                     tmp = tmp.replace('{0}', dt1[i].SDescription);
                     tmp = tmp.replace('{1}', 'P');
@@ -353,7 +353,7 @@ End Code
                         htmlHead += '</tr>';
                         html2 += htmlHead;
                     }
-                    let total = dt2[i].UsedAmount * dt2[i].Qty;
+                    let total = dt2[i].UsedAmount;
                     let tmp = html;
                     tmp = tmp.replace('{0}', dt2[i].SDescription);
                     tmp = tmp.replace('{1}', 'P');

@@ -684,7 +684,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cash.sumamount > 0 ? 'R' : 'P',
@@ -721,7 +721,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chqcash.sumamount > 0 ? 'R' : 'P',
@@ -758,7 +758,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chq.sumamount> 0 ? 'R' : 'P',
@@ -795,7 +795,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cr.sumamount > 0 ? 'R' : 'P',
@@ -907,7 +907,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             UpdateReceive(vcno);
@@ -917,6 +917,7 @@ End Code
                 contentType: "application/json",
                 data: jsonString,
                 success: function (response) {
+                    $('#btnSave').removeAttr('disabled', 'disabled');
                     if (response.result.data != null) {
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
@@ -930,6 +931,7 @@ End Code
         }
     }
     function ApproveData() {
+        $('#btnSave').attr('disabled', 'disabled');
         if (arr.length < 0) {
             ShowMessage('No data to approve',true);
             return;

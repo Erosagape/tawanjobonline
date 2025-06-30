@@ -17,14 +17,16 @@ End Code
                 <th>ชื่อ shipper</th>
                 <th>ชื่อ สินค้า</th>
                 <th>Inv.No</th>
+		<th rowspan="2">เลขที่ใบขน</th>
                 <th>ชื่อเรือ/เที่ยวบิน</th>
                 <th rowspan="2">ETA</th>
                 <th>จำนวน</th>
                 <th rowspan="2">Loading Port</th>
                 <th rowspan="2">Discharge Port</th>
-                <th colspan="4">สายเรือ</th>
-                <th rowspan="2">Surrender</th>
+                <th colspan="4">สายเรือ</th>               
                 <th>ราคาประมาณการ</th>
+                <th rowspan="2">Inv.Total</th>
+                
             </tr>
             <tr>
                 <th>ชื่อ Consignee</th>
@@ -42,28 +44,27 @@ End Code
         <tbody>
             @For Each dr As System.Data.DataRow In ViewBag.DataTable.Rows
                 @<tr>
-                    <td rowspan="2">@Convert.ToInt32(ViewBag.DataTable.Rows.IndexOf(dr) + 1)</td>
-                    @If IsDate(dr("ConfirmDate")) Then
-                        @<td>@String.Format(dr("ConfirmDate"), "dd/MM/yyyy")</td>
-                    Else
-                        @<td></td>
-                    End If
-                    <td>@dr("CustTName").ToString()</td>
-                    <td>@dr("InvProduct").ToString()</td>
-                    <td>@dr("VesselName").ToString()</td>
-                    <td>@dr("InvNo").ToString()</td>
-                    @If IsDate(dr("ETADate")) Then
-                        @<td rowspan="2">@String.Format(dr("ETADate"), "dd/MM/yyyy")</td>
-                    Else
-                        @<td rowspan="2"></td>
-                    End If
-                    <td>@dr("InvProductQty").ToString() @dr("InvProductUnit").ToString()</td>
-                    <td rowspan="2">@dr("PortName").ToString()</td>
-                    <td>@dr("ClearPort").ToString()</td>
-                    <td colspan="4">@dr("ForwarderName").ToString()</td>
-                    <td rowspan="2">@dr("BLNo").ToString()</td>
-                    <td>@dr("TotalEstimate")</td>
-                </tr>
+    <td rowspan="2">@Convert.ToInt32(ViewBag.DataTable.Rows.IndexOf(dr) + 1)</td>
+    @If IsDate(dr("ConfirmDate")) Then
+        @<td>@String.Format(dr("ConfirmDate"), "dd/MM/yyyy")</td>  Else
+        @<td></td>
+    End If
+    <td>@dr("CustTName").ToString()</td>
+    <td>@dr("InvProduct").ToString()</td>
+    <td>@dr("InvNo").ToString()</td>
+    <td rowspan="2">@dr("DeclareNumber").ToString()</td>
+    <td>@dr("VesselName").ToString()</td>
+    @If IsDate(dr("ETADate")) Then
+        @<td rowspan="2">@String.Format(dr("ETADate"), "dd/MM/yyyy")</td>    Else
+        @<td rowspan="2"></td>
+    End If
+    <td>@dr("InvProductQty").ToString() @dr("InvProductUnit").ToString()</td>
+    <td rowspan="2">@dr("PortName").ToString()</td>
+    <td>@dr("ClearPort").ToString()</td>
+    <td colspan="4">@dr("ForwarderName").ToString()</td>
+    <td>@dr("TotalEstimate")</td>
+    <td rowspan="4">@dr("InvTotal") @dr("InvCurUnit") </td>
+</tr>
                 @<tr>
                     <td>@dr("JNo").ToString()</td>
                     <td>@dr("ConsigneeTName").ToString()</td>

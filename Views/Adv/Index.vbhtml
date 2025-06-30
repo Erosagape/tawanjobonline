@@ -16,7 +16,7 @@ End Code
                 <div id="dvJob"></div>
             </div>
             <div class="col-sm-4" style="text-align:left">
-                <label id="lblAdvNo">Advance No:</label>
+                <label id="lblAdvNo" ondblclick="SaveHeader()">Advance No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -64,8 +64,8 @@ End Code
                                         *<label id="lblAdvFor">Advance For :</label>
                                     </div>
                                     <div class="col-sm-9" style="display:flex">
-                                        <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" />
-                                        <input type="text" id="txtCustBranch" class="form-control" style="width:70px" tabindex="5" />
+                                        <input type="text" id="txtCustCode" class="form-control" style="width:130px" tabindex="4" readOnly />
+                                        <input type="text" id="txtCustBranch" class="form-control" style="width:70px" tabindex="5" readOnly />
                                         <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
                                         <input type="text" id="txtCustName" class="form-control" style="width:100%" disabled />
                                     </div>
@@ -262,7 +262,7 @@ End Code
                                 <table id="tbDetail" class="table table-responsive">
                                     <thead>
                                         <tr>
-                                            <th>
+                                            <th></th>
                                             <th class="desktop">SICode</th>
                                             <th class="all">Description</th>
                                             <th class="desktop">Job No</th>
@@ -281,9 +281,9 @@ End Code
                         </div>
                         <div class="row">
                             <div class="col-sm-9">
-                                <a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
+                                @*<a href="#" class="btn btn-danger" id="btnDel" onclick="DeleteDetail()">
                                     <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDel">Delete Detail</b>
-                                </a>
+                                </a>*@
                                 <label id="lblMainCurr">Main Currency:</label>
                                 <input type="text" id="txtMainCurrency" style="width:50px" value="@ViewBag.PROFILE_CURRENCY" disabled />
                                 <label id="lblExcRate">Exchange Rate:</label>
@@ -348,7 +348,7 @@ End Code
                                         <div class="col-sm-5">
                                             <label id="lblForJNo" for="txtForJNo">Job No :</label>
                                             <div style="display:flex">
-                                                <input type="text" id="txtForJNo" class="form-control" tabindex="14" />
+                                                <input type="text" id="txtForJNo" class="form-control" tabindex="14" readonly />
                                                 <input type="button" id="btnBrowseJ" value="..." onclick="SearchData('job')" />
                                             </div>
                                         </div>
@@ -1296,7 +1296,7 @@ End Code
             ShowMessage('You are not allow to view',true);
             return;
         }
-        $.get(path + 'adv/getadvance?branchcode='+branchcode+'&advno='+ advno, function (r) {
+        return $.get(path + 'adv/getadvance?branchcode='+branchcode+'&advno='+ advno, function (r) {
             let h = r.adv.header[0];
             ReadAdvHeader(h);
             let d = r.adv.detail;
@@ -1329,6 +1329,7 @@ End Code
             ShowMessage('You are not allow to save',true);
             return false;
         }
+        /*   
         if (Number($('#txtTotalAmount').val())!==Number(SumTotal())) {
             if (Number($('#txtTotalAmount').val()) > 0) {
                 if (Number(SumTotal()) == 0) {
@@ -1338,11 +1339,22 @@ End Code
                     ShowMessage('Advance amount is not balance',true);
                     return false;
                 }
-            }
-        }
+            } 
+        } 
+        */ 
         if ($('#txtCustCode').val() == '') {
             ShowMessage('Please choose customer first',true);
             $('#txtCustCode').focus();
+            return false;
+        }
+        if ($('#txtPayTo').val() == '') {
+            ShowMessage('Please input payment to',true);
+            $('#txtPayTo').focus();
+            return false;
+       } 
+       if ($('#txtTRemark').val() == '') {
+            ShowMessage('Please input some remark',true);
+            $('#txtTRemark').focus();
             return false;
         }
         if ($('#cboJobType').val() == 0) {
@@ -1613,7 +1625,14 @@ End Code
             }
             $.get(path + 'adv/deladvancedetail?branchcode=' + $('#txtBranchCode').val() + '&advno=' + $('#txtAdvNo').val() + '&itemno=' + dtl.ItemNo, function (r) {
                 ShowMessage(r.adv.result);
-                ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
+                ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val())
+		.then(()=>{
+			let tmp = $("#paymentTotalBox input:checked");
+		    	tmp.trigger("click");
+		    	tmp.trigger("click");
+		    	SaveHeader();
+
+		    });
             });
         } else {
             ShowMessage('No data to delete',true);
@@ -1719,8 +1738,28 @@ End Code
             ShowMessage('Please save document before add detail',true);
             return;
         }
+        if (Number($('#txtAdvQty').val()) == 0) {
+            ShowMessage('Please check quantity', true);
+            return;
+        }
+        if (Number($('#txtUnitPrice').val()) == 0) {
+            ShowMessage('Please check unit price', true);
+            return;
+        }
+        if (Number($('#txtAMT').val()) == 0) {
+            ShowMessage('Please check amount', true);
+            return;
+        }
+        if (Number($('#txtExcRate').val()) == 0) {
+            ShowMessage('Please check exchange rate', true);
+            return;
+        }
         if (Number($('#txtNET').val()) == 0) {
             ShowMessage('Please check advance amount', true);
+            return;
+        }
+        if ($('#txtForJNo').val()=='') {
+            ShowMessage('Please input job number', true);
             return;
         }
         if (dtl != undefined) {
@@ -1748,7 +1787,13 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     ShowMessage(response.result.msg);
-                    ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val());
+                    ShowData($('#txtBranchCode').val(), $('#txtAdvNo').val())
+		     .then(()=>{
+			let tmp = $("#paymentTotalBox input:checked");
+		    	tmp.trigger("click");
+		    	tmp.trigger("click");  	
+			SaveHeader();
+		    });
                 }
             });
             return;
@@ -1820,6 +1865,7 @@ End Code
             , pageLength: 100
         });
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
+        
         $('#tbDetail tbody').on('click', 'tr', function () {
             $('#tbDetail tbody > tr').removeClass('selected');
             $(this).addClass('selected');
@@ -1830,6 +1876,7 @@ End Code
             $('#frmDetail').modal('show');
             $('#txtSICode').focus();
         });
+        
     }
     function GetAdvDetail(list) {
         let rows = [];
@@ -2421,12 +2468,12 @@ End Code
         }
     }
     function CalTotal() {
-        let amt = CDbl($('#txtAMT').val(),2);
-        let vat = CDbl($('#txtVAT').val(),2);
-        let wht = CDbl($('#txtWHT').val(), 2);
+        let amt = CDbl($('#txtAMT').val(),3);
+        let vat = CDbl($('#txtVAT').val(),3);
+        let wht = CDbl($('#txtWHT').val(), 3);
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
-        $('#txtAMT').val(CDbl(amt,2));
+        $('#txtAMT').val(CDbl(amt,3));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
@@ -2436,7 +2483,7 @@ End Code
         }
         let amt = CDbl($('#txtAMT').val(),2);
         if (type == '2') {
-            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 2);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 3);
         }
         let vatrate = CDbl($('#txtVATRate').val(),2);
         let whtrate = CDbl($('#txtWHTRate').val(),2);
@@ -2447,7 +2494,7 @@ End Code
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
             $('#txtAMT').val(CDbl(CNum(base),2));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 3));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;

@@ -197,10 +197,6 @@ End Code
     </table>
     <br />
     <br />
-    <br />
-    <br />
-    <br />
-    <br />
     <table>
         <thead>
             <tr>
@@ -292,8 +288,9 @@ End Code
             </tr>
         </tbody>
     </table>
-    <br />
-    <br />
+    <div style="display:flex;width:100%;">
+        <img src="~/Resource/fuel.jpg" style="width:100%;height:50%" />
+    </div>
 </p>
 
 <script type="text/javascript">
@@ -367,7 +364,7 @@ End Code
                 $('#returnContainerDate').text(ShowDate(j.ReturnDate));
                 $('#returnContainerTime').text(ShowTime(j.ReturnTime));
                 //$('#route').text(j.LocationRoute);
-                $('#remark').text(j.Remark);
+                $('#remark').text(j.Description);
                 $('#custPo1').text(j.CustRefNO);
                 $('#custPo2').text(j.CustRefNO);
                 ShowEmpName(j.Driver);

@@ -1362,6 +1362,11 @@ End Code
 		    $('#btnLinkAdv').attr('disabled', 'disabled');
 		    $('#btnLinkClr').attr('disabled', 'disabled');
 		}
+                if (dr.CloseJobBy!=='' && 'rotjana,jantra,pailin,thainit'.toUpperCase().indexOf(user.toUpperCase())>=0) {
+		   $('#tab4').hide();
+	           $('#btnLinkCost').hide();
+                }
+
             }
         });
         ShowLog(Branch, Job);
@@ -1480,22 +1485,22 @@ End Code
                             render: function (data) {
                                 switch (data.DocType) {
                                     case "CHQ":
-                                        return '<a href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo +'">' + data.DocNo + '</a>';
+                                        return '<a href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo +'" target="_blank">' + data.DocNo + '</a>';
                                         break;
                                     case "ADV":
-                                        return '<a href="../Adv/Index?BranchCode=' + br + '&AdvNo=' + data.DocNo +'">' + data.DocNo + '</a>';
+                                        return '<a href="../Adv/Index?BranchCode=' + br + '&AdvNo=' + data.DocNo +'" target="_blank">' + data.DocNo + '</a>';
                                         break;
                                     case "CLR":
-                                        return '<a href="../Clr/Index?BranchCode='+ br +'&ClrNo='+ data.DocNo+'">' + data.DocNo + '</a>';
+                                        return '<a href="../Clr/Index?BranchCode='+ br +'&ClrNo='+ data.DocNo+'" target="_blank">' + data.DocNo + '</a>';
                                         break;
                                     case "INV":
-                                        return '<a href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
+                                        return '<a href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '" target="_blank">' + data.DocNo + '</a>';
                                         break;
                                     case "TAX":
-                                        return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '" target="_blank">' + data.DocNo + '</a>';
                                         break;
                                     case "RCV":
-                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '" target="_blank">' + data.DocNo + '</a>';
                                         break;
                                     default:
                                         return data.DocNo;
@@ -1734,6 +1739,11 @@ End Code
             }
             if (rec.JobStatus < 3) {
                 rec.JobStatus = 3;
+            }
+            if ($('#txtGrossWeight').val()=='0') {
+                ShowMessage('Please input gross weight',true);
+                $('#txtGrossWeight').focus();
+                return;
             }
             rec.CloseJobBy = user;
             rec.CloseJobTime = GetTime();

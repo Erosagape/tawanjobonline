@@ -239,7 +239,7 @@ End Code
                     <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
                 </div>
                 <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%"/>
+                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" />
                     <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
                 </div>
             </div>
@@ -575,8 +575,8 @@ End Code
     function GetParam() {
         let strParam = '?';
         strParam += 'Branch=' + $('#txtBranchCode').val();
-        //strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
-        //strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
+        strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
+        strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
         strParam += '&CustCode=' + $('#txtCustCode').val();
         return strParam;
     }
@@ -641,6 +641,11 @@ End Code
             $('#txtCustInv').focus();
             return;
         }
+	if ($('#txtContactPerson').val() === '') {
+            ShowMessage('Please Enter Contact.',true);
+            $('#txtContactPerson').focus();
+            return;
+        }
         //if pass every checked
         
         let strParam = path + 'JobOrder/GetNewJob?';
@@ -661,8 +666,6 @@ End Code
                 $('#btnCreateJob').attr('disabled', 'disabled');
                 if (r.job.status == "Y") {
                     let data = GetDataSave(r.job.data[0]);
-                    data.JobType = $('#cboJobType').val();
-                    data.ShipBy = $('#cboShipBy').val();
                     SaveData(data);
                 } else {
                     ShowMessage(r.job.result, true);
@@ -780,7 +783,6 @@ End Code
         window.location.href = 'Transport?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
     }
     function SaveData(obj) {
-        
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);
         $.ajax({

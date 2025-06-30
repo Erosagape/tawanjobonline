@@ -4,7 +4,7 @@
 End Code
 <style>
     table {
-        font-size: 7px;        
+        font-size: 9px;        
     }
 </style>
 <label id="rptTitle" style="font-size:12px" onclick="ExportData()">Report Title</label>

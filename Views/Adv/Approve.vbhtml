@@ -74,8 +74,9 @@ End Code
                             <th class="all">Adv.No</th>
                             <th class="all">Req.date</th>
                             <th class="desktop">Job No</th>
-                            <th class="desktop">Inv.No</th>
-                            <th>customer</th>
+                            <th class="desktop">Expense</th>
+                            <th class="desktop">PaymentTo</th>
+                            <th>Car/Cont</th>
                             <th class="all">Total</th>
                             <th class="desktop">W-Tax</th>
                             <th class="desktop">Req.By</th>
@@ -184,7 +185,7 @@ End Code
                 if (isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.adv.data[0].Table;
+            let h = r.adv.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -196,9 +197,10 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "JobNo", title: "Job Number" },
-                    { data: "CustInvNo", title: "InvNo" },
-                    { data: "CustCode", title: "Customer" },
+                    { data: "JobNo", title: "Job Number" },                    
+		    { data: "TRemark", title: "Expense" },
+                    { data: "PaymentTo", title: "Payment To" },
+                    { data: "InvNo", title: "Car/Cont" },
                     {
                         data: "TotalAdvance", title: "Total",
                         render: function (data) {

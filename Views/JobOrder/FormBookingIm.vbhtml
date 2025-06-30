@@ -19,6 +19,14 @@ End Code
     </div>
     <div style="display:flex">
         <div style="flex:1">
+            <b>COMMERCIAL INVOICE:</b>
+        </div>
+        <div style="flex:1">
+            <label id="lblInvNo"></label>
+        </div>
+    </div>
+    <div style="display:flex">
+        <div style="flex:1">
             <b>บริษัทรถ / TRANSPORT COMPANY :</b>
         </div>
         <div style="flex:1">
@@ -206,6 +214,7 @@ End Code
             $('#lblBookingNo').text(h.BookingNo);
             $('#lblBookingDate').text(ShowDate(h.BookingDate));
             $('#lblJNo').text(h.JNo);
+            $('#lblInvNo').text(h.InvNo);
             $('#lblTruckType').text(h.TRemark);
             $('#lblTotalContainer').text(h.TotalContainer);
             $('#lblForwarderName').text(h.ForwarderName);

@@ -661,7 +661,7 @@ End Code
     }
     function ShowHeader() {
         let type = $('#cboType').val();
-        let w = '';
+          let w = '';
         if ($('#txtCustCode').val() !== '') {
             w += '&cust=' + $('#txtCustCode').val();
         }
@@ -679,13 +679,13 @@ End Code
         if (code !== '') {
             w += '&Code=' + code;
         }
-        $.get(path + 'acc/getReceipt?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
+	$.get(path + 'acc/getreceiptgrid?type=' + type + '&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.receipt.header.length == 0) {
                 $('#tbHeader').DataTable().clear().draw();
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.receipt.header[0];
+            let h = r.receipt.header;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -705,7 +705,7 @@ End Code
                         }
                     },
                     { data: "CustCode", title: "Customer" },
-                    { data: "ReceiveRef", title: "Reference Number" },
+                    { data: "JobNo", title: "Reference Number" },
                     { data: "TRemark", title: "Remark" },
                     { data: "TotalCharge", title: "Amount",
                             render: function (data) {

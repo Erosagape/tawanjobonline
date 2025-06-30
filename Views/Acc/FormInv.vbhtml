@@ -79,17 +79,30 @@ End Code
                 QUANTITY :<label id="lblQtyGross"></label> <label id="lblQtyUnit"></label>
             </div>
             <div style="flex:1">
-                Customer PO :<label id="lblCustPo"></label>
+                CUSTOMER PO :<label id="lblCustPo"></label>
+            </div>
+            <div style="flex:1">
+            </div>
+        </div>
+        <div style="display:flex">
+            <div style="flex:1">
+                INSPECTION DATE :<label id="lblDutyDate"></label>
+            </div>
+            <div style="flex:1">
+               SURRENDER DATE :<label id="lblSurrender"></label>
             </div>
             <div style="flex:1">
             </div>
         </div>
     </div>
-    <div style="width:97%">
-        <table style="width:100%;margin-top:5px;" border="1" class="text-center">
+<br/>
+    <div style="width:97%;">
+        <table style="width:100%;" border="1" class="text-center">
             <tr style="background-color :gainsboro;text-align:center;font-weight:bold">
                 <td width="50px">No</td>
                 <td width="370px">DESCRIPTION</td>
+		<td width="80px">CURRENCY</td>
+		<td width="80px">EXC.</td>
                 <td width="80px">PRICE</td>
                 <td width="50px">QTY</td>
                 <td width="100px">ADVANCE</td>
@@ -98,7 +111,7 @@ End Code
             </tr>
             <tbody id="tbDetail"></tbody>
             <tr style="font-weight:bold;">
-                <td colspan="4">
+                <td colspan="6">
                     TOTAL AMOUNT
                 </td>
                 <td style="text-align:right">
@@ -112,7 +125,7 @@ End Code
                 </td>
             </tr>
             <tr>
-                <td colspan="4">
+                <td colspan="6">
                     <div style="display:flex">
                         <div style="text-align:left;flex:1;vertical-align:top">
                             <div id="lblShippingRemark"></div>
@@ -138,13 +151,14 @@ End Code
             </tr>
             <tr>
                 <td>TOTAL<br />(<label id="lblCurrency"></label>)</td>
-                <td colspan="6">
+                <td colspan="7">
                     <div style="text-align:center;"><label id="lblTotalBaht" style="font-size:14px;font-weight:bold"></label></div>
                 </td>
             </tr>
         </table>
     </div>
-    <div style="display:flex;margin-top:5px;width:97%">
+<br/>
+    <div style="display:flex;width:97%">
         <div class="text-left" style="border:1px solid black;border-radius:5px;flex:1;margin-right:5px;padding:5px 5px 5px 5px;font-size:10px;">
             WITHHOLDING TAX DETAIL
             <table style="width:100%;">
@@ -157,6 +171,11 @@ End Code
                     <td style="width:55%;font-size:10px;">SERVICE 3%</td>
                     <td style="width:25%;text-align:right;font-size:10px;"><label id="lblSumBaseWht3"></label></td>
                     <td style="width:20%;text-align:right;font-size:10px;"><label id="lblSumWht3"></label></td>
+                </tr>
+                <tr>
+                    <td style="width:55%;font-size:10px;">RENT 5%</td>
+                    <td style="width:25%;text-align:right;font-size:10px;"><label id="lblSumBaseWht5"></label></td>
+                    <td style="width:20%;text-align:right;font-size:10px;"><label id="lblSumWht5"></label></td>
                 </tr>
                 <tr>
                     <td colspan="2" style="width:80%;font-size:10px;">
@@ -196,7 +215,7 @@ End Code
         @<div style="border:1px solid black;border-radius:5px;margin-top:5px;padding:5px 5px 5px 5px;width:97%">
             สั่งจ่าย : <span id="lblCompanyName2" style="font-weight:bold">บจก.เดอะโซลูชั่น โลจิสติกส์</span>
             <br />-บัญชีออมทรัพย์ ธนาคารกสิกรไทย สาขาถนนศรีนครินทร์ กม.17 เลขที่บัญชี <span id="lblAccountName2" style="font-weight:bold">026-8-76862-9</span>
-            <br />-บัญชีกระแสรายวัน ธนาคารกสิกรไทย สาขาถนนรัชดาภิเษก (ตากสิน-ท่าพระ) เลขที่บัญชี <span id="lblAccountName3" style="font-weight:bold">707-1-00389-7</span>
+            <br />-บัญชีกระแสรายวัน ธนาคารไทยพาณิชย์ สาขาถนนรามอินทรา(แฟชั่นไอส์แลนด์) เลขที่บัญชี <span id="lblAccountName3" style="font-weight:bold">171-3-01198-0</span>
             <br />-บัญชีออมทรัพย์ ธนาคารกรุงเทพ สาขาถนนเทพารักษ์ กม.22 เลขที่บัญชี <span id="lblAccountName4" style="font-weight:bold">921-0-38888-1</span>
             <br />-บัญชีกระแสรายวัน ธนาคารกรุงเทพ สาขาถนนเทพารักษ์ กม.22 เลขที่บัญชี <span id="lblAccountName5" style="font-weight:bold">921-3-00552-4</span>
             <br />ชำระโดย By <input type="checkbox" />เงินสด/Cash <input type="checkbox" />เงินโอน/Transfer <input type="checkbox" /> เช็ค/Cheque No_______________/D_____________<br />
@@ -209,6 +228,10 @@ End Code
     const license = '@ViewBag.LICENSE_NAME';
     let branch = getQueryString('branch');
     let invno = getQueryString('code');
+    let ans = confirm('Show Tax-Invoice?');
+    if (ans == true) {
+        $('#lblDocType').html('ใบแจ้งหนี้ / ใบกำกับภาษี (INVOICE/TAX-INVOICE)');
+    } 
     $.get(path + 'acc/getinvoice?branch=' + branch + '&code=' + invno, function (r) {
         if (r.invoice.header!== null) {
             ShowData(r.invoice);
@@ -278,6 +301,9 @@ End Code
                 $('#lblETADate').text(ShowDate(CDateTH(j.ETADate)));
                 $('#lblMAWB').text(j.MAWB);
                 $('#lblCustPo').text(j.CustRefNO);
+		$('#lblDutyDate').text(ShowDate(CDateTH(j.DutyDate)));
+		//$('#lblSurrender').text(ShowDate(CDateTH(j.ClearDate)));
+		$('#lblSurrender').text(ShowDate(CDateTH(j.ImExDate)));
             }
             let remark = h.Remark1;
 	        remark += (h.Remark2 !=='' ? '<br/>':'')+ h.Remark2;
@@ -288,7 +314,7 @@ End Code
             remark +=(h.Remark7 !=='' ? '<br/>':'')+ h.Remark7;
 	        remark += (h.Remark8 !=='' ? '<br/>':'')+ h.Remark8;
             remark +=(h.Remark9 !=='' ? '<br/>':'')+ h.Remark9;
-	        remark += (h.Remark10 !=='' ? '<br/>':'')+ h.Remark10;
+	        //remark += (h.Remark10 !=='' ? '<br/>':'')+ h.Remark10;
             $('#lblDescription').html(CStr(remark));
             remark = h.ShippingRemark.replace(/ (?:\r\n|\r|\n)/g, '<br/>');
             $('#lblShippingRemark').html(remark);
@@ -301,11 +327,11 @@ End Code
             $('#lblSumAdvance').text(ShowNumber(h.TotalAdvance,2));
             $('#lblSumTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT),2));
             $('#lblSumGrandTotal').text(ShowNumber(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.TotalCustAdv)-Number(h.TotalDiscount),2));
-            $('#lblSumNetInvoice').text(ShowNumber(Number(h.TotalCharge) + Number(h.TotalAdvance) + Number(h.TotalVAT) - Number(h.TotalCustAdv) - Number(h.Total50Tavi) - Number(h.TotalDiscount), 2));
+            $('#lblSumNetInvoice').text(ShowNumber(CDbl($('#lblSumGrandTotal').text(), 2) - CDbl(Number(h.Total50Tavi),2) - CDbl(Number(h.TotalDiscount),2), 2));
             if (h.CurrencyCode == 'THB') {
-                $('#lblTotalBaht').text('(' + CNumThai(CDbl($('#lblSumGrandTotal').text(), 2)) + ')');
+                $('#lblTotalBaht').text('(' + CNumThai(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount), 2)) + ')');
             } else {
-                $('#lblTotalBaht').text('(' + CNumEng(CDbl($('#lblSumGrandTotal').text(), 2)) + ')');
+                $('#lblTotalBaht').text('(' + CNumEng(CDbl(Number(h.TotalCharge)+Number(h.TotalAdvance)+Number(h.TotalVAT)-Number(h.Total50Tavi)-Number(h.TotalDiscount), 2)) + ')');
             }
             $.get(path + 'Acc/GetInvDetailReport?Branch=' + h.BranchCode + '&Code=' + h.DocNo).done(function (r) {
                 if (r.invdetail.data.length > 0) {
@@ -325,8 +351,11 @@ End Code
 	
         let sumbase1 = 0;
         let sumbase3 = 0;
+        let sumbase5 = 0;
         let sumtax1 = 0;
         let sumtax3 = 0;
+        let sumtax5 = 0;
+
         let sumbasevat = 0;
         let sumnonvat = 0;
         let sumvat = 0;
@@ -338,7 +367,7 @@ End Code
                 if (currCtn !== o.CTN_NO) {
                     currCtn = o.CTN_NO;
                     Html = '<tr>';
-                    Html += '<td colspan="7">' + o.CTN_NO + ' / ' +  o.TRemark + '</td>';
+                    Html += '<td colspan="9">' + o.CTN_NO + ' / ' +  o.TRemark + '</td>';
                     Html += '</tr>';
                     $('#tbDetail').append(Html);
                 }
@@ -346,8 +375,8 @@ End Code
                 Html = '<tr>';
                 Html += '<td style="text-align:center">' + i + '</td>';
                 Html += '<td>' + o.SDescription + '</td>';
-                //Html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
-                //Html += '<td style="text-align:center">' + o.QtyUnit + '</td>';
+                Html += '<td style="text-align:center">' + o.CurrencyCode + '</td>';
+                Html += '<td style="text-align:center">' + o.ExchangeRate + '</td>';
                 Html += '<td style="text-align:right">' + ShowNumber(Number(o.UnitPrice), 2) + '</td>';
                 Html += '<td style="text-align:center">' + o.Qty + '</td>';
                 if (o.AmtAdvance > 0) {
@@ -374,8 +403,13 @@ End Code
                             sumbase1 += (o.Amt - o.AmtDiscount);
                             sumtax1 += o.Amt50Tavi;
                         } else {
+                        if (o.Rate50Tavi == 5) {
+                            sumbase5 += (o.Amt - o.AmtDiscount);
+                            sumtax5 += o.Amt50Tavi;
+                        } else {
                             sumbase3 += (o.Amt - o.AmtDiscount);
                             sumtax3 += o.Amt50Tavi;
+                        }
                         }
                     }
                 }
@@ -387,8 +421,9 @@ End Code
         $('#lblSumAfterVat').text(ShowNumber(sumbasevat + sumvat, 2));
         $('#lblSumBaseWht1').text(ShowNumber(sumbase1, 2));
         $('#lblSumBaseWht3').text(ShowNumber(sumbase3, 2));
-
+        $('#lblSumBaseWht5').text(ShowNumber(sumbase5, 2));
         $('#lblSumWht1').text(ShowNumber(sumtax1, 2));
         $('#lblSumWht3').text(ShowNumber(sumtax3, 2));
+        $('#lblSumWht5').text(ShowNumber(sumtax5, 2));
     }
 </script>

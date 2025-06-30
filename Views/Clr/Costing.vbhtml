@@ -155,8 +155,8 @@ End Code
     function RefreshGrid() {
         ShowWait();
         $.get(path + 'clr/getclearingreport?branch=' + branch + '&job=' + code, function (r) {
-            if (r.data[0].Table !== undefined) {
-                let h = r.data[0].Table[0];
+            if (r.data !== undefined) {
+                let h = r.data[0];
                 $('#txtBranchCode').val(h.BranchCode);
                 $('#txtBranchName').val(h.BranchName);
                 $('#txtJNo').val(h.JobNo);
@@ -183,7 +183,7 @@ End Code
                 let amtclear = 0;
                 let amtpending = 0;
 
-                let d = r.data[0].Table.filter(function (data) {
+                let d = r.data.filter(function (data) {
                     return data.BNet !== 0;
                 });
                 for (let i = 0; i < d.length; i++){

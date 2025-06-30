@@ -3,6 +3,7 @@
     ViewData("Title") = "Profit & Costing By Truck"
     Dim SumProfit = 0
     Dim SumSumAdv = 0
+    Dim SumSumTrip = 0
     Dim SumTotalFuelAmount = 0
     Dim SumSumCost = 0
     Dim SumSumCharge = 0
@@ -30,6 +31,14 @@ End Code
     <table class="table">
         <tbody>
             @For Each dr As System.Data.DataRow In ViewBag.DataTable.Rows
+                @Code
+                    if Not IsDBNull(dr("Profit")) Then SumProfit += dr("Profit")
+                    If Not IsDBNull(dr("SumAdv")) Then SumSumAdv += dr("SumAdv")
+                    If Not IsDBNull(dr("SumTrip")) Then SumSumTrip += dr("SumTrip")
+                    If Not IsDBNull(dr("TotalFuelAmount")) <> 0 Then SumTotalFuelAmount += dr("TotalFuelAmount")
+                    If Not IsDBNull(dr("SumCost")) Then SumSumCost += dr("SumCost")
+                    If Not IsDBNull(dr("SumCharge")) Then SumSumCharge += dr("SumCharge")
+                End code
                 @<tr>
                     <td width="5%"> Customer</td>
                     <td width="10%">@dr("CustomerName").ToString()</td>
@@ -49,24 +58,13 @@ End Code
                     <td width="20%" rowspan="5">
                         <Table Class="table">
                             <tbody>
-                                @Code
-                                    Try
-                                        SumProfit += dr("Profit")
-                                        SumSumAdv += dr("SumAdv")
-                                        SumTotalFuelAmount += dr("TotalFuelAmount")
-                                        SumSumCost += dr("SumCost")
-                                        SumSumCharge += dr("SumCharge")
-                                    Catch ex As Exception
-
-                                    End Try
-                                End Code
                                 <tr style="border-bottom: 1px solid black">
                                     <td>กำไร/ขาดทุน</td>
                                     <td Class="right">@Format(dr("Profit").ToString(), "Fixed")</td>
                                 </tr>
                                 <tr>
                                     <td> ค่าเที่ยวสิ้นเดือน</td>
-                                    <td Class="right" @Format(dr("SumAdv").ToString(), "Fixed")></td>
+                                    <td Class="right">@Format(dr("SumTrip").ToString(), "Fixed")</td>
                                 </tr>
                                 <tr>
                                     <td> ค่าน้ำมัน/แก๊ส</td>
@@ -79,6 +77,10 @@ End Code
                                 <tr>
                                     <td> Total sale</td>
                                     <td Class="right">@Format(dr("SumCharge").ToString(), "Fixed")</td>
+                                </tr>
+                                <tr>
+                                    <td> Total Adv</td>
+                                    <td Class="right">@Format(dr("SumAdv").ToString(), "Fixed")</td>
                                 </tr>
                             </tbody>
                         </Table>
@@ -111,9 +113,13 @@ End Code
                     <td> Cost</td>
                     <td colspan="10"> @dr("DetailCost").ToString()</td>
                 </tr>
-                @<tr style="border-bottom:1px solid black;margin-bottom:10px">
+                @<tr>
                     <td> Sale</td>
                     <td colspan="10"> @dr("DetailCharge").ToString()</td>
+                </tr>
+                @<tr style="border-bottom:1px solid black;margin-bottom:10px">
+                    <td> Advance</td>
+                    <td colspan="10"> @dr("DetailAdv").ToString()</td>
                 </tr>
             Next
             <tr>
@@ -127,7 +133,7 @@ End Code
                             </tr>
                             <tr>
                                 <td>ค่าเที่ยวสิ้นเดือน</td>
-                                <td class="right"> @Format(SumSumAdv, "Fixed")</td>
+                                <td class="right"> @Format(SumSumTrip, "Fixed")</td>
                             </tr>
                             <tr>
                                 <td>ค่าน้ำมัน/แก๊ส</td>
@@ -141,6 +147,11 @@ End Code
                                 <td>Total sale</td>
                                 <td class="right">@Format(SumSumCharge, "Fixed")</td>
                             </tr>
+                            <tr>
+                                <td>Total Adv</td>
+                                <td class="right">@Format(SumSumAdv, "Fixed")</td>
+                            </tr>
+
                         </tbody>
                     </table>
                 </td>

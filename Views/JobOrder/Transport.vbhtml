@@ -261,6 +261,7 @@ End Code
                     <input type="text" id="txtMainLocation" style="width:100%" class="form-control" disabled />
                     <button id="btnRoute" class="btn btn-default" onclick="SearchData('location');">...</button>
                 </div>
+                <input type="checkbox" id="chkAllRoute" /> Show All
             </div>
             <div class="col-sm-2">
                 <label id="lblAutoGenCon">Auto Create Container</label>
@@ -777,7 +778,7 @@ End Code
                     <div id="tabDetailTruck" class="tab-pane fade">
                         <div class="row">
                             <div class="col-sm-5">
-                                <label id="lblDriver">Driver</label>
+                                <a href="~/Master/Employee"><label id="lblDriver">Driver</label></a>
                                 :
                                 <br />
                                 <div style="display:flex">
@@ -786,7 +787,7 @@ End Code
                                 </div>
                             </div>
                             <div class="col-sm-3">
-                                <label id="lblTruckNo">Truck ID</label>
+                                <a href="~/Master/CarLicense"><label id="lblTruckNo">Truck ID</label></a>
                                 :
                                 <br />
                                 <div style="display:flex">
@@ -859,6 +860,7 @@ End Code
     <table id="tbDetail" class="table table-responsive">
         <thead>
             <tr>
+	<th>#</th>
                 <th>CTN_NO</th>
                 <th class="desktop">CTN_SIZE</th>
                 <th class="desktop">SealNumber</th>
@@ -1090,7 +1092,7 @@ End Code
                 SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
             case 'location':
-                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '':'&Cust='+ $('#txtNotifyCode').val()), ReadMainRoute);
+                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + ($('#chkAllRoute').prop('checked') ? '':'&Cust='+ $('#txtNotifyCode').val()), ReadMainRoute);
                 break;
             case 'route':
                 SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '' : '&Cust=' + $('#txtNotifyCode').val()), ReadRoute);
@@ -1368,14 +1370,13 @@ End Code
         $('#txtTotalTripC').val(countC);
     }
     function ReadContainer(dr) {
+	sortData(dr,"ItemNo","asc");
         let tb=$('#tbDetail').DataTable({
             data: dr,
             columns: [
+{data:"ItemNo",title:"#"},
                 {
-                    data: null, title: "Container No",
-                    render: function (data) {
-                        return data.ItemNo + '.' + data.CTN_NO;
-                    }
+                    data: "CTN_NO", title: "Container No"
                 },
                 { data: "CTN_SIZE", title: "Container Size" },
                 { data: "SealNumber", title: "Seal" },
@@ -1435,6 +1436,10 @@ End Code
             ClearDetail();
             ReadDetail(row);
         });
+	 $('#tbAddFuel tbody').on('dblclick', 'tr', function () {
+                    let row = $('#tbAddFuel').DataTable().row(this).data();
+                    window.open(path + 'JobOrder/AddFuel?Branch=' + row.BranchCode + '&Code=' + row.DocNo, '', '');
+                });
         $('#tbDetail tbody').on('dblclick', 'tr', function () {
             $('#dvContainer').modal('show');
         });
@@ -1681,6 +1686,14 @@ End Code
         ShowPayment();
     }
     function SaveDetail() {
+	if($('#txtDriver').val()==''){
+		ShowMessage('Please enter driver',true);
+		return;
+	}
+	if($('#txtTruckNO').val()==''){
+		ShowMessage('Please enter truck no',true);
+		return;
+	}
         let obj = {
             BranchCode:$('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),
@@ -2064,7 +2077,8 @@ End Code
         $('#btnExpense2').attr('disabled', 'disabled');
         $('#tbPayment').DataTable().clear().draw();
         if ($('#txtCTN_NO').val() !== '') {
-            $.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+            //$.get(path + 'Acc/GetPayment?VenCode=' + $('#txtVenderCode').val() + '&Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
+	    $.get(path + 'Acc/GetPayment?Ref=' + $('#txtCTN_NO').val() + '&Job='+ $('#txtJNo').val() +'&Status=Y').done((r) => {
                 if (r.payment.header.length > 0) {
                     $('#txtCTN_NO').attr('disabled', 'disabled');
                     let tb = $('#tbPayment').DataTable({
@@ -2199,10 +2213,7 @@ End Code
                     destroy: true
                     , pageLength: 100
                 });
-                $('#tbAddFuel tbody').on('dblclick', 'tr', function () {
-                    let row = $('#tbAddFuel').DataTable().row(this).data();
-                    window.open(path + 'JobOrder/AddFuel?Branch=' + row.BranchCode + '&Code=' + row.DocNo, '', '');
-                });
+               
                 ChangeLanguageGrid('@ViewBag.Module', '#tbAddFuel');
             }
         });
