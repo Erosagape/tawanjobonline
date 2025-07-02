@@ -36,7 +36,11 @@ Namespace Controllers
             If AuthorizeStr.IndexOf("P") < 0 Then
                 Return Content("You are not allow to print", textContent)
             End If
-            Return GetView("FormJob")
+            Dim type As String = ""
+            If Request.QueryString("Type") IsNot Nothing Then
+                type = Request.QueryString("Type").ToString
+            End If
+            Return GetView("FormJob" & type)
         End Function
         Function FormPrepare() As ActionResult
             Return GetView("FormPrepare")
@@ -639,7 +643,11 @@ Namespace Controllers
             Return GetView("QuoApprove", "MODULE_SALES")
         End Function
         Function FormLetter() As ActionResult
-            Return GetView("FormLetter")
+            Dim type As String = ""
+            If Request.QueryString("Type") IsNot Nothing Then
+                type = Request.QueryString("Type").ToString
+            End If
+            Return GetView("FormLetter" & type)
         End Function
         Function FormBookingIm() As ActionResult
             Return GetView("FormBookingIm")
@@ -654,7 +662,11 @@ Namespace Controllers
             Return GetView("FormBookingSea")
         End Function
         Function FormBooking() As ActionResult
-            Return GetView("FormBooking")
+            Dim type As String = ""
+            If Request.QueryString("Type") IsNot Nothing Then
+                type = Request.QueryString("Type").ToString
+            End If
+            Return GetView("FormBooking" & type)
         End Function
         Function FormDelivery() As ActionResult
             Return GetView("FormDelivery")
