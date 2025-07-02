@@ -670,7 +670,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cash.sumamount > 0 ? 'R' : 'P',
@@ -707,7 +707,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chqcash.sumamount > 0 ? 'R' : 'P',
@@ -744,7 +744,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType:sum_chq.sumamount> 0 ? 'R' : 'P',
@@ -781,7 +781,7 @@ End Code
             i = i + 1;
             oData.push({
                 BranchCode: $('#txtBranchCode').val(),
-                ControlNo: docno,
+                ControlNo: $('#txtControlNo').val(),
                 ItemNo: i,
                 PRVoucher: '',
                 PRType: sum_cr.sumamount > 0 ? 'R' : 'P',
@@ -836,7 +836,7 @@ End Code
         if (list.length > 0) {
             for (let i = 0; i < list.length; i++) {
                 let o = list[i];
-                o.ControlNo = docno;
+                o.ControlNo = $('#txtControlNo').val();
             }
             let jsonString = JSON.stringify({ data: list });
             $.ajax({
@@ -849,14 +849,14 @@ End Code
                         if ($('#txtAdvNo').val() !== '') {
 
                             dataApp = [];
-                            dataApp.push(user + '|' + response.result.data + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+                            dataApp.push(user + '|' + $('#txtControlNo').val() + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
 
                             dataApp.push($('#txtBranchCode').val() + '|' + $('#txtAdvNo').val());
 
                             ReceiveClearing(response.result.data);
                         } else {
                             dataApp = [];
-                            dataApp.push(user + '|' + docno + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
+                            dataApp.push(user + '|' + $('#txtControlNo').val() + '|' + ($('#chkFromClr').prop('checked') ? 'CLR' : 'ADV'));
                             for (let i = 0; i < arr.length; i++) {
                                 let o = arr[i];
                                 let docApp = '';
@@ -869,7 +869,7 @@ End Code
                                     dataApp.push(docApp);
                                 }
                             }
-                            ReceiveClearing(docno);
+                            ReceiveClearing($('#txtControlNo').val());
                         }
                         SetGridAdv(false);
                         ShowMessage(response.result.msg);
@@ -927,6 +927,7 @@ End Code
             PostRefNo: ''
         };
         docno = '';
+        $('#txtControlNo').val('');
         let jsonString = JSON.stringify({ data: oHeader });
         $.ajax({
             url: "@Url.Action("SetVoucherHeader", "Acc")",
