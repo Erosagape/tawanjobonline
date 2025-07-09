@@ -3171,7 +3171,7 @@ AND DocNo=h.DocNo
     Public Function SQLSelectClearingTotal(sqlW As String) As String
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','') as Description 
 from Job_ClearDetail b inner join Job_InvoiceHeader i 
 on b.BranchCode=i.BranchCode and b.LinkBillNo=i.DocNo
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
@@ -3242,7 +3242,7 @@ ORDER BY j.DocDate,b.JobNo
     Public Function SQLSelectClearingTotal2(sqlW As String) As String
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','') as Description 
 from Job_ClearDetail b 
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 and b.ClrNo=a.ClrNo and b.BNet>0 
@@ -3312,7 +3312,7 @@ ORDER BY j.DocDate,b.JobNo
     Public Function SQLSelectClearingTotal3(sqlW As String) As String
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','') as Description 
 from Job_ClearDetail b 
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 and b.ClrNo=a.ClrNo and b.BNet>0 
@@ -3380,7 +3380,7 @@ ORDER BY j.DocDate,b.JobNo
     Public Function SQLSelectClearingTotal4(sqlW As String) As String
         Dim aSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','') as Description 
 from Job_AdvDetail b 
 inner join Job_AdvHeader a ON b.BranchCode=a.BranchCode 
 and b.AdvNo=a.AdvNo and b.AdvNet>0 
@@ -3394,15 +3394,17 @@ WHERE a.DocStatus<>99 {0}
 ORDER BY s.IsExpense
 "
         Dim fAdv As String = ""
-        fAdv &= "SUM(CASE WHEN d.SICode='' THEN d.AdvNet ELSE 0 END) as 'ADV<br/>N/A'"
+        Dim field1 As String = ",a.[ADV<br/>N/A]"
+        fAdv &= ",SUM(CASE WHEN d.SICode='' THEN d.AdvNet ELSE 0 END) as 'ADV<br/>N/A'"
         Dim tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(aSql, sqlW))
         For Each dr As DataRow In tb.Rows
             fAdv &= ","
-            fAdv &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.AdvNet ELSE 0 END) as 'ADV<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+            fAdv &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.AdvNet ELSE 0 END) as 'ADV<br/>{0}<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+            field1 &= String.Format(",a.[ADV<br/>{0}<br/>{1}]", dr("SICode").ToString(), dr("Description").ToString())
         Next
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','') as Description 
 from Job_ClearDetail b 
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 and b.ClrNo=a.ClrNo and b.BNet>0 
@@ -3420,29 +3422,33 @@ ORDER BY s.IsExpense
             hSql = val
         End If
         Dim tSql As String = ""
+        Dim field2 As String = ""
         tb = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(hSql, sqlW))
         For Each dr As DataRow In tb.Rows
-            If tSql <> "" Then
-                tSql &= ","
-            End If
+            tSql &= ","
             Dim prefix = ""
             If dr("IsExpense").ToString = "1" Then
                 prefix = "INV-COST"
-                tSql &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.UsedAmount ELSE 0 END) as '" & prefix & "<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                tSql &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.UsedAmount ELSE 0 END) as '" & prefix & "<br/>{0}<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                field2 &= String.Format(",b.[{0}<br/>{1}<br/>{2}]", prefix, dr("SICode").ToString(), dr("Description").ToString())
             Else
                 If dr("IsCredit").ToString() = "1" Then
                     prefix = "INV-ADV"
-                    tSql &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.BNet ELSE 0 END) as '" & prefix & "<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                    tSql &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.BNet ELSE 0 END) as '" & prefix & "<br/>{0}<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                    field2 &= String.Format(",b.[{0}<br/>{1}<br/>{2}]", prefix, dr("SICode").ToString(), dr("Description").ToString())
                 Else
                     prefix = "INV-SRV"
-                    tSql &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.UsedAmount ELSE 0 END) as '" & prefix & "<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                    tSql &= String.Format("SUM(CASE WHEN d.SICode='{0}' THEN d.UsedAmount ELSE 0 END) as '" & prefix & "<br/>{0}<br/>{1}'", dr("SICode").ToString(), dr("Description").ToString())
+                    field2 &= String.Format(",b.[{0}<br/>{1}<br/>{2}]", prefix, dr("SICode").ToString(), dr("Description").ToString())
                 End If
             End If
         Next
         Dim mSql = "
 SELECT j.DocDate,j.DutyDate,j.JNo as 'Job Number',jt.JobTypeName as JobType,sb.ShipByName as ShipBy,
 e.NameEng as 'Customer',c.NameEng as 'Consignee',j.DeliveryTo as Shipper,t.TName as Agent,j.InvProduct,
-j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer
+j.InvNo,j.HAWB,j.DeclareNumber,j.ETDDate,j.ETADate,j.LoadDate,j.EstDeliverDate as UnloadDate,j.TotalContainer,
+a.SumAdvance{3},
+b.SumClear{4},b.SumCost,b.SumAdv,b.SumServ,b.SumCollect,b.SumBalance
 FROM Job_Order j 
 LEFT JOIN (SELECT CAST(ConfigKey as int) as JobType,ConfigValue as JobTypeName FROM MAs_Config WHERE ConfigCode='JOB_TYPE') jt ON j.JobType=jt.JobType
 LEFT JOIN (SELECT CAST(ConfigKey as int) as ShipBy,ConfigValue as ShipByName FROM MAs_Config WHERE ConfigCode='SHIP_BY') sb ON j.ShipBy=sb.ShipBy
@@ -3451,6 +3457,7 @@ LEFT JOIN (SELECT CustCode,MAX(Branch) as Branch,MAX(NameEng) as NameEng FROM  M
 LEFT JOIN Mas_Vender t ON j.ForwarderCode=t.VenCode
 LEFT JOIN (
     select d.BranchCode,d.ForJNo,sum(d.AdvNet) as SumAdvance
+    {1}
     from Job_ADvDetail d inner join Job_ADvHeader h
     on d.AdvNo=h.AdvNo and d.BranchCode=h.BranchCode
     left join Job_SrvSingle s on d.SICode=s.SICode 
@@ -3458,7 +3465,8 @@ LEFT JOIN (
     group by d.BRanchCode,d.ForJNo
 ) a on j.BranchCode=a.BranchCode and j.JNo=a.ForJNo
 LEFT JOIN (
-    select d.BranchCode,d.JobNo,
+    select d.BranchCode,d.JobNo
+    {2},
     sum(case when d.AdvItemNo>0 then d.UsedAmount+d.ChargeVAT-d.Tax50Tavi else 0 end) as SumClear,
     sum(case when s.IsExpense=0 and s.IsCredit=1 then d.BNet else 0 end) as SumAdv,
     sum(case when s.IsExpense=0 and s.IsCredit=0 then d.UsedAmount*d.CurRate else 0 end) as SumServ,
@@ -3471,14 +3479,14 @@ LEFT JOIN (
     where h.DocStatus<>99 
     group by d.BranchCode,d.JobNo 
 ) b on j.BranchCode=b.BranchCode and j.JNo=b.JobNo
-WHERE j.JobStatus<>99 
+WHERE j.JobStatus<>99 {0}
 ORDER BY j.DocDate
 "
         val = GetValueConfig("SQL", "SelectJobDetailAll")
         If val.Length > 0 Then
             mSql = val
         End If
-        Return String.Format(mSql, sqlW, fAdv, tSql)
+        Return String.Format(mSql, sqlW, fAdv, tSql, field1, field2)
     End Function
     Public Function SQLSelectAdvanceTotalJob(sqlW As String) As String
         Dim tSql As String = ""
