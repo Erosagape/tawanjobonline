@@ -1457,6 +1457,10 @@ ORDER BY d.SDescription,d.ChargeAmount-d.CostAmount DESC
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode", "s.SICode", "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
                         sqlM = SQLSelectClearingTotal3(sqlW & GetValueConfig("SQL", "CliteriaOfficeExpense"))
+                    Case "JOBDETAIL_ALL"
+                        sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.CustContactName", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = SQLSelectClearingTotal4(sqlW & GetValueConfig("SQL", "CliteriaJobOperation"))
                     Case "JOBDETAILSUM"
                         sqlW = GetSQLCommand(cliteria, "j.DocDate", "j.CustCode", "j.JNo", "j.CSCode", "j.ForwarderCode", "j.JobStatus", "j.BranchCode",, "c.CommLevel")
                         If sqlW <> "" Then sqlW = " AND " & sqlW
