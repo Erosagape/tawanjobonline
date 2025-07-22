@@ -1039,6 +1039,7 @@ Public Class CJobOrder
                             dr("CancelTime") = Main.GetDBTime(Me.CancelTime)
                             dr("CloseJobTime") = Main.GetDBTime(Me.CloseJobTime)
                             dr("ETTime") = Main.GetDBTime(Me.ETTime)
+                            dr("EstDeliverTime") = Main.GetDBTime(Me.EstDeliverTime)
 
                             dr("ShippingEmp") = Main.GetDBString(Me.ShippingEmp, dt.Columns("ShippingEmp"))
                             dr("ShippingCmd") = Main.GetDBString(Me.ShippingCmd, dt.Columns("ShippingCmd"))
