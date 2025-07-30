@@ -37,10 +37,10 @@ End Code
                     @If rows.Count > 0 Then
                         For Each r In rows
                             @<tr>
-                                 <td>
-                                     <input type="button" class="btn btn-warning" value="Edit" onclick="EditData('@r.CTN_NO')" />
-                                     <input type="button" class="btn btn-info" value="History" onclick="ShowData('@r.CTN_NO')" />
-                                 </td>
+                                <td>
+                                    <input type="button" class="btn btn-warning" value="Edit" onclick="EditData('@r.CTN_NO')" />
+                                    <input type="button" class="btn btn-info" value="History" onclick="ShowData('@r.CTN_NO')" />
+                                </td>
                                 <td>
                                     @r.CTN_NO
                                 </td>
@@ -57,7 +57,15 @@ End Code
                                     @r.EndDate.ToString("dd/MM/yyyy")
                                 </td>
                                 <td>
-                                    @r.CountryCode
+                                    @Code
+                                        Dim b = New CTransportDetail(ViewBag.CONNECTION_JOB).GetData(" WHERE CTN_NO='" & r.CTN_NO & "' ORDER BY ReturnDate DESC")
+                                        If b.Count > 0 Then
+                                            @<span>@b(0).PlaceName3</span>
+                                            @If b(0).ReturnDate.Year > 1900 Then
+                                                @<span>@b(0).ReturnDate.ToString("dd/MM/yyyy")</span>
+                                            End If
+                                        End If
+                                    End Code
                                 </td>
                             </tr>
                         Next

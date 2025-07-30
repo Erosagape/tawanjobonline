@@ -3616,7 +3616,11 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
             End Try
         End Function
         Function Container() As ActionResult
-            Return GetView("Container")
+            Dim formName As String = ""
+            If Not Request.QueryString("Form") Is Nothing Then
+                formName = ""
+            End If
+            Return GetView("Container" & formName)
         End Function
         Function GetContainerReport() As ActionResult
             Dim conn As String = GetSession("ConnJob")
