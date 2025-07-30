@@ -3618,7 +3618,7 @@ on j.BranchCode=cl.BranchCode and j.JNo=cl.JobNo
         Function Container() As ActionResult
             Dim formName As String = ""
             If Not Request.QueryString("Form") Is Nothing Then
-                formName = ""
+                formName = "" & Request.QueryString("Form")
             End If
             Return GetView("Container" & formName)
         End Function

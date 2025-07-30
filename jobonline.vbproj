@@ -898,6 +898,7 @@
     <Content Include="Views\Admin\Test.vbhtml" />
     <Content Include="Views\Report\ImportExcel.vbhtml" />
     <Content Include="Views\JobOrder\Container.vbhtml" />
+    <Content Include="Views\JobOrder\ContainerMTN.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />

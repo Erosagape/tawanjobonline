@@ -30,7 +30,7 @@ End Code
                         <th>VenderCode</th>
                         <th>AcquireDate</th>
                         <th>EndDate</th>
-                        <th>CountryCode</th>
+                        <th>Depot</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -48,7 +48,14 @@ End Code
                                     @r.CTN_SIZE
                                 </td>
                                 <td>
-                                    @r.VenderCode
+                                    @Code
+                                        Dim v = New CVender(ViewBag.CONNECTION_JOB).GetData(" WHERE VenCode='" + r.VenderCode + "'")
+                                        If v.Count > 0 Then
+                                            @<span>@v(0).TName</span>
+                                        Else
+                                            @<span>@r.VenderCode</span>
+                                        End If
+                                    End Code
                                 </td>
                                 <td>
                                     @r.AcquisitionDate.ToString("dd/MM/yyyy")
@@ -68,7 +75,9 @@ End Code
                                     End Code
                                 </td>
                             </tr>
+
                         Next
+
                     End If
                 </tbody>
             </table>
@@ -96,7 +105,7 @@ End Code
                     <label for="txtReturnDate">Return From</label>
                     <div style="display:flex;">
                         <input type="date" id="txtReturnDate" class="form-control" />
-                        <input type="button" id="btnSearchTrans" class="btn btn-info" value="Search" onclick="FindData()" />
+                        <input type="button" id="btnSearchTrans" class="btn btn-info" value="Search" onclick="FindData()" />               
                     </div>
                 </div>
             </div>
@@ -107,6 +116,7 @@ End Code
                         <th>JNo</th>
                         <th>InvNo</th>
                         <th>Port</th>
+                        <th>InspectionDate</th>
                         <th>PickupDate</th>
                         <th>LoadDate</th>
                         <th>ReturnDate</th>
@@ -246,6 +256,7 @@ End Code
             </div>
             <div class="modal-footer" style="text-align:left;">
                 <input type="button" class="btn btn-success" value="Save" onclick="SaveData()" />
+                <input type="button" id="btnMaintenance" class="btn btn-warning" value="Maintenance" onclick="ShowMaintenance()" />
                 <input type="button" class="btn btn-danger" value="Close" data-dismiss="modal" />
             </div>
         </div>
@@ -299,8 +310,24 @@ End Code
             ShowMessage('Please enter Vender', true);
             return;
         }
+        if ($('#txtEndDate').val() == '') {
+            ShowMessage('Please enter Insurance End Date', true);
+            return;
+        }
         if ($('#txtAcquisitionDate').val() == '') {
             ShowMessage('Please enter Acquire Date', true);
+            return;
+        }
+        if ($('#txtCoolerInstallDate').val() == '') {
+            ShowMessage('Please enter Cooler Install Date', true);
+            return;
+        }
+        if ($('#txtCoolerRefillDate').val() == '') {
+            ShowMessage('Please enter Cooler Refill Date', true);
+            return;
+        }
+        if ($('#txtCoolerBrand').val() == '') {
+            ShowMessage('Please enter Cooler Brand', true);
             return;
         }
         if ($('#txtCountryCode').val() == '') {
@@ -373,6 +400,9 @@ End Code
         $('#txtReturnDate').val('');
         FindData();
     }
+    function ShowMaintenance() {
+        window.location = path + 'JobOrder/Container?Form=MTN&CTN_NO=' + $('#txtCTN_NO').val();
+    }
     function FindData() {
         let w = '';
         if ($('#txtVenCode').val() != '') {
@@ -395,13 +425,39 @@ End Code
                     data: dt,
                     columns: [
                         { data: "CTN_NO", title: "Container" },
-                        { data: "JNo", title: "Job" },
+                        {
+                            data: null, title: "Job",
+                            render: function (data) {
+                                return "<a href='" + path + "Joborder/Transport?BranchCode=" + data.BranchCode + "&JNo=" + data.JNo + "'>"+data.JNo+"</a>";
+                            }
+                        },
                         { data: "InvNo", title: "C.Inv" },
-                        { data: "InterPortName", title: "Port" },
-                        { data: "TargetYardDate", title: "Yard", render: function (data) { return ShowDate(data); }  },
-                        { data: "LoadDate", title: "Load", render: function (data) { return ShowDate(data); }  },
-                        { data: "ReturnDate", title: "Return", render: function (data) { return ShowDate(data); } },
-                        { data: "PlaceName3", title: "Transport" },
+                        {
+                            data: null, title: "Port",
+                            render: function (data) {
+                                return (data.InterPortName ? data.InvInterPort : data.InterPortName);
+                            }
+                        },
+                        { data: "DutyDate", title: "Yard", render: function (data) { return ShowDate(data); } },
+                        {
+                            data: null, title: "Start",
+                            render: function (data) {
+                                return ShowDate(data.TargetYardDate) + '=>' + ShowDate(data.ActualYardDate);
+                            }
+                        },
+                        {
+                            data: null, title: "Load/Unload",
+                            render: function (data) {
+                                return ShowDate(data.UnloadDate) + '=>' + ShowDate(data.UnloadFinishDate);
+                            }
+                        },
+                        {
+                            data: null, title: "Finish",
+                            render: function (data) {
+                                return ShowDate(data.TruckIN) + '=>' + ShowDate(data.ReturnDate);
+                            }
+                        },
+                        { data: "PlaceName3", title: "Depot" },
                     ],
                     destroy: true, pageLength: 100
                 });
