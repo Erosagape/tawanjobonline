@@ -39,8 +39,8 @@ DECLARE @@seq int=(SELECT ISNULL(MAX(SEQ),0)+1 as t FROM Job_ContainerMaintenanc
 
 INSERT INTO Job_ContainerMaintenance
 (CTN_NO,SEQ,CTN_PART,SerialNo,EntryDate,EntryBy,MaintenanceReason,MaintenanceType,PicturePath,VenderCode,DepotCode,CountryCode,BeginDate
-,EndDate,ApproveBy,ApproveDate,CancelBy,CancelDate,BudgetAmount,CurrencyCode,PaymentNo)
-SELECT '{0}',@seq,'{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}';
+,EndDate,ApproveBy,ApproveDate,CancelBy,CancelDate,BudgetAmount,CurrencyCode,PaymentNo,MaintenanceStatus)
+SELECT '{0}',@@seq,'{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}';
 "
             Else
                 sql = "
@@ -48,8 +48,8 @@ IF NOT EXISTS(select 1 from Job_ContainerMaintenance WHERE CTN_NO='{0}' AND SEQ=
 BEGIN
 INSERT INTO Job_ContainerMaintenance
 (CTN_NO,SEQ,CTN_PART,SerialNo,EntryDate,EntryBy,MaintenanceReason,MaintenanceType,PicturePath,VenderCode,DepotCode,CountryCode,BeginDate
-,EndDate,ApproveBy,ApproveDate,CancelBy,CancelDate,BudgetAmount,CurrencyCode,PaymentNo)
-SELECT '{0}',{1},'{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}';
+,EndDate,ApproveBy,ApproveDate,CancelBy,CancelDate,BudgetAmount,CurrencyCode,PaymentNo,MaintenanceStatus)
+SELECT '{0}',{1},'{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}','{19}','{20}','{21}';
 END
 ELSE
 BEGIN
@@ -72,7 +72,8 @@ CancelBy='{16}',
 CancelDate='{17}',
 BudgetAmount={18},
 CurrencyCode='{19}',
-PaymentNo='{20}'
+PaymentNo='{20}',
+MaintenanceStatus='{21}'
 WHERE CTN_NO='{0}' AND SEQ={1};
 END
 "
@@ -97,8 +98,9 @@ END
                 Request.Form("CancelDate"),
                 Request.Form("BudgetAmount"),
                 Request.Form("CurrencyCode"),
-                Request.Form("PaymentNo")
-            )
+                Request.Form("PaymentNo"),
+                Request.Form("MaintenanceStatus")
+        )
             msg = obj.ExecuteSQL(sql)
         End If
     End If
@@ -231,6 +233,11 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
+                            <label>Status</label>
+                            <br />
+                            <input type="text" name="MaintenanceStatus" id="txtMaintenanceStatus" class="form-control" />
+                        </div>
+                        <div class="col-sm-3">
                             <label>Entry By</label>
                             <br />
                             <input type="text" name="EntryBy" id="txtEntryBy" class="form-control" readonly />
@@ -296,6 +303,7 @@ End Code
         $('#txtCancelBy').val('');
         $('#chkApprove').removeAttr('checked');
         $('#chkCancel').removeAttr('checked');
+        $('#txtMaintenanceStatus').val('');
         $('#dvEditor').modal('show');
     }
     function LoadData(i) {
@@ -332,6 +340,7 @@ End Code
             } else {
                 $('#chkCancel').removeAttr('checked');
             }
+            $('#txtMaintenanceStatus').val(dt[i].MaintenanceStatus);
         }
         $('#dvEditor').modal('show');
     }
@@ -347,8 +356,8 @@ End Code
                     <th>Part</th>
                     <th>Type</th>
                     <th>Reason</th>
-                    <th>Begin Mtn</th>
-                    <th>End Mtn</th>
+                    <th>Begin/End Mtn</th>
+                    <th>Status</th>
                 </tr>
             </thead>
             <tbody>
@@ -380,9 +389,9 @@ End Code
                         <td>@dr("MaintenanceType")</td>
                         <td>@dr("MaintenanceReason")</td>
                         <td>
-                            @beginDate
+                            @beginDate / @endDate
                         </td>
-                        <td>@endDate</td>
+                        <td>@dr("MaintenanceStatus")</td>
                     </tr>
                     rows += 1
                 Next
