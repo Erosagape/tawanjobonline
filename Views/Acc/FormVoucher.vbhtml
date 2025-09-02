@@ -4,249 +4,254 @@
     ViewBag.Title = "Voucher Slip"
 End Code
 <style>
-    #onlyForAccount td, th {
-        border: 1px black solid;
-        padding: 5px;
+    #onlyForAccount td,th{
+        border:1px black solid;
+        padding:5px;
+     
     }
 
     table tr {
-        page-break-inside: auto;
-        page-break-after: auto;
-    }
-
-    table {
-        page-break-inside: auto;
-    }
+    	page-break-inside: auto;
+    	page-break-after: auto;
+   }
+   table {
+    	page-break-inside: auto;
+   }
 </style>
 <div style="display:flex;flex-direction:column;">
-    <table id="tbAdvInfo" width="100%">
-        <tr>
+<table id="tbAdvInfo" width="100%">
+    <tr>
 
-            <td colspan="2" style="font-size:11px;text-align:center">
-                <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
-            </td>
+        <td colspan="2" style="font-size:11px;text-align:center">
+            <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+        </td>
+    </tr>
+    <tr>
+        <td style="font-size:11px">
+            <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
+        </td>
+        <td align="right" style="font-size:11px;">
+            <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
+        </td>
+    </tr>
+</table>
+<div style="display:none">
+            <b>Remark</b>
+            <label id="txtRemark" style="text-decoration-line:underline;"></label>
+</div>
+<div style="display:flex;border:1px solid black;border-radius:5px;display:none">
+    <div style="flex:2">
+        <div class="row">
+            <p class="col-sm-12">
+                FROM :
+                <label id="lblFromCountry"></label> TO :
+                <label id="lblToCountry"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                PORT :
+                <label id="lblInterPort"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                FLIGHT/VESSEL :
+                <label id="lblVesselName"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                QUANTITY :
+                <label id="lblQtyGross"></label>
+                <label id="lblQtyUnit"></label>
+                <br />
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                JOB NO :
+                <label id="lblJobNo"></label>
+            </p>
+        </div>
+    </div>
+    <div style="flex:2">
+        <div class="row">
+            <p class="col-sm-12">
+                ETD :
+                <label id="lblETDDate"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                HBL/HAWB :
+                <label id="lblHAWB"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                MEASUREMENT :
+                <label id="lblMeasurement"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                NET WEIGHT :
+                <label id="lblNetWeight"></label>
+                <label id="lblWeightUnit"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                CUSTOMER INV :
+                <label id="lblCustInvNo"></label>
+            </p>
+        </div>
+    </div>
+    <div style="flex:2">
+        <div class="row">
+            <p class="col-sm-12">
+                ETA :
+                <label id="lblETADate"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                MBL/MAWB :
+                <label id="lblMAWB"></label>
+            </p>
+        </div>
+        <div class="row">
+            <p class="col-sm-12">
+                CUSTOMER :
+                <br />
+                <label id="lblCustName"></label>
+            </p>
+        </div>
+    </div>
+</div>
+<br />
+<table id="tbData" style="border-collapse:collapse;width:100%">
+    <tbody></tbody>
+</table>
+<br />
+<table id="onlyForAccount" style="border-collapse:collapse;width:100%;display:none">
+    <tbody>
+        <tr>
+            <th style="width:15%">รหัสบัญชี</th>
+            <th style="width:40%">ชื่อบัญชี</th>
+            <th style="width:15%">DR</th>
+            <th style="width:15%">CR</th>
+            <th style="width:15%"></th>
         </tr>
         <tr>
-            <td style="font-size:11px">
-                <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
-            </td>
-            <td align="right" style="font-size:11px;">
-                <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
-            </td>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="2">การเงิน</td>
         </tr>
-    </table>
-    <div style="display:none">
-        <b>Remark</b>
-        <label id="txtRemark" style="text-decoration-line:underline;"></label>
-    </div>
-    <div style="display:flex;border:1px solid black;border-radius:5px;display:none">
-        <div style="flex:2">
-            <div class="row">
-                <p class="col-sm-12">
-                    FROM :
-                    <label id="lblFromCountry"></label> TO :
-                    <label id="lblToCountry"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    PORT :
-                    <label id="lblInterPort"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    FLIGHT/VESSEL :
-                    <label id="lblVesselName"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    QUANTITY :
-                    <label id="lblQtyGross"></label>
-                    <label id="lblQtyUnit"></label>
-                    <br />
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    JOB NO :
-                    <label id="lblJobNo"></label>
-                </p>
-            </div>
-        </div>
-        <div style="flex:2">
-            <div class="row">
-                <p class="col-sm-12">
-                    ETD :
-                    <label id="lblETDDate"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    HBL/HAWB :
-                    <label id="lblHAWB"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    MEASUREMENT :
-                    <label id="lblMeasurement"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    NET WEIGHT :
-                    <label id="lblNetWeight"></label>
-                    <label id="lblWeightUnit"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CUSTOMER INV :
-                    <label id="lblCustInvNo"></label>
-                </p>
-            </div>
-        </div>
-        <div style="flex:2">
-            <div class="row">
-                <p class="col-sm-12">
-                    ETA :
-                    <label id="lblETADate"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    MBL/MAWB :
-                    <label id="lblMAWB"></label>
-                </p>
-            </div>
-            <div class="row">
-                <p class="col-sm-12">
-                    CUSTOMER :
-                    <br />
-                    <label id="lblCustName"></label>
-                </p>
-            </div>
-        </div>
-    </div>
-    <br />
-    <table id="tbData" style="border-collapse:collapse;width:100%">
-        <tbody></tbody>
-    </table>
-    <br />
-    <table id="onlyForAccount" style="border-collapse:collapse;width:100%;display:none">
-        <tbody>
-            <tr>
-                <th style="width:15%">รหัสบัญชี</th>
-                <th style="width:40%">ชื่อบัญชี</th>
-                <th style="width:15%">DR</th>
-                <th style="width:15%">CR</th>
-                <th style="width:15%"></th>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td rowspan="2">การเงิน</td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td rowspan="2">บันทึกรายการ</td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td rowspan="2">ตรวจสอบ</td>
-            </tr>
-            <tr>
-                <td><br /></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-        </tbody>
-    </table>
-    <br />
-    <div>
-        <table width="100%" style="border-collapse:collapse;margin-top:30px">
-            <tbody>
-                <tr>
-                    <td style="vertical-align:top;width:15%">
-                        ชำระโดย
-                    </td>
-                    <td style="width:15%"><span style="border:2px black solid;color:transparent">_____</span>  Cash/Transfer</td>
-                    <td> ______________________________</td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td><span style="border:2px black solid;color:transparent">_____</span>  Cheque</td>
-                    <td>  ______________________________</td>
-                    @*
-                        <td style="text-align:center">
-                            <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
-                            <p>  <br />ธนาคาร/Bank</p>
-                        </td>
-                        <td style="text-align:center">
-                            <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
-                            <p>  <br />เช็คเลขที่/Cheque Number</p>
-                        </td>
-                    *@
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <br />
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="2">บันทึกรายการ</td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td rowspan="2">ตรวจสอบ</td>
+        </tr>
+        <tr>
+            <td><br /></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<br />
+<div>
+<table width="100%" style="border-collapse:collapse;margin-top:30px">
+    <tbody>
+        <tr>
+            <td  style="vertical-align:top;width:15%">
+                ชำระโดย
+            </td>
+            <td style="width:15%"><span style="border:2px black solid;color:transparent">_____</span>  Cash/Transfer</td>
+            <td> ______________________________</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><span style="border:2px black solid;color:transparent">_____</span>  Cheque</td>
+            <td>  ______________________________</td>
+@*	
+            <td style="text-align:center">
+                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                <p>  <br />ธนาคาร/Bank</p>
+            </td>
+            <td style="text-align:center">
+                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                <p>  <br />เช็คเลขที่/Cheque Number</p>
+            </td>
+*@
+        </tr>
+    </tbody>
+</table>
+</div>
+<br />
 
-    <table width="100%" style="border-collapse:collapse;page-break-inside:avoid">
-        <tr>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
-                OPERATION/Date
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
-                AUDITOR 1/Date
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
-                PAID/Date
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
-                AUDITOR 2/Date
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
-                CLOSE BY/Date
-            </td>
-        </tr>
-        <tr>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            </td>
-            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
-            </td>
-        </tr>
-    </table>
+<table width="100%" style="border-collapse:collapse;page-break-inside:avoid">
+    <tr>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%" >
+            OPERATION/Date
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+            AUDITOR 1/Date
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+            PAID/Date
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+            AUDITOR 2/Date
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+            CLOSE BY/Date
+        </td>
+    </tr>
+    <tr>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
+         
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+           
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+         
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+           
+        </td>
+        <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+           
+        </td>
+    </tr>
+</table>
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -266,7 +271,7 @@ End Code
         let vcTypeName = '';
         let bankName=data.document[0].BankName;
         let bookName=data.document[0].BookName;
-        let sumAllSub = 0;
+	let sumAllSub = 0;
         if (data.payment !== null) {
             for(let obj of data.payment) {
                 if(vcType!==obj.PRType){
@@ -368,10 +373,9 @@ End Code
                 //appendLine(div, desc, debit, credit);
                 appendLine(div, '<b>DETAILS OF USAGES</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
 
-                let testex = data.document.map(d => Number(CDbl(d.PaidAmount, 2)));
-                console.log(testex);
-                console.log(testex.reduce((total, p) => total + p, 0));
-
+		let testex = data.document.map(d=>Number(CDbl(d.PaidAmount, 2)));
+		console.log(testex );
+		console.log(testex.reduce((total,p)=>total+p,0) );
                 if (data.document !== null) {
                     let jobno = '';
                     let doc=data.document.filter(function(r){

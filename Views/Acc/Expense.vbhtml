@@ -175,6 +175,9 @@ End Code
                     <button class="btn btn-info" onclick="PrintData()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Data</b>
                     </button>
+                    <button class="btn btn-info" onclick="PrintCredit()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Credit Note</b>
+                    </button>
                 </div>
             </div>
             <div id="tabDetail" class="tab-pane fade">
@@ -274,7 +277,7 @@ End Code
                                     <label id="lblJobNo">Job No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtForJNo" class="form-control" readonly />
+                                        <input type="text" id="txtForJNo" class="form-control" />
                                         <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
                                     </div>                                    
                                 </div>
@@ -463,8 +466,7 @@ End Code
         $('#btnAdd').hide();
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtVenCode').attr('disabled', 'disabled');
-    let userUpline='@ViewBag.UserUpline';
-        $.get(path + 'Master/GetVender?Code=' + userUpline).done(function (r) {
+        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
             if (r.vender.data.length > 0) {
                 let dr = r.vender.data[0];
                 vend = dr.VenCode;
@@ -497,7 +499,7 @@ End Code
         if ((br + bookno + item).trim() !== '') {
             isjobmode = true;
             $('#txtRefNo').attr('disabled', 'disabled');
-            $('#btnAdd').hide();
+            //$('#btnAdd').hide();
             $('#txtBookingRefNo').val(bookno);
             $('#txtBookingItemNo').val(item);
             if (cust == '') {
@@ -781,12 +783,12 @@ End Code
             $('#txtExchangeRate').val(dt.ExchangeRate);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtTaxRate').val(dt.TaxRate);
-            $('#txtTotalExpense').val(dt.TotalExpense);
-            $('#txtTotalVAT').val(dt.TotalVAT);
-            $('#txtTotalTax').val(dt.TotalTax);
-            $('#txtTotalDiscount').val(dt.TotalDiscount);
-            $('#txtTotalNet').val(dt.TotalNet);
-            $('#txtForeignAmt').val(dt.ForeignAmt);
+            $('#txtTotalExpense').val(CDbl(dt.TotalExpense,2));
+            $('#txtTotalVAT').val(CDbl(dt.TotalVAT,2));
+            $('#txtTotalTax').val(CDbl(dt.TotalTax,2));
+            $('#txtTotalDiscount').val(CDbl(dt.TotalDiscount,2));
+            $('#txtTotalNet').val(CDbl(dt.TotalNet,2));
+            $('#txtForeignAmt').val(CDbl(dt.ForeignAmt,2));
             $('#txtRemark').val(dt.Remark);
             $('#txtPaymentBy').val(dt.PaymentBy);
             $('#txtPaymentDate').val(CDateEN(dt.PaymentDate));
@@ -1039,10 +1041,10 @@ End Code
             $('#txtDiscountPerc').val(dt.DiscountPerc);
             $('#txtAmt').val(dt.Amt);
             $('#txtAmtDisc').val(dt.AmtDisc);
-            $('#txtAmtVAT').val(dt.AmtVAT);
-            $('#txtAmtWHT').val(dt.AmtWHT);
-            $('#txtTotal').val(dt.Total);
-            $('#txtFTotal').val(dt.FTotal);
+            $('#txtAmtVAT').val(ShowNumber(dt.AmtVAT,2));
+            $('#txtAmtWHT').val(ShowNumber(dt.AmtWHT,2));
+            $('#txtTotal').val(ShowNumber(dt.Total,2));
+            $('#txtFTotal').val(ShowNumber(dt.FTotal,2));
             $('#txtForJNo').val(dt.ForJNo);
             $('#txtCustCode').val(dt.CustCode);
             $('#txtBookingRefNo').val(dt.BookingRefNo);
@@ -1276,6 +1278,8 @@ End Code
             $('#txtSDescription').val(dt.NameThai);
             $('#txtQtyUnit').val(dt.UnitCharge);
             $('#txtUnitPrice').val(CDbl(CNum(dt.StdPrice) / CNum($('#txtExchangeRate').val()), 2));
+            $('#txtIsTaxCharge').prop('checked', false);
+            $('#txtIs50Tavi').prop('checked', false);
             if (dt.IsTaxCharge == 1) {
                 $('#txtIsTaxCharge').prop('checked', true);
             }
@@ -1336,12 +1340,12 @@ End Code
     function CalTotal() {
         let amt = CDbl($('#txtAmt').val(), 4);
         let disc = CDbl($('#txtAmtDisc').val(), 4);
-        let vat = CDbl($('#txtAmtVAT').val(),4);
-        let wht = CDbl($('#txtAmtWHT').val(),4);
-        $('#txtTotal').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht) - CNum(disc), 4));
+        let vat = CDbl($('#txtAmtVAT').val(),3);
+        let wht = CDbl($('#txtAmtWHT').val(),3);
+        $('#txtTotal').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht) - CNum(disc), 2));
         let rate = CDbl($('#txtExchangeRate').val(), 4);
         let net = CDbl($('#txtTotal').val(), 4);
-        $('#txtFTotal').val(CDbl((net / rate), 4));
+        $('#txtFTotal').val(CDbl((net / rate), 2));
     }
     function CalVATWHT() {
         let vattype = $('#txtIsTaxCharge').prop('checked') == true ? '1' : '0';
@@ -1357,8 +1361,8 @@ End Code
         if (whttype == '1') {
             wht = amt * whtrate * 0.01;
         }
-        $('#txtAmtVAT').val(CDbl(vat,4));
-        $('#txtAmtWHT').val(CDbl(wht,4));
+        $('#txtAmtVAT').val(CDbl(vat,2));
+        $('#txtAmtWHT').val(CDbl(wht,2));
         CalTotal();
     }
     function GetExchangeRate() {
@@ -1387,5 +1391,8 @@ End Code
     }
     function PrintData() {
         window.open(path + 'Acc/FormExpense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
+    }
+    function PrintCredit() {
+        window.open(path + 'Acc/Forminv?form=credit&BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + $('#txtDocNo').val(), '', '');
     }
 </script>

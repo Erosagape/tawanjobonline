@@ -1,5 +1,5 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_Report.vbhtml"
+    Layout = "~/Views/Shared/_ReportT.vbhtml"
     ViewBag.Title = "PAYABLE VOUCHER"
     ViewBag.ReportName = ""
 End Code
@@ -205,6 +205,12 @@ End Code
             <td>
                 <label id="carrier" class=""></label>
             </td>
+            <td>
+                <label id="remarkLbl" class="bold">REMARK</label>
+            </td>
+            <td>
+                <label id="remark"></label>
+            </td>
         </tr>
     </tbody>
 </table>
@@ -383,6 +389,7 @@ End Code
 		ShowVenderAddr(path,h.VenCode);
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
+		$("#remark").text(h.Remark);
                 $("#jobNo").text(h.ForJNo);
                 $("#totalVatAmount").text(ShowNumber(h.TotalVAT, 2));
                 $("#lessWT").text(ShowNumber(h.TotalTax, 2));
@@ -405,7 +412,7 @@ End Code
                 let sumWht10 = 0
                 let sumWhtother = 0
                 let html = '';
-                let totalRows = 20;
+                let totalRows = 10;
                 let blankRows = totalRows - d.length;
                 
                 for (let row of d) {

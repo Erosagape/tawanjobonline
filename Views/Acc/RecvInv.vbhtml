@@ -150,7 +150,7 @@ End Code
                     <div class="col-sm-6">
                         <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
                         <br />
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" checked /><label id="lblGroupByDoc">Group Documents</label>
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label>
                     </div>
                 </div>
                 <div class="row">
@@ -185,40 +185,35 @@ End Code
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
                         <br />
-                        <div id="dvHeader">
-                            <table id="tbHeader" class="table table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Inv.No</th>
-                                        <th class="desktop">Inv.date</th>
-                                        <th class="desktop">Bill.No</th>
-                                        <th class="desktop">Rec.No</th>
-                                        <th class="all">Expenses</th>
-                                        <th class="desktop">Advance</th>
-                                        <th class="desktop">Charge</th>
-                                        <th class="desktop">Amt</th>
-                                        <th class="desktop">VAT</th>
-                                        <th class="desktop">W-Tax</th>
-                                        <th class="all">Net</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        <div id="dvSummary">
-                            <table id="tbSummary" class="table table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th>Inv.No</th>
-                                        <th class="desktop">Advance</th>
-                                        <th class="desktop">Charge</th>
-                                        <th class="desktop">VAT</th>
-                                        <th class="desktop">W-Tax</th>
-                                        <th class="all">Net</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                        
+                        <table id="tbSummary" class="table table-responsive" style="display:none">
+                            <thead>
+                                <tr>
+                                    <th>Inv.No</th>
+                                    <th class="desktop">Advance</th>
+                                    <th class="desktop">Charge</th>
+                                    <th class="desktop">VAT</th>
+                                    <th class="desktop">W-Tax</th>
+                                    <th class="all">Net</th>
+                                </tr>
+                            </thead>
+                        </table>
+                        <table id="tbHeader" class="table table-responsive">
+                            <thead>
+                                <tr>
+                                    <th>Inv.No</th>
+                                    <th class="desktop">Inv.date</th>
+                                    <th class="desktop">Bill.No</th>
+                                    <th class="desktop">Rec.No</th>
+                                    <th class="all">Expenses</th>
+                                    <th class="desktop">Advance</th>
+                                    <th class="desktop">Charge</th>
+                                    <th class="desktop">Amt</th>
+                                    <th class="desktop">VAT</th>
+                                    <th class="desktop">W-Tax</th>
+                                    <th class="all">Net</th>
+                                </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
                 <div class="row">
@@ -293,11 +288,11 @@ End Code
     }
     function SetVisible() {
         if ($('#chkGroupByDoc').prop('checked')) {
-            $('#dvSummary').show();
-            $('#dvHeader').hide();
+            $('#tbSummary').css('display', 'initial');
+            $('#tbHeader').css('display', 'none');
         } else {
-            $('#dvSummary').hide();
-            $('#dvHeader').show();
+            $('#tbSummary').css('display', 'none');
+            $('#tbHeader').css('display', 'initial');
         }
         $('#tbSummary tbody > tr').removeClass('selected');
         $('#tbHeader tbody > tr').removeClass('selected');
@@ -358,7 +353,6 @@ End Code
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
         });
-        SetVisible();
     }
     function ClearData() {
         $('#txtAdvCash').val('');
@@ -431,15 +425,14 @@ End Code
         $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbSummary tbody').on('click', 'tr', function () { });
-                $('#tbHeader').hide();
-                $('#tbSummary').hide();
+                $('#tbHeader').DataTable().clear().draw();
+                $('#tbSummary').DataTable().clear().draw();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.invdetail.data;
             let s = r.invdetail.summary;
             dtl = r.invdetail.data;
-            if ($('#chkGroupByDoc').prop('checked')) {
+
             let tb=$('#tbSummary').DataTable({
                 data: s,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -476,7 +469,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbSummary');
-            $('#tbSummary tbody').on('click','tr', function () {
+            $('#tbSummary tbody tr').on('click', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
 
@@ -500,7 +493,8 @@ End Code
                     AddData(d);
                 }
             });
-            } else {
+
+            let h = r.invdetail.data;
             let tb2=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -551,7 +545,7 @@ End Code
                 , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
-            $('#tbHeader tbody').on('click','tr', function () {
+            $('#tbHeader tbody tr').on('click', function () {
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
                     let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
@@ -562,10 +556,7 @@ End Code
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 AddData(data); //callback function from caller
             });
-            }
-
         });
-        SetVisible();
     }
     function SetStatusInput(d, bl, ctl) {
         if (bl == false) {
@@ -682,27 +673,12 @@ End Code
         });
         let filter_sum = {
             sumamount: 0,
-            sumpayment: 0,
-            sumvat: 0,
-            sumwht: 0,
-            sumnet: 0,
             currencycode : '@ViewBag.PROFILE_CURRENCY',
             exchangerate : 1
         };
         for (let i = 0; i < filter_data.length; i++) {
-            if (filter_data[i].AmtCharge > 0) {
-                filter_sum.sumnet += Number(filter_data[i].Net);
-                filter_sum.sumpayment += Number(filter_data[i].Net + filter_data[i].Amt50Tavi);
-                filter_sum.sumvat += Number(filter_data[i].AmtVAT);
-                filter_sum.sumwht += Number(filter_data[i].Amt50Tavi);
-                filter_sum.sumamount += Number(filter_data[i].Net + filter_data[i].Amt50Tavi - filter_data[i].AmtVAT);
-            } else {
-                filter_sum.sumnet += Number(filter_data[i].Net);
-                filter_sum.sumpayment += Number(filter_data[i].Net);
-                filter_sum.sumvat += 0;
-                filter_sum.sumwht += 0;
-                filter_sum.sumamount += Number(filter_data[i].Net);
-            }
+
+            filter_sum.sumamount += Number(filter_data[i].Net);
         }
         return filter_sum;
     }
@@ -723,7 +699,7 @@ End Code
                 BankCode: $('#fldBankCodeCash').val(),
                 BankBranch: $('#fldBankBranchCash').val(),
                 ChqDate: '',
-                CashAmount: Math.abs(sum_cash.sumpayment),
+                CashAmount: Math.abs(sum_cash.sumamount),
                 ChqAmount: 0,
                 CreditAmount: 0,
                 SumAmount: sum_cash.sumamount,
@@ -731,10 +707,10 @@ End Code
                 ExchangeRate: sum_cash.exchangerate,
                 TotalAmount: Math.abs(sum_cash.sumamount),
                 VatInc: 0,
-                VatExc: Math.abs(sum_cash.sumvat),
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: Math.abs(sum_cash.sumwht),
-                TotalNet: Math.abs(sum_cash.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_cash.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: $('#txtCashTranDate').val() + '-' + $('#txtCashTranTime').val(),
@@ -761,17 +737,17 @@ End Code
                 BankBranch: '',
                 ChqDate: CDateEN($('#txtChqCashTranDate').val()),
                 CashAmount: 0,
-                ChqAmount: Math.abs(sum_chqcash.sumpayment),
+                ChqAmount: Math.abs(sum_chqcash.sumamount),
                 CreditAmount: 0,
                 SumAmount:  Math.abs(sum_chqcash.sumamount),
                 CurrencyCode: sum_chqcash.currencycode,
                 ExchangeRate: sum_chqcash.exchangerate,
-                TotalAmount: Math.abs(sum_chqcash.sumamount),
+                TotalAmount:  Math.abs(sum_chqcash.sumamount),
                 VatInc: 0,
-                VatExc: Math.abs(sum_chqcash.sumvat),
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: Math.abs(sum_chqcash.sumwht),
-                TotalNet: Math.abs(sum_chqcash.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_chqcash.sumamount),
                 IsLocal: 0,
                 ChqStatus: $('#chkStatusChq').prop('checked')==true? 'P':'',
                 TRemark: '',
@@ -798,17 +774,17 @@ End Code
                 BankBranch: $('#fldBankBranchChqCash').val(),
                 ChqDate: CDateEN($('#txtChqTranDate').val()),
                 CashAmount: 0,
-                ChqAmount: Math.abs(sum_chq.sumpayment),
+                ChqAmount: Math.abs(sum_chq.sumamount),
                 CreditAmount: 0,
                 SumAmount: Math.abs(sum_chq.sumamount),
                 CurrencyCode: sum_chq.currencycode,
                 ExchangeRate: sum_chq.exchangerate,
                 TotalAmount: Math.abs(sum_chq.sumamount),
                 VatInc: 0,
-                VatExc: Math.abs(sum_chq.sumvat),
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: Math.abs(sum_chq.sumwht),
-                TotalNet: Math.abs(sum_chq.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_chq.sumamount),
                 IsLocal: $('#chkIsLocal').prop('checked') == true ? 'P' : '',
                 ChqStatus: '',
                 TRemark: '',
@@ -836,16 +812,16 @@ End Code
                 ChqDate: CDateEN($('#txtCredTranDate').val()),
                 CashAmount: 0,
                 ChqAmount: 0,
-                CreditAmount: Math.abs(sum_cr.sumpayment),
-                SumAmount: Math.abs(sum_cr.sumamount),
+                CreditAmount: Math.abs(sum_cr.sumamount),
+                SumAmount:Math.abs(sum_cr.sumamount),
                 CurrencyCode: sum_cr.currencycode,
                 ExchangeRate: sum_cr.exchangerate,
                 TotalAmount: Math.abs(sum_cr.sumamount),
                 VatInc: 0,
-                VatExc: Math.abs(sum_cr.sumvat),
+                VatExc: 0,
                 WhtInc: 0,
-                WhtExc: Math.abs(sum_cr.sumwht),
-                TotalNet: Math.abs(sum_cr.sumnet),
+                WhtExc: 0,
+                TotalNet: Math.abs(sum_cr.sumamount),
                 IsLocal: 0,
                 ChqStatus: '',
                 TRemark: '',

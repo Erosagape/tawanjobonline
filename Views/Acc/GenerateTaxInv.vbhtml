@@ -152,7 +152,13 @@ End Code
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Tax-Invoice</b>
                             </a>
                             <br />
-                            <label id="lblDocNo">Tax-Invoice No :</label><br /> <input type="text" id="txtDocNo" class="form-control" /><br />
+                            <label id="lblDocNo">Tax-Invoice No :</label><br />
+				<div style="display:flex;flex-direction:row">
+				<input type="text" id="txtDocNo" class="form-control" />
+				
+				<button class="btn btn-default" onclick="SearchData('taxinvoice')">...</button>  <br />
+				</div>
+			    
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Tax-Invoice</b>
                             </a>
@@ -251,6 +257,9 @@ End Code
             CreateLOV(dv, '#frmSearchBill', '#tbBill', 'Billing Place', response, 3);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
+	
+	      CreateLOV(dv, '#frmSearchTax', '#tbTax', 'Cancelled TaxInvoice', response, 3);
+
         });
     }
     function SetGridAdv(isAlert) {
@@ -685,9 +694,16 @@ ExchangeRate: 1,
             case 'billing':
                 SetGridCompany(path, '#tbBill', '#frmSearchBill', ReadBilling);
                 break;
+            case 'taxinvoice':
+                SetGridTaxinv(path, '#tbTax', '#frmSearchTax', '?cancel=Y' ,ReadTax);
+                break;
 
         }
     }
+ 
+   function ReadTax(dt) {
+        $('#txtDocNo').val(dt.ReceiptNo);
+}
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);

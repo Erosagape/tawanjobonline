@@ -5,7 +5,7 @@ End Code
     <div class="container">
         <div class="row">
             <div class="col-sm-4">
-                <label id="lblBranch">Branch:</label>
+                <label id="lblBranch">Branch:</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
@@ -26,7 +26,7 @@ End Code
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <label id="lblCustCode">Billing Place</label>
+                <label id="lblCustCode">Billing Place</label>                
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" id="txtCustCode" style="width:120px" />
@@ -83,11 +83,11 @@ End Code
                         </div>
                         <div class="col-sm-2">
                             <br />
-                            <input type="text" id="txtBillToCustBranch" class="form-control" disabled />
+                            <input type="text" id="txtBillToCustBranch"  class="form-control" disabled />
                         </div>
                         <div class="col-sm-4">
                             <br />
-                            <input type="text" id="txtBillToCustName" class="form-control" disabled />
+                            <input type="text" id="txtBillToCustName"  class="form-control" disabled />
                         </div>
                     </div>
                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
@@ -111,9 +111,9 @@ End Code
                             <a href="#" class="btn btn-success" id="btnGen" onclick="SaveData()">
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Billing</b>
                             </a>
-                            <br />
+                            <br/>
                             <label id="lblDocNo">Billing No :</label>
-                            <br />
+                            <br/>
                             <input type="text" id="txtDocNo" />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintBilling()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Billing</b>
@@ -137,7 +137,7 @@ End Code
                                 <tbody></tbody>
                             </table>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

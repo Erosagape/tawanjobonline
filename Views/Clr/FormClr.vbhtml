@@ -12,6 +12,13 @@ End Code
         border-width: thin;
         border-collapse: collapse;
     }
+ 
+    @@media print{
+ 	#summaryclr{
+		margin-top:30px;
+	}
+     }
+
 </style>
 <div style="display:flex">
     <div style="flex:1" class="text-left">
@@ -53,7 +60,7 @@ End Code
 
 <div style="display:flex">
     <div style="flex:1">
-        REMARK : <label id="txtRemark"></label>
+        <label id="txtAdvRemark"></label>
     </div>
 </div>
 <div style="display:flex;flex-direction:column;margin:5px 5px 5px 5px;">
@@ -70,14 +77,9 @@ End Code
         </thead>
         <tbody></tbody>
     </table>
-    <table border="1" width="100%">
-        <tr class="text-center">
-            <td width="10%"></td>
-            <td width="50%"></td>
-            <td width="20%"></td>
-            <td width="10%"></td>
-            <td width="10%"></td>
-        </tr>
+    <table id="summaryclr" border="1" width="100%" style="">
+	<thead></thead>
+	<tbody>
         <tr>
             <td colspan="4">
                 <div style="display:flex">
@@ -123,6 +125,7 @@ End Code
                 </div>
             </td>
         </tr>
+	</tbody>
     </table>
     <div id="dvSummary">
     </div>
@@ -142,7 +145,7 @@ End Code
             <td>&nbsp;</td>
         </tr>
         <tr Class="text-center">
-            <td>
+            <td style="text-align:center">
                 <br />
                 <br />
                 <label id="txtClrBy"></label>
@@ -160,12 +163,12 @@ End Code
                 <label id="txtReceiveBy"></label>
                 <label id="txtReceiveDate"></label>
             </td>
-            <td>
+            <td style="text-align:center">
                 <br />
                 <br />
                 ________/_______/_______
             </td>
-            <td>
+            <td  style="text-align:center">
                 <br />
                 <br />
                 ________/_______/_______
@@ -181,6 +184,7 @@ End Code
         let code = getQueryString('code');
         if (branch != "" && code != "") {
             $.get(path + 'clr/getclearingreport?branch=' + branch + '&code=' + code, function (r) {
+		console.log('Data from API:', r.data);
                 if (r.data !== undefined) {
                     let h = r.data[0];
                     $('#txtDocStatus').text(h.ClrStatusName);
@@ -191,7 +195,8 @@ End Code
                     $('#txtDocDate').text(CDateEN(h.ClrDate));
                     $('#txtClrNo').text(h.ClrNo);
                     $('#txtCoPersonCode').text(h.CoPersonCode);
-                    $('#txtRemark').text(h.TRemark);
+                    //$('#txtRemark').text(h.TRemark);
+		    //$('#txtAdvRemark').text((r.data.length > 0 && r.data[0].AdvRemark !== '' && r.data[0].AdvRemark !== null && r.data[0].AdvRemark !== undefined ? ' AdvRemark: ' + r.data[0].AdvRemark : ''));
                     $('#txtClrType').text(h.ClrTypeName);
                     $('#txtClrFrom').text(h.ClrFromName);
                     $('#txtClrBy').text(h.ClrByName);
@@ -225,8 +230,8 @@ End Code
                         let advref = (d[i].SlipNO !== null ? ' เลขที่#' + d[i].SlipNO : '');
                         advref = advref + (d[i].AdvNO !== null ? '<br/>จากใบเบิก ' + d[i].AdvNO : '');
                         advref = advref + (d[i].AdvAmount > 0 ? ' ยอดเบิก=' + CCurrency(CDbl(d[i].AdvAmount, 2)) : '');
-                        //advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '') + ' ' + d[i].Pay50TaviTo;
-
+                        advref = advref + (d[i].AdvDate !== '' ? '<br/>' +'AdvDate:'+ CDateEN(d[i].AdvDate) : '');
+			//advref = advref + (d[i].Remark !== '' ? '<br/>' + d[i].Remark : '') + ' ' + d[i].Pay50TaviTo;
                         html += '<tr><td>' + d[i].SICode + '</td><td>' + d[i].SDescription + '' + advref + '</td><td>' + d[i].JobNo +'<br/>' + d[i].InvNo + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].ChargeVAT, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].Tax50Tavi, 3)) + '</td><td style="text-align:right;">' + CCurrency(CDbl(d[i].UsedAmount, 2)) + '</td></tr>';
 
                         if (d[i].ChargeVAT > 0) {
@@ -259,6 +264,7 @@ End Code
                         $.get(path + 'Clr/GetAdvForClear?show=ALL&advno=' + advlist).done(function (r) {
                             if (r.clr.data.length > 0) {
                                 console.log("if2");
+                               $('#txtAdvRemark').text((r.clr.data.length > 0 && r.clr.data[0].AdvRemark !== '' && r.clr.data[0].AdvRemark !== null && r.clr.data[0].AdvRemark !== undefined ? ' Remark (Adv): ' + r.clr.data[0].AdvRemark : ''));
                                 let html = '';
                                 for (let d of r.clr.data) {
                                     console.log("loop3");

@@ -5,7 +5,9 @@ End Code
 <style>
 
     * {
-        font-size: 11px;
+        font-size: 13px;
+	page-break-inside:auto !important;
+	page-break-after:auto !important;
     }
 
     body {
@@ -111,7 +113,7 @@ End Code
             <tbody>
                 <tr>
                     <td>
-                        <label id="invoiceNoLbl">INVOICE NO.:</label>
+                        <label id="invoiceNoLbl">DEBIT NOTE NO.:</label>
                     </td>
                     <td>
                         <label id="invoiceNo"> </label>
@@ -119,7 +121,7 @@ End Code
                 </tr>
                 <tr>
                     <td>
-                        <label id="invoiceDateLbl">INVOICE DATE:</label>
+                        <label id="invoiceDateLbl">DATE:</label>
                     </td>
                     <td>
                         <label id="invoiceDate"></label>
@@ -149,6 +151,14 @@ End Code
                         <label id="currency"></label>
                     </td>
                 </tr>
+ 		<tr>
+                    <td>
+                        <label id="exchangeRateLbl">EXCHG.RATE:</label>
+                    </td>
+                    <td>
+                        <label id="exchangerate"></label>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -160,10 +170,10 @@ End Code
             <td><label id="destinyLbl">POL/ POD</label></td>
             <td>:</td>
             <td>
-                <label id="port"></label>
-                <label id="origin"></label>
-                to <label id="destiny"></label>
-            </td>
+   		<label id="portfrom"></label>&nbsp; 
+   		<label id="origin"></label>
+   		to <label id="portto"></label>&nbsp; <label id="destiny"></label>
+	    </td>
 
 
 
@@ -216,9 +226,9 @@ End Code
         </tr>
 
         <tr>
-            <td><label id="containerNoLbl">CONTANER NO.</label></td>
+            <td><label id="containerNoLbl">TOTAL CONTAINER</label></td>
             <td>:</td>
-            <td><div id="containerNo"></div></td>
+            <td><div id="lblTotalCTN"></div></td>
 
             <td><label id="volumeLbl">VOLUME</label></td>
             <td>:</td>
@@ -333,81 +343,41 @@ End Code
 <br />
 <br />
 <table class="table" style="width:100%">
+	<tr>
+		<td>
+			<div style="width: 70%;border: 1px solid #000000; border-radius: 10px; padding: 10px;">
+		 	<label style="line-height: 1.3;">
+		 	Benificiary Name : CCSCM LOGISTICS (THAILAND) CO ., LTD <br />
+		 	Saving Account No. : 653-424770-6 CCSCM LOGISTICS (THAILAND) CO ., LTD <br />
+		   	บัญชีออมทรัพย์ เลขที่บัญชี : 653-424770-6 บริษัท ซีซีเอสซีเอ็ม โลจิสติกส์ (ประเทศไทย) จำกัด <br />
+		 	Bank Name : Siam Commercial Bank of Thailand <br />
+		 	Bank Adress : 53/43-46 Mu 9, Sukhumwit, Tung Sukla, Si Racha, Chon Buri 20230 <br />
+		 	Bank Tel : 038-330116-7 <br />
+		 	Swift Code : SICOTHBK 
+			</label></div>
+		</td>
+	</tr>
+</table>
+<table class="table" style="width:100%">
     <tr>
-        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
+        <td class="bold" style="width:33%;text-align:center;">Received By :</td>
 
-        <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
+        <td class="bold" style="width: 33%; text-align: center;">Approved By :</td>
 
-        <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
+        <td class="bold" style="width: 33%; text-align: center;">Preapared By </td>
 
     </tr>
     <tr>
         <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
         <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-        <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> _________________________________________</td>
+        <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> @ViewBag.UserName</td>
     </tr>
     <tr>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+        <td class="bold" style="text-align: center;">DATE : @DateTime.Now.ToString("dd/MM/yyyy")</td>
     </tr>
 </table>
-<b>
-    <br />
-    1. PLEASE ADVISE YOUR CONFIRMATION BEFORE CLEAR BALANCE
-    <br />
-    2. PLEASE PAY TO OUR BANK:
-    <br />
-</b>
-BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
-<table style="width:100%">
-    <tbody>
-        <tr>
-            <td colspan="2">ACCOUNT NAME </td>
-            <td>: UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.</td>
-        </tr>
-        <tr>
-            <td colspan="2">BANK NAME & ADDRESS</td>
-            <td>KASITKORN BANK PUBLIC CO.,LTD. HEAD OFFICE</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>RATBURANA ROAD BANKOK 10140 THAILAND</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>CABLE ADDRESS "FARMERS BANGKOK"</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TELEX NO TH 82542 TH 84798</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>CONTACT : OVERSEAS MONEY TRANSFER DIVSION</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TEL : 02-4701444,02-4701429-40</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TANANIN PHETBURI TATANAI BRANCH</td>
-        </tr>
-        <tr>
-            <td style="color:transparent">___________</td>
-            <td style="">ACCOUNT No. </td>
-            <td>028-109-641-9</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>SWIFT BANK CODE </td>
-            <td>: KASITHBK</td>
-        </tr>
-    </tbody>
-
-</table>
-
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
@@ -432,14 +402,15 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
 
                 let addr = '';
                 addr += b.EAddress1 + '<br/>' + b.EAddress2;
-                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
+                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : 0000' + Number(b.Branch);
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
-                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : 0000' + Number(b.Branch));
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
+                $("#id").text(h.BillToCustCode);
 	        });
-            $("#id").text(h.CustCode);
+
             //$("#billName").text(c.NameEng);
             //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
             //console.log(c.EAddress1);
@@ -452,31 +423,49 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
             //$("#crTerm").text(c.CreditLimit);
             //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
+            $("#exchangerate").text(h.ExchangeRate);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             $("#remark").text(h.Remark1);
-            if (j.JobType == 1) {
-                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#port');
+          if (j.ShipBy == 1) {
+                //ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
+		$.get(path + 'Master/GetInterPort?Code=' + j.InvInterPort+ '&Key=' + j.InvFCountry)
+             	.done(function (r) {
+            		if (r.interport.data.length > 0) {
+                		let b = r.interport.data[0];
+                		$('#portfrom').text(b.PortName?b.PortName+" ":"");
+            		}
+             	});
             } else {
-
-                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#port');
-                ShowCountry(path, j.InvFCountry, '#destiny');
-                ShowCountry(path, j.InvCountry, '#origin');
+                //ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
+                ShowCountry(path, j.InvFCountry, '#origin');
+  		ShowCountry(path, j.InvCountry, '#destiny');
+		$.get(path + 'Master/GetInterPort?Code=' + j.InvInterPort+ '&Key=' + j.InvCountry)
+             	.done(function (r) {
+            		if (r.interport.data.length > 0) {
+                		let b = r.interport.data[0];
+                		$('#portto').text(b.PortName?b.PortName+" ":"");
+            		}
+             	});
             }
             $("#jobNo").text(j.JNo);
             $("#vessel").text(j.VesselName);
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
+	    $("#lblTotalCTN").text(j.TotalContainer);
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
             $("#totpkg").text(j.TotalQty + " PALLETS");
             $("#newBlNo").text(j.BookingNo);
-            $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
+            $("#weight").text(ShowNumber(j.TotalGW,3) + ' ' + j.GWUnit);
             $("#volume").text(j.Measurement);
             $("#custInvNo").text(j.InvNo);
-            $("#ref").text(j.CustRefNO);
-
+            //$("#ref").text(j.CustRefNO);
+	        $.get(path + 'Master/GetCompany?Code='+h.CustCode+'&Branch='+h.CustBranch).done(function (r) {
+                let b = r.company.data[0];
+                $("#ref").text(b.NameEng);
+	        });
 
             ShowVender(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
@@ -492,30 +481,30 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
             let sumWht1 = 0;
             let sumWht1_5 = 0;
             let sumWht3 = 0;
-            let totalRows = 10;
+            let totalRows = 8;
             let blankRows = totalRows - d.length;
             for (let row of d) {
 
                 html += '        <tr>';
-                html += '            <td class="" style="border-right-color: transparent;">' + row.SDescription + ' #' + row.ExpSlipNO + '</td>';
-                html += '            <td>' + row.CurrencyCode + ShowNumber(row.FUnitPrice, 2) + '/' + ShowNumber(row.Qty, 3) + ' ' + row.QtyUnit + '</td>';
-                html += '            <td class="right">'+ row.CurrencyCode + ShowNumber(row.Amt, 2)  + '</td>';
+                html += '            <td class="" style="border-right-color: transparent;">' + row.SDescription + (row.ExpSlipNO!=='' ? ' #' + row.ExpSlipNO : '') + '</td>';
+                html += '            <td>' + row.CurrencyCode + ShowNumber(row.FUnitPrice,2) + '/' + ShowNumber(row.Qty, 3) + ' ' + row.QtyUnit + '</td>';
+                html += '            <td class="right">'+ row.CurrencyCode + ' ' + ShowNumber(row.FAmt,2)  + '</td>';
 
                 //html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                //html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
+                //html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
                 //html += '            <td class="right">' + row.QtyUnit+'</td>';
                 //html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                //html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-                //html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
-                //html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
-                //html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
-                //html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
+                //html += '            <td class="right">' + ShowNumber(row.ExchangeRate,3) + '</td>';
+                //html += '            <td class="right">' + ShowNumber(row.FUnitPrice,3) + '</td>';
+                //html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt,3):'') + '</td>';
+                //html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt,3):''):'') + '</td>';
+                //html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt,3) : '') + '</td>';
                 html += '        </tr>';
                 adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
                 if (row.AmtVat > 0) {
-                    vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                    vat += row.FAmt;
                 } else {
-                    nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                    nonVat += row.FAmt;
                 }
 
                 switch (row.Rate50Tavi - 0) {
@@ -549,28 +538,28 @@ BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
                 //html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
-            $('#gross1').text(ShowNumber(sumbaseWht1, 2));
-            $('#wtAmt1').text(ShowNumber(sumWht1, 2));
-            $('#gross3').text(ShowNumber(sumbaseWht3, 2));
-            $('#wtAmt3').text(ShowNumber(sumWht3, 2));
-            $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
-            $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+            $('#gross1').text(ShowNumber(sumbaseWht1,2));
+            $('#wtAmt1').text(ShowNumber(sumWht1,2));
+            $('#gross3').text(ShowNumber(sumbaseWht3,2));
+            $('#wtAmt3').text(ShowNumber(sumWht3,2));
+            $('#gross1_5').text(ShowNumber(sumbaseWht1_5,2));
+            $('#wtAmt1_5').text(ShowNumber(sumWht1_5,2));
 
             $("#advanceAmount").text(ShowNumber(adv,2));
-            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
-            $("#vatAmount").text(ShowNumber(vat, 2));
+            $("#nonVatAmount").text(ShowNumber(nonVat,2));
+            $("#vatAmount").text(ShowNumber(vat,2));
             $('#details').html(html);
-            $("#valueAddedTax").text(ShowNumber(h.TotalVAT, 2));
-            $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
-            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
-            $("#netAmount").text(ShowNumber(h.TotalNet, 2));
+            $("#valueAddedTax").text(ShowNumber(h.TotalVAT,2));
+            $("#totalAmount").text(ShowNumber(vat + h.TotalVAT,2));
+            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi,2));
+            $("#netAmount").text(ShowNumber(h.FTotalAmt,2));
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
-            $("#bahtText").text(CNumEng(CDbl(h.TotalNet, 2)));
+            $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
 
-            $("#totalNet").text(h.CurrencyCode+" "+ShowNumber(nonVat, 2));
-            $("#grandTotal").text(h.CurrencyCode + " " +ShowNumber(nonVat, 2));
+            $("#totalNet").text(h.CurrencyCode+" "+ShowNumber(vat+nonVat,2));
+            $("#grandTotal").text(h.CurrencyCode + " " +ShowNumber(vat+nonVat,2));
 
 
 

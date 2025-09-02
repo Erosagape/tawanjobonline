@@ -223,12 +223,10 @@ End Code
                                 <button id="btnCancel" class="btn btn-danger" onclick="CancelData()">Cancel</button>
                             </div>
                             <div style="display:flex;flex-direction:row">
-	
                                 <div style="flex:1">
                                     <label id="lblCancelDate">Cancel date</label>
                                     :<br /> <input type="date" id="txtCancelDate" class="form-control" disabled />
                                 </div>
-
                                 <div style="flex:1">
                                     <label id="lblCancelTime">Cancel Time</label>
                                     :<br /><input type="text" id="txtCancelTime" class="form-control" disabled />
@@ -253,33 +251,9 @@ End Code
                             </p>
                             <label id="lblRemark">Remark</label>
                             :
-			    <datalist id="listRemark1"></datalist>
-			    <datalist id="listRemark2"></datalist>
-			    <datalist id="listRemark3"></datalist>
-			     @*
-			    <div class="" style="display:flex">
-				<input type="text" id="txtRemark1"  list="listRemark1" class="form-control" style="flex:1" />
-				<input type="button" id="btnRemark1" class="btn btn-default" value="..." onclick="">
-		  	    </div>
-                             <div class="" style="display:flex">
-				<input type="text" id="txtRemark2" class="form-control" style="flex:1" />
-				<input type="button" id="btnRemark2" class="btn btn-default" value="..." onclick="">
-		  	    </div>
- 			    <div class="" style="display:flex">
-				<input type="text" id="txtRemark3" class="form-control" style="flex:1" />
-				<input type="button" id="btnRemark3" class="btn btn-default" value="..." onclick="">
-		  	    </div>
-			    *@
-
-			    @*<textarea id="txtRemark1" class="form-control"  list="listRemark1" ></textarea>
-			   <textarea id="txtRemark2" class="form-control"  list="listRemark2" ></textarea>
-			   <textarea id="txtRemark3" class="form-control"  list="listRemark3" ></textarea>*@
-
-			    <input type="text" id="txtRemark1" class="form-control"  list="listRemark1"  />
-                            <input type="text" id="txtRemark2" class="form-control"  list="listRemark2" />
-                            <input type="text" id="txtRemark3" class="form-control"  list="listRemark3" />
-
-			@*
+                            <input type="text" id="txtRemark1" class="form-control" /><button class="btn btn-default" onclick="SearchData('remark')">...</button>
+                            <input type="text" id="txtRemark2" class="form-control" />
+                            <input type="text" id="txtRemark3" class="form-control" />
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
                             <input type="text" id="txtRemark6" class="form-control" />
@@ -287,7 +261,6 @@ End Code
                             <input type="text" id="txtRemark8" class="form-control" />
                             <input type="text" id="txtRemark9" class="form-control" />
                             <input type="text" id="txtRemark10" class="form-control" />
-			*@
                         </div>
                     </div>
                 </div>
@@ -554,36 +527,6 @@ End Code
         if (code !== '') {
             w += '&Code=' + code;
         }
-  	$.get(path + 'JobOrder/GetDataDistinct?Field=Remark1&Table=Job_InvoiceHeader' , function (r)
-        {
-		let options = "";
-		for (let row of r) {
-  		console.log(row.val);
-			options+="<option value='"+row.val+"'> </option> ";
-		}
-		$("#listRemark1").html(options);
-	});
-	$.get(path + 'JobOrder/GetDataDistinct?Field=Remark2&Table=Job_InvoiceHeader' , function (r)
-        {
-		let options = "";
-		for (let row of r) {
-  		console.log(row.val);
-			options+="<option value='"+row.val+"'> </option> ";
-		}
-		$("#listRemark2").html(options);
-	});
-	$.get(path + 'JobOrder/GetDataDistinct?Field=Remark3&Table=Job_InvoiceHeader' , function (r)
-        {
-		let options = "";
-		for (let row of r) {
-  		console.log(row.val);
-			options+="<option value='"+row.val+"'> </option> ";
-		}
-		$("#listRemark3").html(options);
-	});
-
-
-
         $.get(path + 'acc/getinvforbill?branch=' + $('#txtBranchCode').val()+ w, function (r)
         {
             if (r.invdetail.data.length == 0) {
@@ -772,6 +715,9 @@ End Code
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 4);
+
+	    //Inv
+	    CreateLOV(dv, '#frmSearchInv', '#tbInv', 'Invoice' , response, 4);
         });
     }
     function LoadDetail(dt) {
@@ -897,6 +843,9 @@ End Code
                 break;
             case 'dcurrency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadDCurrency);
+                break;
+            case 'remark':
+                SetGridInv(path, '#tbInv', '#frmSearchInv', ReadInvoice);
                 break;
         }
     }
@@ -1082,6 +1031,9 @@ End Code
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
         $('#txtBranchCode').focus();
+    }
+    function ReadInvoice(dt) {
+	//$('#txtRemark1').val(dt.Remark1);
     }
     function ShowDiscount() {
         let chk = $('#txtDiscountType').val();

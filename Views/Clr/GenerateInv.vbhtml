@@ -54,7 +54,7 @@ End Code
                 <a href="#" class="btn btn-primary" id="btnSearch" onclick="SetGridAdv(true)">
                     <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                 </a>
-                <input type="checkbox" id="chkSelectAll" checked /> Select All
+                <input type="checkbox" id="chkSelectAll" /> Select All
             </div>
         </div>
         <div class="row">
@@ -93,20 +93,32 @@ End Code
                     <div class="row">
                         <div class="col-sm-4" style="display:flex">
                             <div style="flex:1">
-                                <label id="lblInvDate" >Invoice Date :</label>
+                                <label id="lblInvDate">Invoice Date :</label>
                                 <br />
                                 <input type="date" id="txtDocDate" class="form-control" value="@DateTime.Today.ToString("yyyy-MM-dd")" />
                             </div>
                             <div style="flex:1">
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
-                                <select id="cboDocType" class="form-control dropdown">
-                                    <option value="IVS-" selected>Service</option>
-                                    <option value="IVT-">Transport</option>
-                                    <option value="IVF-">Freight</option>
-				    <option value="IVD-">Debit Note</option>
-				    <option value="IVE-">Trading</option>
-                                </select>
+                         <select id="cboDocType" class="form-control dropdown">
+    
+				<option value="INV" selected>Service ทั่วไป</option>
+    
+				<option value="IVS-">Import</option>
+    
+				<option value="EVS-">Export</option>
+    
+				<option value="IVT-">Transport</option>
+    
+				<option value="IVD-">Import Debit Note</option>
+    
+				<option value="EVD-">Export Debit Note</option>
+
+				<option value="IVC-">Import Credit Note</option>
+    
+				<option value="EVC-">Export Credit Note</option>
+
+			</select>
 
                             </div>
                         </div>
@@ -257,10 +269,18 @@ End Code
                                 </thead>
                                 <tbody></tbody>
                             </table>
-                            <br/>
+                            <br />
                             Remark :
-                            <br/>
-                            <input type="text" id="txtRemark1" class="form-control" /><br />
+                            <br />
+                            <div style="display:flex;flex-direction:row">
+                                <div style="flex:1">
+                                    <div style="display:flex">
+                                        <input type="text" id="txtRemark1" class="form-control" />
+                                        <button class="btn btn-default" onclick="SearchData('remark1')">...</button>
+                                    </div>
+                                </div>
+                            </div><br />
+                            @*<input type="text" id="txtRemark1" class="form-control" /><br />*@
                             <input type="text" id="txtRemark2" class="form-control" /><br />
                             <input type="text" id="txtRemark3" class="form-control" /><br />
                             <input type="text" id="txtRemark4" class="form-control" /><br />
@@ -392,11 +412,11 @@ End Code
     const user = '@ViewBag.User';
     const userRights = '@ViewBag.UserRights';
     const license = '@ViewBag.LICENSE_NAME';
-    //if (license.indexOf('STL') >= 0) {
-        //$('#cboDocType').val('IVT-');
-    //} else {
-        //$('#cboDocType').val('IVS-');
-    //}
+    if (license.indexOf('TRANSPORT') >= 0) {
+        $('#cboDocType').val('IVT-');
+    } else {
+        $('#cboDocType').val('IVS-');
+    }
     let arr = [];
     let arr_split = {};
     let arr_clr = [];
@@ -480,6 +500,9 @@ End Code
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 2);
             //Cheque
             CreateLOV(dv, '#frmSearchChq', '#tbChq', 'Customer Cheque', response, 5);
+
+	    //Remark1
+	    CreateLOV(dv, '#frmSearchRemark1', '#tbRem1', 'Remark1', response, 2);
         });
 
     }
@@ -612,12 +635,12 @@ End Code
         let totalsumdisc = 0;
 
         for (let obj of arr) {
-            totaladv += (obj.AmtAdvance > 0 ? CNum(CDbl(obj.AmtAdvance,2)) : 0);
-            totalcharge += (obj.AmtAdvance == 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+            totaladv += (Math.abs(obj.AmtCharge) > 0 ? CNum(CDbl(obj.Amt,2)) : 0);
+            totalcharge += (Math.abs(obj.AmtAdvance) > 0 ? CNum(CDbl(obj.Amt,2)) : 0);
             totalcost += CNum(CDbl(obj.AmtCost,2));
-            if (CNum(obj.AmtCharge) > 0) {
-                totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-                totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
+            if (CNum(Math.abs(obj.AmtCharge)) > 0) {
+                totalistaxcharge += (Math.abs(obj.AmtVat) > 0 ? CNum(CDbl(obj.Amt,2)) : 0);
+                totalis50tavi += (Math.abs(obj.Amt50Tavi) > 0 ? CNum(CDbl(obj.Amt,2)) : 0);
                 totalvat += CNum(CDbl(obj.AmtVat,2));
                 total50tavi += CNum(CDbl(obj.Amt50Tavi,2));
             }
@@ -644,7 +667,7 @@ End Code
         $('#txtExchangeRate').val(1);
         $('#txtTotalCost').val(CDbl(totalcost, 2));
         $('#txtTotalProfit').val(CDbl(CDbl(CDbl(totalcharge,2)) - CNum(CDbl(totalcost, 2)),2));
-
+        $('#txtRemark5').val(GetContainerNo());
         CalTotal();
 
         ShowDetail();
@@ -669,7 +692,7 @@ End Code
         arr_split = {};
         let iRow = 0;
         let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge !== 0 || d.AmtAdvance !== 0;
+            return Math.abs(d.AmtCharge) > 0 || Math.abs(d.AmtAdvance) > 0;
         });
         for (let o of arr_sel) {
             iRow += 1;
@@ -817,7 +840,7 @@ End Code
             arr_new.ClrItemNo = 0;
             arr_new.AmtDiscount = CNum($('#txtAmtDiscount').val());
             arr_new.DiscountPerc = CNum($('#txtAmtDiscountPerc').val());
-            if (arr_new.AmtAdvance > 0) {
+            if (Math.abs(arr_new.AmtCharge) > 0) {
                 arr_new.AmtCharge = CNum($('#txtAmtCharge').val())-CNum($('#txtAmtDiscount').val());
                 arr_new.IsTaxCharge = CNum($('#txtAmtVATRate').val()) > 0 ? 1 : 0;
                 arr_new.Is50Tavi = CNum($('#txtAmtWHTRate').val()) > 0 ? 1 : 0;
@@ -825,7 +848,8 @@ End Code
                 arr_new.Rate50Tavi = CNum($('#txtAmtWHTRate').val());
                 arr_new.AmtVat = CNum($('#txtAmtVAT').val());
                 arr_new.Amt50Tavi = CNum($('#txtAmtWHT').val());
-            } else {
+            }
+            if (Math.abs(arr_new.AmtAdvance) > 0) {
                 arr_new.AmtAdvance = CNum($('#txtAmtAdvance').val())-CNum($('#txtAmtDiscount').val());
             }
             arr_new.TotalAmt = CNum($('#txtAmtNET').val());
@@ -837,9 +861,10 @@ End Code
             arr_split.DiscountPerc = CNum($('#txtAmtDiscountPerc').val());
             arr_split.Qty = $('#txtAmtQty').val();
             arr_split.QtyUnit = $('#txtAmtUnit').val();
-            if (arr_split.AmtAdvance > 0) {
+            if (Math.abs(arr_split.AmtAdvance) > 0) {
                 arr_split.AmtAdvance = CNum($('#txtAmtAdvance').val())-CNum($('#txtAmtDiscount').val());
-            } else {
+            }
+            if (Math.abs(arr_split.AmtCharge) > 0) {
                 arr_split.AmtCharge = CNum($('#txtAmtCharge').val())-CNum($('#txtAmtDiscount').val());
                 arr_split.IsTaxCharge = CNum($('#txtAmtVATRate').val()) > 0 ? 1 : 0;
                 arr_split.Is50Tavi = CNum($('#txtAmtWHTRate').val()) > 0 ? 1 : 0;
@@ -855,7 +880,7 @@ End Code
     }
     function SaveClearDetail(dr) {
         //process old clear data
-        if (dr.AmtAdvance > 0) {
+        if (Math.abs(dr.AmtAdvance) > 0) {
             arr_clr[0].BNet -= CNum(dr.AmtAdvance);
             arr_clr[0].FNet -= CDbl((dr.AmtAdvance / dr.ExchangeRate),4);
             arr_clr[0].UsedAmount -= CDbl((dr.AmtAdvance * (100 / (100 + dr.VATRate))),4);
@@ -879,7 +904,7 @@ End Code
         //create new clear data
         let cl = JSON.parse(JSON.stringify(arr_clr[0]));
         cl.ItemNo = 0;
-        if (dr.AmtAdvance > 0) {
+        if (Math.abs(dr.AmtAdvance) > 0) {
             cl.BNet = CNum(dr.AmtAdvance);
             cl.FNet = CDbl((dr.AmtAdvance / dr.ExchangeRate),4);
             cl.UsedAmount = CDbl((cl.BNet * (100 / (100 + CNum(dr.VATRate)))),4);
@@ -938,8 +963,10 @@ End Code
         $('#txtAmtUnit').val(dr.QtyUnit);
         $('#txtAmtVATRate').val(CNum(dr.VATRate));
         $('#txtAmtWHTRate').val(CNum(dr.Rate50Tavi));
+        $('#txtRemark6').text(dr.Qty);
+	
 
-        if (dr.AmtAdvance > 0) {
+        if (Math.abs(dr.AmtAdvance) > 0) {
             $('#txtAmtCharge').val(0);
             $('#txtAmtCharge').attr('disabled', 'disabled');
             $('#txtAmtAdvance').removeAttr('disabled');
@@ -994,12 +1021,7 @@ End Code
         }
         arr.splice(idx, 1);
     }
-    var isclick = 0;
     function ApproveData() {
-        if (isclick !== 0) {
-            alert('You click more than once');
-            return;
-        }
         if (userRights.indexOf('I') < 0) {
             ShowMessage('You are not allow to add',true);
             return;
@@ -1012,11 +1034,6 @@ End Code
             ShowMessage('Please choose customer first',true);
             return;
         }
-        if ($('#txtBillToCustCode').val() == '') {
-            ShowMessage('Please choose billing place first', true);
-            return;
-        }
-        $('#btnGen').attr('disabled', 'disabled');
         if ($('#txtDocNo').val() !== '') {
             DeleteDetail();
         } else {
@@ -1026,7 +1043,6 @@ End Code
         return;
     }
     function SaveHeader() {
-        isclick = 1;
         let dataInv = {
             BranchCode:$('#txtBranchCode').val(),
             DocNo: $('#txtDocNo').val(),
@@ -1090,18 +1106,17 @@ End Code
                     if (chq.length > 0) {
                         SaveCheque(response.result.data);
                     }
-                    //if ($('#txtDocNo').val() == '') {
+                    if ($('#txtDocNo').val() == '') {
                         SaveDetail(response.result.data);
-                    //}
+                    }
                     ShowMessage(response.result.data);
                     $('#dvCreate').modal('hide');
-                    isclick = 0;
+
                     return;
                 }
                 ShowMessage(response.result.msg,true);
             },
             error: function (e) {
-                isclick = 0;
                 ShowMessage(e,true);
             }
         });
@@ -1114,6 +1129,18 @@ End Code
                 joblist.push(obj.JobNo);
                 if (retstr !== '') retstr += ',';
                 retstr += obj.JobNo;
+            }
+        }
+        return retstr;
+    }
+    function GetContainerNo() {
+        let joblist = [];
+        let retstr = '';
+        for (let obj of arr) {
+            if (joblist.indexOf(obj.CTN_NO) < 0 && obj.CTN_NO!=='N/A') {
+                joblist.push(obj.CTN_NO);
+                if (retstr !== '') retstr += ',';
+                retstr += obj.CTN_NO;
             }
         }
         return retstr;
@@ -1160,7 +1187,7 @@ End Code
         $.get(path + 'Acc/DelInvDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
             //if (r.invdetail.data !== null) {
             SaveHeader();
-            //SaveDetail($('#txtDocNo').val());
+            SaveDetail($('#txtDocNo').val());
             //}
         });
     }
@@ -1211,6 +1238,9 @@ End Code
                 break;
             case 'chequecust':
                 SetGridCheque(path, '#tbChq', '#frmSearchChq', '?type=CU&Cancel=N&Branch=' + $('#txtBranchCode').val(), ReadCheque);
+                break;
+            case 'remark1':
+                SetGridDataDistinct(path, '#tbRem1', '?Field=Remark1&Table=Job_InvoiceHeader' ,'#frmSearchRemark1', (dt)=>{$('#txtRemark1').val(dt.val);});
                 break;
         }
     }
@@ -1289,7 +1319,7 @@ End Code
         let i = 0;
         let custadv = CNum($('#txtTotalCustAdv').val());
         for (let obj of o) {
-            if (obj.AmtCharge !== 0 || obj.AmtAdvance !== 0) {
+            if (Math.abs(obj.AmtCharge) > 0 || Math.abs(obj.AmtAdvance) > 0) {
                 let creditamt = 0;
                 if (custadv > 0) {
                     if ((custadv - CNum(obj.AmtNet)) < 0) {
@@ -1302,6 +1332,7 @@ End Code
                     custadv=0
                 }
                 i = i + 1;
+/*
                 data.push({
                     BranchCode: obj.BranchCode,
                     ClrNoList: obj.ClrNoList,
@@ -1325,17 +1356,54 @@ End Code
                     FAmtDiscount: CDbl(obj.AmtDiscount / CNum($('#txtExchangeRate').val()), 2),
                     Is50Tavi: obj.Is50Tavi,
                     Rate50Tavi: obj.Rate50Tavi,
-                    Amt50Tavi: CDbl(obj.Amt50Tavi,2),
+                    Amt50Tavi: CDbl(obj.Amt50Tavi,4),
                     IsTaxCharge: obj.IsTaxCharge,
-                    AmtVat: CDbl(obj.AmtVat,2),
-                    TotalAmt: CDbl(obj.AmtNet,2),
-                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
-                    AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
-                    AmtCharge: (obj.AmtAdvance == 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
+                    AmtVat: CDbl(obj.AmtVat,4),
+                    TotalAmt: CDbl(obj.AmtNet,4),
+                    FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 4),
+                    AmtAdvance: (Math.abs(obj.AmtAdvance) > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
+                    AmtCharge: (Math.abs(obj.AmtCharge) > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
                     CurrencyCodeCredit: $('#txtCurrencyCode').val(),
                     ExchangeRateCredit: $('#txtExchangeRate').val(),
                     AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
                     FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum($('#txtExchangeRate').val()), 2) : 0),
+                    VATRate: CDbl(obj.VATRate,0)
+                });
+*/
+		data.push({
+                    BranchCode: obj.BranchCode,
+                    ClrNoList: obj.ClrNoList,
+                    DocNo: no,
+                    ItemNo: obj.ItemNo,
+                    SICode: obj.SICode,
+                    SDescription: obj.SDescription,
+                    ExpSlipNO: obj.ExpSlipNO,
+                    SRemark: obj.SRemark,
+                    CurrencyCode: obj.CurrencyCode,
+                    ExchangeRate: obj.ExchangeRate,
+                    Qty: CNum(obj.Qty),
+                    QtyUnit: obj.QtyUnit,
+                    UnitPrice: obj.UnitPrice,
+                    FUnitPrice: CDbl(obj.UnitPrice / CNum(obj.ExchangeRate), 2),
+                    Amt: CDbl(obj.Amt,2),
+                    FAmt: CDbl(obj.Amt / CNum(obj.ExchangeRate), 2),
+                    DiscountType: obj.DiscountType,
+                    DiscountPerc: obj.DiscountPerc,
+                    AmtDiscount: CDbl(obj.AmtDiscount,2),
+                    FAmtDiscount: CDbl(obj.AmtDiscount / CNum(obj.ExchangeRate), 2),
+                    Is50Tavi: obj.Is50Tavi,
+                    Rate50Tavi: obj.Rate50Tavi,
+                    Amt50Tavi: CDbl(obj.Amt50Tavi,4),
+                    IsTaxCharge: obj.IsTaxCharge,
+                    AmtVat: CDbl(obj.AmtVat,4),
+                    TotalAmt: CDbl(obj.AmtNet,4),
+                    FTotalAmt: CDbl(obj.AmtNet / CNum(obj.ExchangeRate), 4),
+                    AmtAdvance: (Math.abs(obj.AmtAdvance) > 0 ? CDbl(obj.AmtAdvance  / CNum(obj.ExchangeRate),2) : 0),
+                    AmtCharge: (Math.abs(obj.AmtCharge) > 0 ? CDbl(obj.AmtCharge  / CNum(obj.ExchangeRate),2) : 0),
+                    CurrencyCodeCredit: $('#txtCurrencyCode').val(),
+                    ExchangeRateCredit: $('#txtExchangeRate').val(),
+                    AmtCredit: (creditamt >0 ? CDbl(creditamt,2) : 0),
+                    FAmtCredit: (creditamt > 0 ? CDbl(creditamt / CNum(obj.ExchangeRate), 2) : 0),
                     VATRate: CDbl(obj.VATRate,0)
                 });
             } else {
@@ -1384,17 +1452,25 @@ End Code
         if (code !== '') {
             let branch = $('#txtBranchCode').val();
             switch ($('#cboDocType').val()) {
-                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
-                    break;
+                @*case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;*@
                 case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
                     break;
                 case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
-		case "IVE-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=trading', '_blank');
-                  break;
+		case "EVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
+                    break;
+                case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+                    break;
+		case "EVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
+                    break;
+		case "IVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_IM', '_blank');
+                    break;
+		case "EVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_EX', '_blank');
+                    break;
                 default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code , '_blank');
             }
-            
+
         }
     }
     function MergeData() {
@@ -1407,7 +1483,7 @@ End Code
         }
 
         let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge !== 0 || d.AmtAdvance !== 0;
+            return Math.abs(d.AmtCharge) > 0 || Math.abs(d.AmtAdvance) > 0;
         });
         sortData(arr_sel, 'SICode', 'asc');
 
@@ -1421,7 +1497,7 @@ End Code
             rowProcess +=1;
             if (currCode !== obj.SICode) {
                 if (currCode !== '') {
-		    clearList = clearList.substr(0, clearList.length - 1);
+                    clearList = clearList.substr(0, clearList.length - 1);
                     key.ClrNo = '';
                     key.ClrItemNo = 0;
                     key.ClrNoList = clearList;
@@ -1453,15 +1529,16 @@ End Code
                 key.FAmtCredit= CDbl(CNum(key.FAmtCredit) / CNum(obj.ExchangeRate), 2);
             }
             if (clearList.indexOf((obj.ClrNo + '/' + obj.ClrItemNo+',')) < 0) {
-                clearList += (obj.ClrNo + '/' + obj.ClrItemNo+',');
+                //clearList += (clearList !== '' ? ',' : '') + (obj.ClrNo + '/' + obj.ClrItemNo);
+                clearList += (obj.ClrNo + '/' + obj.ClrItemNo) +',';
             }
             if (obj.ExpSlipNO !== null) {
                 if (slipList.indexOf(obj.ExpSlipNO) < 0) {
                     slipList += (slipList !== '' ? ',' : '') + obj.ExpSlipNO;
                 }
             }
-            if (rowProcess==arr_sel.length) {
-		clearList = clearList.substr(0, clearList.length - 1);
+            if (rowProcess == arr_sel.length) {
+                clearList = clearList.substr(0, clearList.length - 1);
                 key.ClrNo = '';
                 key.ClrItemNo = 0;
                 key.ClrNoList = clearList;
@@ -1504,7 +1581,7 @@ End Code
         $('#txtControlNo').val('');
         $('#txtChqAmount').val(0);
         ShowCheque();
-        CalSummary();
+        ShowSummary();
     }
     function ShowCheque() {
         let tb=$('#tbCheque').DataTable({
@@ -1540,7 +1617,7 @@ End Code
             if (chq.indexOf(dt) >= 0) {
                 chq.splice(chq.indexOf(dt));
                 ShowCheque();
-                CalSummary();
+                ShowSummary();
             }
         });
     }
@@ -1548,10 +1625,10 @@ End Code
         let amt = CNum($('#txtAmtCharge').val())-CNum($('#txtAmtDiscount').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtAmtVATRate').val()) * 0.01;
-            $('#txtAmtVAT').val(ShowNumber(vat,2));
+            $('#txtAmtVAT').val(ShowNumber(vat,4));
         }
         let wht = amt * CNum($('#txtAmtWHTRate').val()) * 0.01;
-        $('#txtAmtWHT').val(ShowNumber(wht, 2));
+        $('#txtAmtWHT').val(ShowNumber(wht, 4));
         CalNetAmount();
     }
     function CalDiscount() {
@@ -1594,14 +1671,14 @@ End Code
         let disc = CNum($('#txtAmtDiscount').val());
         let net = amt-disc+ vat - wht;
 
-        $('#txtAmtNET').val(ShowNumber(net,2));
+        $('#txtAmtNET').val(ShowNumber(net,4));
     }
     function MoveUp() {
         let arr_cost = arr.filter(function (d) {
             return d.AmtCost > 0;
         });
         let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge!== 0 || d.AmtAdvance!== 0;
+            return Math.abs(d.AmtCharge) > 0 || Math.abs(d.AmtAdvance) > 0;
         });
         //sortData(arr_sel, 'ItemNo', 'asc');
         let idx = arr_sel.indexOf(arr_split);
@@ -1625,7 +1702,7 @@ End Code
             return d.AmtCost > 0;
         });
         let arr_sel = arr.filter(function (d) {
-            return d.AmtCharge !== 0 || d.AmtAdvance !== 0;
+            return Math.abs(d.AmtCharge) > 0 || Math.abs(d.AmtAdvance) > 0;
         });
         //sortData(arr_sel, 'ItemNo', 'asc');
 

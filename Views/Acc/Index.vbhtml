@@ -48,7 +48,7 @@ End Code
                 <tr>
                     <th class="desktop">ControlNo</th>
                     <th class="all">VoucherDate</th>
-                    <th class="desktop">CustCode</th>
+                    @*<th class="desktop">CustCode</th>*@
                     <th class="desktop">Remark</th>
                     <th class="all">VoucherNo</th>
                     <th class="desktop">ChqNo</th>
@@ -57,7 +57,7 @@ End Code
                     <th class="desktop">CashAmount</th>
                     <th class="desktop">CreditAmount</th>
                     <th class="desktop">Currency</th>
-                    <th class="all">DocNo</th>
+                    @*<th class="all">DocNo</th>*@
                 </tr>
             </thead>
         </table>
@@ -136,7 +136,6 @@ End Code
                             return CDateEN(data);
                         }
                     },
-                    { data: "CmpCode", title: "Customer" },
                     { data: "TRemark", title: "Remark" },
                     { data: "PRVoucher", title: "Voucher" },
                     { data: "ChqNo", title: "Cheque No" },
@@ -161,8 +160,7 @@ End Code
                                 return ShowNumber(data, 2);
                         }
                     },
-                    { data: "CurrencyCode", title: "Currency" },
-                    { data: "DocNo", title: "Doc No" }
+                    { data: "CurrencyCode", title: "Currency" }
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page

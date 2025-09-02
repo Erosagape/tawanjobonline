@@ -74,7 +74,7 @@ End Code
         </table>
     </div>
 </div>
-<div class="row">
+@*<div class="row">
     <div class="col-sm-3">
         Print Approval Form:<br />
         <input type="text" class="form-control" id="txtApproveRef" />
@@ -85,7 +85,7 @@ End Code
             <i class="fa fa-lg fa-print"></i>
         </a>
     </div>
-</div>
+</div>*@
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -105,8 +105,7 @@ End Code
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
             $('#btnBrowseVend').attr('disabled', 'disabled');
-	let userUpline='@ViewBag.UserUpline';
-            $.get(path + 'Master/GetVender?Code=' + userUpline).done(function (r) {
+            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
                 if (r.vender.data.length > 0) {
                     let dr = r.vender.data[0];
                     $('#txtVenCode').val(dr.VenCode);
@@ -246,7 +245,7 @@ End Code
     function EntryExpense() {
         window.open(path + 'acc/expense', '', '');
     }
-    function PrintData() {
-        window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');
+    function PrintData() {	
+        window.open(path + 'Acc/FormExpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');
     }
 </script>

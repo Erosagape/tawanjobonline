@@ -191,16 +191,16 @@ End Code
 
         for (let d of dt.detail) {
 
-            html = '<tr>' +
-               '<td>' + d.SDescription + '</td>' +
-               '<td style="text-align:center">' + d.BillingNo + '</td>' +
-               '<td style="text-align:center">' + d.TaxInvNo + '</td>' +
-               '<td style="text-align:right">' + (d.OriginalAmt > 0 ? ShowNumber(d.OriginalAmt, 2) : '0.00') + '</td>' +
-               '<td style="text-align:right">' + (d.CorrectAmt > 0 ? ShowNumber(d.CorrectAmt, 2) : '0.00') + '</td>' +
-               '<td style="text-align:right">' + ShowNumber(d.DiffAmt, 2) + '</td>' +
-               '</tr>';
+            html = '<tr>';
+            html = '<td>' + d.SDescription + '</td>';
+            html += '<td style="text-align:center">' + d.BillingNo + '</td>';
+            html += '<td style="text-align:center">' + d.TaxInvNo + '</td>';
+            html += '<td style="text-align:right">' + (d.OriginalAmt >0? ShowNumber(d.OriginalAmt,2):'0.00') + '</td>';
+            html += '<td style="text-align:right">' + (d.CorrectAmt > 0 ? ShowNumber(d.CorrectAmt, 2) : '0.00') + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(d.DiffAmt, 2) + '</td>';
+            html += '</tr>';
 
-        $('#tbDetail').append(html);
+            $('#tbDetail').append(html);
 
             service += Number(d.DiffAmt);
             vat += Number(d.VATAmt);

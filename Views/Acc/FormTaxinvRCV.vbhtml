@@ -4,7 +4,7 @@
 End Code
 <style>
     td {
-        font-size: 12px;
+        font-size: 14px;
     }
 
     #dvFooter {
@@ -164,13 +164,16 @@ End Code
         let h = dt[0];
         switch (h.ReceiptType) {
             case 'TAX':
-                $('#lblDocType').text('TAX-INVOICE/RECEIPT');
+                $('#lblDocType').text('TAX-INVOICE/RECEIPT/ใบกํากับภาษี/ใบเสร็จรับเงิน');
                 break;
             case 'SRV':
-                $('#lblDocType').text('TAX-INVOICE');
+                $('#lblDocType').text('TAX-INVOICE/RECEIPT/ใบกํากับภาษี/ใบเสร็จรับเงิน');
                 break;
+            case 'RET':
+		$('#lblDocType').text('RECEIPT/ใบเสร็จรับเงิน');
+		break;
             default:
-                $('#lblDocType').text('RECEIPT ADVANCE');
+                $('#lblDocType').text('RECEIPT ADVANCE / ใบเสร็จเงินทดลองจ่าย');
                 break;
         }
         //$('#lblCustCode').text(h.CustCode);

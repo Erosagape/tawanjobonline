@@ -176,7 +176,7 @@ End Code
                 $('#lblDocType').text('TAX-INVOICE');
                 break;
             default:
-                $('#lblDocType').text('RECEIPT TRANSPORT');
+                $('#lblDocType').text('RECEIPT');
                 break;
         }
         //$('#lblCustCode').text(h.CustCode);

@@ -4,14 +4,9 @@ End Code
 <style>
     * {
         font-family: AngsanaUPC;
-        font-weight:bold;
+        font-size: 13px;
     }
-    thead,tfoot {
-        font-size: 14px;
-    }
-    tbody {
-        font-size: 15px;
-    }
+
     #pFooter,#dvFooter {
         display: none;
     }
@@ -30,21 +25,30 @@ End Code
         text-align: center;
     }
 
-	*{
-		 page-break-inside: auto !important;page-break-after:auto !important;
-	}
+    .flex-container {
+        display: flex;
+        flex-wrap: nowrap;
+    }
 
+        .flex-container > div {
+            background-color: #f1f1f1;
+            width: 15px;
+            margin: 1px;
+            text-align: center;
+            line-height: 20px;
+            font-size: 7px;
+        }
 </style>
-<div style="padding:20px;width:100%;">
 <table>
     <tr>
         <td>
-            <table style="width:98%">
+            <table style="width:100%">
                 <tr>
                     <td style="width:10%">
                         ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.3</label>
                     </td>
                     <td style="width:60%">
+                        <br />
                         เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
                         สาขา : <label id="lblBranch1"></label>
                         <br />
@@ -52,6 +56,7 @@ End Code
                         ที่อยู่ : <label id="lblTAddress1"></label>
                     </td>
                     <td style="width:30%;text-align:right">
+                        <br />
                         หน้าที่ 1 ใน <span id="dvPages"></span> หน้า
                     </td>
                 </tr>
@@ -69,9 +74,9 @@ End Code
                         <td>
                             <p>เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีเงินได้)</p>
                         </td>
-                        @*<td>
+                        <td>
                             <p>สาขา</p>
-                        </td>*@
+                        </td>
                         <td colspan="4">
                             <p>รายละเอียดเกี่ยวกับการจ่ายเงิน</p>
                         </td>
@@ -80,7 +85,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colspan="2">
                             ชื่อผู้มีเงินได้
                             (ให้ระบุให้ชัดเจนว่าเป็น นาย นาง นางสาวหรือยศ)
                         </td>
@@ -114,7 +119,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colspan="2">
                             ที่อยู่ของผู้มีเงินได้ (ให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)
                         </td>
                     </tr>
@@ -122,7 +127,7 @@ End Code
                 <tbody></tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="6">
                             <p>รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ <b>ใบแนบ ภ.ง.ด.3 </b>แผ่นอื่น(ถ้ามี))</p>
                         </td>
                         <td style="text-align:right">{0}</td>
@@ -130,7 +135,7 @@ End Code
                         <td></td>
                     </tr>
                     <tr>
-                        <td class="text-left" colspan="3">
+                        <td class="text-left" colspan="4">
                             (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                             <br>
                             <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์<br/>
@@ -146,7 +151,7 @@ End Code
                             ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
                             (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
                             ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="{2}" /> <br>
-                            ยื่นวันที่ <input type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="{d}" />
+                            ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
                         </td>
                         <td colspan="2">
                             <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
@@ -157,7 +162,8 @@ End Code
         </td>
     </tr>
 </table>
-</div>
+
+
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let data = getQueryString("data");
@@ -194,7 +200,6 @@ End Code
                 }
                 if (res.result.length > 0) {
                     var tb = res.result[0];
-                    let dateIssue = prompt('กรุณาใส่วันที่ออกเอกสาร');
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
                     $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
@@ -210,12 +215,11 @@ End Code
                     let field3 = '';
                     let field4 = '';
                     let field5 = '';
-                    let rows = 5;  
                     let htmlAll = GetTableHtml();
                     let htmlHead = $('#tbDetail thead').html();
                     let htmlFoot = $('#tbDetail tfoot').html();
                     let rd = res.result;
-                    //sortData(rd, 'DocNo', 'asc');
+                    sortData(rd, 'DocNo', 'asc');
                     let docno = '';
                     let t = 1;
                     let d = 0;
@@ -225,10 +229,10 @@ End Code
                             d += 1;
                         }
                     }
-                    if (d > (rows-1)) {
+                    if (d > 7) {
                         let r = 1;
-                        for (let i = rows; i <= d; i++) {
-                            if (r == rows || i == d) {
+                        for (let i = 8; i <= d; i++) {
+                            if (r == 8 || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {
@@ -250,8 +254,7 @@ End Code
                                 template = template.replace('{4}', field4);
                                 template = template.replace('{5}', field5);
 
-                                if ((p == 1 && n == rows) || (((n - rows) % rows) == 0 && p > 1)) {
-                                    htmlFoot = htmlFoot.replace('{d}', dateIssue);
+                                if ((p == 1 && n == 8) || (((n - 8) % 8) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
                                     if (params.ReportCode == 'PRD3AD') {
@@ -297,7 +300,7 @@ End Code
                             template += 'ที่อยู่ : ' + r.TAddress3;
                             template += '</p>';
                             template += '</td>';
-                            //template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';
@@ -307,7 +310,7 @@ End Code
                             docno = r.DocNo;
                         }
 
-                        field1 += '<br/>' + ShowDate(CDateTH(r.PayDate));
+                        field1 += '<br/>' + ShowDate(r.PayDate);
                         field2 += '<br/>' + r.PayRate;
                         field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
                         field4 += '<br/>' + ShowNumber(r.PayTax, 2);
@@ -325,7 +328,6 @@ End Code
                             template = template.replace('{4}', field4);
                             template = template.replace('{5}', field5);
 
-                            htmlFoot = htmlFoot.replace('{d}', dateIssue);
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
                             if (params.ReportCode == 'PRD3AD') {

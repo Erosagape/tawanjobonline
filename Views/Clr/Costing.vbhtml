@@ -187,23 +187,23 @@ End Code
                     return data.BNet !== 0 && data.DocStatus<99;
                 });
                 for (let i = 0; i < d.length; i++){
-                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;   
+                    let amt = CNum(CDbl(d[i].UsedAmount,2)) + CNum(CDbl(d[i].ChargeVAT,2));   
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
-                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? (d[i].UsedAmount) : 0);
-                    let cost = (d[i].IsExpense == 1 ?  (d[i].UsedAmount) : 0);
-                    let profit = (d[i].IsExpense == 1 ?  (d[i].UsedAmount)*-1 : (d[i].IsCredit==1 ? 0 : (d[i].UsedAmount)));
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? CNum(CDbl(d[i].UsedAmount,2)) : 0);
+                    let cost = (d[i].IsExpense == 1 ?  CNum(CDbl(d[i].UsedAmount,2)) : 0);
+                    let profit = (d[i].IsExpense == 1 ?  CNum(CDbl(d[i].UsedAmount,2))*-1 : (d[i].IsCredit==1 ? 0 : CNum(CDbl(d[i].UsedAmount,2))));
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');
 
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
-                            amtforvat += (d[i].UsedAmount);
-                            amtvat += d[i].ChargeVAT;
+                            amtforvat += CNum(CDbl(d[i].UsedAmount,2));
+                            amtvat += CNum(CDbl(d[i].ChargeVAT,2));
                             slipNo += '<br/>VAT ' + d[i].VATRate + '%=' + d[i].ChargeVAT;
                         } else {
                             amtnonvat += (d[i].UsedAmount);
                         }
                         if (d[i].Is50Tavi > 0) {
-                            amtwht += d[i].Tax50Tavi;
+                            amtwht += CNum(CDbl(d[i].Tax50Tavi,2));
                             slipNo += '<br/>WH-Tax ' + d[i].Tax50TaviRate + '%=' + d[i].Tax50Tavi;
                         }
                     }

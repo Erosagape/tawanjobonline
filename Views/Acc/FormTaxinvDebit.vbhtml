@@ -21,7 +21,7 @@ End Code
     }
 </style>
 <div style="text-align:center;width:100%">
-    <h2><label id="lblDocType">RECEIPT DEBIT NOTE</label></h2>
+    <h2><label style="font-size:15px" id="lblDocType">RECEIPT DEBIT NOTE</label></h2>
 </div>
 <!--
 <div style="display:flex;">
@@ -40,14 +40,14 @@ End Code
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;">
-        NAME : <label id="lblCustName"></label><br />
-        ADDRESS : <label id="lblCustAddr"></label><br />
-        TAX-ID : <lable id="lblCustTax"></lable>
+    <div style="flex:3;border:1px solid black;border-radius:5px;padding:5px;font-size: 12px">
+        NAME : <label style="font-size: 12px" id="lblCustName"></label><br />
+        ADDRESS : <label style="font-size: 12px" id="lblCustAddr"></label><br />
+        TAX-ID : <lable style="font-size: 12px" id="lblCustTax"></lable>
     </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
-        NO. : <label id="lblReceiptNo"></label><br />
-        ISSUE DATE : <label id="lblReceiptDate"></label><br />
+    <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px;font-size: 12px">
+        NO. : <label style="font-size: 12px" id="lblReceiptNo"></label><br />
+        ISSUE DATE : <label style="font-size: 12px" id="lblReceiptDate"></label><br />
     </div>
 </div>
 
@@ -264,8 +264,8 @@ End Code
         //$('#lblTotalNet').text(ShowNumber(service +adv+ vat - wht, 2));
         //$('#lblCurrencyCode').text(h.CurrencyCode);
         //$('#lblExchangeRate').text(h.ExchangeRate);
-        $('#lblFTotalNet').text(h.CurrencyCode + " " + ShowNumber(totalf, 2));
-        $('#lblFGrandTotalNet').text(h.CurrencyCode + " " + ShowNumber(totalf, 2));
+        $('#lblFTotalNet').text(h.DCurrencyCode + " " + ShowNumber(totalf, 2));
+        $('#lblFGrandTotalNet').text(h.DCurrencyCode + " " + ShowNumber(totalf, 2));
 
         if (h.UsedLanguage == 'TH') {
             $('#lblTotalText').text(CNumThai(CDbl((service + adv + vat - wht),2)));

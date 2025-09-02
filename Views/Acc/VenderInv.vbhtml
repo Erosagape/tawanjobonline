@@ -136,8 +136,7 @@ End Code
             $('#txtVenCode').attr('disabled', 'disabled');
             $('#txtVenName').attr('disabled', 'disabled');
             $('#btnBrowseVend').attr('disabled', 'disabled');
-      let userUpline='@ViewBag.UserUpline';
-            $.get(path + 'Master/GetVender?Code=' + userUpline).done(function (r) {
+            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
                 if (r.vender.data.length > 0) {
                     let dr = r.vender.data[0];
                     $('#txtVenCode').val(dr.VenCode);

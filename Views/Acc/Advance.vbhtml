@@ -88,9 +88,6 @@ End Code
                         </tr>
                     </thead>
                 </table>
-<br>
-Total : <input type="text" id="txtSumApprove" readonly />
-
             </div>
         </div>
     </div>
@@ -100,7 +97,6 @@ Total : <input type="text" id="txtSumApprove" readonly />
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
-    const userGroup = '@ViewBag.UserGroup';
     let arr = [];
     let jt = '';
     //$(document).ready(function () {
@@ -158,9 +154,6 @@ Total : <input type="text" id="txtSumApprove" readonly />
         arr = [];
 
         let w = '';
-        if(userGroup!=='S') {
-            w = w + '&advby=' + user;      
-        }
         if ($('#txtReqBy').val() !== "") {
             w = w + '&reqby=' + $('#txtReqBy').val();
         }
@@ -197,7 +190,6 @@ Total : <input type="text" id="txtSumApprove" readonly />
                 return;
             }
             let h = r.adv.data;
-	    ShowSummary(h);
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -268,13 +260,5 @@ Total : <input type="text" id="txtSumApprove" readonly />
     }
     function AddAdvance() {
         window.open(path + 'adv/index', '', '');
-    }
-    function ShowSummary(h) {
-        let tot = 0;
-        for (let i = 0; i < h.length; i++) {
-            let o = h[i];
-            tot += o.TotalAdvance;
-        }
-        $('#txtSumApprove').val(ShowNumber(tot, 2));
     }
 </script>
