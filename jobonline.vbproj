@@ -1588,6 +1588,8 @@
     <Content Include="Views\Acc\WorkSheet.vbhtml" />
     <Content Include="Views\Acc\SumCash.vbhtml" />
     <Content Include="Views\Acc\SumAR.vbhtml" />
+    <Content Include="Views\Clr\ClrMobile.vbhtml" />
+    <Content Include="Views\Clr\ClrDesktop.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />
