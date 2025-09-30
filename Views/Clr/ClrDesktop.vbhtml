@@ -1,4 +1,7 @@
-﻿<div class="panel-body">
+﻿@Code
+    ViewBag.Title = "Clearing Information"
+End Code
+<div class="panel-body">
     <div id="dvHeader" class="container">
         <div class="row">
             <div class="col-sm-5">
@@ -292,7 +295,7 @@
                                     <a href="../Master/ServiceCode" target="_blank"><label id="lblSICode">Service Code</label></a>
                                     <br />
                                     <div style="display:flex">
-                                        <input type="text" id="txtSICode" class="form-control" tabindex="12" readonly />
+                                        <input type="text" id="txtSICode" class="form-control" tabindex="12" />
                                         <input type="button" id="btnBrowseS" class="btn btn-default" value="..." onclick="SearchData('servicecode')" />
                                     </div>
                                 </div>
@@ -366,7 +369,7 @@
                                     <label id="lblVATRate" for="txtVATRate">VAT :</label>
                                     <div style="display:flex">
                                         <input type="text" id="txtVATRate" class="form-control" style="text-align:right" tabindex="21" />
-                                        <select id="txtVatType" class="form-control dropdown" onclick="CalAmount()">
+                                        <select id="txtVatType" class="form-control dropdown">
                                             <option value="0">NO</option>
                                             <option value="1">EX</option>
                                             <option value="2">IN</option>
@@ -659,8 +662,7 @@
             isjobmode = true;
             $('#txtForJNo').val(job);
             $('#txtClrNo').attr('disabled', 'disabled');
-	    setTimeout(() => {   CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob); }, 2000);
-
+            CallBackQueryJob(path, $('#txtBranchCode').val(), job, LoadJob);
         }
     }
     function LoadJob(dt) {
@@ -1150,13 +1152,13 @@
 
             $('#txtCTN_NO').val(dt.CTN_NO);
             $('#txtCoPersonCode').val(dt.CoPersonCode);
-            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 3));
-            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 3));
-            $('#txtVatAmount').val(CDbl(dt.ClearVat, 3));
-            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 3));
-            $('#txtNetAmount').val(CDbl(dt.ClearNet, 3));
-            $('#txtSumCharge').val(CDbl(dt.ClearBill, 3));
-            $('#txtSumCost').val(CDbl(dt.ClearCost,3));
+            $('#txtClearTotal').val(CDbl(dt.ClearTotal, 2));
+            $('#txtClrAmount').val(CDbl(dt.ClearNet+dt.ClearWht-dt.ClearVat, 2));
+            $('#txtVatAmount').val(CDbl(dt.ClearVat, 2));
+            $('#txtWhtAmount').val(CDbl(dt.ClearWht, 2));
+            $('#txtNetAmount').val(CDbl(dt.ClearNet, 2));
+            $('#txtSumCharge').val(CDbl(dt.ClearBill, 2));
+            $('#txtSumCost').val(CDbl(dt.ClearCost,2));
 
             $('#chkCancel').prop('checked', $('#txtCancelProve').val() == '' ? false : true);
             $('#chkApprove').prop('checked', $('#txtApproveBy').val() == '' ? false : true);
@@ -1367,22 +1369,11 @@
             $('#txtDate50Tavi').focus();
             return false;
         }
-        //if (Number($('#txtQty').val()) == 0) {
-        //    ShowMessage('Please check quantity', true);
-        //    return;
-        //}
-        //if (Number($('#txtUnitPrice').val()) == 0) {
-        //    ShowMessage('Please check unit price', true);
-        //    return;
-        //}
-        if (Number($('#txtCurRate').val()) == 0) {
-            ShowMessage('Please check exchange rate', true);
+        if (Number($('#txtQty').val()) == 0) {
+            ShowMessage('Please check quantity', true);
             return;
         }
-        //if (Number($('#txtAMT').val()) == 0) {
-        //    ShowMessage('Please check amount', true);
-        //    return;
-        //}
+
         if (dtl != undefined) {
             let obj = GetDataDetail();
             if (obj.ItemNo == 0) {
@@ -1404,11 +1395,11 @@
                 data: jsonString,
                 success: function (response) {
                     ShowMessage(response.result.msg);
-                    //SaveHeader();
-                    ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
-                    //if ($('#txtAdvNo').val() !== '' && $('#chkDuplicate').prop('checked') == false) {
-                    //    $('#frmDetail').modal('hide');
-                    //}
+                    SaveHeader();
+                    //ShowData($('#txtBranchCode').val(), $('#txtClrNo').val());
+                    if ($('#txtAdvNo').val() !== '' && $('#chkDuplicate').prop('checked') == false) {
+                        $('#frmDetail').modal('hide');
+                    }
                 }
             });
             return;
@@ -1419,6 +1410,7 @@
     function ReadClrDetail(dt) {
         let tb=$('#tbDetail').DataTable({
             data:dt,
+            selected: true, //ให้สามารถเลือกแถวได้
             columns: [ //กำหนด property ของ header column
                 { data: null, title: "Edit" },
                 { data: "JobNo", title: "Job" },
@@ -1468,7 +1460,6 @@
                     }
                 }
             ],
-            selected: true, //ให้สามารถเลือกแถวได้
             responsive:true,
             destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
             , pageLength: 100
@@ -1573,10 +1564,10 @@
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(CDbl(dt.VATRate,0));
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UsedAmount,3));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,3));
-            $('#txtNET').val(CDbl(dt.BNet,3));
+            $('#txtAMT').val(CDbl(dt.UsedAmount,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
+            $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
             $('#chkDuplicate').prop('checked', dt.IsDuplicate == 1 ? true : false);
@@ -1626,9 +1617,9 @@
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.UnitPrice,3));
-            $('#txtVAT').val(CDbl(dt.ChargeVAT,3));
-            $('#txtWHT').val(CDbl(dt.Tax50Tavi,3));
+            $('#txtAMT').val(CDbl(dt.UnitPrice,2));
+            $('#txtVAT').val(CDbl(dt.ChargeVAT,2));
+            $('#txtWHT').val(CDbl(dt.Tax50Tavi,2));
             $('#txtNET').val(CDbl(dt.BNet,2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
@@ -1681,9 +1672,9 @@
             $('#txtVatType').val(dt.VATType);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtWHTRate').val(dt.Tax50TaviRate);
-            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),3));
-            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),3));
-            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),3));
+            $('#txtAMT').val(CDbl(dt.AdvBalance / CDbl(1 + ((dt.VATRate - dt.Tax50TaviRate) * 0.01),2),2));
+            $('#txtVAT').val(CDbl(CNum($('#txtAMT').val())*(dt.VATRate*0.01),2));
+            $('#txtWHT').val(CDbl(CNum($('#txtAMT').val())*(dt.Tax50TaviRate*0.01),2));
             $('#txtNET').val(CDbl(CNum($('#txtAMT').val()) + (CNum($('#txtAMT').val()) * (dt.VATRate * 0.01)) - (CNum($('#txtAMT').val()) * (dt.Tax50TaviRate * 0.01)),2));
             $('#txtVenCode').val(dt.VenderCode);
             $('#chkIsLtdAdv50Tavi').prop('checked', dt.IsLtdAdv50Tavi == 1 ? true : false);
@@ -2070,11 +2061,15 @@
         if (type == '' || type == '0') type = '1';
         if (qty > 0) {
             let amt = CNum(qty) * CNum(price);
+            //let exc = CDbl($('#txtExchangeRate').val(), 4); //rate ของ header
+            //let total = CDbl(CNum(amt) / CNum(exc),4);
             if (type == '2') {
+                //$('#txtNET').val(CDbl(CNum(total),4));
                 $('#txtNET').val(CDbl(CNum(amt) * CNum(rate), 4));
             }
             if (type == '1') {
-                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),4));
+                //$('#txtAMT').val(CDbl(CNum(total),4));
+                $('#txtAMT').val(CDbl(CNum(amt) * CNum(rate),2));
             }
             CalVATWHT();
         }
@@ -2084,30 +2079,27 @@
         let vat = CDbl($('#txtVAT').val(),3);
         let wht = CDbl($('#txtWHT').val(),3);
 
-        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),3));
-        $('#txtAMT').val(CDbl(amt,3));
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),2));
+        $('#txtAMT').val(CDbl(amt,2));
     }
     function CalVATWHT() {
         let type = $('#txtVatType').val();
         if (type == ''||type=='0') type = '1';
         let amt = CDbl($('#txtAMT').val(),4);
         if (type == '2') {
-	        let price = CDbl($('#txtUnitPrice').val(),4);
-        	let qty = CDbl($('#txtQty').val(),4);
-	        let rate = CDbl($('#txtCurRate').val(),4); //rate ของ detail
-		amt=Number(qty)*Number(price)*Number(rate);
+            amt = CDbl(CNum($('#txtNET').val()) + CNum($('#txtWHT').val()), 4);
         }
         let vatrate = CDbl($('#txtVATRate').val(),4);
         let whtrate = CDbl($('#txtWHTRate').val(),4);
         let vat = 0;
         let wht = 0;
         if (type == "2") {
-            let base = CDbl(Number(amt * 100 / (100 + Number(vatrate))),3);
-            vat = CDbl(Number(base * vatrate * 0.01),2);
-            wht = CDbl(Number(base * whtrate * 0.01),2);
-            base = Number(amt)-Number(vat);
-            $('#txtAMT').val(CDbl(CNum(base),3));
-            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 3));
+            //let base = amt * 100 / (100 + (vatrate - whtrate));
+            let base = amt * 100 / (100 + Number(vatrate));
+            vat = base * vatrate * 0.01;
+            wht = base * whtrate * 0.01;
+            $('#txtAMT').val(CDbl(CNum(base),2));
+            $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 2));
         }
         if (type == "1") {
             vat = amt * vatrate * 0.01;
@@ -2349,4 +2341,5 @@
             window.open(path + 'Acc/Expense?BranchCode=' + $('#txtBranchCode').val() + '&DocNo=' + doc, '_blank');
         }
     }
+
 </script>

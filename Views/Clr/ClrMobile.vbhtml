@@ -51,6 +51,7 @@ End Code
                 <label>เลือกใบเบิกที่จะเคลียร์เงิน</label>
             </div>
             <div class="col-sm-9">
+                <input type="button" class="btn btn-warning" value="Refresh" onclick="RefreshGrid()" />
                 <table id="tbAdvance" class="table table-responsive">
                 </table>
             </div>
@@ -71,7 +72,7 @@ End Code
 
                 <input type="text" id="txtVenderName" class="form-control" readonly />
                 <br />
-                เลขใบเสร็จ :
+                <input type="checkbox" id="chkHaveSlip" onclick="SetSlipNo()" checked>เลขใบเสร็จ :
                 <input type="text" id="txtSlipNo" class="form-control" />
                 <br />
                 วันที่ใบเสร็จ :
@@ -82,6 +83,9 @@ End Code
                 <br />
                 หมายเหตุ :
                 <textarea id="txtRemark" class="form-control"></textarea>
+                <br />
+                เลขตู้/ทะเบียนรถ (ถ้าไม่มีให้ติ๊กตรงนี้ <input type="checkbox" id="chkNoCon" onclick="SetNoCon()" checked>) :
+                <input type="text" id="txtInvNo" class="form-control" />
                 <br />
                 Job :
                 <div style="display:flex">
@@ -168,7 +172,10 @@ End Code
                 <label>ตรวจสอบยอดคงเหลือ</label>
             </div>
             <div class="col-sm-9">
-                ยอดเบิก :
+                ใบเบิก :
+                <input type="text" id="txtAdvNo" class="form-control" readonly onclick="PrintAdvance()" />
+                <br />
+                ยอดเบิกคงเหลือ :
                 <input type="number" id="txtAdvAmount" class="form-control" readonly />
                 <br />
                 คงเหลือ :
@@ -176,12 +183,20 @@ End Code
             </div>
         </div>
     </div>
-    <input type="button" class="btn btn-success" value="Save Data" onclick="SaveData()" />
+    <input type="button" class="btn btn-success" value="Save Data" id="btnSave" onclick="SaveData()" />
     <div>
-        เลขที่เอกสาร :
-        <input type="text" id="txtClrNo" class="form-control" />
-        <textarea id="txtJsonD"></textarea>
-        <textarea id="txtJsonH"></textarea>
+        <label onclick="ShowDebug()">เลขที่เอกสาร :</label>
+        <br />
+        <div style="display:flex">
+            <input type="text" id="txtClrNo" class="form-control" style="flex:4" readonly />
+            <input type="button" class="btn btn-default w3-indigo" onclick="ClearHeader()" style="flex:1" value="New Clearing" />
+        </div>
+        <input type="button" class="btn btn-primary" value="View Slip" onclick="PrintData()" />
+        <input type="button" class="btn btn-danger" value="Cancel Data" onclick="CancelData()" />
+        <div id="dvDebug" style="display:none">
+            <textarea id="txtJsonD"></textarea>
+            <textarea id="txtJsonH"></textarea>
+        </div>
     </div>    
 </div>
 <div id="dvLOVs"></div>
@@ -214,8 +229,8 @@ End Code
             if (csCode !== '') {
                 $('#txtEmpCode').val(csCode);
                 LoadAdvance(branchCode, csCode,'');
-            }            
-        }        
+            }
+        }
     }
     function SearchData(type) {
         switch (type) {
@@ -246,6 +261,7 @@ End Code
         $('#tbAdvance').empty();
         $('#txtAdvBalance').val(0);
         $('#txtAdvCount').val(0);
+        ClearDetail();
         let q = '?branchcode=' + branch;
         if (cs !== '') {
             q += '&reqby=' + cs;
@@ -253,12 +269,15 @@ End Code
         if (job !== '') {
             q += '&jobno=' + job;
         }
-        let url = path + 'Clr/GetAdvForClear' + q;        
+        let url = path + 'Clr/GetAdvForClear' + q;
         $.get(url).done(function (r) {
             if (r.clr.data.length > 0) {
                 let totaldoc = 0;
                 let countdoc = 0;
-                let d = r.clr.data;
+                let d = r.clr.data.filter((f)=>{
+                    //return (f.AdvDate == null)|| (f.AdvDate!==null && f.IsDuplicate==1 && f.AdvBalance>0);
+                    return (f.AdvBalance > 0);
+                });
                 for (let o of d) {
                     countdoc++;
                     totaldoc += o.AdvBalance;
@@ -272,13 +291,13 @@ End Code
                         { data: "AdvNO", title: "Adv.No" },
                         { data: "SDescription", title: "Expense Name" },
                         {
-                            data: "AdvBalance", title: "Balance",
+                            data: "AdvNet", title: "Advance",
                             render: function (data) {
                                 return ShowNumber(data, 2);
                             }
                         },
                         {
-                            data: "UsedAmount", title: "Used",
+                            data: "AdvBalance", title: "Balance",
                             render: function (data) {
                                 return ShowNumber(data, 2);
                             }
@@ -294,7 +313,7 @@ End Code
                     }
                     $(this).addClass('selected');
 
-                    row= $('#tbAdvance').DataTable().row(this).data(); //read current row selected                    
+                    row= $('#tbAdvance').DataTable().row(this).data(); //read current row selected
                     LoadDetail(row);
                 });
             } else {
@@ -315,6 +334,7 @@ End Code
     }
     function ReadJob(dt) {
         $('#txtJNo').val(dt.JNo);
+        $('#txtInvNo').val(dt.CTN_NO);
         CallBackQueryJob(path, dt.BranchCode, dt.JNo, (d) => {
             if (d.length > 0) {
                 let r = d[0];
@@ -325,6 +345,7 @@ End Code
     }
     function ReadBooking(dt) {
         $('#txtForJNo').val(dt.JNo);
+        $('#txtInvNo').val(dt.CTN_NO);
         LoadAdvance(branchCode, $('#txtEmpCode').val(), dt.JNo);
     }
     function ReadVender(dt) {
@@ -351,8 +372,46 @@ End Code
         EnableCal();
         Recalculate();
     }
+    function ClearDetail() {        
+        $('#txtAdvAmount').val(0);
+        $('#txtVenderCode').val('');
+        $('#chkHaveSlip').prop('checked', true);
+        $('#chkNoCon').prop('checked', false);
+        SetSlipNo();
+        $('#txtVenderName').val('');
+        $('#txtSICode').val('');
+        $('#txtSTCode').val('');
+        $('#txtSDescription').val('');
+        $('#txtVATType').val(1);
+        $('#txtQty').val(0);
+        $('#txtUnitCode').val('');
+        $('#txtCurrencyCode').val('');
+        $('#txtCurRate').val(1);
+        $('#txtIsExpense').val(1);
+        $('#txtClrType').val(2);
+        $('#txtVATRate').val(0);
+        $('#txtSlipNo').val('');
+        $('#txtRemark').val('');
+        $('#txtNO50Tavi').val('');
+        $('#txtDate50Tavi').val('');
+        $('#txtTax50TaviRate').val(0);
+        $('#txtJNo').val('');
+        $('#txtInvNo').val('');
+        $('#txtJobType').val('');
+        $('#txtJobTypeName').val('');
+        $('#txtShipByName').val('');
+        $('#txtAdvNo').val('');
+        $('#txtQty').val(0);
+        $('#txtUnitPrice').val(0);
+        $('#txtUsedAmount').val(0);
+        $('#txtChargeVAT').val(0);
+        $('#txtTax50Tavi').val(0);
+        $('#txtBNet').val(0);
+        $('#txtAdvAmount').val(0);
+        $('#txtAdvReturn').val(0);
+    }
     function LoadDetail(dt) {
-        $('#txtClrNo').val('');
+        $('#btnSave').show();        
         $('#txtAdvAmount').val(dt.AdvBalance);
         $('#txtVenderCode').val(dt.VenderCode);
         ShowVender(path, dt.VenderCode, '#txtVenderName');
@@ -372,15 +431,18 @@ End Code
         }
         EnableCal()
         $('#txtVATRate').val(dt.VATRate);
+        $('#txtNO50Tavi').val(dt.NO50Tavi);
+        $('#txtDate50Tavi').val(CDateEN(dt.PaymentDate));
         $('#txtTax50TaviRate').val(dt.Tax50TaviRate);
         $('#txtJNo').val(dt.JobNo);
+        $('#txtAdvNo').val(dt.AdvNO);
         CallBackQueryJob(path, dt.BranchCode, dt.JobNo, (d) => {
             if (d.length > 0) {
                 let r = d[0];
                 $('#txtJobType').val(r.JobType);
                 ShowJobTypeShipBy(path, r.JobType, r.ShipBy, r.JobStatus, '#txtJobTypeName', '#txtShipByName', '');
             }
-        });                
+        });
         CalVATWHT(dt);
         $('#txtSlipNo').focus();
     }
@@ -432,7 +494,9 @@ End Code
             $('#txtChargeVAT').val(vat.toFixed(2));
             $('#txtTax50Tavi').val(wht.toFixed(2));
         }
-        $('#txtAdvReturn').val(Number($('#txtAdvAmount').val()) - Number($('#txtBNet').val()));
+        let adv = Number($('#txtAdvAmount').val()).toFixed(2);
+        let clr = Number($('#txtBNet').val()).toFixed(2);
+        $('#txtAdvReturn').val(Number(adv) - Number(clr));
     }
     function CalVATWHT(dt) {
         if (dt.VATType > 0) {
@@ -454,13 +518,134 @@ End Code
         $('#txtUnitPrice').val(unitprice);
         $('#txtAdvReturn').val(0);
     }
+    function CheckEntry() {
+        let chk = true;
+        if ($('#txtSICode').val() == '') {
+            alert('กรุณาระบุรหัสค่าใช้จ่าย');
+            $('#txtSICode').focus();
+            chk = false;
+            return chk;
+        }
+        if ($('#txtVenderCode').val() == '') {
+            alert('กรุณาระบุรหัส Vender');
+            $('#txtVenderCode').focus();
+            chk = false;
+            return chk;
+        }
+        if ($('#txtJNo').val() == '') {
+            alert('กรุณาระบุเลข job งาน');
+            $('#txtJNo').focus();
+            chk = false;
+            return chk;
+        }
+        if ($('#txtSlipNo').val() == '' && $('#chkHaveSlip').prop('checked')) {
+            alert('กรุณาระบุเลขที่ใบเสร็จ หรือเอาเครื่องหมายออกหากเป็นค่าใช้จ่ายที่ไม่มีใบเสร็จ');
+            $('#txtSlipNo').focus();
+            chk = false;
+            return chk;
+        }
+        if ($('#txtDate50Tavi').val() == '' && $('#chkHaveSlip').prop('checked')) {
+            alert('กรุณาระบุวันที่ตามใบเสร็จด้วย');
+            $('#txtDate50Tavi').focus();
+            chk = false;
+            return chk;
+        }
+        if (Number($('#txtCurRate').val()) ==0) {
+            alert('อัตราแลกเปลี่ยนต้องไม่เท่ากับศูนย์');
+            $('#txtCurRate').focus();
+            chk = false;
+            return chk;
+        }
+        if (Number($('#txtQty').val()) == 0) {
+            alert('จำนวนต้องไม่เท่ากับศูนย์');
+            $('#txtQty').focus();
+            chk = false;
+            return chk;
+        }
+        if ($('#txtNO50Tavi').val() == '' && Math.abs(Number($('#txtTax50Tavi').val()))>0) {
+            alert('กรุณาระบุเลขที่หนังสือรับรองหัก ณ ที่จ่ายด้วย');
+            $('#txtNO50Tavi').focus();
+            chk = false;
+            return chk;
+        }
+        if ($('#txtDate50Tavi').val() == '' && $('#txtNO50Tavi').val()!=='') {
+            alert('กรุณาระบุวันที่หนังสือรับรองด้วย');
+            $('#txtDate50Tavi').focus();
+            chk = false;
+            return chk;
+        }
+        return chk;
+    }
     function SaveData() {
-        let obj = GetDataDetail($('#txtClrNo').val());        
-        let jsonD = JSON.stringify({ data: obj });
-        obj = GetDataHeader(obj);
-        let jsonH = JSON.stringify({ data: obj });
-        $('#txtJsonD').val(jsonD);
-        $('#txtJsonH').val(jsonH);
+        if (CheckEntry() == false) {
+            return;
+        }
+
+        let msg = '<br>';
+        msg += 'ค่าใช้จ่าย : ' + $('#txtSDescription').val() + '<br>';
+        msg += 'จ๊อบงาน : ' + $('#txtJNo').val() + '<br>';
+        msg += 'เลขตู้/รถ : ' + $('#txtInvNo').val() + '<br>';
+        msg += 'ใบเสร็จ : ' + $('#txtSlipNo').val() + '<br>';
+        msg += 'ลงวันที่ : ' + $('#txtDate50Tavi').val() + '<br>';
+        msg += 'ยอดเงิน : ' + $('#txtUsedAmount').val() + '<br>';
+        msg += 'ภาษีมูลค่าเพิ่ม : ' + $('#txtChargeVAT').val() + '<br>';
+        msg += 'หัก ณ ที่จ่าย : ' + $('#txtTax50Tavi').val() + '<br>';
+        msg += 'เลขหนังสือรับรอง : ' + $('#txtNO50Tavi').val() + '<br>';
+        msg += 'ยอดสุทธิ : ' + $('#txtBNet').val() + '<br>';
+        msg += 'ยอดคงเหลือ : ' + $('#txtAdvReturn').val() + '<br>';
+        ShowConfirm("หากคุณต้องการบันทึกด้วยข้อมูลข้างล่างนี้ กรุณากด Confirm หรือกด Cancel เพื่อกลับไปแก้ไขข้อมูล" +msg, function (ans) {
+            if (ans == true) {
+                $('#btnSave').hide();
+                let objH = GetDataHeader(row);
+                let jsonH = JSON.stringify({ data: objH });
+                $('#txtJsonH').val(jsonH);
+
+                SaveHeader(jsonH);
+            }
+        });
+    }
+    function SaveDetail(obj) {        
+        let jsonString = JSON.stringify({ data: obj });
+            $.ajax({
+                url: "@Url.Action("SetClrDetail", "Clr")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonString,
+                success: function (response) {
+                    if (response.result.data !== '') {
+                        row = {};                        
+                        //PrintData();
+                        RefreshGrid();
+                    }
+                    $('#txtJsonD').val(JSON.stringify(response));
+                    ShowMessage(response.result.msg);
+                }
+            });
+    }
+    function SaveHeader(jsonString) {
+         $.ajax({
+             url: "@Url.Action("SetClrHeader", "Clr")",
+             type: "POST",
+             contentType: "application/json",
+             data: jsonString,
+             success: function (response) {
+                 $('#txtJsonH').val(JSON.stringify(response));
+                if (response.result.msg == 'Save Complete') {
+                    $('#txtClrNo').val(response.result.data);
+
+                    let objD = GetDataDetail($('#txtClrNo').val());
+                    let jsonD = JSON.stringify({ data: objD });
+                    $('#txtJsonD').val(jsonD);
+
+                    SaveDetail(objD);
+                    return;
+                }
+                ShowMessage(response.result.msg,true);
+            },
+            error: function (e) {
+                ShowMessage(e,true);
+            }
+        });
     }
     function GetDataDetail(clrno) {
         let dt = {
@@ -520,15 +705,15 @@ End Code
             ClrDate: GetToday(),
             ClearanceDate: GetToday(),
             EmpCode: user,
-            AdvRefNo: row.AdvNO,
-            AdvTotal: row.AdvBalance,
+            AdvRefNo: '',
+            AdvTotal: 0,
             JobType: $('#txtJobType').val(),
-            JNo: dt.JobNo,
-            InvNo: $('#txtCTN_NO').val(),
+            JNo: '',
+            InvNo: '',
             ClearType: $('#txtClrType').val(),
             ClearFrom: $('#txtClrFrom').val(),
             DocStatus: 0,
-            TotalExpense: dt.BNet,
+            TotalExpense: 0,
             TRemark: '',
             ApproveBy: '',
             ApproveDate: null,
@@ -542,15 +727,89 @@ End Code
             CancelDate: null,
             CancelTime: null,
             CoPersonCode: '',
-            CTN_NO: $('#txtCTN_NO').val(),
-            ClearTotal: (row.AdvBalance-dt.BNet),
-            ClearVat: dt.ChargeVAT,
-            ClearWht: dt.Tax50Tavi,
-            ClearNet: dt.BNet,
-            ClearBill: (dt.BPrice > 0 ? dt.BPrice : 0),
-            ClearCost: (dt.BPrice == 0 ? dt.BCost:0)
+            CTN_NO: '',
+            ClearTotal: 0,
+            ClearVat: 0,
+            ClearWht: 0,
+            ClearNet: 0,
+            ClearBill: 0,
+            ClearCost: 0
         };
-
         return dh;
+    }
+    function SetSlipNo() {
+        if (!$('#chkHaveSlip').prop('checked')) {
+            $('#txtSlipNo').val('');
+            $('#txtSlipNo').attr('readonly', 'readonly');
+        } else {
+            $('#txtSlipNo').val('');
+            $('#txtSlipNo').removeAttr('readonly');
+        }
+    }
+    function PrintAdvance() {
+        window.open(path + 'Adv/FormAdv?branch=' + branchCode + '&advno=' + $('#txtAdvNo').val(),'');
+    }
+    function PrintData() {
+        window.open(path + 'Clr/FormClr?branch=' + branchCode + '&code=' + $('#txtClrNo').val(), '');
+    }
+    function RefreshGrid() {
+        LoadAdvance(branchCode, $('#txtEmpCode').val(), $('#txtForJNo').val());
+    }
+    function CancelData() {
+        if ($('#txtClrNo').val() !== '') {
+            ShowConfirm('กรุณายืนยันเพื่อยกเลิกเอกสาร ' + $('#txtClrNo').val(), function (ans) {
+                if (ans == true) {
+                    $.get(path + 'Clr/GetClearing?Branch=' + branchCode + '&Code=' + $('#txtClrNo').val()).done(function (r) {
+                        if (r.clr.header.length > 0) {
+                            let h = r.clr.header[0];
+                            h.DocStatus = 99;
+                            h.CancelDate = GetToday();
+                            h.CancelTime = GetTime();
+                            h.CancelProve = user;
+                            h.CancelReson = 'CANCELLED ENTRY';
+                            let jsonString = JSON.stringify({ data : h});
+                            $.ajax({
+                                url: "@Url.Action("SetClrHeader", "Clr")",
+                                type: "POST",
+                                contentType: "application/json",
+                                data: jsonString,
+                                success: function (response) {
+                                    if (response.result.msg == 'Save Complete') {
+                                        ShowMessage('ยกเลิกเอกสารเรียบร้อย', true);
+                                        ClearHeader();
+                                        RefreshGrid();
+                                        return;
+                                    }
+                                    ShowMessage(response.result.msg, true);
+                                },
+                                error: function (e) {
+                                    ShowMessage(e, true);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        } else {
+            ShowMessage('ไม่พบเอกสารที่จะยกเลิก');
+            return;
+        }
+    }
+    function ShowDebug() {
+        if ($('#dvDebug').css('display') == 'none') {
+            $('#dvDebug').css('display', 'initial');
+        } else {
+            $('#dvDebug').css('display', 'none');
+        }        
+    }
+    function SetNoCon() {
+        if (!$('#chkNoCon').prop('checked')) {
+            $('#txtInvNo').val('');
+        } else {
+            $('#txtInvNo').val('N/A');
+        }
+    }
+    function ClearHeader() {
+        $('#txtClrNo').val('');
     }
 </script>
