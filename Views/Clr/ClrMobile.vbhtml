@@ -189,7 +189,7 @@ End Code
         <br />
         <div style="display:flex">
             <input type="text" id="txtClrNo" class="form-control" style="flex:4" readonly />
-            <input type="button" class="btn btn-default w3-indigo" onclick="ClearHeader()" style="flex:1" value="New Clearing" />
+            <input type="button" class="btn btn-default w3-purple" onclick="ClearHeader()" style="flex:1" value="New Clearing" />
         </div>
         <input type="button" class="btn btn-primary" value="View Slip" onclick="PrintData()" />
         <input type="button" class="btn btn-danger" value="Cancel Data" onclick="CancelData()" />
@@ -197,7 +197,7 @@ End Code
             <textarea id="txtJsonD"></textarea>
             <textarea id="txtJsonH"></textarea>
         </div>
-    </div>    
+    </div>
 </div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
@@ -372,7 +372,7 @@ End Code
         EnableCal();
         Recalculate();
     }
-    function ClearDetail() {        
+    function ClearDetail() {
         $('#txtAdvAmount').val(0);
         $('#txtVenderCode').val('');
         $('#chkHaveSlip').prop('checked', true);
@@ -411,7 +411,7 @@ End Code
         $('#txtAdvReturn').val(0);
     }
     function LoadDetail(dt) {
-        $('#btnSave').show();        
+        $('#btnSave').show();
         $('#txtAdvAmount').val(dt.AdvBalance);
         $('#txtVenderCode').val(dt.VenderCode);
         ShowVender(path, dt.VenderCode, '#txtVenderName');
@@ -538,6 +538,12 @@ End Code
             chk = false;
             return chk;
         }
+        if ($('#txtInvNo').val() == '') {
+            alert('กรุณาระบุเลขตู้หรือทะเบียนรถ');
+            $('#txtInvNo').focus();
+            chk = false;
+            return chk;
+        }
         if ($('#txtSlipNo').val() == '' && $('#chkHaveSlip').prop('checked')) {
             alert('กรุณาระบุเลขที่ใบเสร็จ หรือเอาเครื่องหมายออกหากเป็นค่าใช้จ่ายที่ไม่มีใบเสร็จ');
             $('#txtSlipNo').focus();
@@ -604,7 +610,7 @@ End Code
             }
         });
     }
-    function SaveDetail(obj) {        
+    function SaveDetail(obj) {
         let jsonString = JSON.stringify({ data: obj });
             $.ajax({
                 url: "@Url.Action("SetClrDetail", "Clr")",
@@ -613,7 +619,7 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     if (response.result.data !== '') {
-                        row = {};                        
+                        row = {};
                         //PrintData();
                         RefreshGrid();
                     }
@@ -701,7 +707,7 @@ End Code
     function GetDataHeader(dt) {
         let dh = {
             BranchCode: dt.BranchCode,
-            ClrNo: '',
+            ClrNo: $('#txtClrNo').val(),
             ClrDate: GetToday(),
             ClearanceDate: GetToday(),
             EmpCode: user,
@@ -800,7 +806,7 @@ End Code
             $('#dvDebug').css('display', 'initial');
         } else {
             $('#dvDebug').css('display', 'none');
-        }        
+        }
     }
     function SetNoCon() {
         if (!$('#chkNoCon').prop('checked')) {
