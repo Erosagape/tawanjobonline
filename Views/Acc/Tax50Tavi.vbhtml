@@ -1,5 +1,9 @@
 ﻿@Code
     ViewBag.Title = "Withholding-Tax Lists"
+    Dim debug As Boolean = False
+    If Not Request.QueryString("MODE") Is Nothing Then
+        debug = Request.QueryString("MODE").Equals("DEBUG")
+    End If
     Dim yy As String = DateTime.Now.Year.ToString("yyyy")
     If Not Request.Form("TaxYear") Is Nothing Then
         yy = Request.Form("TaxYear").ToString
@@ -32,13 +36,18 @@
     If Not Request.Form("TaxRegister") Is Nothing Then
         tr = Request.Form("TaxRegister").ToString
     End If
-
+    Dim tln As String = "1"
+    If Not Request.Form("TaxLawNo") Is Nothing Then
+        tln = Request.Form("TaxLawNo").ToString
+    End If
     Dim strHeader As String = ""
     Dim strDetail As String = ""
     Dim strAll As String = ""
+    Dim sqlH As String = ""
+    Dim sqlD As String = ""
     If ViewBag.User = "" Or Request.Form("Submit") = "" Then
     Else
-        Dim sqlH = ""
+
         If sqlH = "" Then
             sqlH = "
 select h.TaxNumber1,Convert(numeric,'0'+h.Branch1) as Branch1,h.TaxNumber2,Convert(numeric,'0'+h.Branch2) as Branch2,
@@ -49,48 +58,27 @@ h.TaxLawNo,h.SeqInForm
 from Job_WHTax h left join Job_WHTaxDetail d
 on h.BranchCode=d.BranchCode and h.DocNo=d.DocNo
 where not isnull(h.CancelProve,'')<>'' AND h.FormType=" & frm & " AND Year(h.DocDate)={0} AND Month(h.DocDate)={1} AND h.TaxNumber1='{2}' " & IIf(ty = "2", String.Format(" AND h.TaxNumber2='{0}' ", ta), "") & "
+and h.TaxLawNo=" & tln & "
 group by h.TaxNumber1,Convert(numeric,'0'+h.Branch1),h.TaxNumber2,Convert(numeric,'0'+h.Branch2),h.TaxLawNo,h.SeqInForm
 "
         End If
-        Dim sqlD = ""
+
         If sqlD = "" Then
             sqlD = "
-SELECT
-    h.DocNo,
-    h.TaxNumber3,
-    Convert(numeric, '0' + h.Branch3) AS Branch3,
-    MAX(h.TName3) AS TName3,
-    MAX(h.TAddress3) AS TAddress3,
-    CAST(d.PayRate AS DECIMAL(18, 2)) AS PayRate,
-    d.PayDate,
-    d.PayTaxDesc,
-    h.PayTaxType,
-    CAST(SUM(d.PayAmount) AS DECIMAL(18, 2)) AS PayAmount,
-    CAST(SUM(d.PayTax) AS DECIMAL(18, 2)) AS PayTax
-FROM
-    Job_WHTax h
-LEFT JOIN
-    Job_WHTaxDetail d
-ON
-    h.BranchCode = d.BranchCode
-    AND h.DocNo = d.DocNo
-WHERE
-    NOT isnull(h.CancelProve, '') <> ''
-    AND h.FormType = " & frm & "
-    AND Year(h.DocDate) = {0}
-    AND Month(h.DocDate) = {1}
-    AND h.TaxNumber1 = '{2}'
-    AND h.TaxNumber2 = '{3}'
-GROUP BY
+select h.DocNo,h.TaxNumber3,Convert(numeric, '0' + h.Branch3) AS Branch3,MAX(h.TName3) AS TName3,
+CAST(d.PayRate AS DECIMAL(18, 2)) AS PayRate,d.PayDate,d.PayTaxDesc,h.PayTaxType,
+CAST(SUM(d.PayAmount) AS DECIMAL(18, 2)) AS PayAmount,
+CAST(SUM(d.PayTax) AS DECIMAL(18, 2)) AS PayTax
+,MAX(dbo.ProcessAddressSingle(h.TAddress3)) as Address3
+FROM Job_WHTax h
+LEFT JOIN Job_WHTaxDetail d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
+WHERE NOT isnull(h.CancelProve, '') <> '' AND h.FormType = " & frm & " AND h.TaxLawNo = " & tln & " AND Year(h.DocDate) = {0}
+AND Month(h.DocDate) = {1}
+AND h.TaxNumber1 = '{2}'
+" & IIf(ty = "2", " AND h.TaxNumber2='" & ta & "' ", "") & "
+GROUP BY h.TaxNumber3,Convert(numeric, '0' + h.Branch3),h.DocNo,CAST(d.PayRate AS DECIMAL(18, 2)),
+d.PayDate,d.PayTaxDesc,h.PayTaxType,h.TAddress3"
 
-    h.TaxNumber3,
-    Convert(numeric, '0' + h.Branch3),h.DocNo,
-    CAST(d.PayRate AS DECIMAL(18, 2)),
-    d.PayDate,
-    d.PayTaxDesc,
-    h.PayTaxType
-
-"
         End If
 
         Dim th = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(String.Format(sqlH, yy, mm, tx))
@@ -148,7 +136,7 @@ GROUP BY
             Dim lastDoc = ""
             Dim lastAddr = ""
             Dim rc As Integer = 0
-            Dim td = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(String.Format(sqlD, yy, mm, tx, ta))
+            Dim td = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(String.Format(sqlD, yy, mm, tx))
             For Each rd As System.Data.DataRow In td.Rows
                 rc += 1
                 Dim pDate = ""
@@ -169,10 +157,9 @@ GROUP BY
                     strDetail &= "|"    '#4 เลขประจำตัวประชาชนผู้มีเงินได้
                 End If
                 If rd("TaxNumber3").ToString.Length < 13 Then
-                    'strDetail &= CInt("0" & rd("TaxNumber3").ToString).ToString("000000") & "|"    '#5 เลขประจำตัวผู้เสียภาษีอากรผู้มีเงินได้
-                    strDetail &=  "0000000000|"    '#5 เลขประจำตัวผู้เสียภาษีอากรผู้มีเงินได้
+                    strDetail &= CInt("0" & rd("TaxNumber3").ToString).ToString("0000000000") & "|"    '#5 เลขประจำตัวผู้เสียภาษีอากรผู้มีเงินได้
                 Else
-                    strDetail &= CInt("0" & rd("Branch3").ToString).ToString("0000000000") & "|"   '#5 เลขประจำตัวผู้เสียภาษีอากรผู้มีเงินได้
+                    strDetail &= "0000000000|"    '#5 เลขประจำตัวผู้เสียภาษีอากรผู้มีเงินได้
                 End If
                 If frm = "4" Then
                     strDetail &= "-|"    '#6 คำนำหน้าชื่อ
@@ -201,17 +188,20 @@ GROUP BY
                 strDetail &= "|"    '#24
                 strDetail &= "|"    '#25
                 strDetail &= "|"    '#26
-                strDetail &= "|"    '#27 ชื่ออาคาร
-                strDetail &= "|"    '#28 ห้องเลขที่
-                strDetail &= "|"    '#29 ชั้นที่
-                strDetail &= lastAddr & "|"    '#30 หมู่บ้าน
-                strDetail &= "|"    '#31  เลขที่
-                strDetail &= "|"    '#32 หมู่ที่
-                strDetail &= "|"    '#33 ตรอก/ซอย
-                strDetail &= "|"    '#34  ถนน
-                strDetail &= "|"    '#35 ตำบล/แขวง
-                strDetail &= "|"    '#36 อำเภอ/เขต
-                strDetail &= "|"    '#37  จังหวัด
+
+                strDetail &= rd("Address3").ToString()
+
+                'strDetail &= "|"    '#27 ชื่ออาคาร
+                'strDetail &= "|"    '#28 ห้องเลขที่
+                'strDetail &= "|"    '#29 ชั้นที่
+                'strDetail &= lastAddr & "|"    '#30 หมู่บ้าน
+                'strDetail &= "|"    '#31  เลขที่
+                'strDetail &= "|"    '#32 หมู่ที่
+                'strDetail &= "|"    '#33 ตรอก/ซอย
+                'strDetail &= "|"    '#34  ถนน
+                'strDetail &= "|"    '#35 ตำบล/แขวง
+                'strDetail &= "|"    '#36 อำเภอ/เขต
+                'strDetail &= "|"    '#37  จังหวัด
                 'strDetail &= "|"    '#38 รหัสไปรษณีย์
             Next
             Exit For
@@ -232,7 +222,7 @@ GROUP BY
         If frm = "4" Then
             fname &= "3"
         End If
-        fname &= "_" & ViewBag.PROFILE_TAXNUMBER & "_" & CInt(ViewBag.PROFILE_TAXBRANCH).ToString("000000") & "_" & DateTime.Now.Year() + 543 & "_" & DateTime.Now.Month.ToString("00")
+        fname &= "_" & ViewBag.PROFILE_TAXNUMBER & "_" & CInt(ViewBag.PROFILE_TAXBRANCH).ToString("000000") & "_" & CInt(yy) + 543 & "_" & CInt(mm).ToString("00")
         Response.AddHeader("content-disposition", "attachment; filename=PND" & fname & "_00_00.txt")
         Response.Write(sb.ToString())
         Response.End()
@@ -449,6 +439,20 @@ End Code
                     </div>
                     <div class="row">
                         <div class="col-sm-4">
+                            มาตรา
+                        </div>
+                        <div class="col-sm-6">
+                            <select name="TaxLawNo">
+                                <option value="1" @(IIf(tln = "1", Html.AttributeEncode("selected"), ""))>3 เตรส</option>
+                                <option value="2" @(IIf(tln = "2", Html.AttributeEncode("selected"), ""))>65 จัดวา</option>
+                                <option value="3" @(IIf(tln = "3", Html.AttributeEncode("selected"), ""))>69 ทวิ</option>
+                                <option value="4" @(IIf(tln = "4", Html.AttributeEncode("selected"), ""))>48 ทวิ</option>
+                                <option value="5" @(IIf(tln = "5", Html.AttributeEncode("selected"), ""))>50 ทวิ</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4">
                             ประเภทการนำส่ง
                         </div>
                         <div class="col-sm-6">
@@ -492,7 +496,7 @@ End Code
                         </div>
                     </div>
                     <input type="submit" name="Submit" value="Submit" />
-                </form>
+                </form>                
             </div>
         </div>
     </div>
