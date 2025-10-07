@@ -30,7 +30,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <div style="display:flex;flex-direction:row">
-                    <label id="lblJNo" ondblclick="SaveData()">Job Number:</label>
+                    <label id="lblJNo" ondblclick="SaveData(false)">Job Number:</label>
                     <input type="text" class="form-control" style="width:100%;background-color:yellow;color:red;font-weight:bold" id="txtJNo" disabled />
                     <input type="text" class="form-control" style="width:50px" id="txtRevised" disabled />
                 </div>
@@ -67,7 +67,7 @@ End Code
                     </select>
                 </div>
                 <div class="col-sm-4">
-                    <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
+                    <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData(true)">
                         <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
                     </a>
                     <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
@@ -367,7 +367,7 @@ End Code
                                     </div>
                                     <div class="col-sm-8" style="display:flex;flex-direction:row">
                                         <input type="text" id="txtDeliverTo" class="form-control" style="width:100%" tabindex="25" />
-                                        <input type="button" id="btnBrowseCust3" class="btn btn-default" value="..." onclick="SearchData('NOTIFY')" />
+                                        <input type="button" id="btnBrowseCust3" class="btn btn-default" value="..." onclick="SearchData('CUSTOMER')" />
                                     </div>
                                 </div>
                                 <div class="row">
@@ -706,13 +706,17 @@ End Code
                                 <thead>
                                     <tr>
                                         <th class="desktop">
+                                            Actions
+                                        </th>
+
+                                        <th class="desktop">
                                             Date
                                         </th>
                                         <th class="all">
-                                            Action
+                                            Staff 
                                         </th>
                                         <th class="desktop">
-                                            User
+                                            Description/Remark
                                         </th>
                                     </tr>
                                 </thead>
@@ -720,6 +724,43 @@ End Code
                             </table>
                         </div>
                     </div>
+
+			<div class="modal fade" id="editLogModal" tabindex="-1" role="dialog" aria-labelledby="editLogModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLogModalLabel">Edit Remark</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editLogForm">
+                    <input type="hidden" id="editItemNo">
+                    <input type="hidden" id="editBranchCode">
+                    <input type="hidden" id="editJNo">
+                    <div class="form-group">
+                        <label for="editLogDate">Date</label>
+                        <input type="text" class="form-control" id="editLogDate" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTRemark">Description</label>
+                        <textarea class="form-control" id="editTRemark" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmpCode">Staff</label>
+                        <input type="text" class="form-control" id="editEmpCode" readonly>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveLogChanges">Save Remark</button>
+            </div>
+        </div>
+    </div>
+</div>
+
                     <div class="row">
                         <div class="col-sm-12">
                             <button class="btn btn-default" id="btnLinkDoc" onclick="OpenDocument()">Document Files</button>
@@ -1261,6 +1302,9 @@ End Code
             case 'CURRENCY':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
+            case 'CUST':
+                SetGridCompanyByGroup(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
             case 'CUSTOMER':
                 SetGridCompanyByGroup(path, '#tbCust', 'CUSTOMERS', '#frmSearchCust', ReadCustomer);
                 break;
@@ -1526,7 +1570,7 @@ End Code
             }
         });
     }
-    function ShowLog(Branch,Job) {
+function ShowLog(Branch,Job) {
         $.get(path + 'joborder/getjoborderlog?branch=' + Branch + '&code=' + Job)
             .done(function (r) {
                 if (r.joborderlog.data.length > 0) {
@@ -1534,21 +1578,49 @@ End Code
                     let tb=$('#tbLog').DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
-                        columns: [ //กำหนด property ของ header column
-                            {
-                                data: "LogDate", title: "Date",
-                                render: function (data) {
-                                    return CDateEN(data);
-                                }
+                         columns: [ 
+			                {
+ 				                data: null, title: "Actions", 
+				                render: function (data, type, row) {
+                                    let editButton = '<button class="btn btn-warning btn-edit" data-item="' + row.ItemNo + '" data-row=\'' + JSON.stringify(row) + '\'>Edit</button>';
+                                    let deleteButton = '<button class="btn btn-danger btn-delete ml-1" data-item="' + row.ItemNo + '">Delete</button>'; // เพิ่ม ml-1 เพื่อเว้นระยะเล็กน้อย
+				                    return editButton + deleteButton; 
+				                }
                             },
-                            { data: "EmpCode", title: "Staff" },
-                            { data: "TRemark", title: "Description" }
-                        ],
-                        destroy: true, //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                        responsive: true
-                        , pageLength: 100
+                            {
+                                data: "LogDate", title: "Date",
+                                render: function (data) {
+                                    return CDateEN(data);
+                                }
+                            },
+                            { data: "EmpCode", title: "Staff" },
+                            { data: "TRemark", title: "Description/Remark" }
+
+                        ],
+                        destroy: true,
+                        responsive: true
+                        , pageLength: 100
                     });
                     ChangeLanguageGrid('@ViewBag.Module', '#tbLog');
+		   $('#tbLog tbody').on('click', '.btn-delete', function () {
+                  	let itemNo = $(this).data('item');
+			//Deleteorderlog(Branch, Job, itemNo, tb);
+			Deleteorderlog(Branch, Job, itemNo, tb, $(this).closest('tr')); 
+		   });
+
+                   $('#tbLog tbody').on('click', '.btn-edit', function () {
+
+                    let itemNo = $(this).data('item');
+
+                    let rowData = $(this).data('row'); 
+                    console.log('Edit clicked for ItemNo:', itemNo);
+                    
+		    console.log('Row Data:', rowData);
+  
+		    let $rowElement = $(this).closest('tr');                  
+                                    
+		    EditLog(Branch, Job, itemNo, rowData, tb, $rowElement);               
+	           });
                 }
             });
     }
@@ -1695,7 +1767,7 @@ End Code
 
                     $('#txtCancelDate').val(CDateEN(GetToday()));
                     ShowJobTypeShipBy(path, rec.JobType, rec.ShipBy, rec.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
-                    SaveData();
+                    SaveData(false);
                     return;
                 } else {
                     ShowMessage('Please enter reason for cancel', true);
@@ -1715,7 +1787,7 @@ End Code
                 $('#txtCancelBy').val('');
                 $('#txtCancelDate').val('');
                 $('#txtCancelReason').val('');
-                SaveData();
+                SaveData(false);
                 $.get(path + 'joborder/updatejobstatus?NoLog=Y&branch=' + rec.BranchCode + '&JNo=' + rec.JNo, function (r) {
                     ShowJob(rec.BranchCode, rec.JNo);
                     return;
@@ -1725,32 +1797,156 @@ End Code
         }
         ShowMessage('This document is cancelled',true);
     }
+    function CheckEntry() {
+        if ($('#txtDutyDate').val() == '') {
+            ShowMessage('Please input inspection date', true);
+            $('#txtDutyDate').focus();
+            return false;
+        }
+        if ($('#txtConfirmDate').val() == '') {
+            ShowMessage('Please input confirm date', true);
+            $('#txtConfirmDate').focus();
+            return false;
+        }
+        let jtcheck = 'IMPORT,EXPORT,DOMESTIC,TRANSPORT,FREIGHT';
+        if (jtcheck.indexOf($('#txtJobType').val()) >= 0) {
+            if ($('#txtETDDate').val() == '') {
+                ShowMessage('Please input ETD date', true);
+                $('#txtETDDate').focus();
+                return false;
+            }
+            if ($('#txtETADate').val() == '') {
+                ShowMessage('Please input ETA date', true);
+                $('#txtETADate').focus();
+                return false;
+            }
+            if ($('#txtLoadDate').val() == '') {
+                ShowMessage('Please input Load date', true);
+                $('#txtLoadDate').focus();
+                return false;
+            }
+            if ($('#txtConfirmDate').val() == '') {
+                ShowMessage('Please input confirm date', true);
+                $('#txtConfirmDate').focus();
+                return false;
+            }
+            if ($('#txtConfirmDate').val() == '') {
+                ShowMessage('Please input confirm date', true);
+                $('#txtConfirmDate').focus();
+                return false;
+            }
+            if ($('#txtGrossWeight').val() == '0') {
+                ShowMessage('Please input gross weight', true);
+                $('#txtGrossWeight').focus();
+                return false;
+            }
+            if ($('#txtNetWeight').val() == '0') {
+                ShowMessage('Please input net weight', true);
+                $('#txtNetWeight').focus();
+                return false;
+            }
+            if ($('#txtInvCurRate').val() == '0') {
+                ShowMessage('Please input currency rate', true);
+                $('#txtInvCurRate').focus();
+                return false;
+            }
+            if ($('#txtInvQty').val() == '0') {
+                ShowMessage('Please input product qty', true);
+                $('#txtInvQty').focus();
+                return false;
+            }
+            if ($('#txtInvTotal').val() == '0') {
+                ShowMessage('Please input invoice total', true);
+                $('#txtInvTotal').focus();
+                return false;
+            }
+            if ($('#txtWeightUnit').val() == '') {
+                ShowMessage('Please input weight unit', true);
+                $('#txtWeightUnit').focus();
+                return false;
+            }
+            if ($('#txtHAWB').val() == '') {
+                ShowMessage('Please input house air way bill', true);
+                $('#txtHAWB').focus();
+                return false;
+            }
+            if ($('#txtInvCountry').val() == '') {
+                ShowMessage('Please input invoice origin country', true);
+                $('#txtInvCountry').focus();
+                return false;
+            }
+            if ($('#txtInvFCountry').val() == '') {
+                ShowMessage('Please input consignment country', true);
+                $('#txtInvFCountry').focus();
+                return false;
+            }
+            if ($('#txtForwarder').val() == '') {
+                ShowMessage('Please input forwarder', true);
+                $('#txtForwarder').focus();
+                return false;
+            }
+            if ($('#txtTransporter').val() == '') {
+                ShowMessage('Please input transporter', true);
+                $('#txtTransporter').focus();
+                return false;
+            }
+            if ($('#txtTotalCTN').val() == '') {
+                ShowMessage('Please input total container', true);
+                $('#txtTotalCTN').focus();
+                return false;
+            }
+            if ($('#txtVesselName').val() == '') {
+                ShowMessage('Please input vessel/vehicle no', true);
+                $('#txtVesselName').focus();
+                return false;
+            }
+            if ($('#txtReleasePort').val() == '') {
+                ShowMessage('Please input release port', true);
+                $('#txtReleasePort').focus();
+                return false;
+            }
+            if ($('#txtInterPort').val() == '') {
+                ShowMessage('Please input inter port', true);
+                $('#txtInterPort').focus();
+                return false;
+            }
+            if ($('#txtInvUnit').val() == '') {
+                ShowMessage('Please input product unit', true);
+                $('#txtInvUnit').focus();
+                return false;
+            }
+            if ($('#txtInvCurrency').val() == '') {
+                ShowMessage('Please input currency', true);
+                $('#txtInvCurrency').focus();
+                return false;
+            }
+            if ($('#txtDeclareNo').val() == '') {
+                ShowMessage('Please input declare number', true);
+                $('#txtDeclareNo').focus();
+                return false;
+            }
+            if ($('#txtInvProduct').val() == '') {
+                ShowMessage('Please input invoice product', true);
+                $('#txtInvProduct').focus();
+                return false;
+            }
+        }
+        return true;
+    }
     function CloseJob() {
         if ($('#txtCloseBy').val() == '') {
-            if ($('#txtDutyDate').val()=='') {
-                ShowMessage('Please input inspection date',true);
-                $('#txtDutyDate').focus();
-                return;
-            }
-            if ($('#txtConfirmDate').val()=='') {
-                ShowMessage('Please input confirm date',true);
-                $('#txtConfirmDate').focus();
+            if (!CheckEntry()) {
                 return;
             }
             if (rec.JobStatus < 3) {
                 rec.JobStatus = 3;
-            }
-            if ($('#txtGrossWeight').val()=='0') {
-                ShowMessage('Please input gross weight',true);
-                $('#txtGrossWeight').focus();
-                return;
-            }
+            }            
             rec.CloseJobBy = user;
             rec.CloseJobTime = GetTime();
             ShowUser(path, rec.CloseJobBy, '#txtCloseBy');
             $('#txtCloseDate').val(CDateEN(GetToday()));
             ShowJobTypeShipBy(path, rec.JobType, rec.ShipBy, rec.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
-            SaveData();
+            SaveData(false);
             return;
         } else {
             if (user == rec.CloseJobBy) {
@@ -1761,7 +1957,7 @@ End Code
                     rec.CloseJobDate = null;
                     $('#txtCloseBy').val('');
                     $('#txtCloseDate').val('');
-                    SaveData();
+                    SaveData(false);
                     $.get(path + 'joborder/updatejobstatus?NoLog=Y&branch=' + rec.BranchCode + '&JNo=' + rec.JNo, function (r) {
                         ShowJob(rec.BranchCode, rec.JNo);
                         return;
@@ -1772,8 +1968,13 @@ End Code
         }
         ShowMessage('This job has been closed');
     }
-    function SaveData() {
+    function SaveData(chkval) {
         if (rec.JNo != undefined) {
+            if (chkval) {
+                if (!CheckEntry()) {
+                    return;
+                }
+            }
             let obj = GetDataSave(rec);
 
             let jsonText = JSON.stringify({ data: obj });
@@ -2061,7 +2262,7 @@ End Code
         window.open(path + 'Clr/FormEntry?branch=' + $('#txtBranchCode').val() + '&job=' + $('#txtJNo').val());
     }
     function ImportTransport(db, job) {
-        SaveData();
+        SaveData(false);
         $.get(path + 'JobOrder/CopyTransportData?DBID=' + db + '&FROM=' + job + '&TO=' + $('#txtJNo').val()).done(function (r) {
             ShowMessage(r);
         });
@@ -2105,5 +2306,97 @@ End Code
         }
         return;
     }
+	function Deleteorderlog(branch, code, itemNo, table) {
+	ShowConfirm('Please confirm to delete', function (odl) {
+        if (odl == false) return;
+		$.get(path + 'JobOrder/DelJobOrderLog?code=' + code + '&branch=' + branch + '&Item=' + itemNo, function (r) {
+                ShowMessage(r.joborderlog.result);
+		if (r.joborderlog.result === "Success") {
+		 table.row($('.btn-delete[data-item="' + itemNo + '"]').parents('tr')).remove().draw();
+                 table.row(row).remove().draw(); 
+			}
+		});
+	});
+}
+
+function EditLog(branch, job, itemNo, rowData, dataTableInstance, $rowElement) {
+    // 1. นำข้อมูลจาก rowData ไปแสดงใน Modal Form
+    $('#editItemNo').val(itemNo);
+    $('#editBranchCode').val(branch); 
+    $('#editJNo').val(job); 
+
+    $('#editLogDate').val(CDateEN(rowData.LogDate)); 
+    $('#editTRemark').val(rowData.TRemark);
+    $('#editEmpCode').val(rowData.EmpCode);
+
+    // เก็บ reference ของ DataTables instance และ element ของแถวที่กำลังแก้ไขไว้ใน Modal's data
+    // เพื่อให้เข้าถึงได้ใน event handler ของปุ่ม Save
+    $('#editLogModal').data('dataTableInstance', dataTableInstance);
+    $('#editLogModal').data('editedRowElement', $rowElement); // เก็บ element ของแถวไว้
+
+    // 2. แสดง Modal
+    $('#editLogModal').modal('show');
+}
+
+// 3. จัดการการคลิกปุ่ม "Save changes" ภายใน Modal
+$('#saveLogChanges').off('click').on('click', function () {
+    let itemNo = $('#editItemNo').val();
+    let branchCode = $('#editBranchCode').val();
+    let jNo = $('#editJNo').val();
+    let newTRemark = $('#editTRemark').val();
+    
+    // ดึง DataTables instance และ element ของแถวที่กำลังแก้ไขจาก Modal's data
+    let dataTableInstance = $('#editLogModal').data('dataTableInstance');
+    let $editedRowElement = $('#editLogModal').data('editedRowElement');
+
+    let dataToSend = {
+        BranchCode: branchCode,
+        JNo: jNo,
+        ItemNo: parseInt(itemNo), 
+        TRemark: newTRemark,
+        LogDate: $('#editLogDate').val(), 
+        EmpCode: $('#editEmpCode').val()
+    };
+
+    $.ajax({
+        url: path + 'joborder/SetJobOrderLog', 
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(dataToSend),
+        success: function (response) {
+ 	   console.log("Server Response:", response); 
+            if (response.result && response.result.msg === "Save Complete") {
+                alert('Remark updated successfully!');
+                $('#editLogModal').modal('hide');                
+                if (dataTableInstance && $editedRowElement) {
+                    let currentData = dataTableInstance.row($editedRowElement).data();
+                    currentData.TRemark = newTRemark; 
+                    dataTableInstance.row($editedRowElement).data(currentData).draw();
+                } else if (response.result && response.result.msg === "ok") {      
+		  alert('Log updated successfully!');
+
+                 $('#editLogModal').modal('hide');
+         
+
+   
+   		 }else {
+                    console.warn("Could not find DataTables instance or row element. Reloading table.");
+                    if (dataTableInstance) {
+                        dataTableInstance.ajax.reload(null, false);
+                    } else {
+                         // ShowLog(branchCode, jNo); 
+                    }
+                }
+
+            } else {
+                alert('Failed to update log: ' + (response.result ? response.result.msg : 'Unknown error'));
+            }
+        },
+        error: function (xhr, status, error) {
+            alert('Error updating log: ' + error);
+            console.error("AJAX Error:", status, error, xhr.responseText);
+        }
+    });
+});
 
 </script>

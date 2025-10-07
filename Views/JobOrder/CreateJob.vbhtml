@@ -243,8 +243,22 @@ End Code
                     <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
                 </div>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-2">
+                <label id="lblNetWeight" for="txtNetWeight">Net Weight :</label>
                 <br />
+                <input type="text" id="txtNetWeight" class="form-control" style="width:100%" />
+            </div>
+            <div class="col-sm-4">
+                <label id="lblGrossWeight" for="txtGrossWeight">Gross Weight :</label>
+                <div style="display:flex;flex-direction:row">
+                    <input type="text" class="form-control" id="txtGrossWeight" style="width:100%" />
+                    <input type="text" class="form-control" id="txtWeightUnit" style="width:60px"  />
+                    <input type="button" class="btn btn-default" id="btnBrowseMeas" value="..." onclick="SearchData('GWUnit')" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
                 <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
                     <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
                 </a>
@@ -364,6 +378,8 @@ End Code
             CreateLOV(dv,'#frmSearchIPort', '#tbIPort','International Port',response,3);
 
             //2 Fields
+            //Unit
+            CreateLOV(dv, '#frmSearchWUnt', '#tbWUnt', 'Weight Unit', response, 2);
             //Country
             CreateLOV(dv,'#frmSearchCountry', '#tbCountry', 'Country', response,2);
             //FCountry
@@ -570,7 +586,14 @@ End Code
                 let sby = $('#cboShipBy').val();        
                 SetGridQuotationDesc(path, '#tbQuo', '?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1', '#frmSearchQuo', ReadQuo);
                 break;
+            case 'GWUnit':
+                SetGridUnit(path, '#tbWUnt', '#frmSearchWUnt', ReadGWUnit);
+                break;
         }
+    }
+    function ReadGWUnit(dt) {
+        $('#txtWeightUnit').val(dt.Code);
+        $('#txtWeightUnit').focus();
     }
     function GetParam() {
         let strParam = '?';
@@ -641,10 +664,25 @@ End Code
             $('#txtCustInv').focus();
             return;
         }
-	if ($('#txtContactPerson').val() === '') {
+        if ($('#txtContactPerson').val() === '') {
             ShowMessage('Please Enter Contact.',true);
             $('#txtContactPerson').focus();
             return;
+        }
+        if ($('#txtWeightUnit').val() === '') {
+            ShowMessage('Please Enter Weight Unit', true);
+            $('#txtWeightUnit').focus();
+            return;
+        }
+        if ($('#txtWeightUnit').val() !== 'N/A') {                        
+            if (CNum($('#txtNetWeight').val()) === 0) {
+                ShowMessage('Please Enter Net Weight', true);
+                $('#txtNetWeight').focus();
+            }
+            if (CNum($('#txtGrossWeight').val()) === 0) {
+                ShowMessage('Please Enter Gross Weight', true);
+                $('#txtGrossWeight').focus();
+            }
         }
         //if pass every checked
         
@@ -709,7 +747,9 @@ End Code
         dr.InvCountry = CStr($('#txtInvCountry').val());
         dr.InvFCountry = CStr($('#txtInvFCountry').val());
         dr.InvInterPort=CStr($('#txtInterPort').val());
-
+        dr.TotalNW = CNum($('#txtNetWeight').val());
+        dr.TotalGW = CNum($('#txtGrossWeight').val());
+        dr.GWUnit = CStr($('#txtWeightUnit').val());
         //--- Default Values 
         dr.DeclareNumber=CStr(dr.DeclareNumber);
         dr.Commission=0
@@ -725,9 +765,7 @@ End Code
         dr.TotalQty = CNum(dr.TotalQty);
         dr.InvTotal = CNum(dr.InvTotal);
         dr.Measurement=CStr(dr.Measurement);
-        dr.TotalNW = CNum(dr.TotalNW);
-        dr.TotalGW = CNum(dr.TotalGW);
-        dr.GWUnit=CStr(dr.GWUnit);
+
         dr.InvCurUnit=CStr(dr.InvCurUnit);
         dr.InvCurRate = CNum(dr.InvCurRate);
 
@@ -739,7 +777,6 @@ End Code
 
         dr.ImExDate = "0001-01-01T00:00:00";
         dr.ReadyToClearDate = "0001-01-01T00:00:00";
-
 
         dr.ClearDate = "0001-01-01T00:00:00";
         dr.ClearPort = CStr(dr.ClearPort);

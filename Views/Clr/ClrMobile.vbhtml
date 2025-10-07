@@ -75,6 +75,11 @@ End Code
                 <input type="checkbox" id="chkHaveSlip" onclick="SetSlipNo()" checked>เลขใบเสร็จ :
                 <input type="text" id="txtSlipNo" class="form-control" />
                 <br />
+                อัพโหลดไฟล์ใบเสร็จ : <input type="file" id="objFile" multiple />
+                <input type="button" class="btn btn-primary" onclick="UploadFile()" value="Upload Slip File" />
+                <br />
+                <label id="lblFileName">No file selected</label>
+                <br />
                 วันที่ใบเสร็จ :
                 <input type="date" id="txtDate50Tavi" class="form-control" />
                 <br />
@@ -171,7 +176,7 @@ End Code
             <div class="col-sm-3">
                 <label>ตรวจสอบยอดคงเหลือ</label>
             </div>
-            <div class="col-sm-9">
+            <div class="col-sm-9">                
                 ใบเบิก :
                 <input type="text" id="txtAdvNo" class="form-control" readonly onclick="PrintAdvance()" />
                 <br />
@@ -619,8 +624,7 @@ End Code
                 data: jsonString,
                 success: function (response) {
                     if (response.result.data !== '') {
-                        row = {};
-                        //PrintData();
+                        row = {};                        
                         RefreshGrid();
                     }
                     $('#txtJsonD').val(JSON.stringify(response));
@@ -817,5 +821,32 @@ End Code
     }
     function ClearHeader() {
         $('#txtClrNo').val('');
+    }
+    function UploadFile() {
+        let count = $('#objFile')[0].files.length;
+        if (count == 0) {
+            //ShowMessage('Data not found', true);
+            return;
+        }
+        let saveTo = 'Resource/Import';
+        let fname = '';
+        for (let file of $('#objFile')[0].files) {
+            let data = new FormData();
+            data.append(file.name, file);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST', path + 'Tracking/UploadDocument?Branch=' + branchCode + '&Code=' + $('#txtJNo').val() + '&Type=EXP&Path=' + saveTo);
+            xhr.send(data);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (xhr.responseText.substr(0, 1) !== "[") {
+                        fname += (fname==''?'':',') + xhr.responseText.split(' ')[1];
+                        $('#lblFileName').text(fname);
+
+                    } else {
+                        alert(xhr.responseText);
+                    }                    
+                }
+            }
+        }
     }
 </script>
