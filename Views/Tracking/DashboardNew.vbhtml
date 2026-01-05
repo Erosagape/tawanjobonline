@@ -1,39 +1,46 @@
 ﻿@Code
-    ViewBag.Title = "Main Dashboard"
+    ViewBag.Title = "Recap Your Company"
     Dim dt1 As New Data.DataTable
     Dim dt2 As New Data.DataTable
     Dim dt3 As New Data.DataTable
+    Dim dt4 As New Data.DataTable
+    Dim dt5 As New Data.DataTable
+    Dim dt4_1 As New Data.DataTable
     Dim dt1_1 As New Data.DataTable
     Dim dt1_2 As New Data.DataTable
+    Dim dt2_1 As New Data.DataTable
+    Dim dt2_2 As New Data.DataTable
     Dim dt1_3 As New Data.DataTable
     Dim dt1_4 As New Data.DataTable
     Dim obj = New CUtil(ViewBag.CONNECTION_JOB)
-    Dim jobtype As Integer = 0
-    Dim shipby As Integer = 0
+    Dim showDetail As String = ""
+    Dim jobtype As Integer = 1
+    Dim shipby As Integer = 1
     Dim dateFrom As String = New Date(Now.Year - 1, 1, 1).ToString("yyyy-MM-dd")
     Dim dateTo As String = New Date(Now.Year - 1, 12, 31).ToString("yyyy-MM-dd")
-    If ViewBag.User <> "" Then
-        If Not Request.Form("submit") Is Nothing Then
-            jobtype = Request.Form("jt")
-            shipby = Request.Form("sb")
-            dateFrom = Request.Form("df")
-            dateTo = Request.Form("dt")
-            Dim sqlSource As String = "
+    Dim sqlSource As String = "
 with tb as
 (
 select j.JNo,j.JobStatus,
 jt.ConfigValue as JobTypeName,
 sb.ConfigValue as ShipByName,
 c.NameThai as CustomerName,
-cl.CustAdvAmount,cl.ChargeAmount,cl.CostAmount,
-cl.AdvBill,cl.ChargeBill,
-cl.AdvBill+cl.ChargeBill as BillAmount,
-cl.RecvAdv,cl.RecvCharge,
-cl.RecvAdv+cl.RecvCharge as RecvAmount,
-cl.UnBillAdv,cl.UnBillCharge,
-cl.UnbillAdv+cl.UnBillCharge as UnBillAmount,
-cl.UnRecvAdv,cl.UnRecvCharge,
-cl.UnRecvAdv+cl.UnRecvCharge as UnReceiveAmount
+cl.JobNo,
+isnull(cl.CustAdvAmount,0) as CustAdvAmount,
+isnull(cl.ChargeAmount,0) as ChargeAmount,
+isnull(cl.CostAmount,0) as CostAmount,
+isnull(cl.AdvBill,0) as AdvBill,
+isnull(cl.ChargeBill,0) as ChargeBill,
+isnull(cl.AdvBill,0)+isnull(cl.ChargeBill,0) as BillAmount,
+isnull(cl.RecvAdv,0) as RecvAdv,
+isnull(cl.RecvCharge,0) as RecvCharge,
+isnull(cl.RecvAdv,0)+isnull(cl.RecvCharge,0) as RecvAmount,
+isnull(cl.UnBillAdv,0) as UnbillAdv,
+isnull(cl.UnBillCharge,0) as UnbillCharge,
+isnull(cl.UnbillAdv,0)+isnull(cl.UnBillCharge,0) as UnBillAmount,
+isnull(cl.UnRecvAdv,0) as UnRecvAdv,
+isnull(cl.UnRecvCharge,0) as UnRecvCharge,
+isnull(cl.UnRecvAdv,0)+isnull(cl.UnRecvCharge,0) as UnReceiveAmount
 from
 Job_Order j
 left join Mas_Company c
@@ -81,15 +88,6 @@ group by d.BranchCode,d.JobNo
 {0}
 )
 "
-            Dim sqlWhere As String = String.Format("WHERE j.BranchCode='{0}' ", ViewBag.PROFILE_DEFAULT_BRANCH)
-            sqlWhere &= String.Format(" AND j.DocDate>='{0}' AND j.DocDate<='{1}' ", dateFrom, dateTo)
-            If jobtype > 0 Then
-                sqlWhere &= String.Format(" AND j.JobType={0}", jobtype)
-            End If
-            If shipby > 0 Then
-                sqlWhere &= String.Format(" AND j.ShipBy={0}", shipby)
-            End If
-            sqlSource = String.Format(sqlSource, sqlWhere)
             Dim sql1 As String = "
 select
 count(*) as TotalJob,
@@ -108,12 +106,12 @@ from tb
             Dim sql2 As String = "
 select JobTypeName,
 count(*) as TotalJob,
-sum(case when tb.ChargeAmount is null and JobStatus=99 then 1 else 0 end) as TotalJobCancel,
-sum(case when tb.ChargeAmount is null and JobStatus<>99 then 1 else 0 end) as TotalJobNoClear,
-sum(case when tb.ChargeAmount is not null and tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0 then 1 else 0 end) as TotalJobCostonly,
-sum(case when tb.ChargeAmount is not null and not (tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0) and round(tb.UnBillAmount,0)<>0 then 1 else 0 end) as TotalJobBillAvaiable,
-sum(case when tb.ChargeAmount is not null and not (tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0) and round(tb.UnBillAmount,0)=0 and not round(tb.UnReceiveAmount,0)=0 then 1 else 0 end) as TotalBillRecvAvaiable,
-sum(case when tb.ChargeAmount is not null and not (tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0) and round(tb.UnBillAmount,0)=0 and round(tb.UnReceiveAmount,0)=0 then 1 else 0 end) as TotalBillRecvComplete
+sum(case when tb.JobNo is null and JobStatus=99 then 1 else 0 end) as TotalJobCancel,
+sum(case when tb.JobNo is null and JobStatus<>99 then 1 else 0 end) as TotalJobNoClear,
+sum(case when tb.JobNo is not null and tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0 then 1 else 0 end) as TotalJobCostonly,
+sum(case when tb.JobNo is not null and not (tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0) and round(tb.UnBillAmount,0)<>0 then 1 else 0 end) as TotalJobBillAvaiable,
+sum(case when tb.JobNo is not null and not (tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0) and round(tb.UnBillAmount,0)=0 and not round(tb.UnReceiveAmount,0)=0 then 1 else 0 end) as TotalBillRecvAvaiable,
+sum(case when tb.JobNo is not null and not (tb.CostAmount>0 and tb.ChargeAmount=0 and tb.CustAdvAmount=0) and round(tb.UnBillAmount,0)=0 and round(tb.UnReceiveAmount,0)=0 then 1 else 0 end) as TotalBillRecvComplete
 from tb
 group by JobTypeName
 order by 2 DESC
@@ -133,7 +131,7 @@ order by 2 DESC
 "
             Dim sqlStuff1 As String = "
 ,STUFF((
-select ','+cd.SDescription
+select distinct ','+cd.SDescription
 from Job_ClearDetail cd inner join Job_ClearHeader ch
 on cd.ClrNo=ch.ClrNo and cd.BranchCode=ch.BranchCode
 inner join Job_SrvSingle s on cd.SICode=s.SICode
@@ -145,7 +143,7 @@ FOR XML PATH ('')
 "
             Dim sqlStuff2 As String = "
 ,STUFF((
-select ','+cd.SDescription
+select distinct ','+cd.SDescription
 from Job_ClearDetail cd inner join Job_ClearHeader ch
 on cd.ClrNo=ch.ClrNo and cd.BranchCode=ch.BranchCode
 inner join Job_SrvSingle s on cd.SICode=s.SICode
@@ -165,7 +163,7 @@ FOR XML PATH ('')
 "
             Dim sqlStuff3 As String = "
 ,STUFF((
-select ','+cd.SDescription
+select distinct ','+cd.SDescription
 from Job_ClearDetail cd inner join Job_ClearHeader ch
 on cd.ClrNo=ch.ClrNo and cd.BranchCode=ch.BranchCode
 inner join Job_SrvSingle s on cd.SICode=s.SICode
@@ -177,7 +175,7 @@ FOR XML PATH ('')
 "
             Dim sqlStuff4 As String = "
 ,STUFF((
-select ','+cd.SDescription
+select distinct ','+cd.SDescription
 from Job_ClearDetail cd inner join Job_ClearHeader ch
 on cd.ClrNo=ch.ClrNo and cd.BranchCode=ch.BranchCode
 inner join Job_SrvSingle s on cd.SICode=s.SICode
@@ -195,20 +193,119 @@ and cd.JobNo=tb.JNo
 FOR XML PATH ('')
 ), 1, 1, '') as ListData
 "
-            dt1 = obj.GetTableFromSQL(sqlSource & vbCrLf & sql1)
-            dt1_1 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnbillAdv<>0", sqlStuff1))
-            dt1_2 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnRecvAdv<>0", sqlStuff2))
-            dt1_3 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnbillCharge<>0", sqlStuff3))
-            dt1_4 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnRecvCharge<>0", sqlStuff4))
-            dt2 = obj.GetTableFromSQL(sqlSource & vbCrLf & sql2)
-            dt3 = obj.GetTableFromSQL(sqlSource & vbCrLf & sql3)
-        End If
+            Dim sql4 As String = "
+select CustomerName,count(*) TotalDocs,round(sum(TotalAdvance),2) as TotalPayAdvance,
+sum(case when TotalClear is null then 1 else 0 end) as TotalDocNoClear,
+round(sum(case when TotalClear is null then TotalAdvance else 0 end),2) as TotalNoClear
+from (
+select h.BranchCode,h.AdvNo,c.NameThai as CustomerName,h.JobType,h.ShipBy,h.PaymentDate as DocDate,h.TotalAdvance,d.TotalClear
+from Job_AdvHeader h
+left join Mas_Company c on h.CustCode=c.CustCode and h.CustBranch=c.Branch
+left join
+(
+select cd.BranchCode,cd.AdvNo,sum(cd.BNet) as TotalClear
+from Job_ClearDetail cd inner join Job_ClearHeader ch on cd.ClrNo=ch.ClrNo and ch.DocStatus<>99 and cd.AdvNO<>''
+group by cd.BranchCode,cd.AdvNo
+) d
+on h.AdvNo=d.AdvNO and h.BranchCode=d.BranchCode
+where isnull(h.cancelprove,'')='' and isnull(h.PaymentRef,'')<>''
+) j
+{0}
+group by CustomerName
+ORDER By 2 desc
+"
+            Dim sql5 As String = "
+select ReqBy,count(*) TotalDocs,round(sum(TotalAdvance),2) as TotalPayAdvance,
+sum(case when TotalClear is null then 1 else 0 end) as TotalDocNoClear,
+round(sum(case when TotalClear is null then TotalAdvance else 0 end),2) as TotalNoClear
+from (
+select h.BranchCode,h.AdvNo,c.NameThai as CustomerName,h.JobType,h.ShipBy,h.PaymentDate as DocDate,h.TotalAdvance,d.TotalClear,
+concat(u.TName,' (',h.EmpCode,')') as ReqBy
+from Job_AdvHeader h
+left join Mas_User u on h.EmpCode=u.UserId
+left join Mas_Company c on h.CustCode=c.CustCode and h.CustBranch=c.Branch
+left join
+(
+select cd.BranchCode,cd.AdvNo,sum(cd.BNet) as TotalClear
+from Job_ClearDetail cd inner join Job_ClearHeader ch on cd.ClrNo=ch.ClrNo and ch.DocStatus<>99 and cd.AdvNO<>''
+group by cd.BranchCode,cd.AdvNo
+) d
+on h.AdvNo=d.AdvNO and h.BranchCode=d.BranchCode
+where isnull(h.cancelprove,'')='' and isnull(h.PaymentRef,'')<>''
+) j
+{0}
+group by ReqBy
+ORDER By 2 desc
+"
+            Dim sql4_1 As String = "
+select *
+from (
+select h.BranchCode,h.AdvNo,h.EmpCode,c.NameThai as CustomerName,h.JobType,h.ShipBy,h.PaymentDate as DocDate,h.TotalAdvance,d.TotalClear
+from Job_AdvHeader h
+left join Mas_Company c on h.CustCode=c.CustCode and h.CustBranch=c.Branch
+left join
+(
+select cd.BranchCode,cd.AdvNo,sum(cd.BNet) as TotalClear
+from Job_ClearDetail cd inner join Job_ClearHeader ch on cd.ClrNo=ch.ClrNo and ch.DocStatus<>99 and cd.AdvNO<>''
+group by cd.BranchCode,cd.AdvNo
+) d
+on h.AdvNo=d.AdvNO and h.BranchCode=d.BranchCode
+where isnull(h.cancelprove,'')='' and isnull(h.PaymentRef,'')<>''
+and d.TotalClear is null
+) j {0}
+order by TotalAdvance DESC
+"
 
+    If ViewBag.User <> "" Then
+        If Not Request.Form("submit") Is Nothing Then
+            jobtype = Request.Form("jt")
+            shipby = Request.Form("sb")
+            dateFrom = Request.Form("df")
+            dateTo = Request.Form("dt")     
+            showDetail = Request.Form("Detail")
+
+            Dim sqlWhere As String = String.Format("WHERE j.BranchCode='{0}' ", ViewBag.PROFILE_DEFAULT_BRANCH)
+            sqlWhere &= String.Format(" AND j.DocDate>='{0}' AND j.DocDate<='{1}' ", dateFrom, dateTo)
+            If jobtype > 0 Then
+                sqlWhere &= String.Format(" AND j.JobType={0}", jobtype)
+            End If
+            If shipby > 0 Then
+                sqlWhere &= String.Format(" AND j.ShipBy={0}", shipby)
+            End If
+            sqlSource = String.Format(sqlSource, sqlWhere)
+        
+            dt1 = obj.GetTableFromSQL(sqlSource & vbCrLf & sql1)
+            If showDetail="1" Then
+            	dt1_1 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnbillAdv>0", sqlStuff1))
+            End If    
+            If showDetail="2" Then
+        	dt1_2 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnRecvAdv>0", sqlStuff2))
+            End If    
+            If showDetail="3" Then
+            	dt1_3 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnbillCharge>0", sqlStuff3))
+            End If    
+            If showDetail="4" Then
+            	dt1_4 = obj.GetTableFromSQL(sqlSource & vbCrLf & String.Format("select tb.*{0} from tb where UnRecvCharge>0", sqlStuff4))
+            End If
+            dt2 = obj.GetTableFromSQL(sqlSource & vbCrLf & sql2)
+            If showDetail="5" Then
+            	dt2_1 = obj.GetTableFromSQL(sqlSource & vbCrLf & "select tb.* from tb where tb.JobNo is null")
+            End If    
+            If showDetail="6" Then
+            	dt2_2 = obj.GetTableFromSQL(sqlSource & vbCrLf & "select tb.* from tb where tb.JobNo is not null and tb.CostAmount>0 and tb.CustAdvAmount=0 and tb.ChargeAmount=0")
+            End If
+            dt3 = obj.GetTableFromSQL(sqlSource & vbCrLf & sql3)
+            dt4 = obj.GetTableFromSQL(String.Format(sql4, sqlWhere))
+            If showDetail="7" Then
+            	dt4_1 = obj.GetTableFromSQL(String.Format(sql4_1, sqlWhere))  
+            End If
+            dt5 = obj.GetTableFromSQL(String.Format(sql5, sqlWhere))     
+        End If
     End If
 End Code
 <div class="w3-card">
-    <div class="w3-container w3-red">
-        <h1>Recap your company</h1>
+    <div class="w3-container w3-green">
+        <h1>Recap your company @Convert.ToDateTime(dateTo).Year</h1>
     </div>
     <div class="w3-container">
         <form id="dvCliteria" action="" method="post">
@@ -286,31 +383,34 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
                     <input type="submit" class="btn btn-success" name="submit" id="btnUpdate" value="Update" />
                 </div>
             </div>
+	<input type="hidden" name="Detail" id="txtDetail" value="@showDetail" />
         </form>
+        <a href="~/JobOrder/Index">Go to List Job</a>&nbsp;&nbsp;
+        <a href="~/Tracking/Dashboard">View Chart</a>
     </div>
-    @If ViewBag.User <> "" Then
+    @If ViewBag.User <> "" And showDetail="" Then
         If dt2.Rows.Count > 0 Then
             For Each dr As Data.DataRow In dt2.Rows
                 @<div class="w3-container">
                     <div class="w3-teal">
-                        <b>@dr("JobTypeName")</b> TOTAL : @dr("TotalJob") JOBS
+                        <h3>@dr("JobTypeName")</h3> TOTAL : @dr("TotalJob") JOBS
                     </div>
                     <table class="dataTable">
                         <thead>
                             <tr>
                                 <th>Cancel</th>
-                                <th>No Clear</th>
-                                <th>Cost Only</th>
-                                <th>Need Bill</th>
-                                <th>Need Receive</th>
+                                <th>No Clear<br>ยังไม่มีใบเคลียร์</th>
+                                <th>Cost Only<br>มีแต่ต้นทุน</th>
+                                <th>Need Bill<br>ค้างวางบิล</th>
+                                <th>Need Receive<br>ค้างออกใบเสร็จ</th>
                                 <th>Complete</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>@dr("TotalJobCancel")</td>
-                                <td>@dr("TotalJobNoClear")</td>
-                                <td>@dr("TotalJobCostOnly")</td>
+                                <td><a href="#tb2_1" onclick="SetDetail(5)">@dr("TotalJobNoClear")</a></td>
+                                <td><a href="#tb2_2" onclick="SetDetail(6)">@dr("TotalJobCostOnly")</a></td>
                                 <td>@dr("TotalJobBillAvaiable")</td>
                                 <td>@dr("TotalBillRecvAvaiable")</td>
                                 <td>@dr("TotalBillRecvComplete")</td>
@@ -321,20 +421,132 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
             Next
         End If
     End If
-    <div class="w3-container">
+            
+    @If ViewBag.User <> "" And showDetail=""  Then
+        If dt4.Rows.Count > 0 And dt5.Rows.Count > 0 Then
+        @<div class="w3-red">                
+            <h3>TOTAL ADVANCE PAYMENT<br />สรุปยอดการเบิกเงิน</h3>
+        </div>
+        @<div class="row">
+            @if dt5.Rows.Count > 0 Then
+            @<div class="col-sm-6">
+                <div class="w3-container">
+                    <table class="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Request By</th>
+                                <th>Total Docs/Unclear</th>
+                                <th>Advance<br>รวมยอดที่เบิก</th>
+                                <th>Total Unclear<br>รวมยอดค้างเคลียร์</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @For Each dr As Data.DataRow In dt5.Rows
+                                @<tr>
+                                    <td>@dr("ReqBy")</td>
+                                    <td>@dr("TotalDocs")/@dr("TotalDocNoClear")</td>
+                                    <td>@dr("TotalPayAdvance")</td>
+                                    <td>@dr("TotalNoClear")</td>
+                                </tr>
+                            Next
+                        </tbody>
+                    </table>
+                </div>                    
+            </div>
+            End If 
+            @If dt4.Rows.Count > 0 Then
+            @<div class="col-sm-6">
+                <div class="w3-container">
+                    <table class="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th>Total Docs/Unclear</th>
+                                <th>Advance<br>รวมยอดที่เบิก</th>
+                                <th>Total Unclear<br>รวมยอดค้างเคลียร์</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @For Each dr As Data.DataRow In dt4.Rows
+                                @<tr>
+                                    <td>@dr("CustomerName")</td>
+                                    <td>@dr("TotalDocs")/@dr("TotalDocNoClear")</td>
+                                    <td>@dr("TotalPayAdvance")</td>
+                                    <td>@dr("TotalNoClear")</td>
+                                </tr>
+                            Next
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            End If                
+        </div>       
+        @<a href="#tb4_1" onclick="SetDetail(7)"><b>View Advance Unclear<b></a>            
+        End If                                         
+    End If        
+    @If dt4_1.Rows.Count > 0 Then
+        If Not System.DBNull.Value.Equals(dt4_1.Rows(0)("DocDate")) Then
+            @<div Class="w3-container" id="tb4_1">
+                <b>Total Advance Unclear</b>
+                <Table Class="dataTable">
+                    @For Each dr As Data.DataRow In dt4_1.Rows
+                        @<tr>
+                            <td><a href="~/Adv/Index?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&AdvNo=@dr("AdvNo")">@dr("AdvNo")</a></td>
+                            <td>@Convert.ToDateTime(dr("DocDate")).ToString("dd/MM/yyyy")</td>
+                            <td>@dr("CustomerName")</td>
+                            <td>@dr("EmpCode")</td>
+                            <td>@dr("TotalAdvance")</td>
+                        </tr>
+
+                    Next
+                </Table>
+            </div>
+        End If
+    End If
+    @If dt2_1.Rows.Count > 0 Then
+        @<div class="w3-container" id="tb2_1">
+            <div class="w3-blue">
+                <h4>JOB NO CLEARING / งานที่ไม่มีใบเคลียร์</h4>
+            </div>
+            <table class="dataTable">
+                @For each dr As Data.DataRow In dt2_1.Rows
+                    @<tr>
+                        <td><a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a></td>
+                        <td>@dr("CustomerName")</td>
+                    </tr>
+                Next
+            </table>
+        </div>
+    End If
+    @If dt2_2.Rows.Count > 0 Then
+        @<div class="w3-container" id="tb2_2">
+            <div class="w3-blue">
+                <h4>JOB COST ONLY / งานที่มีแต่ต้นทุน</h4>
+            </div>
+            <table class="dataTable">
+                @For each dr As Data.DataRow In dt2_2.Rows
+                    @<tr>
+                        <td><a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a></td>
+                        <td>@dr("CustomerName")</td>
+                    </tr>
+                Next
+            </table>
+        </div>
+    End If
+    <div Class="w3-container">
         @If ViewBag.User <> "" Then
-            If dt3.Rows.Count > 0 Then
+            If dt3.Rows.Count > 0  And showDetail=""  Then
                 @<table class="dataTable">
                     <thead>
                         <tr>
                             <th>Customer</th>
                             <th>Total Jobs</th>
-                            <th>Advance Unbill</th>
-                            <th>Charge Unbill</th>
+                            <th>Advance Unbill<br>ค่าใช้จ่ายลูกค้าค้าง</th>
+                            <th>Charge Unbill<br>ค่าบริการค้าง</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @For each dr As Data.DataRow in dt3.Rows
+                        @For each dr As Data.DataRow In dt3.Rows
                             @<tr>
                                 <td>@dr("CustomerName")</td>
                                 <td>@dr("TotalJob")</td>
@@ -347,27 +559,33 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
             End If
         End If
     </div>
-    <div Class="w3-container w3-blue">
+    <div Class="w3-container">
         @Code
             If ViewBag.User <> "" Then
                 If dt1.Rows.Count > 0 Then
                     Dim dr = dt1.Rows(0)
-                    @<div class="container">
-                        <table>
-                            <tr>
-                                <td><b>ADV UNBILL / ค่าใช้จ่ายของลูกค้าที่ยังไม่ได้เก็บเงิน = </b>@Convert.ToDouble(dr("TotalAdvUnBill")).ToString("#,##0.00") บาท (@dr("TotalJobAdvUnbill").ToString() <a href="#dv_1_1">Jobs</a>)</td>
+                    @<table class="dataTable">
+                        @If Not System.DBNull.Value.Equals(dr("TotalAdvUnbill")) Then
+                            @<tr>
+                                <td><b>ADV UNBILL / ค่าใช้จ่ายของลูกค้าที่ยังไม่ได้เก็บเงิน = </b>@Convert.ToDouble(dr("TotalAdvUnBill")).ToString("#,##0.00") บาท (<a href="#dv_1_1" onclick="SetDetail('1')">@dr("TotalJobAdvUnbill").ToString() Jobs</a>)</td>
                             </tr>
-                            <tr>
-                                <td><b>ADV NORECV / ค่าใช้จ่ายของลูกค้าที่ยังไมได้รับชำระ = </b>@Convert.ToDouble(dr("TotalAdvUnRecv")).ToString("#,##0.00") (@dr("TotalJobAdvUnRecv").ToString() <a href="#dv_1_2">Jobs</a>)</td>
+                        End If
+                        @If Not System.DBNull.Value.Equals(dr("TotalAdvUnRecv")) Then
+                            @<tr>
+                                <td><b>ADV NORECV / ค่าใช้จ่ายของลูกค้าที่ยังไมได้รับชำระ = </b>@Convert.ToDouble(dr("TotalAdvUnRecv")).ToString("#,##0.00") (<a href="#dv_1_2" onclick="SetDetail('2')">@dr("TotalJobAdvUnRecv").ToString() Jobs</a>)</td>
                             </tr>
-                            <tr>
-                                <td><b>CHG UNBILL / ค่าบริการที่ยังไม่ได้เก็บเงิน = </b>@Convert.ToDouble(dr("TotalChargeUnBill")).ToString("#,##0.00") (@dr("TotalJobChargeUnbill").ToString() <a href="#dv_1_3">Jobs</a>)</td>
+                        End If
+                        @If Not System.DBNull.Value.Equals(dr("TotalChargeUnBill")) Then
+                            @<tr>
+                                <td><b>CHG UNBILL / ค่าบริการที่ยังไม่ได้เก็บเงิน = </b>@Convert.ToDouble(dr("TotalChargeUnBill")).ToString("#,##0.00") (<a href="#dv_1_3" onclick="SetDetail('3')">@dr("TotalJobChargeUnbill").ToString() Jobs</a>)</td>
                             </tr>
-                            <tr>
-                                <td><b>CHG NORECV / ค่าบริการที่ยังไม่ได้รับชำระ = </b>@Convert.ToDouble(dr("TotalChargeUnRecv")).ToString("#,##0.00") (@dr("TotalChargeUnRecv").ToString() <a href="#dv_1_4">Jobs</a>)</td>
+                        End If
+                        @If Not System.DBNull.Value.Equals(dr("TotalChargeUnRecv")) Then
+                            @<tr>
+                                <td><b>CHG NORECV / ค่าบริการที่ยังไม่ได้รับชำระ = </b>@Convert.ToDouble(dr("TotalChargeUnRecv")).ToString("#,##0.00") (<a href="#dv_1_4" onclick="SetDetail('4')">@dr("TotalJobChargeUnRecv").ToString() Jobs</a>)</td>
                             </tr>
-                        </table>
-                    </div>
+                        End If
+                    </table>
                 End If
             End If
         End Code
@@ -376,7 +594,7 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
         If dt1_1.Rows.Count > 0 Then
             @<div class="w3-container" id="dv_1_1">
                 <b>ADV.UNBILL / ค่าใช้จ่ายของลูกค้าที่ยังไม่ได้เก็บเงิน </b>
-                <table>
+                <table class="dataTable">
                     @For each dr As Data.DataRow In dt1_1.Rows
                         @<tr>
                             <td><a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a></td>
@@ -391,7 +609,7 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
         If dt1_2.Rows.Count > 0 Then
             @<div class="w3-container" id="dv_1_2">
                 <b>ADV.NORECV / ค่าใช้จ่ายของลูกค้าที่ยังไมได้รับชำระ</b>
-                <table>
+                <table class="dataTable">
                     @For each dr As Data.DataRow In dt1_2.Rows
                         @<tr>
                             <td><a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a></td>
@@ -406,7 +624,7 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
         If dt1_3.Rows.Count > 0 Then
             @<div class="w3-container" id="dv_1_3">
                 <b>CHG.UNBILL / ค่าบริการที่ยังไม่ได้เก็บเงิน </b>
-                <table>
+                <table class="dataTable">
                     @For each dr As Data.DataRow In dt1_3.Rows
                         @<tr>
                             <td><a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a></td>
@@ -421,7 +639,7 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
         If dt1_4.Rows.Count > 0 Then
             @<div class="w3-container" id="dv_1_4">
                 <b>CHG.NORECV / ค่าบริการที่ยังไม่ได้รับชำระ</b>
-                <table>
+                <table class="dataTable">
                     @For each dr As Data.DataRow In dt1_4.Rows
                         @<tr>
                             <td><a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a></td>
@@ -440,8 +658,35 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
     var path = '@Url.Content("~")';
     var branch = '@ViewBag.PROFILE_DEFAULT_BRANCH';
     var jobtype = '@jobtype';
-                            var shipby = '@shipby';
+    var shipby = '@shipby';
+    var detail = '@showDetail';
+    if (detail=='1') {
+       $('#dv_1_1').focus();
+    }
+    if (detail=='2') {
+       $('#dv_1_2').focus();
+    }
+    if (detail=='3') {
+       $('#dv_1_3').focus();
+    }
+    if (detail=='4') {
+       $('#dv_1_4').focus();
+    }
+    if (detail=='5') {
+       $('#tb2_1').focus();
+    }
+    if (detail=='6') {
+       $('#tb2_1').focus();
+    }
+    if (detail=='7') {
+       $('#tb4_1').focus();
+    }
+    $('#txtDetail').val('');    
     function Submit() {
         $('#btnUpdate').click();
+    }    
+    function SetDetail(id) {
+	$('#txtDetail').val(id);
+        Submit();
     }
 </script>

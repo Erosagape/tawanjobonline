@@ -963,6 +963,7 @@
     <Content Include="Views\Acc\WorkSheet.vbhtml" />
     <Content Include="Views\Acc\FormPP30.vbhtml" />
     <Content Include="Views\Menu\Index_v0.vbhtml" />
+    <Content Include="Views\Tracking\DashboardNew.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Tracking\favicon.ico" />

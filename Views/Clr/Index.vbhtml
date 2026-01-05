@@ -614,10 +614,15 @@ End Code
     let isjobmode = false;
     let chkmode = false;
     //$(document).ready(function () {
-        SetLOVs();
-        SetEvents();
-        SetEnterToTab();
+    SetLOVs();
+    SetEvents();
+    SetEnterToTab();
+    ShowWait();
+    setTimeout(() => {
+        CloseWait();
         CheckParam();
+    },2000);
+    
     //});
     function CheckContainer() { 
 	if($('#chkContainer').prop('checked')==false){
@@ -1467,7 +1472,10 @@ End Code
             $(this).addClass('selected');
             let data = $('#tbDetail').DataTable().row(this).data(); //read current row selected
             ClearDetail();
-            LoadDetail(data); //callback function from caller
+            setTimeout(() => {
+                LoadDetail(data); //callback function from caller
+            }, 1000);
+            
         });
         $('#tbDetail tbody').on('dblclick', 'tr', function () {
             let data = $('#tbDetail').DataTable().row(this).data(); //read current row selected
@@ -1986,7 +1994,7 @@ End Code
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
             //$('#txtVenCode').val(dt.DefaultVender);
-            ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
+            ShowVender(path, dt.DefaultVender, '#txtPayChqTo');            
             /*
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
@@ -2006,10 +2014,9 @@ End Code
             if (dt.IsHaveSlip == 0) {
                 $('#txtSlipNo').attr('disabled', 'disabled');
             } else {
-		$('#txtSlipNo').removeAttr('disabled');
+                $('#txtSlipNo').removeAttr('disabled');
             }
             CalVATWHT();
-            return;
         }
         //$('#txtSDescription').val('');
         $('#txtVatType').val(1);
