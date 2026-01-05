@@ -1051,7 +1051,8 @@ Namespace Controllers
                     docno = o.ControlNo
                     o.SetConnect(GetSession("ConnJob"))
                     If o.PRVoucher = "" Then
-                        o.AddNew(o.PRType & "V-" & DateTime.Today.ToString("yyMM") & "-____")
+                        Dim c = New CVoucher(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' And ControlNo='{1}'", branchcode, docno))
+                        o.AddNew(o.PRType & "V-" & c(0).VoucherDate.ToString("yyMM") & "-____")
                     End If
                     If str <> "" Then str &= ","
                     Dim msg = o.SaveData(String.Format(" WHERE BranchCode='{0}' AND  ControlNo='{1}' And ItemNo='{2}' ", o.BranchCode, o.ControlNo, o.ItemNo))
