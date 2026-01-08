@@ -123,6 +123,14 @@ End Code
             </div>
 
         </div>
+        <div class="row">
+            <div class="col-sm-6">
+                Copy Rights From User :
+                <br />
+                <input type="text" class="form-control" value="" id="txtUserFrom" />
+                <input type="button" class="btn btn-primary" value="Copy Rights" onclick="CopyRights()" />
+            </div>
+        </div>
     </div>
 </div>
 <div id="dvLOVs"></div>
@@ -403,5 +411,18 @@ End Code
         } else {
             ShowMessage('No data to Save',true);
         }
+    }
+    function CopyRights() {
+        let userFrom = $('#txtUserFrom').val();
+        let msg = "Do you need to copy rights from " + userFrom + " to " + $('#txtUserID').val();
+        if (mainLanguage == "TH") {
+            msg = "กรุณายืนยันการคัดลอกสิทธิ์ของ " + userFrom + " ให้กับ " + $('#txtUserID').val()
+        }
+        ShowConfirm(msg, (ask) => {
+            if (ask == false) return;
+            $.get(path + 'Config/CopyMenuAuth?From=' + userFrom + '&To=' + $('#txtUserID').val()).done(function (r) {
+                ShowMessage(r);
+            });
+        });
     }
 </script>
