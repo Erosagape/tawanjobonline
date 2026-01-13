@@ -210,9 +210,23 @@ GROUP BY j.BranchCode, j.JNo, j.CustCode, j.CustBranch, j.InvNo, j.DutyDate, j.D
                         If sqlW <> "" Then sqlW = " WHERE " & sqlW
                         sqlM = String.Format(SQLSelectVATSales(), sqlW)
                     Case "VATBUY"
-                        sqlW = GetSQLCommand(cliteria, "t.ExpenseDate", "t.CustCode", "t.JobNo", "", "t.VenCode", "", "")
-                        If sqlW <> "" Then sqlW = " WHERE " & sqlW
-                        sqlM = String.Format(SQLSelectVATBuy(), sqlW)
+                        fldGroup = "SDescription"
+                        sqlW = GetSQLCommand(cliteria, "a.Date50Tavi", "c.CustCode", "c.JNo", "c.EmpCode", "a.VenderCode", "b.ClrStatus", "b.BranchCode", "a.SICode")
+                        If sqlW <> "" Then sqlW = " AND " & sqlW
+                        sqlM = "
+select c.JNo,a.AdvNo,b.ClrNo,b.ClrDate,c.CustCode,d.NameThai as SDescription,a.VenderCode,a.NO50Tavi as SlipNo,a.Date50Tavi as SlipDate,a.UsedAmount,
+a.BPrice as SumCost,a.ChargeVAT as AmtVat,a.Tax50Tavi as Amt50Tavi,(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN a.BNet ELSE 0 END) as TotalInv,
+(CASE WHEN ISNULL(a.LinkBillNo,'')<>'' THEN 0 ELSE a.BNet END) as Balance,a.LinkBillNo
+	from Job_ClearDetail a inner join Job_ClearHeader b
+	on a.BranchCode=b.BranchCode and a.ClrNo=b.ClrNo
+	inner join Job_Order c on a.BranchCode=c.BranchCode and a.JobNo=c.JNo
+	inner join Job_SrvSingle d on a.SICode=d.SICode
+	inner join Mas_Company e on c.CustCode=e.CustCode and c.CustBranch=e.Branch
+	where ISNULL(b.CancelProve,'')='' and (a.ChargeVAT>0) {0}
+    order by a.SICode
+"
+                        sqlM = String.Format(sqlM, sqlW)
+
                     Case "WHTDAILY"
                         fldGroup = "DocDate"
                         sqlW = GetSQLCommand(cliteria, "h.DocDate", "h.TaxNumber1", "h.JNo", "h.UpdateBy", "h.TaxNumber3", "h.FormType", "h.BranchCode")
