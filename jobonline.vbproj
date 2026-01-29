@@ -2420,6 +2420,10 @@
     <Content Include="Views\Tracking\Dashboard4.vbhtml" />
     <Content Include="Views\Tracking\Timeline2.vbhtml" />
     <Content Include="Views\Menu\IndexNew.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard8.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard8_customer.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard8_report.vbhtml" />
+    <Content Include="Views\Tracking\Dashboard8_reportByJob.vbhtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="favicon.ico" />

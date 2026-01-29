@@ -306,7 +306,7 @@ order by TotalAdvance DESC
             dt5 = obj.GetTableFromSQL(String.Format(sql5, sqlWhere))
             dt6 = obj.GetTableFromSQL(String.Format("EXEC dbo.GetContainerVolume {0},{1},'{2}','{3}'", jobtype, shipby, dateFrom, dateTo))
             Dim sql6 = "
-select TotalContainer,JNo from Job_Order j {0} AND j.JobStatus<>99 
+select TotalContainer,JNo,CustCode,CustBranch from Job_Order j {0} AND j.JobStatus<>99 
 order by TotalContainer
 "
             If showDetail = "8" Then
@@ -439,7 +439,8 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
                             <thead>
                                 <tr>
                                     <th>Unit</th>
-                                    <th>Jobs</th>
+                                    <th>Job</th>
+                                    <th>Customer</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -449,6 +450,9 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
                                         <td>
                                             <a href="~/JobOrder/ShowJob?BranchCode=@ViewBag.PROFILE_DEFAULT_BRANCH&JNo=@dr("JNo")">@dr("JNo")</a>
                                         </td>
+                                <td>
+                                    @dr("CustCode") / @dr("CustBranch")
+                                </td>
                                     </tr>
                                 Next
                             </tbody>
