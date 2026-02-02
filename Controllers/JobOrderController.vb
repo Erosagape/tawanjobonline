@@ -1333,7 +1333,7 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
         End Function
         Function GetJobYear() As ActionResult
             Try
-                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT Year(DocDate) as JobYear from Job_Order")
+                Dim oData As DataTable = New CUtil(GetSession("ConnJob")).GetTableFromSQL("SELECT DISTINCT Year(DocDate) as JobYear from Job_Order ORDER BY 1")
                 Dim json As String = JsonConvert.SerializeObject(oData)
                 Return Content(json, jsonContent)
             Catch ex As Exception
