@@ -692,7 +692,7 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                     End If
                     data.SetConnect(GetSession("ConnJob"))
                     If "" & data.DocNo = "" Then
-                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "PAY", payPrefix) & Now.ToString("yyMM") & "-____")
+                        data.AddNew(GetValueConfig("RUNNING_FORMAT", "PAY", payPrefix) & data.DocDate.ToString("yyMM") & "-____")
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND DocNo='{1}' ", data.BranchCode, data.DocNo))
                     Dim json = "{""result"":{""data"":""" & data.DocNo & """,""msg"":""" & msg & """}}"
