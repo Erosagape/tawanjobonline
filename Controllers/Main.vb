@@ -1990,7 +1990,7 @@ d.DiffAmt+d.VATAmt as TotalDoc,h.CancelReason
 FROM Job_CNDNHeader h INNER JOIN Job_CNDNDetail d
 ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo
 INNER JOIN Mas_Company c ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
-WHERE NOT h.DocStatus<>99
+WHERE h.DocStatus<>99
 UNION
 SELECT h.CancelDate,'*'+h.ReceiptNo,c.CustCode,c.TaxNumber,c.Branch,
 '**ยกเลิก**'+ (CASE WHEN h.TotalVAT>0 THEN 'ค่าบริการของบริษัท' ELSE 'ค่าขนส่งของบริษัท' END) + c.NameThai as ServiceType,
@@ -2011,7 +2011,7 @@ SELECT h.CancelDate,'*'+h.DocNo,c.CustCode,c.TaxNumber,c.Branch,
 FROM Job_CNDNHeader h INNER JOIN Job_CNDNDetail d
 ON h.BranchCode=d.BranchCode AND h.DocNo=d.DocNo
 INNER JOIN Mas_Company c ON h.CustCode=c.CustCode AND h.CustBranch=c.Branch
-WHERE h.DocStatus<>99
+WHERE h.DocStatus=99
 ) AS t {0} ORDER BY ReceiptDate,ReceiptNo
 "
     End Function
