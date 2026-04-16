@@ -178,6 +178,7 @@ Public Class CLog
                     lst.Add(row)
                 End While
             Catch ex As Exception
+                Message = ex.Message
             End Try
         End Using
         Return lst
