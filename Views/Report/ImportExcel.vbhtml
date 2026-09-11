@@ -2,7 +2,7 @@
     ViewData("Title") = "Import Excel"
 End Code
 
-<h2>Import Excel</h2>
+<h2>Import Data From Excel</h2>
 <input type="hidden" id="dbName" value="@ViewBag.DatabaseName" />
 <form method="post" action="" enctype="multipart/form-data">
     <input type="file" name="xlsFiles" />

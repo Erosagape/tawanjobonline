@@ -65,7 +65,7 @@ Public Class CUtil
         Message = "OK"
         Dim dt As New DataTable
         Try
-            Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR={1}'"
+            Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 12.0;HDR={1}'"
             Using cnExcel = New OleDbConnection(String.Format(connXLS, fname, "YES"))
                 cnExcel.Open()
                 Dim cnSchemaTable = cnExcel.GetOleDbSchemaTable(OleDb.OleDbSchemaGuid.Tables, Nothing)
@@ -73,7 +73,7 @@ Public Class CUtil
                     If tbName = "" Then
                         tbName = cnSchemaTable.Rows(0)("TABLE_NAME").ToString()
                     End If
-                    Using da = New OleDb.OleDbDataAdapter("SELECT * FROM [" & tbName & "]", cnExcel)
+                    Using da = New OleDb.OleDbDataAdapter("SELECT * FROM [" & tbName & "$]", cnExcel)
                         da.Fill(dt)
                     End Using
                 End If
