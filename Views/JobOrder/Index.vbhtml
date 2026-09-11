@@ -104,6 +104,9 @@ End Code
                 <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
                     <i class="fa fa-lg fa-file-o"></i> &nbsp;<b id="linkCreate">Create Job</b>
                 </a>
+                <a href="#" class="btn btn-info" id="btnImportJob" onclick="ImportJob()">
+                    <i class="fa fa-lg"></i> &nbsp;<b id="linkCreate">Import Data</b>
+                </a>
             </div>
         </div>
         <table id="tblJob" class="table table-bordered">
@@ -114,14 +117,18 @@ End Code
                     <th class="desktop">JobStatus</th>
                     <th class="all">ETD</th>
 		    <th class="all">ETA</th>
-		    <th class="desktop">CS</th>
-		    <th class="desktop">BookingNo</th>
-	            <th class="desktop">BLNo</th>
+			<th class="desktop">BookingNo</th>
+			<th class="desktop">BLNo</th>
+			<th class="desktop">CS</th>
                     <th class="all">Inv.Customer</th>
+ 		    
                     <th class="desktop">Customer</th>
-                    //<th class="desktop">Consignee</th>
+                    <th class="desktop">Consignee</th>
                 </tr>
             </thead>
+	    <tbody>
+
+	    </tbody>
         </table>
     </div>
 <div id="dvLOVs"></div>
@@ -148,6 +155,10 @@ End Code
     let sb = getQueryString("shipby");
     let st = getQueryString("status");
     let custcode = getQueryString("custcode");
+    $('#tblJob tbody').on('dblclick', 'tr', function () {
+          OpenJob();
+    });
+
     loadBranch(path);
     loadCombo();
     $('#txtJobNo').keydown(function (e) {
@@ -193,7 +204,7 @@ End Code
     }
     function getJobdata() {
         //ShowWait();
-        //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
+        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
         //    CloseWait();
             let tb=$('#tblJob').DataTable({
                 "ajax": {
@@ -231,8 +242,9 @@ End Code
                     },
                     { "data": "BookingNo", "title": "BookingNo" },
                     { "data": "HAWB", "title": "BLNo" },
-                    { "data": "CSName", "title": "CS" },
+                    
                     { "data": "InvNo", "title": "Customer Inv." },
+		    { "data": "CSName", "title": "CS" },
                     { "data": "CustTName", "title": "Customer" },
                     { "data": "ConsigneeName", "title": "Consignee" }
                 ]
@@ -246,11 +258,9 @@ End Code
                 let data = $('#tblJob').DataTable().row(this).data();
                 $('#txtJobNo').val(data.JNo);
             });
-            $('#tblJob tbody').on('dblclick', 'tr', function () {
-                OpenJob();
-            });
+          
         //    CloseWait();
-        //});
+        });
     }
     function getJobdata_1() {
         //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
@@ -355,6 +365,9 @@ End Code
     }
     function PrintPrepareForm() {
         window.open(path + 'joborder/formprepare');
+    }
+    function ImportJob() {
+        window.open(path + 'report/import');
     }
     function CreateNewJob() {
         window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + $('#cboBranch').val());
