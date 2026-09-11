@@ -3324,8 +3324,8 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
 
                 If byReceipt Then
                     Dim sql As String = SQLSelectInvByReceive(recvNo, bCheckVoucher) & tSqlw
-                    Dim sqlSum As String = "SELECT t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo,Sum(t.Amt) as TotalAmt,Sum(t.AmtVAT) as TotalVAT,Sum(t.Amt50Tavi) as Total50Tavi,Sum(t.Net) as TotalNet "
-                    sqlSum &= ",Sum(t.AmtAdvance) as TotalAdvance,Sum(t.AmtCharge) as TotalCharge FROM ({0}) as t GROUP BY t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo"
+                    Dim sqlSum As String = "SELECT t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.BillAcceptNo,t.RefNo,Sum(t.Amt) as TotalAmt,Sum(t.AmtVAT) as TotalVAT,Sum(t.Amt50Tavi) as Total50Tavi,Sum(t.Net) as TotalNet "
+                    sqlSum &= ",Sum(t.AmtAdvance) as TotalAdvance,Sum(t.AmtCharge) as TotalCharge FROM ({0}) as t GROUP BY t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.BillAcceptNo,t.RefNo"
                     sqlSum = String.Format(sqlSum, sql)
                     sql &= " ORDER BY ih.DocNo DESC"
                     Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
@@ -3336,8 +3336,8 @@ FROM Job_ReceiptHeader r " & tSqlw & " ORDER BY ReceiptDate DESC
                     Return Content(json, jsonContent)
                 Else
                     Dim sql As String = SQLSelectInvForReceive(bCheckVoucher) & tSqlw
-                    Dim sqlSum As String = "SELECT t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo,Sum(t.Amt) as TotalAmt,Sum(t.AmtVAT) as TotalVAT,Sum(t.Amt50Tavi) as Total50Tavi,Sum(t.Net) as TotalNet "
-                    sqlSum &= " FROM ({0}) as t GROUP BY t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.RefNo"
+                    Dim sqlSum As String = "SELECT t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.BillAcceptNo,t.RefNo,Sum(t.Amt) as TotalAmt,Sum(t.AmtVAT) as TotalVAT,Sum(t.Amt50Tavi) as Total50Tavi,Sum(t.Net) as TotalNet "
+                    sqlSum &= " FROM ({0}) as t GROUP BY t.InvoiceNo,t.InvoiceDate,t.BillToCustCode,t.BillAcceptNo,t.RefNo"
                     sqlSum = String.Format(sqlSum, sql)
                     sql &= " ORDER BY ih.DocNo DESC"
                     Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(sql)
