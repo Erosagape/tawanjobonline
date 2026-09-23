@@ -616,7 +616,7 @@ Namespace Controllers
                                     .SessionID = Session.SessionID,
                                     .FromIP = Request.UserHostAddress,
                                     .LoginDateTime = DateTime.Now,
-                                    .ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                    .ExpireDateTime = DateTime.Now.AddMinutes(Convert.ToInt32(Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600)))
                                 }
                                 Session("CurrUser") = cName
                                 Session("UserProfiles") = oUser
@@ -745,8 +745,11 @@ Namespace Controllers
                                         If Convert.ToDateTime(tbProfiles.Rows(0)("ExpireDate")) < DateTime.Today Then
                                             Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""License Expired On Date " & tbProfiles.Rows(0)("ExpireDate").ToString & """}}", jsonContent)
                                         Else
+                                            Dim chkActive As String = " AND LogindateTime>=CAST(CONCAT(FORMAT(GETDATE(),'yyyy-MM-dd'),' 00:00:00') as datetime)
+and LogindateTime<=CAST(CONCAT(FORMAT(GETDATE(),'yyyy-MM-dd'),' 23:59:00') as datetime)
+and ExpireDateTime<=FORMAT(GETDATE(),'yyyy-MM-dd HH:mm:ss')"
                                             Dim cnMas = ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString
-                                            Dim oCount = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBSHIPPING'", My.MySettings.Default.LicenseTo.ToString))
+                                            Dim oCount = New CWebLogin(cnMas).GetData(String.Format(" WHERE CustID='{0}' AND AppID='JOBSHIPPING'", My.MySettings.Default.LicenseTo.ToString) & chkActive)
                                             If oCount.Count > Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString()) And Convert.ToInt32(tbProfiles.Rows(0)("LoginCount").ToString()) > 0 Then
                                                 Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""Login over limit =" & tbProfiles.Rows(0)("LoginCount").ToString & """}}", jsonContent)
                                             Else
