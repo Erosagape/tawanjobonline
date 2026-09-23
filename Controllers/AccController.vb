@@ -2283,7 +2283,7 @@ ORDER BY a.TName1
                 If Not IsNothing(Request.QueryString("Show")) Then
                     If Request.QueryString("Show").ToString.ToUpper = "WAIT" Then
                         'don't have receipt document yet
-                        tSqlw &= " AND ISNULL(r.ReceivedNet,0)=0 "
+                        tSqlw = " AND ISNULL(r.ReceivedNet,0)=0 "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "RECV" Then
                         'have receipt document
@@ -2293,7 +2293,8 @@ ORDER BY a.TName1
                         'by receipt document
                         bCheckVoucher = True
                         byReceipt = True
-                        tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))>0 "
+                        'tSqlw = " AND (id.Amt-ISNULL(id.AmtCredit,0))>0 "
+                        tSqlw = ""
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "FULLPAY" Then
                         tSqlw = " AND " & defaultWhere & "<=0 "
@@ -2305,6 +2306,10 @@ ORDER BY a.TName1
                         bCheckVoucher = True
                         tSqlw = " AND ISNULL(r.LastControlNo,'')='' "
                         tSqlw &= " AND " & defaultWhere & ">=0 "
+                    End If
+                    If Request.QueryString("Show").ToString.ToUpper = "WAITRCV" Then
+                        bCheckVoucher = True
+                        tSqlw = " AND r.InvoiceNo is null "
                     End If
                     If Request.QueryString("Show").ToString.ToUpper = "ALL" Then
                         tSqlw = ""
@@ -2366,7 +2371,7 @@ ORDER BY a.TName1
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "TAX" Then
                         'have advance or have service
-                        tSqlw &= " AND (ISNULL(id.AmtCharge,0)>0 OR ISNULL(id.AmtAdvance,0)>0) "
+                        'tSqlw &= " AND (ISNULL(id.AmtCharge,0)>0 OR ISNULL(id.AmtAdvance,0)>0) "
                     End If
                     If Request.QueryString("Type").ToString.ToUpper = "REC" Then
                         'have service but no vat
