@@ -348,7 +348,7 @@ End Code
     function GetDataSave(dt) {
         dt.SICode = $('#txtSICode').val().trim();
         dt.GroupCode = $('#cboType').val();
-        if (dt.SICode == "") dt.SICode = $('#cboType').val() + '-';
+        //if (dt.SICode == "") dt.SICode = $('#cboType').val() + '-';
         dt.NameThai=$('#txtNameThai').val();
         dt.NameEng=$('#txtNameEng').val();
         dt.StdPrice=CNum($('#txtStdPrice').val());

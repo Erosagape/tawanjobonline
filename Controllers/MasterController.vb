@@ -1351,7 +1351,11 @@ AND b.IsApplyPolicy=1
                 If Not IsNothing(data) Then
                     data.SetConnect(GetSession("ConnJob"))
                     If data.SICode.ToString().Substring(data.SICode.ToString().Length - 1, 1) = "-" Then
-                        data.AddNew(data.SICode + "___")
+                        data.AddNew(data.SICode & GetValueConfig("RUNNING", "SICODE", "___"))
+                    Else
+                        If data.SICode = data.GroupCode Then
+                            data.AddNew(GetValueConfig("RUNNING_FORMAT", data.GroupCode, data.GroupCode & "-" & GetValueConfig("RUNNING", "SICODE", "___")))
+                        End If
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE SICode='{0}' ", data.SICode))
                     Dim json = "{""result"":{""data"":""" & data.SICode & """,""msg"":""" & msg & """}}"
