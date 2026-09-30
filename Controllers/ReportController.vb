@@ -29,6 +29,32 @@ Namespace Controllers
                     Dim tbName = "Job_Order"
                     Dim obj = New CUtil(GetSession("ConnJob"))
                     Dim dt = obj.ReadExcelFromFile(savePath, tbName)
+
+                    Dim prefix As String = ""
+                    If Not Request.QueryString("Prefix") Is Nothing Then
+                        prefix = Request.QueryString("Prefix")
+                    End If
+
+                    Dim custCode As String = ""
+                    If Not Request.QueryString("CustCode") Is Nothing Then
+                        custCode = Request.QueryString("CustCode")
+                    End If
+
+                    Dim custBr As String = "0000"
+                    If Not Request.QueryString("CustBranch") Is Nothing Then
+                        custBr = Request.QueryString("CustBranch")
+                    End If
+
+                    Dim jobType As Integer = 0
+                    Dim shipBy As Integer = 0
+
+                    If Not Request.QueryString("JobType") Is Nothing Then
+                        jobType = Convert.ToInt32(Request.QueryString("JobType"))
+                    End If
+                    If Not Request.QueryString("ShipBy") Is Nothing Then
+                        shipBy = Convert.ToInt32(Request.QueryString("ShipBy"))
+                    End If
+
                     If obj.Message = "OK" Then
                     Else
                         ViewBag.Message = obj.Message
@@ -50,21 +76,52 @@ Namespace Controllers
                                         oJob.DocDate = DateTime.Now
                                         msgUpdate &= vbCrLf & "[ERROR] Process " & dr("JNo").ToString() & " Date=" & dr("DocDate")
                                     End Try
-                                    Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
-                                    If fmt <> "" Then
-                                        If fmt.IndexOf("bb") >= 0 Then
-                                            fmt = fmt.Replace("bb", oJob.DocDate.AddYears(543).ToString("yy"))
+                                    Try
+                                        If prefix <> "" Then
+                                            dr("Prefix") = prefix
                                         End If
-                                        If fmt.IndexOf("yy") >= 0 Then
-                                            fmt = fmt.Replace("yy", oJob.DocDate.ToString("yy"))
+                                        If custCode <> "" Then
+                                            dr("CustCode") = custCode
+                                            dr("CustBranch") = custBr
                                         End If
-                                        If fmt.IndexOf("MM") >= 0 Then
-                                            fmt = fmt.Replace("MM", oJob.DocDate.ToString("MM"))
+                                        If jobType > 0 Then
+                                            dr("JobType") = jobType
                                         End If
-                                    Else
-                                        fmt = oJob.DocDate.ToString("yyMM") & "____"
+                                        If shipBy > 0 Then
+                                            dr("ShipBy") = shipBy
+                                        End If
+                                    Catch ex As Exception
+
+                                    End Try
+                                    Try
+                                        If dr("HAWB").ToString().Trim() <> "" Then
+                                            Dim sql As String = " WHERE HAWB='" & dr("HAWB").ToString().Trim() & "' AND JNo like '" & dr("Prefix") & "%'"
+                                            Dim chk = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                                            If chk.Count > 0 Then
+                                                oJob.JNo = chk(0).JNo
+                                            End If
+                                        End If
+                                    Catch ex As Exception
+
+                                    End Try
+
+                                    If oJob.JNo = "" Then
+                                        Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
+                                        If fmt <> "" Then
+                                            If fmt.IndexOf("bb") >= 0 Then
+                                                fmt = fmt.Replace("bb", oJob.DocDate.AddYears(543).ToString("yy"))
+                                            End If
+                                            If fmt.IndexOf("yy") >= 0 Then
+                                                fmt = fmt.Replace("yy", oJob.DocDate.ToString("yy"))
+                                            End If
+                                            If fmt.IndexOf("MM") >= 0 Then
+                                                fmt = fmt.Replace("MM", oJob.DocDate.ToString("MM"))
+                                            End If
+                                        Else
+                                            fmt = oJob.DocDate.ToString("yyMM") & "____"
+                                        End If
+                                        oJob.AddNew(prefix & fmt)
                                     End If
-                                    oJob.AddNew(dr("Prefix") & fmt)
                                     dr("JNo") = oJob.JNo
                                 End If
                                 msgUpdate &= vbCrLf & "Process " & dr("JNo").ToString()
