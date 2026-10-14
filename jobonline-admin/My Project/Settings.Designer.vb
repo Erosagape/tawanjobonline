@@ -53,9 +53,14 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("Data Source=103.225.168.137;Initial Catalog=weblicense;User id=sa;Password=""9t;yo"& _ 
+            "gm8"";Persist Security Info=False")>  _
         Public ReadOnly Property weblicenseConnection() As String
             Get
-                Return CType(Me("weblicenseConnection"), String)
+                Return CType(Me("weblicenseConnection"),String)
             End Get
         End Property
     End Class
