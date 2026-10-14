@@ -109,6 +109,40 @@ End Code
 <a href="#" class="btn btn-info" id="btnPrintJobsum">
     <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Summary</b>
 </a>
+</br></br>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblBillNotClr" style="color:red;">Bill Payment Not Clearing</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblTotalBill">Total Bill Payment</label> <label id="lblTotalCTN"></label> 
+         : <input type="text" id="txtSumTTBill" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblTotalClear">Total Bill Clear</label>
+         :<input type="text" id="txtSumTTClear" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblTotalBalance">Total Balance Not Clear</label>
+         :<input type="text" id="txtSumTTBalance" class="form-control" style="color:red;" disabled />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblcBill">Total Count Bill Payment</label>
+         : <input type="text" id="txtSumcBill" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblcClear">Total Count Bill Clear</label>
+         :<input type="text" id="txtSumcClear" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblcBalance">Total Count Balance Not Clear</label>
+         :<input type="text" id="txtSumcBalance" class="form-control" style="color:red;" disabled />
+    </div>
+</div>
 <div class="modal fade" id="dvEditor" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -266,6 +300,41 @@ End Code
 
                 $('#txtSumPending').val(ShowNumber(amtpending, 2));
 
+		$.get(path + 'joborder/getjobsql?branch=' + branch + '&jno=' + code)
+        	.done(function (r) {
+            		if (r.job.data.length > 0) {
+                		let j = r.job.data[0];
+                		$.get(path + 'joborder/gettransportdetail?Branch='+ branch +'&Code=' + j.BookingNo + '&Job=' + j.JNo)
+			     	.done(function (r) {
+            				let td = r.transport.detail;
+        	    			if (td.length > 0) {
+						let ttBill = 0;
+						let ttClear = 0;
+						let ttBalance = 0;
+						let ttCtn = 0;
+						let cBill = 0;
+						let cClear = 0;
+						let cBalance = 0;
+						for (let d of td) {
+							ttBill += d.TotalBill;
+							ttClear += d.TotalClear;
+							ttBalance += d.TotalBalance;
+							ttCtn++;
+							cBill += d.CountBill;
+							cClear += d.CountClear;
+							cBalance += d.CountBalance;
+						}
+						$('#txtSumTTBill').val(ttBill.toFixed(2));
+						$('#txtSumTTClear').val(ttClear.toFixed(2));
+						$('#txtSumTTBalance').val(ttBalance.toFixed(2));
+						$('#lblTotalCTN').text('('+ ttCtn + ' Container)' );
+						$('#txtSumcBill').val(cBill);
+						$('#txtSumcClear').val(cClear);
+						$('#txtSumcBalance').val(cBalance);
+            				}
+        			});
+            		}
+        	});
             }
             CloseWait();
         });

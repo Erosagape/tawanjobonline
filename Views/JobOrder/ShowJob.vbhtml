@@ -73,6 +73,9 @@ End Code
                     <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
                     </a>
+		    <a href="#" class="btn btn-warning" id="btnPrint" onclick="PrintFormPrepare()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
+                    </a> 
                 </div>
             </div>
             <div class="tab-content">
@@ -303,7 +306,7 @@ End Code
                                         <label id="lblBookingNo" for="txtBookingNo" style="color:red">Booking No :</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtBookingNo" class="form-control" style="width:100%" tabindex="18" />
+                                            <input type="text" id="txtBookingNo" class="form-control" style="width:100%" tabindex="18" disabled />
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
@@ -316,7 +319,7 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label id="lblHAWB" for="txtHAWB">House BL/AWB :</label>
+                                        <label id="lblHAWB" for="txtHAWB" style="color:red">House BL/AWB :</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
                                             <input type="text" id="txtHAWB" class="form-control" style="width:100%" tabindex="20" />
@@ -332,10 +335,10 @@ End Code
                                 </div>
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <label id="lblTotalCTN" for="txtTotalCTN">Total Containers :</label>
+                                        <label id="lblTotalCTN" for="txtTotalCTN" style="color:red">Total Containers :</label>
                                         <br />
                                         <div style="display:flex;flex-direction:row">
-                                            <input type="text" id="txtTotalCTN" class="form-control" style="width:100%" tabindex="22" />
+                                            <input type="text" id="txtTotalCTN" class="form-control" style="width:100%" tabindex="22" readonly />
                                             <input type="button" id="btnGetCTN" class="btn btn-default" value="..." onclick="SplitData()" />
                                         </div>
                                     </div>
@@ -612,9 +615,13 @@ End Code
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label id="lblPortNo" for="txtPortNo">Discharge Port#</label>
+			            <label id="lblPortNo" for="txtPortNo">Discharge Port#</label>                                  
                                     <br />
-                                    <input type="text" id="txtPortNo" class="form-control" style="width:100%" tabindex="54" />
+                                    <div style="display:flex;flex-direction:row">
+                                    	<input type="text" id="txtPortNo" class="form-control" style="width:60px" tabindex="54" />
+				    	<input type="button" id="btnBrowsePortNo" class="btn btn-default" value="..." onclick="SearchData('RFARS2')" />
+                                    	<input type="text" id="txtPortNoName" class="form-control" style="width:100%" disabled />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -652,6 +659,9 @@ End Code
                 <div id="tabtracking" class="tab-pane fade">
                     <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintClr">Print Form Clear</b>
+                    </a>
+                    <a href="#" class="btn btn-info" id="btnPrintAdvCheck" onclick="PrintAdvCheck()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintAdvCheck">Advance Check</b>
                     </a>
                     <br />
                     Filter :
@@ -704,15 +714,16 @@ End Code
                             <table id="tbLog" class="table table-responsive">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th class="desktop">
                                             Date
                                         </th>
-                                        <th class="all">
-                                            Action
-                                        </th>
-                                        <th class="desktop">
+			                <th class="desktop">
                                             User
                                         </th>
+                                        <th class="all">
+						Remark
+                                        </th>                       
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -853,10 +864,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
+                        <input type="hidden" id="txtJobLogId" />
                         <textarea id="txtLogRemark" class="form-control"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btnSaveLog" onclick="SaveJobLog()">Save Remark</button>
+                        <button type="button" class="btn btn-danger" id="btnDelLog" onclick="DelJobLog()">Delete Remark</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -910,6 +923,7 @@ End Code
     const userPosition = '@ViewBag.UserPosition';
     const license = '@ViewBag.LICENSE_NAME';
     let rec = {};
+    let remarks = {};
     SetLOVs();
     SetEvents();
     //check parameters
@@ -921,7 +935,7 @@ End Code
         ShowJob(br, jno);
     }
     SetEnterToTab();
-    if (userPosition == '4' || userPosition == '5') {
+    if (userPosition == '4' || userPosition == '5' || userPosition == '7') {
         //$('#tab4').hide();
         $('#btnLinkCost').hide();
     } else {
@@ -1038,6 +1052,7 @@ End Code
             CreateLOV(dv,'#frmSearchDType', '#tbDType','Declare Type',response,2);
             //Customs Port
             CreateLOV(dv,'#frmSearchCPort', '#tbCPort','Customs Port',response,2);
+            CreateLOV(dv,'#frmSearchCPort2', '#tbCPort2','Customs Port',response,2);
             //Currency
             CreateLOV(dv,'#frmSearchCurr', '#tbCurr','Currency',response,2);
             //Country
@@ -1134,6 +1149,11 @@ End Code
         $('#txtReleasePortName').val(dt.AreaName);
         $('#txtReleasePort').focus();
     }
+    function ReadCustomsPort2(dt) {
+        $('#txtPortNo').val(dt.AreaCode);
+        $('#txtPortNoName').val(dt.AreaName);
+        $('#txtPortNo').focus();
+    }
     function ReadCurrency(dt) {
         $('#txtInvCurrency').val(dt.Code);
         $('#txtInvCurrency').focus();
@@ -1207,6 +1227,9 @@ End Code
             case 'RFARS':
                 SetGridCustomsPort(path, '#tbCPort', '#frmSearchCPort', ReadCustomsPort);
                 break;
+            case 'RFARS2':
+                SetGridCustomsPort(path, '#tbCPort2', '#frmSearchCPort2', ReadCustomsPort2);
+                break;
             case 'CURRENCY':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
@@ -1214,7 +1237,7 @@ End Code
                 SetGridCompanyByGroup(path, '#tbCust', 'CUSTOMERS', '#frmSearchCust', ReadCustomer);
                 break;
             case 'CONSIGNEE':
-                SetGridCompanyByGroup(path, '#tbCons','CONSIGNEE', '#frmSearchCons', ReadConsignee);
+                SetGridCompanyByGroup(path, '#tbCons','CUSTOMERS', '#frmSearchCons', ReadConsignee); //'CONSIGNEE'
                 break;
             case 'NOTIFY':
                 //SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
@@ -1339,7 +1362,7 @@ End Code
 
                 ReadJob(dr);
 
-                if (dr.JobStatus >= 7 && userPosition<='6') {
+                if (dr.JobStatus >= 7 && userPosition<='7') {
                     $('#btnSave').attr('disabled', 'disabled');
                 } else {
                     $('#btnSave').removeAttr('disabled');
@@ -1440,6 +1463,7 @@ End Code
 
         ShowDeclareType(path, dr.DeclareType, '#txtDeclareTypeName');
         ShowReleasePort(path, dr.ClearPort, '#txtReleasePortName');
+        ShowReleasePort(path, dr.ClearPortNo, '#txtPortNoName');
 
         CalTotalLtd();
         CalTotalCust();
@@ -1451,6 +1475,18 @@ End Code
         .done(function (r) {
             if (r.job.data.length > 0) {
                 let d = r.job.data;
+		if (userPosition == '4' || userPosition == '5' || userPosition == '7') {
+			d = d.filter(function (x) {
+				if (x.DocType === 'ADV')          
+					return true;
+				
+				if (x.DocType === 'PAY')          
+					return true;
+
+				if (x.DocType === 'CLR' && !x.DocNo.includes('SRV'))
+					return true;				
+			});
+		}
                 let br = $('#txtBranchCode').val();
                 let tb=$('#tbTracking').DataTable({
                     data: d,
@@ -1469,22 +1505,25 @@ End Code
                             render: function (data) {
                                 switch (data.DocType) {
                                     case "CHQ":
-                                        return '<a href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo +'">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo +'">' + data.DocNo + '</a>';
                                         break;
                                     case "ADV":
-                                        return '<a href="../Adv/Index?BranchCode=' + br + '&AdvNo=' + data.DocNo +'">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Adv/Index?BranchCode=' + br + '&AdvNo=' + data.DocNo +'">' + data.DocNo + '</a>';
                                         break;
                                     case "CLR":
-                                        return '<a href="../Clr/Index?BranchCode='+ br +'&ClrNo='+ data.DocNo+'">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Clr/Index?BranchCode='+ br +'&ClrNo='+ data.DocNo+'">' + data.DocNo + '</a>';
                                         break;
                                     case "INV":
-                                        return '<a href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "PAY":
+                                        return '<a target="_blank" href="../Acc/Expense?BranchCode='+ br +'&DocNo='+ data.DocNo+ '">' + data.DocNo + '</a>';
                                         break;
                                     case "TAX":
-                                        return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
                                     case "RCV":
-                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
                                     default:
                                         return data.DocNo;
@@ -1514,10 +1553,17 @@ End Code
             .done(function (r) {
                 if (r.joborderlog.data.length > 0) {
                     let d = r.joborderlog.data;
+                    remarks = d;
                     let tb=$('#tbLog').DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
+                            {
+                                data: "ItemNo", title: "#",
+                                render: function (data) {
+                                    return "<button class='btn btn-warning' onclick='ShowJobLog("+ data +");'>Edit</button>";
+                                }
+                            },
                             {
                                 data: "LogDate", title: "Date",
                                 render: function (data) {
@@ -1537,6 +1583,12 @@ End Code
     }
     function PrintData() {
         window.open(path + 'JobOrder/FormJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+    }
+    function PrintAdvCheck() {
+        window.open(path + 'JobOrder/FormPrepare?Form=AdvCheckClr&BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+    }
+    function PrintFormPrepare() {
+        window.open(path + 'JobOrder/FormPrepare?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }
     function PrintDelivery() {
         window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliverNo').val(), '', '');
@@ -1880,14 +1932,33 @@ End Code
         $('#frmContainerEdit').modal('hide');
     }
     function AddJobLog() {
+        $('#txtJobLogId').val(0);
         $('#txtLogRemark').val('');
         $('#frmJobOrderLog').modal('show');
+    }
+    function ShowJobLog(id) {
+        if (remarks.length > 0) {
+            let row = remarks[id - 1];
+            if (row.EmpCode !== user && user!=='ADMIN')
+                return;
+            $('#txtJobLogId').val(row.ItemNo);
+            $('#txtLogRemark').val(row.TRemark);
+            $('#frmJobOrderLog').modal('show');
+        }
+    }
+    function DelJobLog(){
+            let branch= $('#txtBranchCode').val();
+            let code=$('#txtJNo').val();
+            let item=$('#txtJobLogId').val();
+            $.get(path + 'JobOrder/DelJobOrderLog?Branch=' + branch + '&Code=' + code + '&Item='+ item).done((r)=>{
+		alert(r.joborderlog.result);
+            });
     }
     function SaveJobLog() {
         let obj = {
             BranchCode: $('#txtBranchCode').val(),
             JNo: $('#txtJNo').val(),
-            ItemNo: 0,
+            ItemNo: $('#txtJobLogId').val(),
             EmpCode: user,
             LogDate:  CDateEN(GetToday()),
             LogTime: GetTime(),

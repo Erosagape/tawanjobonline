@@ -38,11 +38,36 @@ End Code
                             <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                         </div>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-4">
+                        <label id="lblGroup">Group:</label><br />
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
+                    </div>
+                    <div class="col-sm-2" style="display:none">
                         <label id="lblJobType">Job Type:</label><br />
                         <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
                     </div>
-                    <div class="col-sm-2">
+                    <div class="col-sm-2" style="display:none">
                         <label id="lblShipBy">Ship By:</label>
                         <br />
                         <select id="cboShipBy" class="form-control dropdown"></select>
@@ -1259,5 +1284,10 @@ End Code
     }
     function AutoGenRef() {
         $('#txtRefNoCash').val('CA'+'@DateTime.Now.ToString("yyyyMMddHHmmss")');
+    }
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#cboJobType').val(gstr.substr(0,2));
+	$('#cboShipBy').val(gstr.substr(2,2));
     }
 </script>

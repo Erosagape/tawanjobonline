@@ -20,7 +20,7 @@ End Code
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
                 <option value="ADV">Receipt Advance</option>
-                <option value="RCV">Receipt Transport</option>
+                @*<option value="RCV">Receipt Transport</option>*@
                 <option value="DNR">Debit Note Receipt</option>
             </select>
             </div>
@@ -751,7 +751,7 @@ ExchangeRate: 1,
     }
     function SaveData() {
         if ($('#txtDocNo').val() !== '') {
-            $.get(path + 'Acc/DelRcpDetail?Branch' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+            $.get(path + 'Acc/DelRcpDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
                 ApproveData();
             });
         } else {

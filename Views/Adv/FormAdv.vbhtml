@@ -4,6 +4,11 @@
     ViewBag.ReportName = ""
     Dim space = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
 End Code
+<style>
+	* {
+    		text-transform : uppercase !important;
+	}
+</style>
 <table id="tbAdvInfo" style="width:100%">
     <tr>
         <td align="center" colspan="4" style="font-size:11px">
@@ -298,8 +303,8 @@ End Code
         $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
 
         //$('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
-        $('#txtCustomerPayment').text(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
-        $('#txtCustomerPayment2').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        //$('#txtCustomerPayment').text(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        //$('#txtCustomerPayment2').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
         $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2))));
         //show details
         let d = data.adv.detail;
@@ -333,7 +338,7 @@ End Code
         let strAmt = '';
         let strWht = '';
         let totAmt = 0;
-        //let vat = 0;
+        let vat = 0;
         //let wht = 0;
         let r = dr;
         sortData(r, 'TRemark', 'asc');
@@ -363,13 +368,15 @@ End Code
             strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
             totAmt += d.AdvAmount;
-            //vat += d.ChargeVAT;
+            vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
         $('#divDesc').html(strDesc);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
 	$('#txtAmt').val(CCurrency(totAmt.toFixed(2)))
+	$('#txtCustomerPayment').val(CCurrency((totAmt+vat).toFixed(2)))
+	$('#txtCustomerPayment2').val(CCurrency((totAmt+vat).toFixed(2)))
     }
 
             </script>

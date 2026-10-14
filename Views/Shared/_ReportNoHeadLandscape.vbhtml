@@ -13,38 +13,10 @@
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
-    
-    <style>
-        table {
-            width: 100%;
-        }
-
-            table td {
-                white-space: nowrap; /** added **/
-            }
-
-        
-    </style>
 </head>
 <body class="document">
     <div class="page" contenteditable="false">
-        <table id="tblHeader">
-            <tr>
-                <td colspan="2" style="text-align:center">
-                    <h2>@ViewBag.ReportName</h2>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    @RenderBody()
-                </td>
-            </tr>
-            <tr>
-                <td colspan="2">
-                    <p id="pFooter" style="text-align:right">Printed By : @ViewBag.User Printed Date : @DateTime.Now &copy; @DateTime.Now.Year - Tawan Technology Co.,ltd</p>
-                </td>
-            </tr>
-        </table>
+        @RenderBody()
     </div>
 </body>
 </html>

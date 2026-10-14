@@ -32,52 +32,28 @@ End Code
     <div class="col-sm-4">
         <label>Group</label>
         <br />
-        <select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
-            <option value=""></option>
-            <optgroup label="AIR">
-                <option value="0101AI" @IIf(group.Equals("0101AI"), "selected", "")>AIR IMPORT</option>
-                <option value="0201AE" @IIf(group.Equals("0201AE"), "selected", "")>AIR EXPORT</option>
-                <option value="0301ATS" @IIf(group.Equals("0301ATS"), "selected", "")>AIR TRANSIT</option>
-                <option value="0401AO" @IIf(group.Equals("0401AO"), "selected", "")>AIR OTHER</option>
-            </optgroup>
-            <optgroup label="SEA">
-                <option value="0102SI" @IIf(group.Equals("0102SI"), "selected", "")>SEA IMPORT</option>
-                <option value="0202SE" @IIf(group.Equals("0202SE"), "selected", "")>SEA EXPORT</option>
-                <option value="0302STS" @IIf(group.Equals("0302STS"), "selected", "")>SEA TRANSIT</option>
-                <option value="0402SO" @IIf(group.Equals("0402SO"), "selected", "")>SEA OTHER</option>
-            </optgroup>
-            <optgroup label="CROSS-BORDER">
-                <option value="0103CBI" @IIf(group.Equals("0103CBI"), "selected", "")>CROSS-BORDER IMPORT</option>
-                <option value="0203CBE" @IIf(group.Equals("0203CBE"), "selected", "")>CROSS-BORDER EXPORT</option>
-                <option value="0403CBO" @IIf(group.Equals("0403CBO"), "selected", "")>CROSS-BORDER OTHER</option>
-            </optgroup>
-            <optgroup label="DOMESTIC">
-                <option value="0104DI" @IIf(group.Equals("0104DI"), "selected", "")>DOMESTIC IMPORT</option>
-                <option value="0204DE" @IIf(group.Equals("0204DE"), "selected", "")>DOMESTIC EXPORT</option>
-                <option value="0404DO" @IIf(group.Equals("0404DO"), "selected", "")>DOMESTIC OTHER</option>
-            </optgroup>
-            <optgroup label="FREIGHT">
-                <option value="0105FAI" @IIf(group.Equals("0105FAI"), "selected", "")>FREIGHT AIR/IMPORT</option>
-                <option value="0106FSI" @IIf(group.Equals("0106FSI"), "selected", "")>FREIGHT SEA/IMPORT</option>
-                <option value="0205FAE" @IIf(group.Equals("0205FAE"), "selected", "")>FREIGHT AIR/EXPORT</option>
-                <option value="0206FSE" @IIf(group.Equals("0206FSE"), "selected", "")>FREIGHT SEA/EXPORT</option>
-                <option value="0210FCBE" @IIf(group.Equals("0210FCBE"), "selected", "")>FREIGHT CROSS-BORDER/EXPORT</option>
-                <option value="0110FCBI" @IIf(group.Equals("0110FCBI"), "selected", "")>FREIGHT CROSS-BORDER/IMPORT</option>
-                <option value="0307FTS" @IIf(group.Equals("0307FTS"), "selected", "")>FREIGHT TRANSIT</option>
-            </optgroup>
-            <optgroup label="TRANSPORT">
-                <option value="0107TI" @IIf(group.Equals("0107TI"), "selected", "")>TRANSPORT IMPORT</option>
-                <option value="0207TE" @IIf(group.Equals("0207TE"), "selected", "")>TRANSPORT EXPORT</option>
-                <option value="0507TD" @IIf(group.Equals("0507TD"), "selected", "")>TRANSPORT DOMESTIC</option>
-            </optgroup>
-            <optgroup label="WAREHOUSE">
-                <option value="0108WHI" @IIf(group.Equals("0108WHI"), "selected", "")>WAREHOUSE Import</option>
-                <option value="0208WHE" @IIf(group.Equals("0208WHE"), "selected", "")>WAREHOUSE Export</option>
-                <option value="0109WDI" @IIf(group.Equals("0109WDI"), "selected", "")>WAREHOUSE Domestic (Import)</option>
-                <option value="0209WDE" @IIf(group.Equals("0209WDE"), "selected", "")>WAREHOUSE Domestic (Export)</option>
-                <option value="0409WO" @IIf(group.Equals("0409WO"), "selected", "")>WAREHOUSE Domestic (Other)</option>
-            </optgroup>
-        </select>
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rsGroup = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rsGroup.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
     </div>
 
 </div>

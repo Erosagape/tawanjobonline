@@ -752,6 +752,10 @@ End Code
                 ShowMessage('Cannot cancel on this document status', true);
                 return;
             }
+	    if (chkmode == true && $('#txtDoc50Tavi').val() !== '') {
+                ShowMessage('Please cancel WH-Tax NO : [' + $('#txtDoc50Tavi').val() + '] before cancel document', true); 
+                return;
+            }
             CallBackAuthorize(path, 'MODULE_ADV', 'Index', 'D', SetCancel);
         });
         $('#txtCurrencyCode').focusout(function (event) {
@@ -842,8 +846,6 @@ End Code
                 if (type == '0'||type=='') type = "1";
                 if (type == "2") {
                     CalVATWHT();
-                } else {
-                    CalTotal();
                 }
             }
         });
@@ -1347,16 +1349,16 @@ if(job!=='') {
             $('#txtCustCode').focus();
             return false;
         }
-        if ($('#txtPayTo').val() == '') {
-            ShowMessage('Please input payment to',true);
-            $('#txtPayTo').focus();
-            return false;
-       }
-       if ($('#txtTRemark').val() == '') {
-            ShowMessage('Please input some remark',true);
-            $('#txtTRemark').focus();
-            return false;
-        }
+       // if ($('#txtPayTo').val() == '') {
+       //     ShowMessage('Please input payment to',true);
+       //     $('#txtPayTo').focus();
+       //     return false;
+       //}
+       //if ($('#txtTRemark').val() == '') {
+       //     ShowMessage('Please input some remark',true);
+       //     $('#txtTRemark').focus();
+       //     return false;
+       // }
         if ($('#cboJobType').val() == 0) {
             ShowMessage('please select job type',true);
             $('#cboJobType').focus();
@@ -2498,7 +2500,7 @@ if(job!=='') {
             window.open(path + 'Acc/WHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDoc50Tavi').val());
             return;
         }
-        $.get(path + 'master/getcompany?Code=' + $('#txtCustCode').val() + '&Branch' + $('#txtCustBranch').val()).done(function (r) {
+        $.get(path + 'master/getcompany?Code=' + $('#txtCustCode').val() + '&Branch=' + $('#txtCustBranch').val()).done(function (r) {
             let dr = r.company.data;
             if (dr.length > 0) {
                 SaveWHTax(dr[0]);
@@ -2506,10 +2508,10 @@ if(job!=='') {
         });
     }
     function SaveWHTax(dt) {
-        if ($('#btnSave').attr('disabled') == 'disabled') {
-            ShowMessage('This document is locked',true);
-            return;
-        }
+        //if ($('#btnSave').attr('disabled') == 'disabled') {
+        //    ShowMessage('This document is locked',true);
+        //    return;
+        //}
         let obj = GetWHTaxHeader(dt);
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);
@@ -2521,8 +2523,9 @@ if(job!=='') {
             success: function (response) {
                 if (response.result.data != '') {
                     SetWHTaxDetail(response.result.data);
-                    ShowMessage(response.result.msg);
+                    //ShowMessage(response.result.msg);			
                     $('#txtDoc50Tavi').val(response.result.data);
+	            SaveHeader();		
                     //$('#txtDoc50Tavi').focus();
                     window.open(path + 'Acc/WHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDoc50Tavi').val());
                     return;

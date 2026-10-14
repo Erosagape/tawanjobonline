@@ -2,18 +2,47 @@
     ViewData("Title") = "Create Job"
 End Code
 <form id="form" method="POST" action="@Url.Content("~")/JobOrder/PostCreateTransport">
-    <div Class="row">
+    <div class="row">
         <div Class="col-sm-2">
-            Job Type
+            <label id="lblGroup" onclick="alert(GetJobPrefix())" style="display:block;width:100%;">Group</label>
         </div>
         <div Class="col-sm-4">
-            <select id="txtJobType" name="JobType" Class="form-control dropdown" onchange="CheckJobType()"></select>
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
         </div>
+    </div>
+    <div Class="row"  style="display:none;">
         <div Class="col-sm-2">
             Ship By
         </div>
         <div Class="col-sm-4">
-            <select id="txtShipBy" name="ShipBy" Class="form-control dropdown"></select>
+            <select id="txtShipBy" name="ShipBy" Class="form-control dropdown" disabled></select>
+        </div>
+        <div Class="col-sm-2">
+            Job Type
+        </div>
+        <div Class="col-sm-4">
+            <select id="txtJobType" name="JobType" Class="form-control dropdown" onchange="CheckJobType()" disabled></select>
         </div>
     </div>
     <div Class="row">
@@ -322,6 +351,11 @@ End Code
     loadCombos(path, list);
 
     let jt = '';
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#txtJobType').val(gstr.substr(0,2));
+	$('#txtShipBy').val(gstr.substr(2,2));
+    }
     function CheckJobType() {
         if (jt !== $('#txtJobType').val()) {
             jt = $('#txtJobType').val();
@@ -704,4 +738,5 @@ End Code
     function SetAuto(id) {
         $(id).val('{AUTO}');
     }
+
 </script>

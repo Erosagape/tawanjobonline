@@ -274,7 +274,7 @@ End Code
                                     <label id="lblJobNo">Job No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtForJNo" class="form-control" readonly />
+                                        <input type="text" id="txtForJNo" class="form-control" />
                                         <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
                                     </div>                                    
                                 </div>
@@ -315,7 +315,7 @@ End Code
                                 <div class="col-sm-8">
                                     <label id="lblDescription">Description :</label>
                                     <br/>
-                                    <input type="text" class="form-control" id="txtSDescription" tabindex="13" />
+                                    <textarea type="text" class="form-control" id="txtSDescription" tabindex="13" /></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -914,6 +914,10 @@ End Code
                 return;
             }
         }
+        if (obj.ForJNo=='') { 
+	    ShowMessage('Please assign job number!',true);
+	    return;
+	}
         if (userRights.indexOf('E') < 0) {
             ShowMessage('You are not allow to edit',true);
             return;

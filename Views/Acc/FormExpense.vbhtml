@@ -208,7 +208,7 @@ End Code
         </tr>
     </tbody>
 </table>
-<table class="table" border="1" style="border-width:thin;border-collapse:collapse;width:100%;">
+<table class="table" border="1" style="border-width:thin;border-collapse:collapse;border-style:solid;width:100%;">
     <thead>
         <tr>
             <th class="align-top" rowspan="2">DESCRIPTION</th>
@@ -271,6 +271,17 @@ End Code
                         </td>
                         <td class="right">
                             <label id="taxAmt3"></label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label id="wht5">5%</label>
+                        </td>
+                        <td class="right">
+                            <label id="gross5"></label>
+                        </td>
+                        <td class="right">
+                            <label id="taxAmt5"></label>
                         </td>
                     </tr>
                     <tr>
@@ -396,12 +407,14 @@ End Code
                 let sumbaseWht1 = 0
                 let sumbaseWht1_5 = 0
                 let sumbaseWht3 = 0
+                let sumbaseWht5 = 0
                 let sumbaseWht10 = 0
                 let sumbaseWhtother = 0
 
                 let sumWht1 = 0
                 let sumWht1_5 = 0
                 let sumWht3 = 0
+                let sumWht5 = 0
                 let sumWht10 = 0
                 let sumWhtother = 0
                 let html = '';
@@ -458,6 +471,12 @@ End Code
                             sumbaseWht3 += row.Amt;
                             sumWht3 += row.AmtWHT;
                         }
+                        if (CDbl((row.AmtWHT * 100) / 5, 2) == CDbl(row.Amt, 2))
+                        {
+                            rateCal = 5;
+                            sumbaseWht5 += row.Amt;
+                            sumWht5 += row.AmtWHT;
+                        }
                         if (CDbl((row.AmtWHT * 100) / 10, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 10;
@@ -483,6 +502,10 @@ End Code
                             case 3:
                                 $('#gross3').text(ShowNumber(sumbaseWht3, 2));
                                 $('#taxAmt3').text(ShowNumber(sumWht3, 2));
+                                break;
+                            case 5:
+                                $('#gross5').text(ShowNumber(sumbaseWht5, 2));
+                                $('#taxAmt5').text(ShowNumber(sumWht5, 2));
                                 break;
                             case 10:
                                 $('#gross10').text(ShowNumber(sumbaseWht10, 2));

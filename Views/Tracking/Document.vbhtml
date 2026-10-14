@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     ViewBag.Title = "Documents Tracking"
 End Code
     <div class="row">
@@ -37,6 +36,7 @@ End Code
                         <option value="CLR">Clearing</option>
                         <option value="EXP">Expense Slip</option>
                         <option value="IMG">Images</option>
+                        <option value="CTN">Container</option>
                     </optgroup>
                     <optgroup label="STEP 5">
                         <option value="INV">Invoice</option>
@@ -63,26 +63,26 @@ End Code
             <button id="btnShow" class="btn btn-primary" onclick="RefreshGrid()">Show</button>
         </div>
     </div>
-    <div>
-        <button id="btnAddFile" class="btn btn-primary" onclick="AddFile()">Add File</button>
-        <table id="tbDocument" class="table table-responsive">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>DocType</th>
-                    <th>JNo</th>
-                    <th>DocNo</th>
-                    <th>DocDate</th>
-                    <th>Comment</th>
-                    <th>CheckDate</th>
-                    <th>ApproveDate</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-        <a href="#" class="btn btn-danger" id="btnDelItem" onclick="DeleteFile()">
-            <i class="fa fa-lg fa-trash"></i>&nbsp;<b><label id="lblDelFile">Delete File</label></b>
-        </a>
+    <div>        
+        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">Add Document</a>
+            <table id="tbDocument" class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>DocType</th>
+                        <th>JNo</th>
+                        <th>DocNo</th>
+                        <th>DocDate</th>
+                        <th>Comment</th>
+                        <th>CheckDate</th>
+                        <th>ApproveDate</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <a href="#" class="btn btn-danger" id="btnDelItem" onclick="DeleteFile()">
+                <i class="fa fa-lg fa-trash"></i>&nbsp;<b><label id="lblDelFile">Delete File</label></b>
+            </a>
     </div>
 <div id="dvEditor" class="modal fade" role="dialog">
     <div class="modal-dialog">
@@ -113,6 +113,7 @@ End Code
                             <option value="TAX">Tax-Invoice</option>
                             <option value="DEC">Declarations</option>
                             <option value="IMG">Images</option>
+                            <option value="CTN">Container</option>
                             <option value="OTH">Others</option>
                         </select>
                     </div>
@@ -125,8 +126,12 @@ End Code
             <div class="modal-body">
                 <div class="row">
                     <div class="col-sm-5">
-                        <label id="lblDocNo">Doc No</label><br/>
-                        <input type="text" id="txtDocNo" class="form-control" />
+                        <label id="lblDocNo">Doc No</label>
+                        <br/>
+                        <div style="display:flex;">
+                            <input type="text" id="txtDocNo" class="form-control" />
+                            <input type="button" class="btn btn-default" value="+" onclick="AddFile()"/>
+                        </div>                        
                     </div>
                     <div class="col-sm-7">
                         <label id="lblDescription">Description</label><br/>
@@ -221,6 +226,7 @@ End Code
     var path = '@Url.Content("~")';
     let branchcode = getQueryString("BranchCode");
     let jobno = getQueryString("JNo");
+    let note = getQueryString("Note");
     let userGroup = '@ViewBag.UserGroup';
     let user = '@ViewBag.User'; 
     let cust = '';
@@ -290,6 +296,7 @@ End Code
     }
     function ReadData(dt) {
         $('#txtItemNo').val(dt.ItemNo);
+        $('#txtJNo').val(dt.JNo);
         $('#txtDocTypeD').val(dt.DocType);
         $('#txtDocDate').val(CDateEN(dt.DocDate));
         $('#txtDocNo').val(dt.DocNo);
@@ -384,7 +391,7 @@ End Code
     }
     function AddFile() {
         if ($('#txtJNo').val() !== '') {
-            if ($('#txtDocType').val() !== '') {
+            if ($('#txtDocTypeD').val() !== '') {
                 $('#dvAddFile').modal('show');
             } else {
                 ShowMessage('Please choose some type of documents', true);
@@ -392,6 +399,33 @@ End Code
         } else {
             ShowMessage('Please select job number', true);
         }
+    }
+    function AddHeader() {
+        row = GetNewData();
+        ReadData(row);
+        $('#dvEditor').modal('show');
+    }
+    function GetNewData() {
+        let r = {
+            BranchCode: $('#txtBranchCode').val(),
+            JNo: $('#txtJNo').val(),
+            ItemNo: 0,
+            DocType: note ? 'CTN' : $('#txtDocType').val(),
+            FileType: '',
+            FilePath: '',
+            DocNo: '',
+            Description: '',
+            DocDate: null,
+            FileSize: 0,
+            UploadBy: '',
+            UploadDate: null,
+            CheckedBy: "",
+            CheckedDate: null,
+            ApproveBy : "",
+            ApproveDate : null,
+            CheckNote : note ? decodeURIComponent(note) : ''
+        };
+        return r;
     }
     function SaveData() {
         row.DocDate = CDateEN($('#txtDocDate').val());
@@ -401,10 +435,11 @@ End Code
         row.CheckedBy = $('#txtCheckedBy').val();
         row.CheckedDate = CDateEN($('#txtCheckedDate').val());
         row.DocNo = $('#txtDocNo').val();
+        row.ItemNo = $('#txtItemNo').val();
         row.ApproveBy = $('#txtApproveBy').val();
         row.ApproveDate = CDateEN($('#txtApproveDate').val());
-
-        if (row.ItemNo != "") {
+        //row.FilePath = $('#txtFileType').val();             
+        if (row.ItemNo !== "") {
             ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 let jsonText = JSON.stringify({ data: row });
@@ -452,34 +487,98 @@ End Code
             ShowMessage('No data to delete',true);
         }
     }
-    function UploadFile() {
-        let count = $('#objFile')[0].files.length;
-        if (count == 0) {
-            ShowMessage('Data not found',true);
-            return;
-        }
-        let saveTo = 'Resource/Import';
-        for (let file of $('#objFile')[0].files) {
-            let data = new FormData();
-            data.append(file.name, file);
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST',path +'Tracking/UploadDocument?Branch='+ $('#txtBranchCode').val() +'&Code='+ $('#txtJNo').val() +'&Type='+ $('#txtDocType').val() +'&Path=' + saveTo);
-            xhr.send(data);
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState == 4 && xhr.status == 200) {
-                    if (xhr.responseText.substr(0, 1) !== "[") {
-                        let fname = xhr.responseText.split(' ')[1];
-                        if (fname !== '') {
-                            $('#objFile').val('');
-                        }
-                        ShowMessage(fname);
-                        $('#dvAddFile').modal('hide');
-                        RefreshGrid();
-                        return;
+
+function UploadFile() {
+    let count = $('#objFile')[0].files.length;
+    if (count == 0) {
+        ShowMessage('Data not found', true);
+        return;
+    }
+    let saveTo = 'Resource/Import';
+
+    for (let file of $('#objFile')[0].files) {
+        let data = new FormData();
+        data.append(file.name, file);
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', path + 'Tracking/UploadDocument?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtJNo').val() + '&Type=' + $('#txtDocTypeD').val() + '&Path=' + saveTo);
+        xhr.send(data);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText.substr(0, 1) !== "[") {
+                    let fname = xhr.responseText.split(' ')[1];
+                    if (fname !== '') {
+                        $('#objFile').val('');
                     }
-                    ShowMessage(xhr.responseText,true);
+
+                    ShowMessage(fname);
+                    $('#txtDocNo').val(fname);
+                    $('#dvAddFile').modal('hide');
+                    RefreshGrid();
+                    if (typeof note !== 'undefined' && note) {
+                        AutoSelectAndSaveNote(fname);
+                    } else {
+                        $('#dvEditor').modal('hide');
+                    }
+                    return;
                 }
+                ShowMessage(xhr.responseText, true);
             }
         }
     }
+}
+
+function AutoSelectAndSaveNote(fname) {
+    let maxTry = 20;
+    let tryCount = 0;
+
+    let checkInterval = setInterval(function () {
+        tryCount++;
+        let $targetRow = null;
+        $('table tbody tr').each(function () {
+            if ($(this).text().indexOf(fname) !== -1) {
+                $targetRow = $(this);
+                return false; 
+            }
+        });
+        if ($targetRow && $targetRow.length > 0) {
+            clearInterval(checkInterval);
+            $targetRow.trigger('click');
+            setTimeout(function () {
+                let noteText = note;
+                try { noteText = decodeURIComponent(note); } catch (e) { }
+
+                $('#txtDocTypeD').val('CTN');
+                $('#txtCheckNote').val(noteText);
+
+                if (typeof row !== 'undefined') {
+                    row.DocType = 'CTN';
+                    row.CheckNote = noteText;
+                    if (!row.Description || row.Description === '') {
+                        row.Description = $('#txtDescription').val();
+                    }
+                    $.ajax({
+                        url: path + 'JobOrder/SetDocument',
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ data: row }),
+                        success: function (response) {
+                            RefreshGrid();
+                            $('#dvEditor').modal('hide');
+                        },
+                        error: function (e) {
+                            ShowMessage(e, true);
+                            $('#dvEditor').modal('hide');
+                        }
+                    });
+                }
+            }, 300);
+
+        } else if (tryCount >= maxTry) {
+            clearInterval(checkInterval);
+            $('#dvEditor').modal('hide');
+        }
+    }, 250);
+}
 </script>

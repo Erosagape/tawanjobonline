@@ -150,7 +150,7 @@ End Code
                     <div class="col-sm-6">
                         <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
                         <br />
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label>
+                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" checked /><label id="lblGroupByDoc">Group Documents</label>
                     </div>
                 </div>
                 <div class="row">
@@ -185,35 +185,40 @@ End Code
                             <i class="fa fa-lg fa-filter"></i>&nbsp;<b id="linkSearch">Search</b>
                         </a>
                         <br />
-                        <table id="tbSummary" class="table table-responsive" style="display:none">
-                            <thead>
-                                <tr>
-                                    <th>Inv.No</th>
-                                    <th class="desktop">Advance</th>
-                                    <th class="desktop">Charge</th>
-                                    <th class="desktop">VAT</th>
-                                    <th class="desktop">W-Tax</th>
-                                    <th class="all">Net</th>
-                                </tr>
-                            </thead>
-                        </table>
-                        <table id="tbHeader" class="table table-responsive">
-                            <thead>
-                                <tr>
-                                    <th>Inv.No</th>
-                                    <th class="desktop">Inv.date</th>
-                                    <th class="desktop">Bill.No</th>
-                                    <th class="desktop">Rec.No</th>
-                                    <th class="all">Expenses</th>
-                                    <th class="desktop">Advance</th>
-                                    <th class="desktop">Charge</th>
-                                    <th class="desktop">Amt</th>
-                                    <th class="desktop">VAT</th>
-                                    <th class="desktop">W-Tax</th>
-                                    <th class="all">Net</th>
-                                </tr>
-                            </thead>
-                        </table>
+                        <div id="dvHeader">
+                            <table id="tbHeader" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Inv.No</th>
+                                        <th class="desktop">Inv.date</th>
+                                        <th class="desktop">Bill.No</th>
+                                        <th class="desktop">Rec.No</th>
+                                        <th class="all">Expenses</th>
+                                        <th class="desktop">Advance</th>
+                                        <th class="desktop">Charge</th>
+                                        <th class="desktop">Amt</th>
+                                        <th class="desktop">VAT</th>
+                                        <th class="desktop">W-Tax</th>
+                                        <th class="all">Net</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div id="dvSummary">
+                            <table id="tbSummary" class="table table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>Inv.No</th>
+                                        <th class="desktop">Advance</th>
+                                        <th class="desktop">Charge</th>
+                                        <th class="desktop">VAT</th>
+                                        <th class="desktop">W-Tax</th>
+                                        <th class="all">Net</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        
                     </div>
                 </div>
                 <div class="row">
@@ -288,11 +293,11 @@ End Code
     }
     function SetVisible() {
         if ($('#chkGroupByDoc').prop('checked')) {
-            $('#tbSummary').css('display', 'initial');
-            $('#tbHeader').css('display', 'none');
+            $('#dvSummary').show();
+            $('#dvHeader').hide();
         } else {
-            $('#tbSummary').css('display', 'none');
-            $('#tbHeader').css('display', 'initial');
+            $('#dvSummary').hide();
+            $('#dvHeader').show();
         }
         $('#tbSummary tbody > tr').removeClass('selected');
         $('#tbHeader tbody > tr').removeClass('selected');
@@ -353,6 +358,7 @@ End Code
             CreateLOV(dv, '#frmSearchBookCash', '#tbBookCash', 'Book Accounts', response, 2);
             CreateLOV(dv, '#frmSearchBookChq', '#tbBookChq', 'Book Accounts', response, 2);
         });
+        SetVisible();
     }
     function ClearData() {
         $('#txtAdvCash').val('');
@@ -425,14 +431,15 @@ End Code
         $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbSummary tbody').on('click', 'tr', function () { });
-                $('#tbHeader').DataTable().clear().draw();
-                $('#tbSummary').DataTable().clear().draw();
+                $('#tbHeader').hide();
+                $('#tbSummary').hide();
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
+            let h = r.invdetail.data;
             let s = r.invdetail.summary;
             dtl = r.invdetail.data;
-
+            if ($('#chkGroupByDoc').prop('checked')) {
             let tb=$('#tbSummary').DataTable({
                 data: s,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -493,8 +500,7 @@ End Code
                     AddData(d);
                 }
             });
-
-            let h = r.invdetail.data;
+            } else {
             let tb2=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -556,7 +562,10 @@ End Code
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
                 AddData(data); //callback function from caller
             });
+            }
+
         });
+        SetVisible();
     }
     function SetStatusInput(d, bl, ctl) {
         if (bl == false) {

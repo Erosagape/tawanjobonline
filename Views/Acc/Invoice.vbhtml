@@ -250,9 +250,18 @@ End Code
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
                             </p>
                             <label id="lblRemark">Remark</label>
-                            :
-                            <input type="text" id="txtRemark1" class="form-control" />
-                            <input type="text" id="txtRemark2" class="form-control" />
+                            :<br />
+                            <textarea type="text" id="txtRemark1" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark2" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark3" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark4" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark5" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark6" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark7" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark8" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark9" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark10" class="form-control" ></textarea>
+                            @*<input type="text" id="txtRemark2" class="form-control" />
                             <input type="text" id="txtRemark3" class="form-control" />
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
@@ -260,7 +269,7 @@ End Code
                             <input type="text" id="txtRemark7" class="form-control" />
                             <input type="text" id="txtRemark8" class="form-control" />
                             <input type="text" id="txtRemark9" class="form-control" />
-                            <input type="text" id="txtRemark10" class="form-control" />
+                            <input type="text" id="txtRemark10" class="form-control" />*@
                         </div>
                     </div>
                 </div>

@@ -148,6 +148,7 @@ End Code
     <div class="col-sm-3">
         <br />
         <input type="button" class="btn btn-primary" value="Search" onclick="RefreshData()" />
+        <input type="button" class="btn btn-warning" value="Container Detail" onclick="SearchContainer()" />
     </div>
 </div>
 <div id="dvChart"></div>
@@ -202,5 +203,8 @@ End Code
 
     function RefreshData() {
         window.location.href = path + 'Tracking/Dashboard?Form=5&BeginDate=' + $('#txtDateFrom').val() + '&EndDate=' + $('#txtDateTo').val();
+    }
+    function SearchContainer() {
+        window.location.href = path + 'Tracking/Dashboard?Form=8';
     }
 </script>

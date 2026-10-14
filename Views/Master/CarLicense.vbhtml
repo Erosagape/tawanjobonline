@@ -25,6 +25,7 @@ End Code
         <div class="col-sm-8" style="display:flex">
             <input type="text" id="txtEmpCode" class="form-control">
             <input type="button" class="btn btn-default" id="btnBrowseType" value="..." onclick="SearchData('driver')" />
+	    <input type="text" id="txtEmpName" class="form-control" disabled>
         </div>
 
     </div>
@@ -169,7 +170,7 @@ End Code
             });
         });
     }
-	function ReadData(dr){
+    function ReadData(dr){
         $('#txtCarNo').val(dr.CarNo);
         $('#txtCarLicense').val(dr.CarLicense);
         $('#txtEmpCode').val(dr.EmpCode);
@@ -183,6 +184,12 @@ End Code
         $('#txtWeight').val(dr.Weight);
         $('#txtCarRefNo').val(dr.CarRefNo);
         $('#txtCarRefType').val(dr.CarRefType);
+	$.get(path + 'Master/getemployee?Code=' + dr.EmpCode).done(function (r) {
+            let emp = r.employee.data;
+            if (emp.length > 0) {
+                $('#txtEmpName').val(emp[0].Name);
+            }
+        });
     }
 
    function SaveData() {
@@ -253,7 +260,8 @@ End Code
 
     function ReadDriver(dr) {
         //popup step3
-        $('#txtEmpCode').val(dr.Name);
+        $('#txtEmpCode').val(dr.EmpCode);
+        $('#txtEmpName').val(dr.Name);
     }
 </script>
 

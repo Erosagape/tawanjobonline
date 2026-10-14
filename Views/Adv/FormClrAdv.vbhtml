@@ -7,6 +7,7 @@ End Code
     * {
         font-family: Tahoma;
         font-size: 11px;
+	text-transform : uppercase !important;
     }
 
     #pFooter, #dvFooter {

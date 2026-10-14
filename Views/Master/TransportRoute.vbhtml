@@ -59,7 +59,12 @@ End Code
                 </div>
                 <div class="col-md-3">
                     <label id="lblPlace2">Delivery</label><br />
-                    <input type="text" class="form-control" id="txtPlace2" onchange="GenRoute()" />
+                    <div class="input-group">
+        		<input type="text" class="form-control" id="txtPlace2" onchange="GenRoute()" />
+       			<span class="input-group-btn">
+		            <input type="button" id="btnBrowseCust" class="btn btn-default" value="..." onclick="SearchData('cust_place2')" />
+		        </span>
+		    </div>
                     <label id="lblAddress2">Address</label><br />
                     <textarea class="form-control" id="txtAddress2"></textarea>
                     <label id="lblContact2">Contact</label><br />
@@ -252,6 +257,7 @@ End Code
     let path = '@Url.Content("~")';
     let user = '@ViewBag.User';
     let userGroup = '@ViewBag.UserGroup';
+    let transportRoutes = [];
     if (userGroup == 'V') {
         $('#btnBrowseVend').attr('disabled', 'disabled');
         $('#txtVenderCode').attr('disabled', 'disabled');
@@ -268,6 +274,7 @@ End Code
     LoadPrice();
     ShowData();
     LoadGrid();
+    LoadTransportRoutes()
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
@@ -553,6 +560,10 @@ End Code
         });
     }
     function SaveRoute() {
+    	if (IsDuplicateRoute()) {
+        	ShowMessage('This Transport Route already exists', true);
+        	return;
+    	}
         let routeFormat = $('#cboTemplate').val();
         let idx1 = (routeFormat.length > 0 ? routeFormat.substr(0, 1) : 0);
         let idx2 = (routeFormat.length > 1 ? routeFormat.substr(1, 1) : 0);
@@ -584,6 +595,7 @@ End Code
                     ShowMessage(r.result.msg);
                     LoadRoute();
                     LoadGrid();
+		    LoadTransportRoutes();
                 });
             }
         });
@@ -596,6 +608,9 @@ End Code
                 break;
             case 'cust':
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
+                break;
+            case 'cust_place2':
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomerForPlace2);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -627,9 +642,16 @@ End Code
     }
     function ReadCustomer(dt) {
         $('#txtCustCode').val(dt.CustCode);
-        $('#txtCustName').val(dt.Title + ' ' + dt.NameThai);
-        LoadPrice();
+        $('#txtCustName').val(dt.Title + ' ' + dt.NameThai);        
+	LoadPrice();
     }
+
+    function ReadCustomerForPlace2(dt) {
+        let custFullName = dt.NameThai;
+        $('#txtPlace2').val(custFullName).change();
+
+    }
+
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
@@ -724,4 +746,67 @@ End Code
         $('#txtChargeAmount').val('0.00');
         LoadPrice();
     }
+function LoadTransportRoutes() {
+
+    $.get(path + 'JobOrder/GetTransportRoute', function (response) {
+
+        transportRoutes = response.transportroute.data || [];
+
+        console.log('Transport Routes Loaded:', transportRoutes);
+    });
+}
+
+function NormalizeRouteText(value) {
+    return (value || '')
+        .trim()
+        .replace(/\s+/g, ' ')
+        .toUpperCase();
+}
+
+function IsDuplicateRoute() {
+
+    let locationID = parseInt($('#txtLocationID').val()) || 0;
+    let routeFormat = $('#cboTemplate').val();
+
+    let idx1 = (routeFormat.length > 0 ? routeFormat.substr(0, 1) : 0);
+    let idx2 = (routeFormat.length > 1 ? routeFormat.substr(1, 1) : 0);
+    let idx3 = (routeFormat.length > 2 ? routeFormat.substr(2, 1) : 0);
+    let idx4 = (routeFormat.length > 3 ? routeFormat.substr(3, 1) : 0);
+
+    let place1 = NormalizeRouteText($('#txtPlace' + idx1).val());
+    let place2 = NormalizeRouteText($('#txtPlace' + idx2).val());
+    let place3 = NormalizeRouteText($('#txtPlace' + idx3).val());
+    let place4 = NormalizeRouteText($('#txtPlace' + idx4).val());
+
+    console.log('Checking Route:', {
+        locationID: locationID,
+        routeFormat: routeFormat,
+        place1: place1,
+        place2: place2,
+        place3: place3,
+        place4: place4
+    });
+
+    console.log('Existing Routes:', transportRoutes);
+
+    return transportRoutes.some(function (r) {
+
+        if (locationID > 0 && r.LocationID == locationID) {
+            return false;
+        }
+
+        let duplicate =
+            r.RouteFormat == routeFormat
+            && NormalizeRouteText(r.Place1) == place1
+            && NormalizeRouteText(r.Place2) == place2
+            && NormalizeRouteText(r.Place3) == place3
+            && NormalizeRouteText(r.Place4) == place4;
+
+        if (duplicate) {
+            console.log('Duplicate Found:', r);
+        }
+
+        return duplicate;
+    });
+}
 </script>

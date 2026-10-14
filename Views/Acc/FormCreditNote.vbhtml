@@ -98,7 +98,7 @@ End Code
 
                     <div style="flex:1">
                         ผลต่าง <br />
-                        ภาษีมูลค่าเพิ่ม <label id="lblVATRate"></label>% <br />
+                        ภาษีมูลค่าเพิ่ม <label id="lblVATRate"></label> <br />
                         หัก ณ ที่จ่าย<br />
                         รวมทั้งสิ้น
                     </div>
@@ -189,24 +189,24 @@ End Code
         let wht = 0;
         let total = 0;
 
-        for (let d of dt.detail) {
+	for (let d of dt.detail) {
+    		let html = `
+        		<tr>
+            			<td>${d.SDescription}</td>
+            			<td style="text-align:center">${d.BillingNo}</td>
+            			<td style="text-align:center">${d.TaxInvNo ?? ''}</td>
+            			<td style="text-align:right">${d.OriginalAmt > 0 ? ShowNumber(d.OriginalAmt, 2) : '0.00'}</td>
+            			<td style="text-align:right">${d.CorrectAmt > 0 ? ShowNumber(d.CorrectAmt, 2) : '0.00'}</td>
+            			<td style="text-align:right">${ShowNumber(d.DiffAmt, 2)}</td>
+        		</tr>
+    		`;
+    		$('#tbDetail').append(html);
 
-            html = '<tr>';
-            html = '<td>' + d.SDescription + '</td>';
-            html += '<td style="text-align:center">' + d.BillingNo + '</td>';
-            html += '<td style="text-align:center">' + d.TaxInvNo + '</td>';
-            html += '<td style="text-align:right">' + (d.OriginalAmt >0? ShowNumber(d.OriginalAmt,2):'0.00') + '</td>';
-            html += '<td style="text-align:right">' + (d.CorrectAmt > 0 ? ShowNumber(d.CorrectAmt, 2) : '0.00') + '</td>';
-            html += '<td style="text-align:right">' + ShowNumber(d.DiffAmt, 2) + '</td>';
-            html += '</tr>';
-
-            $('#tbDetail').append(html);
-
-            service += Number(d.DiffAmt);
-            vat += Number(d.VATAmt);
-            wht += Number(d.WHTAmt);
-            total += Number(d.TotalNet);
-        }
+    		service += Number(d.DiffAmt);
+    		vat += Number(d.VATAmt);
+    		wht += Number(d.WHTAmt);
+    		total += Number(d.TotalNet);
+	}
         $('#lblTotalDiff').text(ShowNumber(Math.abs(service), 2));
         $('#lblTotalVAT').text(ShowNumber(Math.abs(vat), 2));
         $('#lblTotalWHT').text(ShowNumber(Math.abs(wht), 2));

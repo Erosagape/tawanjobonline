@@ -41,7 +41,7 @@ End Code
                         (ที่เป็นผู้ไม่มีเลขประจำตัวบัตรประชาชน) :
                     </div>
                     <div style="flex:1">
-                        <label id="lblTaxNumber1"></label>
+                        <label style="font-size: 18px !important;" id="lblTaxNumber1"></label>
                     </div>
                 </div>
             </div>
@@ -218,15 +218,14 @@ End Code
 <br/>
 <div>
     <div style="width:100%;text-align:center;font-size:16px;float:left">
-        <div style="float:right">
-            <br />
-            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br />(ถ้ามี)</div>
-            <br />
-        </div>
         ข้าพเจ้าขอรับรองว่า รายการที่แจ้งไว้ข้างต้นนี้ เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ
-        <br />
-        <br />
-        <br />
+@*<p>
+<img src="~/Resource/sign.jpg" width="250px" />
+</p>*@
+<br />
+<br />
+<br />
+<br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
@@ -293,15 +292,16 @@ End Code
                     $('#lblTName1').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
                     $('#lblTAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN');
                     if (params.ReportCode == 'PRD53A') {
+			$('#lblIDCard1').text(tb.IDCard1);
+                        $('#lblTaxNumber1').text(tb.TaxNumber1);
+                        $('#lblBranch1').val('00'+CCode(tb.Branch1));
+                        $('#lblTName1').text(tb.TName1);
+                        $('#lblTAddress1').text(tb.TAddress1);
                         $('#txtTaxPosition').val('กระทำการแทน');
                     } else {
                         $('#txtTaxPosition').val('@ViewBag.TaxPosition');
                     }
-                    //$('#lblIDCard1').text(tb.IDCard1);
-                    //$('#lblTaxNumber1').text(tb.TaxNumber1);
-                    //$('#lblBranch1').val('00'+CCode(tb.Branch1));
-                    //$('#lblTName1').text(tb.TName1);
-                    //$('#lblTAddress1').text(tb.TAddress1);
+                    
                     $('#txtTaxYear').val(tb.TaxYear + 543);
                     $('#chkMo' + tb.TaxMonth).prop('checked', true);
                     $('#chkLaw' + tb.TaxLawNo).prop('checked', true);
@@ -309,13 +309,14 @@ End Code
                     let tax = 0;
                     let t = 1;
                     let d = 0;
+                    let rows = 5;
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 7) {
+                    if (d > (rows-1)) {
                         let r = 1;
-                        for (let i = 8; i <= d; i++) {
-                            if (r == 8 || i == d) {
+                        for (let i = rows; i <= d; i++) {
+                            if (r == rows || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {

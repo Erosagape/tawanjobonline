@@ -37,21 +37,19 @@ End Code
 <br />
 <div style="display:flex;flex-direction:column;align-items:center;width:100%;">
     <div class="div3">
-        <div>
-            Importer Name(ชื่อผู้นำเข้า) &nbsp; <label style="display:inline-block;width:250px;text-decoration:underline" id="lblNameThai">________________________</label>
-            TAX No: &nbsp; <label style="display:inline-block;width:150px;text-decoration:underline" id="lblTaxNumber">________________________</label><br />
-            <label style="display:inline-block;width:300px;text-decoration:underline" id="lblTAddress">________________________</label><br />
-            Invoice no.(เลขที่อินวอยซ์) &nbsp; <label id="lblInvNo" style="display:inline-block;width:200px;text-decoration:underline">________________________</label>
-            P.O. no. &nbsp;<label style="display:inline-block;width:300px;text-decoration:underline" id="lblCustRefNo">________________________</label>
-            &nbsp; &nbsp; Job# <label style="display:inline-block;width:200px;text-decoration:underline" id="lblJNo">________________________</label>
+        <div style="font-size:12px">
+            Importer Name(ชื่อผู้นำเข้า) &nbsp; <label style="display: inline-block; width: 250px; text-decoration: underline; font-size: 13px" id="lblNameThai">________________________</label>
+            TAX No: &nbsp; <label style="display: inline-block; width: 150px; text-decoration: underline; font-size: 12px " id="lblTaxNumber">________________________</label><br />
+            <label style="display: inline-block; width: 300px; text-decoration: underline;font-size: 12px" id="lblTAddress">________________________</label><br />
+            Invoice no.(เลขที่อินวอยซ์) &nbsp; <label id="lblInvNo" style="display: inline-block; width: 200px; text-decoration: underline; font-size: 13px">________________________</label><br />
+            Job# <label style="display: inline-block; width: 200px; text-decoration: underline; font-size: 12px" id="lblJNo">________________________</label>
             <br />
-            Name of Delivery(ชื่อผู้รับสินค้า)  &nbsp; <label style="display:inline-block;width:400px;text-decoration:underline" id="lblDeliveryTo">________________________</label><br />
-            Place of Delivery(สถานที่ส่งสินค้า) &nbsp; <label style="display:inline-block;width:400px;text-decoration:underline" id="lblDeliveryAddr">________________________</label><br />
-            Description of Goods(รายละเอียดสินค้า) &nbsp; <label style="display:inline-block;width:500px;text-decoration:underline" id="lblInvProduct">________________________</label><br />
-            Quantity(ปริมาณหีบห่อ) &nbsp;<label style="display:inline-block;width:100px;text-decoration:underline" id="lblInvProductQtyUnit">________________________</label>Gross Weight-KGS (น้ำหนักรวม-กิโลกรัม) &nbsp; <label style="display:inline-block;width:100px;text-decoration:underline" id="lblTotalGW">________________________</label><br />
-            Vessel/Fight(เรือ/เที่ยวบิน) &nbsp;<label style="display:inline-block;width:200px;text-decoration:underline" id="lblVesselName">________________________</label>ETA(วันเรือเข้า) &nbsp; <label style="display:inline-block;width:150px;text-decoration:underline" id="lblETADate">________________________</label><br />
-            House B/L &nbsp;<label style="display:inline-block;width:200px;text-decoration:underline" id="lblHAWB">________________________</label>Master B/L &nbsp; <label style="display:inline-block;width:200px;text-decoration:underline" id="lblMAWB">________________________</label><br />
-            Remark from CS(ข้อพึงระวัง) &nbsp;<label style="display:inline-block;width:400px;text-decoration:underline" id="lblShippingCmd">________________________</label><br /><br />
+            Place of Delivery(สถานที่ส่งสินค้า) &nbsp; <label style="display: inline-block; width: 400px; text-decoration: underline; font-size: 12px" id="lblPlaceNameAll">________________________</label><br />
+            Description of Goods(รายละเอียดสินค้า) &nbsp; <label style="display: inline-block; width: 400px; text-decoration: underline; font-size: 12px" id="lblInvProduct">________________________</label><br />
+            Quantity(ปริมาณหีบห่อ) &nbsp;<label style="display: inline-block; width: 100px; text-decoration: underline; font-size: 12px" id="lblInvProductQtyUnit">________________________</label>Gross Weight-KGS (น้ำหนักรวม-กิโลกรัม) &nbsp; <label style="display: inline-block; width: 100px; text-decoration: underline; font-size: 12px" id="lblTotalGW">________________________</label><br />
+            Vessel/Fight(เรือ/เที่ยวบิน) &nbsp;<label style="display: inline-block; width: 200px; text-decoration: underline; font-size: 12px" id="lblVesselName">________________________</label>ETA(วันเรือเข้า) &nbsp; <label style="display: inline-block; width: 150px; text-decoration: underline; font-size: 12px" id="lblETADate">________________________</label><br />
+            House B/L &nbsp;<label style="display: inline-block; width: 200px; text-decoration: underline; font-size: 12px" id="lblHAWB">________________________</label>Master B/L &nbsp; <label style="display: inline-block; width: 200px; text-decoration: underline; font-size: 12px" id="lblMAWB">________________________</label><br />
+            Remark from CS(ข้อพึงระวัง) &nbsp;<label style="display: inline-block; width: 400px; text-decoration: underline; font-size: 12px" id="lblShippingCmd">________________________</label><br /><br />
         </div>
     </div>
     <div class="div3">
@@ -73,28 +71,37 @@ End Code
                 <input type="checkbox" />&nbsp;&nbsp;ใบส่งของของผู้ว่าจ้าง
             </div><br />
             <br /><br />
-            <div style="display:flex;">
-                <div class="text-left">
-                    ลงชื่อ ______________________ ผู้รับสินค้า(ตัวบรรจง)<br />
-                    วันที่ _______________________<br />
-                </div>
-            </div>
+                  <div style="display:flex;">
+                      <div class="text-left">
+                          ลงชื่อ ______________________ ผู้รับสินค้า(ตัวบรรจง)<br /><br /><br />
+                          วันที่ _______________________<br />
+                      </div>
+                      <div class="text-left" style="text-align:right; margin-left:50px;">
+                          เวลาเข้า _______________________________ เวลาออก _______________________________
+                      </div>
+                  </div>
             <br />
         </div>
     </div>
     <div class="div3">
         <div>
             3.รายละเอียดรถบรรทุก<br />
-            เบอร์ตู้  &nbsp; <label style="display:inline-block;width:200px;text-decoration:underline" id="lblCTN_NO">________________________</label><br />
+            เบอร์ตู้  &nbsp; <label style="display:inline-block;width:250px;font-weight:bold;text-decoration:underline; font-size:15px;" id="lblCTN_NO">________________________</label> 
+            size : &nbsp; <label style="display:inline-block;width:200px; font:bold;text-decoration:underline; font-size:15px;" id="lblCTN_SIZE"></label>
+     @*Transport :&nbsp;<label style="display:inline-block;width:200px; font:bold;text-decoration:underline; font-size:15px;" id="lblTSP"></label>*@
+     <br />
             ประเภทรถบรรทุก
-            <div style="display:flex">
+            <div style="display:flex;font-weight:bold;">
                 <input type="checkbox" id="chkTRK4" />&nbsp;&nbsp;4ล้อ
                 <input type="checkbox" id="chkTRK6" />&nbsp;&nbsp;6ล้อ
                 <input type="checkbox" id="chkTRK10" />&nbsp;&nbsp;10ล้อ
                 <input type="checkbox" id="chk20F" />&nbsp;&nbsp;ตู้20ฟุต
-                <input type="checkbox" id="chk40F" />&nbsp;&nbsp;ตู้40ฟุต
-            </div><br />
-            ชื่อพนักงานขับรถบรรทุก &nbsp; <label style="display:inline-block;width:200px;text-decoration:underline" id="lblDriver">________________________</label>ทะเบียนรถเลขที่ &nbsp;<label style="display:inline-block;width:200px;text-decoration:underline" id="lblTruckNO">________________________</label>
+                <input type="checkbox" id="chk40F" />&nbsp;&nbsp;ตู้40ฟุต &nbsp;
+                <input type="checkbox" id="chkHBC" />&nbsp;&nbsp;รถเฮี๊ยบ
+            </div>
+
+            จำนวนรถ: &nbsp; <label style="display:inline-block;width:200px;text-decoration:underline" id="lblComment">________________________</label>
+           <br /><br />ชื่อพนักงานขับรถบรรทุก &nbsp; <label style="display:inline-block;width:200px;text-decoration:underline" id="lblDriver">________________________</label>ทะเบียนรถเลขที่ &nbsp;<label style="display:inline-block;width:200px;text-decoration:underline" id="lblTruckNO">________________________</label>
             <br /><br />
         </div>
     </div>
@@ -104,7 +111,9 @@ End Code
             <div style="display:flex;">
                 <input type="checkbox" />&nbsp;&nbsp;การเเต่งกาย_________
                 <input type="checkbox" />&nbsp;&nbsp;สภาพรถ________
-                <input type="checkbox" />&nbsp;&nbsp;สภาพตู็________
+                <input type="checkbox" />&nbsp;&nbsp;สภาพตู้________ &nbsp;
+                <input type="checkbox" />&nbsp;&nbsp;สายรัด
+                <input type="checkbox" />&nbsp;&nbsp;อุปกรณ์ Safety
             </div><br />
         </div>
     </div>
@@ -118,18 +127,33 @@ End Code
             if (r.transport.data.length > 0) {
                 let j = r.transport.data[0];
                 if (j.CTN_NO !== null) $('#lblCTN_NO').text(j.CTN_NO);
+                if (j.CTN_SIZE !== null) $('#lblCTN_SIZE').text(j.CTN_SIZE);
+                if (j.TName !== null) $('#lblTSP').text(j.TName);
                 if (j.JNo !== null) $('#lblJNo').text(j.JNo);
-                if (j.DriverName!==null) $('#lblDriver').text(j.DriverName);
+                //if (j.Driver!==null) $('#lblDriver').text(j.Driver);
+                //if (j.DriverName!==null) $('#lblDriver').text(j.DriverName);
+                let driverDisplayName = j.DriverName || j.Driver || "________________________________________________";
+                let truckNoDisplayName = j.TruckNO || "" || "________________________________________________"; 
+                $('#lblDriver').text(driverDisplayName);
+                $('#lblComment').text(j.Comment);
+             	$('#lblTruckNO').text(truckNoDisplayName);
+
                 $('#chkTRK4').prop('checked', (j.TruckType == 'TRK4'));
                 $('#chkTRK6').prop('checked', (j.TruckType == 'TRK6'));
                 $('#chkTRK10').prop('checked', (j.TruckType == 'TRK10'));
                 $('#chk20F').prop('checked', (j.CTN_SIZE.indexOf('20F') >= 0));
+
+                //if (j.TruckNO!==null) $('#lblTruckNO').text(j.TruckNO);
                 $('#chk40F').prop('checked', (j.CTN_SIZE.indexOf('40F') >= 0));
                 if (j.CarLicense!==null) $('#lblTruckNO').text(j.CarLicense);
-                if (j.UnloadDate!==null) $('#lblDeliveryDate').text(ShowDate(j.UnloadDate));
-                if (j.DeliveryNo!==null) $('#lblDeliveryNo').text(j.DeliveryNo);
-                if (j.PlaceContact2!==null) $('#lblDeliveryTo').text(j.PlaceContact2);
-                if (j.Location!==null) $('#lblDeliveryAddr').text(j.Location);
+                if (j.UnloadDate!==null) $('#lblDeliveryDate').text(ShowDate(j.UnloadDate) + ' ' + ShowTime(j.ActualYardTime));
+		if (j.ActualYardTime!==null) $('#lblDeliveryTime').text(ShowTime(j.ActualYardTime));
+                if (j.DeliveryNo !== null) $('#lblDeliveryNo').text(j.DeliveryNo);
+                if (j.PlaceName1 !== null) $('lblPlaceName1').text(j.Placename1);
+                if (j.PlaceName2 !== null) $('lblPlaceName2').text(j.Placename2);
+                if (j.PlaceName3 !== null) $('lblPlaceName3').text(j.Placename3);
+                if (j.PlaceContact2!==null) $('#lblDeliveryTo').text(j.PlaceName2);
+                if (j.Location !== null) $('#lblDeliveryAddr').text(j.PlaceAddress2);
                 if (j.InvNo!==null) $('#lblInvNo').text(j.InvNo);
                 if (j.CustRefNO!==null) $('#lblCustRefNo').text(j.CustRefNO);
                 if (j.InvProduct!==null) $('#lblInvProduct').text(j.InvProduct);
@@ -142,7 +166,13 @@ End Code
                 if (j.ShippingCmd!==null) $('#lblShippingCmd').text(j.ShippingCmd);
                 if (j.NameThai!==null) $('#lblNameThai').text(j.NameThai);
                 if (j.TaxNumber!==null) $('#lblTaxNumber').text(j.TaxNumber);
-                if (j.TAddress1!==null) $('#lblTAddress').text(j.TAddress1 + ' '+ j.TAddress2);
+                if (j.TAddress1 !== null) $('#lblTAddress').text(j.TAddress1 + ' ' + j.TAddress2);
+                let place = '';
+                //if (j.PlaceName1 !== null && j.PlaceName2 !== null && j.PlaceName3 !== null) {
+                    place = (j.PlaceName1 ?? "") + " > " + (j.PlaceName2 ?? "") + " > " + (j.PlaceName3 ?? "");
+                //}
+		
+                $('#lblPlaceNameAll').text(place);
             }
         });
     }

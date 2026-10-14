@@ -6,7 +6,7 @@
 End Code
 <style>
     * {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     table {
@@ -92,8 +92,8 @@ End Code
         <td><b><label id="txtDriverName"></label></b></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
+        <td>Transporter</td>
+        <td><label id="txtTransport"></label></td>
         <td><b>หมายเลขตู้คอนเทนเนอร์</b></td>
         <td><b><label id="txtContainer"></label></b></td>
     </tr>
@@ -114,6 +114,14 @@ End Code
         <td><label id="txtPlace1"></label></td>
         <td><label id="txtPlace2"></label></td>
         <td><label id="txtPlace3"></label></td>
+    </tr>
+    <tr>
+        <td>Commodity</td>
+        <td colspan="3"><label id="txtInvProduct"></label></td>
+    </tr>
+    <tr>
+        <td>Packages Summary</td>
+        <td colspan="3"><label id="txtProjectName"></label></td>
     </tr>
     <tr>
         <td>ที่อยู่</td>
@@ -178,6 +186,11 @@ End Code
             $('#txtContainerType').text(h.CTN_SIZE);
             $('#txtDriverName').text(h.DriverName);
             $('#txtContainer').text(h.CTN_NO);
+
+            $('#txtInvProduct').text(h.InvProduct);
+            $('#txtProjectName').text(h.ProjectName);
+
+            $('#txtTransport').text(h.TransportName);
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
 

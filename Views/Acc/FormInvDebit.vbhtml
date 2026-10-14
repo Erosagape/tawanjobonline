@@ -359,49 +359,27 @@ End Code
     2. PLEASE PAY TO OUR BANK:
     <br />
 </b>
-BANK DETAILS FOR UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.
+BANK DETAILS FOR 3X LOGISTICS CO.,LTD.
 <table style="width:100%">
     <tbody>
         <tr>
             <td colspan="2">ACCOUNT NAME </td>
-            <td>: UNITED GLOBE LOGISTICS (THAILAND) CO.,LTD.</td>
+            <td>: 3X LOGISTICS CO.,LTD.</td>
         </tr>
         <tr>
-            <td colspan="2">BANK NAME & ADDRESS</td>
-            <td>KASITKORN BANK PUBLIC CO.,LTD. HEAD OFFICE</td>
+            <td colspan="2">BANK NAME</td>
+            <td>: KASIKORN BANK PUBLIC CO.,LTD.</td>
         </tr>
         <tr>
-            <td colspan="2"></td>
-            <td>RATBURANA ROAD BANKOK 10140 THAILAND</td>
+            <td colspan="2">BRANCH</td>
+            <td>: MAXVALU PHATTHANAKAN</td>
         </tr>
         <tr>
-            <td colspan="2"></td>
-            <td>CABLE ADDRESS "FARMERS BANGKOK"</td>
+            <td colspan="2">ACCOUNT No.</td>
+            <td>: 081-2-99658-4</td>
         </tr>
         <tr>
-            <td colspan="2"></td>
-            <td>TELEX NO TH 82542 TH 84798</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>CONTACT : OVERSEAS MONEY TRANSFER DIVSION</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TEL : 02-4701444,02-4701429-40</td>
-        </tr>
-        <tr>
-            <td colspan="2"></td>
-            <td>TANANIN PHETBURI TATANAI BRANCH</td>
-        </tr>
-        <tr>
-            <td style="color:transparent">___________</td>
-            <td style="">ACCOUNT No. </td>
-            <td>028-109-641-9</td>
-        </tr>
-        <tr>
-            <td></td>
-            <td>SWIFT BANK CODE </td>
+            <td colspan="2">SWIFT BANK CODE</td>
             <td>: KASITHBK</td>
         </tr>
     </tbody>

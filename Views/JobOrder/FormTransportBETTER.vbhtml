@@ -1,4 +1,5 @@
-﻿@Code
+﻿
+@Code
     Layout = "~/Views/Shared/_ReportNoHead.vbhtml"
     ViewBag.ReportName = "BILL OF LADING"
     ViewBag.Title = "BILL OF LADING"
@@ -76,11 +77,13 @@ End Code
         display: none;
     }
 </style>
-
-<div style="width:100%;">
-    <img src="~/Resource/bft_blheader.png" style="width:100%" />
-
+<div style="width:100%;display:flex;font-size:13px">
+  
+            <div style="width:60%;text-align: center; white-space: nowrap; "><h2>@ViewBag.PROFILE_COMPANY_NAME_EN</h2></div>
+  
+        <div style="width:40%"><h2 style="text-align:center;white-space:nowrap">BILL OF LADING</h2></div>
 </div>
+
 <table style="width:100%">
     <tr>
         <td class="bodered" style="height:100px;width:40%;" colspan="2">
@@ -106,12 +109,12 @@ End Code
                 <b>   BILL OF LADING NO :</b><label id="lblBookingNo"></label>
                 <br />
                 <br />
-                <b>     BFT NO. </b><label id="lbljno"></label>
+                <b>     JOB NO. </b><label id="lbljno"></label>
                 <br />
                 <br />
                 <br />
                 <br />
-                <img src="~/Resource/bft_blpic.png" style="width:100%;" />
+                <img src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%;" />
                 <br />
                 <br />
                 <br />
@@ -266,7 +269,7 @@ End Code
                 <br />
                 <br />
                 <div style="border-top:1px dotted black">
-                    BETTER FREIGHT & TRANSPORT CO.LTD
+                    @ViewBag.PROFILE_COMPANY_NAME_EN
                     <br />
                     AS AGENT FOR THE CARRIER BF CONTAINER LINE
                 </div>

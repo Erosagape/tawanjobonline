@@ -2,6 +2,27 @@
 @Code
     ViewBag.Title = "Transport Information"
 End Code
+
+@CODE
+
+    Dim CustomerT = "display:none"
+    Dim CustomerImg = "display:none"
+    Dim Customerconimge = ""
+    Dim CustomerButton = ""
+    Select Case ViewBag.UserGroup
+        Case "S"
+            CustomerT = ""
+        Case "C"
+           CustomerImg = ""
+  	   CustomerButton = "disabled"
+        Case "V"
+
+        Case Else
+
+    End Select
+
+End Code
+
 <style>
     @@media only screen and (max-width: 600px) {
         #btnAdd, #btnDelete, #btnSave, #btnUpdateJob,
@@ -32,7 +53,7 @@ End Code
         <label id="lblBookingNo" style="color:blue;">Booking No</label>
         <br />
         <div style="display:flex;flex-direction:row">
-            <input type="text" id="txtBookingNo" class="form-control" style="width:100%" />
+            <input type="text" id="txtBookingNo" class="form-control" style="width:100%" disabled/>
             <input type="button" class="btn btn-default" value="..." onclick="SearchData('booking');" />
         </div>
     </div>
@@ -207,13 +228,13 @@ End Code
             <select id="cboPrintForm">
                 <option value="BK">Booking Request</option>
                 <option value="TI">Truck Order (IMPORT)</option>
-                <option value="TE">Truck Order (EXPORT)</option>
+                <option value="TE">Truck Way Bill (EXPORT)</option>
                 <option value="BA">Booking Confirmation (AIR)</option>
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Instruction</option>
                 @*<option value="BLW">Bill of Lading - WALMAY</option>*@
-                <option value="BLE">Bill of Lading - UGLOBE</option>
-                @*<option value="BFT">Bill of Lading - BETTER</option>*@
+                @*<option value="BLE">Bill of Lading - UGLOBE</option>*@
+                <option value="BFT">Bill of Lading </option>
                 <option value="BLS">Sea Way Bill</option>
                 <option value="HAW">House Air Way Bill</option>
                 <option value="MAW">Master Air Way Bill</option>
@@ -453,7 +474,7 @@ End Code
                 <div style="display:flex;">
                     <div style="flex:1">
                         <label id="lblNo">No :</label>
-                        <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control"></div>
+                        <br /><div style="display:flex"><input type="text" id="txtItemNo" class="form-control" disabled/></div>
                     </div>
                     <div style="flex:2">
                         <label id="lblContainerNo">Container </label>
@@ -538,8 +559,39 @@ End Code
                                         :<br /><div style="display:flex"><textarea id="txtShippingMark" class="form-control"></textarea></div>
                                     </div>
                                 </div>
+				<div class="col-sm-12" style="text-align: right;padding-top:10px;padding-right:1px;" >
+                                     <button id="btnUpload" class="btn w3-pink" onclick="ToUploadPage()">Upload Images</button>
+                                </div>
+			    </div>
+			 
+                   <div class="col-md-6"  style="@CustomerImg">
+                        <div id="myCarousel" class="carousel slide " data-ride="carousel">
+                            <!-- Indicators -->
+                            <ol class="carousel-indicators">
+                                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                            </ol>
+
+                            <!-- Wrapper for slides -->
+                            <div class="carousel-inner">
+                                <div class="item  active" >
+                                    <img src=".." style="width:100%; height:500px">
+                                </div>
+
                             </div>
-                            <div class="col-md-6">
+
+                            <!-- Left and right controls -->
+                            <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                                <span class="glyphicon glyphicon-chevron-left"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                                <span class="glyphicon glyphicon-chevron-right"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+			 @*@Html.Raw(Customerconimge)*@
+                            <div class="col-md-6" style="@CustomerT" >
                                 <label id="lblExpCon">Expense Can Billing On This Route</label>
                                 :<br />
                                 <table id="tbExpense" class="table table-responsive">
@@ -750,7 +802,8 @@ End Code
                                     <div style="display:flex"><input type="text" id="txtDeliveryNo" class="form-control"></div>
                                     <button id="btnGenDeliveryNo" onclick="GenerateDO()" class="btn btn-warning">Create</button>
                                     <button id="btnPrintSlip" class="btn btn-info" onclick="PrintDelivery()">Delivery Slip</button>
-                                </div>
+                                    @*<button id="btnUpload" class="btn w3-pink" onclick="ToUploadPage()">Upload</button>*@
+				</div>
                             </div>
                             <div class="col-sm-6">
                                 <div style="display:flex">
@@ -777,17 +830,18 @@ End Code
                     </div>
                     <div id="tabDetailTruck" class="tab-pane fade">
                         <div class="row">
-                            <div class="col-sm-5">
-                                <a href="~/Master/Employee"><label id="lblDriver">Driver</label></a>
-                                :
-                                <br />
-                                <div style="display:flex">
-                                    <input type="text" id="txtDriver" class="form-control">
-                                    <button class="btn btn-default" onclick="SearchData('driver')">...</button>
-                                </div>
-                            </div>
+                           <div class="col-sm-5">
+    			     <a href="~/Master/Employee" target="_blank" ><label id="lblDriver">Driver</label></a>
+    				:
+                             <br />
+    				<div style="display:flex;">
+        				<input type="text" id="txtDriver" class="form-control" style="width:30%;">
+        				<button class="btn btn-default" onclick="SearchData('driver')">...</button>
+        				<input type="text" id="txtDriverName" class="form-control" style="flex:1;" disabled />
+    				</div>
+			    </div>
                             <div class="col-sm-3">
-                                <a href="~/Master/CarLicense"><label id="lblTruckNo">Truck ID</label></a>
+                                <a href="~/Master/CarLicense" target="_blank" ><label id="lblTruckNo">Truck ID</label></a>
                                 :
                                 <br />
                                 <div style="display:flex">
@@ -1050,7 +1104,7 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-                SetGridCompanyByGroup(path, '#tbCust', 'NOTIFY_PARTY', '#frmSearchCust', ReadCustomer);
+                SetGridCompanyByGroup(path, '#tbCust', 'CUSTOMERS','#frmSearchCust', ReadCustomer);
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -1091,10 +1145,10 @@ End Code
                 SetGridSICode(path, '#tbServ2', '', '#frmSearchServ2', ReadService2);
                 break;
             case 'location':
-                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val() + ($('#chkAllRoute').prop('checked') ? '':'&Cust='+ $('#txtNotifyCode').val()), ReadMainRoute);
+                SetGridTransportPrice(path, '#tbMainRoute', '#frmSearchMainRoute','?Vend=' + $('#txtVenderCode').val(), ReadMainRoute);
                 break;
             case 'route':
-                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Vend=' + $('#txtVenderCode').val() + ($('#chkAllCust').prop('checked') ? '' : '&Cust=' + $('#txtNotifyCode').val()), ReadRoute);
+                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Vend=' + $('#txtVenderCode').val(), ReadRoute);
                 break;
             case 'place1':
                 SetGridLocation(path, '#tbPlace1', '#frmSearchPlace1', '?Place=1', ReadPickup);
@@ -1115,6 +1169,7 @@ End Code
     }
     function ReadEmp(dt) {
         $('#txtDriver').val(dt.EmpCode);
+        $('#txtDriverName').val(dt.Name);
     }
     function ReadCar(dt) {
         $('#txtTruckNO').val(dt.CarNo);
@@ -1466,6 +1521,8 @@ End Code
             if (dr.header.length > 0) {
                 ReadBooking(dr.header[0],true);
                 //ReadContainer(dr.detail);
+            } else {
+                SaveBooking();
             }
         });
     }
@@ -1601,9 +1658,9 @@ End Code
             case 'SP':
                 window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
-            //case 'BFT':
-            //    window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
-            //    break;
+            case 'BFT':
+               window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                break;
             case 'BLS':
                 window.open(path + 'JobOrder/FormTransport?Type=SEA&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
@@ -1856,7 +1913,58 @@ End Code
         ShowExpense();
         ShowAddFuel();
         ShowPayment();
+
+$.get(path + `JobOrder/GetDocument?Branch=${$("#txtBranchCode").val()}&Code=${$("#txtJNo").val()}&Type=CTN`).done(function (r) {
+    console.log(r); 
+    let compareNote = `${$('#txtBookingNo').val()}|${dr.CTN_NO}`;
+    console.log(compareNote); 
+    let str = "";
+    let str2 = "";
+    
+    var rootPath = path || '';
+    if (rootPath !== '' && !rootPath.endsWith('/')) {
+        rootPath += '/';
     }
+
+    if (r && r.document && r.document.data && r.document.data.length > 0) {
+        var filteredData = r.document.data.filter(function (row) {
+            if (!row.CheckNote) return false;
+            return row.CheckNote.trim().toUpperCase() === compareNote.toUpperCase();
+        });
+
+        //console.log("พบรูปภาพที่ตรงเงื่อนไข:", filteredData.length, "รูป");
+
+        if (filteredData.length > 0) {
+            for (var idx = 0; idx < filteredData.length; idx++) {
+                var item = filteredData[idx];
+                var activeClass = (idx === 0) ? 'active' : '';
+                var cleanFilePath = item.FilePath ? item.FilePath.replace(/^\/+/, '') : '';
+                var fullImgUrl = rootPath + cleanFilePath;
+
+                //console.log("URL รูปภาพที่กำลังโหลด:", fullImgUrl);
+                str += `<div class="item ${activeClass}">
+                            <img src="${fullImgUrl}" style="width:100%; height:500px; object-fit: contain;">
+                        </div>`;
+
+                str2 += `<li data-target="#myCarousel" data-slide-to="${idx}" class="${activeClass}"></li>`;
+            }
+        } else {
+            var defaultImg = rootPath + "Resource/container.jpg";
+            str = `<div class="item active">
+                        <img src="${defaultImg}" style="width:100%; height:500px; object-fit: contain;">
+                   </div>`;
+            str2 = '<li data-target="#myCarousel" data-slide-to="0" class="active"></li>';
+        }
+
+        $("#myCarousel .carousel-inner").html(str);
+        $("#myCarousel .carousel-indicators").html(str2);
+
+        $('#myCarousel').carousel('pause');
+        $('#myCarousel').carousel(0);
+    }
+});
+    }
+
     function DeleteDetail() {
         if ($('#txtCauseCode').val() == '99' || $('#txtCauseCode').val() === '') {
             ShowConfirm('Please confirm to delete', function (ask) {
@@ -2143,6 +2251,10 @@ End Code
     }
     function PrintDelivery() {
         window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliveryNo').val(), '', '');
+    }
+    function ToUploadPage() {
+	let Note = $('#txtBookingNo').val() + '|' + $('#txtCTN_NO').val();
+        window.open(path + 'Tracking/Document?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val() + `&Note=${$('#txtBookingNo').val()}|${$('#txtCTN_NO').val() }`, '', '');
     }
     function OpenJob() {
         window.open(path + 'JobOrder/ShowJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(),'','');

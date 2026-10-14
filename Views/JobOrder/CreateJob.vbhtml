@@ -8,41 +8,38 @@ End Code
                 <label id="lblGroup" onclick="alert(GetJobPrefix())" style="display:block;width:100%;">Group</label>
             </div>
             <div style="width:70%">
-                <select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
-                     <option value=""></option>
-                     <option value="0201FAE">Freight (AIR/EXPORT) - FAE</option>
-                     <option value="0101FAI">Freight (AIR/IMPORT) - FAI</option>
-                     <option value="0202FOE">Freight (OCEAN/EXPORT) - FOE</option>
-                     <option value="0102FOI">Freight (OCEAN/IMPORT) - FOI</option>
-                     <option value="0203FCE">Freight (CROSS-BORDER/EXPORT) - FCE</option>
-                     <option value="0103FCI">Freight (CROSS-BORDER/IMPORT) - FCI</option>
-                     <option value="0304FTS">Freight (TRANSIT/TRANSHIPMENT) - FTS</option>
-                     <option value="0201CAE">Customs (AIR/EXPORT) - CAE</option>
-                     <option value="0101CAI">Customs (AIR/IMPORT) - CAI</option>
-                     <option value="0202COE">Customs (OCEAN/EXPORT) - COE</option>
-                     <option value="0102COI">Customs (OCEAN/IMPORT) - COI</option>
-                     <option value="0203CBE">Customs (CROSS-BORDER/EXPORT) - CBE</option>
-                     <option value="0103CBI">Customs (CROSS-BORDER/IMPORT) - CBI</option>
-                     <option value="0304CTS">Customs (TRANSIT/TRANSHIPMENT) - CTS</option>
-                     <option value="0405CFO">Customs (FORMS) - CFO</option>
-                     <option value="0204TDE">Transport (DOMESTIC/EXPORT) - TDE</option>
-                     <option value="0104TDI">Transport (DOMESTIC/IMPORT) - TDI</option>
-                     <option value="0404TDO">Transport (DOMESTIC/OTHER) - TDO</option>
-                     <option value="0507WS">Warehouse (Storage) - WS</option>
-                     <option value="0508WH">Warehouse (Handling) - WH</option>
-                     <option value="0506WO">Warehouse (Other) - WO</option>
-                     <option value="0606GO">General (Other) - GO</option>
-                </select>
+		<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                    <option value=""></option>
+                    @Code
+                        Dim strhtml As String = ""
+                        Dim tmp As String = ""
+                        Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                        For Each dr As System.Data.DataRow In rs.Rows
+                            If tmp <> dr("ConfigCode") Then
+                                If tmp <> "" Then
+                                    strhtml &= "</optgroup>"
+                                End If
+                                tmp = dr("ConfigCode")
+                                strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                            End If
+                            strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                        Next
+                        If tmp <> "" Then
+                            strhtml &= "</optgroup>"
+                        End If
+                    End Code
+                    @Html.Raw(strhtml)
+                </select>    
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="display:none;">
         <div class="col-sm-6" style="display:flex">
             <div style="width:30%">
                 <label id="lblJobType" style="display:block;width:100%;">Job Type</label>
             </div>
             <div style="width:70%">
-                <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()" style="width:100%" tabindex="0" readonly></select>
+                <select id="cboJobType" class="form-control dropdown" style="width:100%" tabindex="0" disabled></select>
             </div>
         </div>
         <div class="col-sm-6" style="display:flex">
@@ -50,7 +47,7 @@ End Code
                 <label id="lblShipBy" style="display:block;width:100%;">Ship By</label>
             </div>
             <div style="width:70%">
-                <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="1" readonly></select>
+                <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="1" disabled></select>
             </div>
         </div>
     </div>
@@ -79,7 +76,7 @@ End Code
     <div class="row">
         <div class="col-sm-6" style="display:flex">
             <div style="width:30%">
-                <a href="../Master/Customers"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
+                <a href="../Master/Customers" target="_blank"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
             </div>
             <div style="display:flex;width:70%">
                 <input type="text" class="form-control" style="width:80px" id="txtCustCode" tabindex="4" />
@@ -90,7 +87,7 @@ End Code
         </div>
         <div class="col-sm-6" style="display:flex">
             <div style="width:30%">
-                <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">BILL TO</label></a>
+                <a href="../Master/Customers?Mode=CONSIGNEE" target="_blank"><label id="lblBillingPlace" style="display:block;width:100%;">BILL TO</label></a>
             </div>
             <div style="display:flex;width:70%">
                 <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />
@@ -160,7 +157,7 @@ End Code
     </div>
     <div class="row">
         <div class="col-sm-6" style="display:flex">
-            <div style="width:30%">
+            <div style="width:30%;color:red">
                 <label id="lblHAWB" style="display:block;width:100%;" onclick="CopyFromBooking()">House BL/AWB</label>
             </div>
             <div style="display:flex;width:70%">
@@ -198,7 +195,7 @@ End Code
     <div class="row">
         <div class="col-sm-6" style="display:flex">
             <div style="width:30%">
-                <a href="../Master/Venders">
+                <a href="../Master/Venders" target="_blank">
                     <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
                 </a>
             </div>
@@ -239,7 +236,7 @@ End Code
             </div>
         </div>
         <div class="col-sm-6">
-            <a href="../Master/InterPort">
+            <a href="../Master/InterPort" target="_blank">
                 <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
             </a>
             <div style="display:flex;width:100%">
@@ -689,12 +686,12 @@ End Code
             ShowMessage('Please input ETD/ETA', true);
             return;
         }
-        if ($('#cboJobType').val() == '01') {
+        /*if ($('#cboJobType').val() == '01') {
             if ($('#txtQNo').val() == '') {
                 ShowMessage('Please input Quotation for Import shipment', true);
                 //return;
             }
-        }
+        }*/
 
         //if pass every checked
 

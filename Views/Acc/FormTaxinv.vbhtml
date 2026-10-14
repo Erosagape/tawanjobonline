@@ -18,16 +18,16 @@ border-right: 0px solid #000000;
 border-left: 0px solid #000000;
 }
 .border td,th {
-border-bottom: 1px solid;
-border-top: 1px solid;
-border-right: 1px solid;
-border-left: 1px solid;
+border-bottom: 0.5px solid;
+border-top: 0.5px solid;
+border-right: 0.5px solid;
+border-left: 0.5px solid;
 }
 </style>
 <div id="dvheader"></div>
-<table style="width:100%; margin-top:5px" class="text-center">
+<table style="width:100%; margin-top:3px" class="text-center">
     <thead id="theader">
-        <tr style="background-color:lightblue;"  class="border">
+        <tr class="border">
             <th height="40" width="240">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">NON VAT</th>
@@ -39,15 +39,17 @@ border-left: 1px solid;
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
-    <tr class="border">
+    <tr class="border" style="display:none">
         <td id="tremark"></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
+	  <td></td>
+        <td></td>
     </tr>
-    <tr class="border" style="background-color:lightblue;text-align:right;">
+    <tr class="border" style="text-align:right;">
         <td style="text-align:center"><label id="lblTotalText"></label></td>
         <td>TOTAL AMOUNT</td>
         <td><label id="lblTotalBeforeNOVAT"></label></td>
@@ -57,54 +59,80 @@ border-left: 1px solid;
         <td><label id="lblTotalADV"></label></td>
         <td><label id="lblTotalNET"></label></td>
     </tr>
-    <tr class="border" style="background-color:lightblue;text-align:right;">
-	<td colspan="3">TOTAL SERVICES</td>
-	<td><label id="lblTotalCharge"></label></td>
-        <td colspan="3">TOTAL RECEIPT</td>
+    <tr class="border" style="text-align:right;">
+	<td colspan="1">TOTAL SERVICES</td>
+	<td colspan="1"><label id="lblTotalCharge"></label></td>
+	<td colspan="2">TOTAL AMOUNT VAT</td>
+	<td colspan="1"><label id="lblTotalAmtVat"></label></td>
+        <td colspan="2">TOTAL RECEIPT</td>
         <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
     </tr>
 </table>
 <p>
     PAY BY
 </p>
-<div style="display:flex;flex-direction:column">
-    <div>
-        <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
-        DATE__________________________ AMOUNT___________________________BAHT
+ <div style="display:flex;flex-direction:column">
+        <div>
+            <label><input type="checkbox" id='cash' name="vehicle1" value=""> CASH</label>
+            DATE &nbsp; <label id='cashDate' style='text-decoration: underline;'>____________</label>  AMOUNT &nbsp; <label id='cashAmount' style='text-decoration: underline;'>____________</label>  &nbsp;BAHT
+        </div>
+        <div>
+            <label><input type="checkbox" id='chq' name="vehicle2" value=""> CHEQUE</label>
+            DATE &nbsp;<label id='chqDate' style='text-decoration: underline;'>____________</label> NO &nbsp;<label id='chqNo'  style='text-decoration: underline;'>____________</label> BANK<label id='chqBank'  style='text-decoration: underline;'>____________</label>  AMOUNT<label id='chqAmount' style='text-decoration: underline;'>____________</label>BAHT
+        </div>
+        <div>
+            <label><input type="checkbox" id='transfer' name="vehicle3" value=""> TRANSFER</label>
+            DATE &nbsp;<label id='transferDate' style='text-decoration: underline;'>____________</label> &nbsp; BANK &nbsp;<label id='transferBank'  style='text-decoration: underline;'>____________</label>  &nbsp; AMOUNT &nbsp;<label id='transferAmount' style='text-decoration: underline;'>____________</label> &nbsp;BAHT
+        </div>
     </div>
-    <div>
-        <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-        DATE__________________________  NO____________________________  BANK______________________________  AMOUNT___________________________BAHT
-    </div>
-    <div>
-        <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-        DATE__________________________  BANK______________________________  AMOUNT___________________________BAHT
-    </div>
-</div>
-<br />
-<div style="display:flex;">
+<div style="display:flex;padding:30px;gap:5px;">
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
-
-        FOR THE CUSTOMER
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
+	<br />
+        <br />
+	<br />
+	<br />
+        <p>__________________________________________</p>
+        @*_____________________<br />
+        ___/_______/___<br />*@
+	ผู้มีอำนาจลงนาม<br />
         AUTHORIZED SIGNATURE
     </div>
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
-        FOR THE COMPANY
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
+	<br />
+        <br />
+        <br />
+        <br />
+        <p>__________________________________________</p>
+        @*_____________________<br />
+        ___/_______/___<br />*@
+	ผู้รับเงิน<br />
+        AUTHORIZED SIGNATURE
+    </div>
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+
+	<br />
+        <br />
+        <br />
+        <br />
+        <p>__________________________________________</p>
+        @*_____________________<br />
+        ___/_______/___<br />*@
+	ผู้รับใบเสร็จรับเงิน/ใบกำกับภาษี<br />
+        AUTHORIZED SIGNATURE
     </div>
 </div>
+
+<label>
+	หมายเหตุ  :
+	การชำระเงินด้วยเช็คจะสมบูรณ์ต่อเมื่อบริษัทได้รับเงินตามเช็คเรียบร้อยแล้ว
+	กรณีแก้ไขเอกสารกรุณาแจ้งภายใน7วัน
+	หากพ้นกำหนด บริษัทจะไม่รับผิดชอบใดๆทั้งสิ้น<br/>
+</label>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let htmlheader = '<div style="text-align:center;width:100%">';
-    htmlheader += '<h2><label style="font-size:18px;">{doctype}</label></h2>';
+    htmlheader += '<b><label style="font-size:16px;">{doctype}</label></b>';
     htmlheader += '</div>';
     htmlheader += '<div style="text-align:right;width:100%">{copy}</div>';
     htmlheader += '<div style="display:flex;">';
@@ -141,11 +169,11 @@ border-left: 1px solid;
         switch (h.ReceiptType) {
             case 'TAX':
                 //$('#lblDocType').html('TAX-INVOICE / RECEIPT<br>ใบกำกับภาษี / ใบเสร็จรับเงิน');
-                htmlheader = htmlheader.replace('{doctype}', 'TAX-INVOICE / RECEIPT<br>ใบกำกับภาษี / ใบเสร็จรับเงิน');
+                htmlheader = htmlheader.replace('{doctype}', 'RECEIPT / TAX-INVOICE<br>ใบเสร็จรับเงิน / ใบกำกับภาษี');
                 break;
             case 'SRV':
                 //$('#lblDocType').text('TAX-INVOICE / ใบกำกับภาษี');
-                htmlheader = htmlheader.replace('{doctype}', 'TAX-INVOICE / ใบกำกับภาษี');
+                htmlheader = htmlheader.replace('{doctype}', 'RECEIPT / TAX-INVOICE<br>ใบเสร็จรับเงิน / ใบกำกับภาษี');
                 break;
             case 'DNR':
                 //$('#lblDocType').text('DEBIT NOTE RECEIPT / ใบเสร็จรับเงิน');
@@ -187,6 +215,32 @@ border-left: 1px solid;
                 branchText =  ' BRANCH: 000'+CCode(Number(h.BillToCustBranch));
             }
         }
+	if(h.TRemark){
+	   let payment =  h.TRemark.split(";");
+           let ca = payment[0].split(":")[1];
+	   let isTransfer = h.TRemark.toLowerCase().indexOf("transfer")>-1;
+           let transfer =  isTransfer?payment[1].split(":")[1]:0;
+	   let chq =  isTransfer?0:payment[1].split(":")[1];
+           if( ca > 0){
+		 $('#cashDate').text(payment[0].split(":")[3]?payment[0].split(":")[3]:"____________");
+                 $('#cashAmount').text(ca?ca:"____________");
+		 document.getElementById("cash").checked=true;
+	   }
+            if(transfer > 0){
+		 $('#transferDate').text( payment[0].split(":")[3]?payment[0].split(":")[3]:"____________");
+                 $('#transferAmount').text(transfer?transfer:"____________");
+		 $('#transferBank').text(payment[1].split(":")[2]?payment[1].split(":")[2]:"____________");
+	 	 document.getElementById("transfer").checked=true;
+	    }
+	    if(chq > 0){
+		 $('#chqDate').text( payment[0].split(":")[3]?payment[0].split(":")[3]:"____________");
+                 $('#chqAmount').text(chq);
+		 $('#chqNo').text(payment[1].split(":")[3]?payment[1].split(":")[3]:"____________");
+		 $('#chqBank').text(payment[1].split(":")[2]?payment[1].split(":")[2]:"____________");
+	         document.getElementById("chq").checked=true;
+	   }
+	 
+	}
         $('#tremark').text(h.TRemark);
         //$('#lblCustTel').text(h.BillPhone);
         //$('#lblCustTax').text(h.BillTaxID + branchText);
@@ -225,37 +279,43 @@ border-left: 1px solid;
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge > 0 ? ShowNumber(d.AmtSrvNOVAT, 2) : '') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.AmtCharge-d.AmtSrvNOVAT,2):'') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'') + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.AmtVAT,2):'') + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Amt50Tavi,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtAdvance>0? ShowNumber(d.AmtAdvance,2):'') + '</td>';
-            html += '<td style="text-align:right">' + ShowNumber(d.InvTotal,2) + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(d.Net,2) + '</td>';
             html += '</tr>';
 
             $('#tbDetail').append(html);
             servat += Number(d.AmtCharge - d.AmtSrvNOVAT);
             sernovat += Number(d.AmtSrvNOVAT);
             if (d.AmtCharge > 0) {
-                service += Number(d.AmtCharge);
-                vat += Number(d.InvVAT);
-                wht += Number(d.Inv50Tavi);
+                service += d.AmtCharge;
+                vat += d.InvVAT;
+                wht += d.Amt50Tavi;
                
-	     amt += Number(d.InvAmt) + Number(d.InvVAT);
+	        amt += Number(d.Amt) + Number(d.AmtVAT);
             } else {
 
             }
 
             adv += Number(d.AmtAdvance);
-            total +=Number(d.InvTotal);
-		console.log(amt);
+            total +=Number(CDbl(d.Net,2));
+	    //console.log(amt);
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(servat, 2));
         $('#lblTotalBeforeNOVAT').text(ShowNumber(sernovat, 2));
         $('#lblTotalCharge').text(ShowNumber(sernovat+servat, 2));
+        $('#lblTotalAmtVat').text(ShowNumber(servat+vat, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(adv+servat+sernovat+vat, 2));
-        $('#lblTotalNET').text(ShowNumber(servat+sernovat+vat+adv-wht, 2));
-        $('#lblTotalText').text(CNumThai(CDbl(servat+sernovat+vat+adv-wht,2)));
+        $('#lblTotalNET').text(ShowNumber(total, 2));
+        $('#lblTotalText').text(CNumThai(CDbl(total,2)));
+	console.log('adv : ' + adv);
+	console.log('servat : ' + servat);
+	console.log('sernovat : ' + sernovat);
+	console.log('vat : ' + vat);
+	console.log('wht : ' + wht);
     }
 </script>

@@ -51,7 +51,7 @@ End Code
 </div>
 <table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
-        <tr style="background-color:lightblue;">
+        <tr>
             <th height="40" width="260">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">AMOUNT</th>
@@ -63,7 +63,7 @@ End Code
     <tbody id="tbDetail">
     </tbody>
     <tfoot>
-        <tr style="background-color:lightblue;text-align:center;">
+        <tr style="text-align:center;">
             <td colspan="3"><label id="lblTotalText"></label></td>
             <td colspan="2">TOTAL RECEIPT</td>
             <td colspan="1"><label id="lblTotalNum"></label></td>
@@ -88,11 +88,11 @@ End Code
     </div>
 </div>
 <br />
-<div style="display:flex;">
+<div style="display:flex;gap:5px;padding-left: 90px;padding-right: 90px;">
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 
         FOR THE CUSTOMER
-        <br /><br /><br />
+        <br /><br />
         <p>_____________________</p>
         _____________________<br />
         ___/_______/___<br />
@@ -101,7 +101,7 @@ End Code
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
         FOR THE COMPANY
-        <br /><br /><br />
+        <br /><br />
         <p>_____________________</p>
         _____________________<br />
         ___/_______/___<br />

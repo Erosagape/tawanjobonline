@@ -136,6 +136,7 @@ End Code
                             <div style="display:flex;flex-direction:row">
                                 <input type="text" id="txtDCustCode" class="form-control" style="width:130px" disabled />
                                 <input type="text" id="txtDCustBranch" class="form-control" style="width:70px" disabled />
+                                <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
                                 <input type="text" id="txtDCustName" class="form-control" style="width:100%" disabled />
                             </div>
                         </div>
@@ -256,19 +257,50 @@ End Code
                     <div style="display:flex">
                         <h4><b><label id="lblSection">Section And Expenses</label></b></h4>
                     </div>
-                    <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
-                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">New Section</label></b>
-                    </a>
-                    <div class="row">
-                        <div class="col-sm-2">
+		    <div class="row">
+			<div class="col-sm-2">
+				<a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
+                        		<i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">New Section</label></b>
+                    		</a>
+			</div>
+		    </div>
+		    <div class="row">
+			<div class="col-sm-2">
                             <label id="lblSeqNo">Section No</label>:<br />
                             <input type="text" id="txtSeqNo" class="form-control" disabled />
                         </div>
-                        <div class="col-sm-3">
-                            <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0" onchange="CheckJobType()"></select>
+		    </div>
+                    <div class="row">
+			<div class="col-sm-2">
+                            <label id="lblGroup">Group</label>:<br />
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
                         </div>
-                        <div class="col-sm-3">
-                            <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
+                        <div class="col-sm-3"  style="display:none;">
+                            <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0" onchange="CheckJobType()" readonly></select>
+                        </div>
+                        <div class="col-sm-3" style="display:none;">
+                            <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0" readonly></select>
                         </div>
                         <div class="col-sm-4">
                             <label id="lblSDescription">Description</label>:
@@ -559,6 +591,33 @@ End Code
 
     SetLOVs();
 
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#txtJobType').val(gstr.substr(0,2));
+	$('#txtShipBy').val(gstr.substr(2,2));
+	/*let desc = gstr.substr(4,1);
+	
+	switch (desc) {
+		case 'C':
+		    $('#txtDescription').val('Customs');
+		    break;
+		case 'F':
+		    $('#txtDescription').val('Freight');
+		    break;
+		case 'T':
+		    $('#txtDescription').val('Transport');
+		    break;
+		case 'W':
+		    $('#txtDescription').val('Warehouse');
+		    break;
+		case 'G':
+		    $('#txtDescription').val('General');
+		    break;
+		default:
+		    $('#txtDescription').val('');
+		    break;
+	}*/
+    }
     function CheckJobType() {
         if (jt !== $('#txtJobType').val()) {
             jt = $('#txtJobType').val();
@@ -1154,7 +1213,8 @@ End Code
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         let lists = 'JOB_TYPE=#txtJobType|,SHIP_BY=#txtShipBy|';
         loadCombos(path, lists);
 
@@ -1293,7 +1353,31 @@ End Code
         $('#txtSeqNo').val(row_d.SeqNo);
         $('#txtJobType').val(CCode(row_d.JobType));
         $('#txtShipBy').val(CCode(row_d.ShipBy));
-        $('#txtDescription').val(row_d.Description);
+        $('#txtDescription').val(row_d.Description);	
+
+	// make groupKey
+        let jt = $('#txtJobType').val();
+    	let sb = $('#txtShipBy').val();
+	//let g = $('#txtDescription').val().substr(0, 1);
+	//let groupKey = jt + sb + g;
+        let groupKey = jt + sb;
+
+	// find cboGroup value like groupKey
+	let option = $('#cboGroup option').filter(function () {
+        
+		return $(this).val().startsWith(groupKey);
+    
+	}).first();
+	
+    	if (option.length > 0) {
+        
+		$('#cboGroup').val(option.val());
+    
+	} else {
+        
+		$('#cboGroup').val('');
+    
+	}
     }
     function ReadPrice(dt) {
         if (dt !== undefined) {
@@ -1366,7 +1450,7 @@ End Code
         $('#txtCommissionPerc').val(dt.CommRate);
         GetContact();
         let w = '?Branch=' + $('#txtBCustBranch').val() + '&Code=' + $('#txtBCustCode').val();
-        //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         ShowCustomer(path, dt.BillToCustCode, dt.BillToBranch, '#txtBCustName');
     }
     function ReadContactName(dt) {

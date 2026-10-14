@@ -39,7 +39,7 @@ End Code
                         if (IsMobile()||menuStart=='W') {
                             window.location.href = path + 'Menu/Index';
                         } else {
-                            window.location.href = path + 'Tracking/Dashboard';
+                            window.location.href = path + 'Tracking/Dashboard?Form=New';
                         }
                         break;
                 }

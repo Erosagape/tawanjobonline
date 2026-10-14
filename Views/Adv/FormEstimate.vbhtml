@@ -239,7 +239,8 @@ End Code
 <br>
 <div  style="font-weight:bold">
                   "หากชำระเกินกำหนด ทางบริษัทจะคิดดอกเบีี้ยในอัตราร้อยละ 15% ต่อปี  จากยอดตามใบแจ้งหนี้ นับตั้งแต่วันที่ครบกำหนดตามใบแจ้งหนี้"<br />
-       Please issue a cross cheque payable to "LEO GLOBAL LOGISTICS PUBLIC COMPANY LIMITED" Only
+       @*Please issue a cross cheque payable to "LEO GLOBAL LOGISTICS PUBLIC COMPANY LIMITED" Only*@
+	Please issue a cross cheque payable to "@ViewBag.PROFILE_COMPANY_NAME_EN" Only
 </div>
 <script type="text/javascript">
 

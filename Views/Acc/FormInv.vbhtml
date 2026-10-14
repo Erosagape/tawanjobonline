@@ -65,7 +65,6 @@ End Code
     } 
 </style>
 <div class="center bold">
-    <br/>
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
 </div>
   <br/>
@@ -203,9 +202,9 @@ End Code
         </tr>
 
         <tr>
-            <td><label id="newBlNoLbl">BOOKING NO</label></td>
+            <td><label id="">CONTAINER NO.</label></td>
             <td>:</td>
-            <td><label id="newBlNo"></label></td>
+            <td><label id="containerNo"></label></td>
 
             <td><label id="weightLbl">WEIGHT</label></td>
             <td>:</td>
@@ -235,6 +234,11 @@ End Code
             <td><label id="refLbl">REF.</label></td>
             <td>:</td>
             <td><label id="ref"></label></td>
+	    
+            <td><label id="InvProductLbl">PRODUCT</label></td>
+            <td>:</td>
+            <td><label id="InvProduct"></label></td>
+
         </tr>
 
         <tr>
@@ -256,12 +260,13 @@ End Code
             <th class="center bold underLine" colspan="3">AMOUNT IN THB</th>
         </tr>
         <tr class="upperLine">
-            <th class="center bold underLine">W/T</th>
+
             <th class="center bold underLine">QTYs</th>
             <th class="center bold underLine">UNIT</th>
+            <th class="center bold underLine">@@ UNIT</th>
             <th class="center bold underLine">Curr.</th>
             <th class="center bold underLine">Exc.</th>
-            <th class="center bold underLine">@@ UNIT</th>
+            <th class="center bold underLine">W/T</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
@@ -318,9 +323,9 @@ End Code
             <td id="lessWithholdingTax" class="right underLine"></td>
         </tr>
         <tr class="">
-            <td class="center"></td>
-            <td class="center"></td>
-            <td class="center"></td>
+            <td id="taxRate5"></td>
+            <td id="gross5" class="center right"></td>
+            <td id="wtAmt5" class="center right"></td>
             <td id="netAmountLbl" class="right">NET AMOUNT:</td>
             <td class="right"></td>
             <td class="right"></td>
@@ -352,8 +357,17 @@ End Code
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </p>
 <p>
-   Remark:
-   <label id="remark"></label>
+   <label>Remark :</label><br /><br />
+   <label id="remark"></label><br />
+   @*<label id="remark2" style="padding-left: 40px;"></label><br />
+   <label id="remark3" style="padding-left: 40px;"></label><br />
+   <label id="remark4" style="padding-left: 40px;"></label><br />
+   <label id="remark5" style="padding-left: 40px;"></label><br />
+   <label id="remark6" style="padding-left: 40px;"></label><br />
+   <label id="remark7" style="padding-left: 40px;"></label><br />
+   <label id="remark8" style="padding-left: 40px;"></label><br />
+   <label id="remark9" style="padding-left: 40px;"></label><br />
+   <label d="remark10" style="padding-left: 40px;"></label>*@
 </p>
 <p>
  <table class="table" style="width:98%;border-collapse:collapse ">
@@ -375,13 +389,14 @@ End Code
           </tr>
           <tr>
               <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
-              <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> <label id="empcode">_________________________________________</label></td>
+              @*<td class="textSpace" style="flex: 1; text-align: center;color: deepskyblue;font-style: italic;"> โสรัจ วารีเจริญ</td>*@
+		<td class="textSpace" style="flex: 1; text-align: center;color: black;"></td>
+              <td class="center" style="flex: 1; text-align: center;color: black;"> <label id="empcode">_________________________________________</label></td>
           </tr>
           <tr>
               <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
               <td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
+              <td class="bold" style="text-align: center;">DATE : <label id="lblcreateDate">________________________________</label></td>
           </tr>
       </table>
 
@@ -390,6 +405,8 @@ End Code
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
+	var viewBag = @Html.Raw(Json.Encode(ViewBag))
+    console.log(viewBag)
     $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
   let ans = confirm('OK to print Original or Cancel For Copy');
         if (ans == true) {
@@ -423,7 +440,8 @@ End Code
                 addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
-                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                //$("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.BillToBranch);                
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(ShowDate(h.DueDate));
 	        });
@@ -441,15 +459,29 @@ End Code
             //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
-            $("#remark").text(h.Remark1);
+            //$("#remark").text(h.Remark1);
+           var formattedRemark1 = h.Remark1.replace(/\n/g, "<br /><br />");
+
+	    $("#remark").html(formattedRemark1); 
+   	    $("#remark2").text(h.Remark2);
+            $("#remark3").text(h.Remark3);
+   	    $("#remark4").text(h.Remark4);
+            $("#remark5").text(h.Remark5);
+   	    $("#remark6").text(h.Remark6);
+            $("#remark7").text(h.Remark7);
+   	    $("#remark8").text(h.Remark8);
+            $("#remark9").text(h.Remark9);
+   	    $("#remark10").text(h.Remark10);
             $("#empcode").text(h.EmpCode);
+	    ShowUser(path,h.EmpCode,'#empcode');
             $("#createDate").text(ShowDate(h.CreateDate));
-            
+            $("#lblcreateDate").text(ShowDate(h.CreateDate));
             if (j.ShipBy == 1) {
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
-		$("#portto").hide();
+                $("#portto").hide();
+                $("#destinyLbl").text("ORIGIN / DESTINATION");
 		
             } else {
                 ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
@@ -478,6 +510,7 @@ End Code
                 let b = r.company.data[0];
                 $("#ref").text(b.NameEng);
 	        });
+	$("#InvProduct").text(j.InvProduct); 
 
             ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');
             ShowVender(path, j.ForwarderCode, '#carrier');
@@ -491,21 +524,25 @@ End Code
             let sumbaseWht1 = 0;
             let sumbaseWht1_5 = 0;
             let sumbaseWht3 = 0;
+            let sumbaseWht5 = 0;
             let sumWht1 = 0;
             let sumWht1_5 = 0;
             let sumWht3 = 0;
+            let sumWht5 = 0;
             let totalRows = 10;
             let blankRows = totalRows - d.length;
             let varFromSrv = 0;
             for (let row of d) {
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + '</td>';
-                html += '            <td class="right">' + row.Rate50Tavi + '</td>';
+                //html += '            <td class="right">' + row.Rate50Tavi + '</td>';
                 html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
+		html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
+                //html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
+		html += '            <td class="right">' + row.Rate50Tavi + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
                 html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
                 html += '            <td class="right">' + (!row.AmtAdvance &&row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
@@ -533,6 +570,10 @@ End Code
                             sumWht3 += row.Amt50Tavi;
                             sumbaseWht3 += row.Amt;
                             break;
+                        case 5:
+                            sumWht5 += row.Amt50Tavi;
+                            sumbaseWht5 += row.Amt;
+                            break;
                         default:
                             break;
                     }
@@ -558,6 +599,8 @@ End Code
             $('#wtAmt3').text(ShowNumber(sumWht3, 2));
             $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
             $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+            $('#gross5').text(ShowNumber(sumbaseWht5, 2));
+            $('#wtAmt5').text(ShowNumber(sumWht5, 2));
 
             $("#advanceAmount").text(ShowNumber(adv,2));
             $("#nonVatAmount").text(ShowNumber(nonVat, 2));
@@ -574,22 +617,25 @@ End Code
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
+	    $("#taxRate5").text("5%");
             $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
 
 
         }
     });
-    function ShowContainer(branch,job) {
-        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&JobList=' + job).done(function (r) {
-            if (r.transport.data.length > 0) {
-                let t = r.transport.data;
-                let str = '';
-                for (let row of t) {
-                    if (str !== '') str += '<br/>';
-                    str += row.CTN_NO + '/' + row.CTN_SIZE;
-                }
-                $("#containerNo").html(str);
-            }
-        });
-    }
+	function ShowContainer(branch, job) {
+    		$.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&JobList=' + job).done(function (r) {
+        		if (r.transport.data.length > 0) {
+            		let t = r.transport.data;
+            		let str = '';
+            		for (let row of t) {
+                	if (row.CTN_NO && !row.CTN_NO.includes('ต่อ') && !row.CTN_NO.includes('(ต่อ)')) {
+                    	if (str !== '') str += '<br/>';
+                    	str += row.CTN_NO;
+                	}
+           	 }
+            	$("#containerNo").html(str);
+        	}
+    	     });
+	}
 </script>

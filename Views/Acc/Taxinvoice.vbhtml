@@ -30,7 +30,7 @@ End Code
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
                 <option value="ADV">Receipt Advance</option>
-                <option value="RCV">Receipt Transport</option>
+                @*<option value="RCV">Receipt Transport</option>*@
                 <option value="DNR">Debit Note Receipt</option>
             </select>
         </div>
@@ -249,6 +249,15 @@ End Code
                         </div>
                     </div>
                     <b>Receive Remarks:</b>
+		    <div class="row">
+			<div class="col-sm-4">
+                            DATE:
+                            <br />
+                            <div style="display:flex">
+                                <input type="text" id="txtCashRef" class="form-control" />
+                            </div>
+                        </div>
+		    </div>
                     <div class="row">
                         <div class="col-sm-3">
                             CASH:
@@ -263,13 +272,7 @@ End Code
                             <br />
                             <input type="text" id="txtCashBank" class="form-control" />
                         </div>
-                        <div class="col-sm-4">
-                            REF#:
-                            <br />
-                            <div style="display:flex">
-                                <input type="text" id="txtCashRef" class="form-control" />
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="row">
                         <div class="col-sm-3">
@@ -392,7 +395,7 @@ End Code
                                         <label id="lblAmt">Amount</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
+                                        <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" />
                                     </div>
                                 </div>
                             </div>
@@ -473,7 +476,7 @@ End Code
                                         <label id="lblNet">Net</label>                                            
                                     </div>
                                     <div style="flex:2">
-                                        <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
+                                        <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" />
                                     </div>
                                 </div>
                             </div>

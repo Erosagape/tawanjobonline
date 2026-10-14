@@ -13,12 +13,38 @@ End Code
                     <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
                 </div>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
+                <label id="lblGroup">Group:</label>
+                <br />
+ 				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
+            </div>
+            <div class="col-sm-2" style="display:none;">
                 <label id="lblJobType">Job Type</label>
                 <br />
                 <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2" style="display:none;">
                 <label id="lblShipBy">Ship By</label>
                 <br />
                 <select id="cboShipBy" class="form-control dropdown"></select>
@@ -101,10 +127,35 @@ End Code
                                 <label id="lblInvType">Invoice Type :</label>
                                 <br />
                                 <select id="cboDocType" class="form-control dropdown">
-                                    <option value="IVS-">Service</option>
-                                    <option value="IVT-">Transport</option>
-                                    <option value="IVF-">Freight</option>
-                                    <option value="IVD-">Debit Note</option>
+				    <optgroup label="AIR">
+                     			<option value="IVS-">INV-Service (IVC)</option>
+                     			<option value="ADC-">INV-Advance (ADC)</option>
+                     		    </optgroup>
+				    <optgroup label="SEA">
+                     			<option value="IVS-">INV-Service (IVC)</option>
+                     			<option value="ADC-">INV-Advance (ADC)</option>
+                     		    </optgroup>
+				    <optgroup label="CROSS-BORDER">
+                     			<option value="IVS-">INV-Service (IVC)</option>
+                     			<option value="ADC-">INV-Advance (ADC)</option>
+                     		    </optgroup>
+				    <optgroup label="DOMESTIC">
+                     			<option value="IVS-">INV-Service (IVC)</option>
+                     			<option value="ADC-">INV-Advance (ADC)</option>
+                     		    </optgroup>
+				    <optgroup label="FREIGHT">
+                     			<option value="IVF-">INV-Service (IVF)</option>
+                     			<option value="ADF-">INV-Advance (ADF)</option>
+                                    	<option value="IVD-">INV-Oversea (DN)</option>
+                     		    </optgroup>
+				    <optgroup label="TRANSPORT">
+                     			<option value="IVT-">INV-Service (IVT)</option>
+                     			<option value="ADT-">INV-Advance (ADT)</option>
+                     		    </optgroup>
+				    <optgroup label="WAREHOUSE">
+                     			<option value="IVW-">INV-Service (IVW)</option>
+                     			<option value="ADW-">INV-Advance (ADW)</option>
+                     		    </optgroup>
                                 </select>
 
                             </div>
@@ -617,8 +668,8 @@ End Code
             if (CNum(obj.AmtCharge) > 0) {
                 totalistaxcharge += (obj.AmtVat > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
                 totalis50tavi += (obj.Amt50Tavi > 0 ? CNum(CDbl(obj.AmtCharge,2)) : 0);
-                totalvat += CNum(CDbl(obj.AmtVat,2));
-                total50tavi += CNum(CDbl(obj.Amt50Tavi,2));
+                totalvat += CNum(CDbl(obj.AmtVat,4));
+                total50tavi += CNum(CDbl(obj.Amt50Tavi,4));
             }
             totalnet += CNum(CDbl(obj.AmtNet,2));
             totalsumdisc += CNum(CDbl(obj.AmtDiscount,2));
@@ -1305,7 +1356,7 @@ End Code
                     Qty: CNum(obj.Qty),
                     QtyUnit: obj.QtyUnit,
                     UnitPrice: obj.UnitPrice,
-                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 2),
+                    FUnitPrice: CDbl(obj.UnitPrice / CNum($('#txtExchangeRate').val()), 4),
                     Amt: CDbl(obj.Amt,2),
                     FAmt: CDbl(obj.Amt / CNum($('#txtExchangeRate').val()), 2),
                     DiscountType: obj.DiscountType,
@@ -1314,10 +1365,10 @@ End Code
                     FAmtDiscount: CDbl(obj.AmtDiscount / CNum($('#txtExchangeRate').val()), 2),
                     Is50Tavi: obj.Is50Tavi,
                     Rate50Tavi: obj.Rate50Tavi,
-                    Amt50Tavi: CDbl(obj.Amt50Tavi,2),
+                    Amt50Tavi: obj.Amt50Tavi,
                     IsTaxCharge: obj.IsTaxCharge,
-                    AmtVat: CDbl(obj.AmtVat,2),
-                    TotalAmt: CDbl(obj.AmtNet,2),
+                    AmtVat: obj.AmtVat,
+                    TotalAmt: obj.AmtNet,
                     FTotalAmt: CDbl(obj.AmtNet / CNum($('#txtExchangeRate').val()), 2),
                     AmtAdvance: (obj.AmtAdvance > 0 ? CDbl(obj.AmtAdvance  / CNum($('#txtExchangeRate').val()),2) : 0),
                     AmtCharge: (obj.AmtCharge > 0 ? CDbl(obj.AmtCharge  / CNum($('#txtExchangeRate').val()),2) : 0),
@@ -1632,5 +1683,10 @@ End Code
             $('#dvEditor').modal('hide');
             CalSummary();
         }
+    }
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#cboJobType').val(gstr.substr(0,2));
+	$('#cboShipBy').val(gstr.substr(2,2));
     }
 </script>

@@ -2,6 +2,78 @@
     Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.ReportName = ""
     ViewBag.Title = "Job Costing Summary"
+     Dim jsonData = ""
+     Dim jobno = ""
+    If Request.QueryString("JNo") IsNot Nothing Then
+        jobno = Request.QueryString("JNo")
+    End If
+
+       If ViewBag.User <> "" Then
+        Dim conn = ViewBag.CONNECTION_JOB
+        Dim sqlSource =  " 
+Select a.BranchCode,'' as ClrNo,0 as ItemNo,0 as LinkItem,
+a.STCode,a.SICode,a.SDescription,a.VenCode as VenderCode,
+a.AdvQty as Qty,b.UnitCharge as UnitCode,a.CurrencyCode,a.ExchangeRate as CurRate,
+(CASE WHEN b.IsExpense=0 THEN a.UnitPrice ELSE 0 END) as UnitPrice,
+(CASE WHEN b.IsExpense=0 THEN a.AdvQty*a.UnitPrice ELSE 0 END) as FPrice,
+(CASE WHEN b.IsExpense=0 THEN a.AdvQty*a.UnitPrice*a.ExchangeRate ELSE 0 END) as BPrice,
+q.TotalCharge as QUnitPrice,a.AdvQty*q.ChargeAmt as QFPrice,a.AdvQty*q.ChargeAmt*q.CurrencyRate as QBPrice,
+a.UnitPrice as UnitCost,a.AdvQty*a.UnitPrice as FCost,a.AdvQty*a.UnitPrice*a.ExchangeRate as BCost,
+a.ChargeVAT,a.Charge50Tavi as Tax50Tavi,a.AdvNo as AdvNO,d.AdvDate,a.ItemNo as AdvItemNo,a.AdvAmount,a.AdvNet,
+a.AdvNet-ISNULL(d.TotalCleared,0) as AdvBalance,ISNULL(d.TotalCleared,0) as UsedAmount,
+(CASE WHEN ISNULL(q.QNo,'')='' THEN 0 ELSE 1 END) as IsQuoItem,
+a.IsDuplicate,b.IsExpense,
+b.IsLtdAdv50Tavi,(CASE WHEN CHARINDEX('#',a.PayChqTo,0)>0 THEN '' ELSE a.PayChqTo END) as Pay50TaviTo,a.Doc50Tavi as NO50Tavi,NULL as Date50Tavi,
+(CASE WHEN CHARINDEX('#',a.PayChqTo,0)>0 THEN a.PayChqTo ELSE '' END) as VenderBillingNo,'' as SlipNO,'' as Remark,
+(SELECT STUFF((
+	SELECT DISTINCT ',' + Convert(varchar,QtyBegin) + '-'+convert(varchar,QtyEnd)+'='+convert(varchar,ChargeAmt)
+	FROM Job_QuotationItem WHERE BranchCode=q.BranchCode
+	AND QNo=q.QNo AND SICode=q.SICode AND VenderCode =q.VenderCode
+	AND UnitCheck=q.UnitCheck AND CalculateType=1
+FOR XML PATH(''),type).value('.','nvarchar(max)'),1,1,''
+)) as AirQtyStep,q.CalculateType as StepSub,
+a.ForJNo as JobNo,a.IsChargeVAT as VATType,a.VATRate,a.Rate50Tavi as Tax50TaviRate,q.QNo,
+c.DocStatus,c.AdvBy,c.EmpCode as ReqBy,c.PaymentDate,c.CustCode,c.PaymentRef,advStatus.ConfigValue AS advDocStatus
+FROM Job_AdvDetail a LEFT JOIN Job_SrvSingle b on a.SICode=b.SICode
+INNER JOIN Job_AdvHeader c on a.BranchCode=c.BranchCode and a.AdvNo=c.AdvNo 
+left join Job_Order j on a.BranchCode=j.BranchCode and a.ForJNo=j.JNo
+left join 
+(
+	select qh.BranchCode,qh.QNo,
+	qd.JobType,qd.ShipBy,qd.SeqNo,
+	qi.ItemNo,qi.SICode,qi.CalculateType,
+	qi.QtyBegin,qi.QtyEnd,qi.UnitCheck,qi.CurrencyCode,
+	qi.CurrencyRate,qi.ChargeAmt,qi.Isvat,qi.VatRate,
+	qi.VatAmt,qi.IsTax,qi.TaxRate,qi.TaxAmt,
+	qi.TotalAmt,qi.TotalCharge,qi.UnitDiscntPerc,qi.UnitDiscntAmt,
+	qi.VenderCode,qi.VenderCost,qi.BaseProfit,qi.CommissionPerc,qi.CommissionAmt,
+	qi.NetProfit,qi.IsRequired
+	from Job_QuotationHeader qh	inner join Job_QuotationDetail qd ON qh.BranchCode=qd.BranchCode and qh.QNo=qd.QNo
+	inner join Job_QuotationItem qi	on qd.BranchCode=qi.BranchCode and qd.QNo=qi.QNo and qd.SeqNo=qi.SeqNo 
+    where qh.DocStatus=3 
+) q
+on a.BranchCode=q.BranchCode and b.SICode=q.SICode and ISNULL(a.VenCode,b.DefaultVender)=q.VenderCode 
+and b.UnitCharge=q.UnitCheck and a.AdvQty <=q.QtyEnd and a.AdvQty>=q.QtyBegin and q.QNo=j.QNo
+left join 
+(
+	SELECT ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,
+    SUM(ISNULL(cd.BNet,0)) as TotalCleared    
+	FROM Job_ClearDetail cd INNER JOIN Job_ClearHeader ch
+	on cd.BranchCode=ch.BranchCode	and cd.ClrNo =ch.ClrNo 	and ch.DocStatus<>99
+    INNER JOIN Job_AdvDetail ad on cd.BranchCode=ad.BranchCode and cd.AdvNO=ad.AdvNo and cd.AdvItemNo=ad.ItemNo
+    INNER JOIN Job_AdvHeader ah on ad.BranchCode=ah.BranchCode and ad.AdvNo=ah.AdvNo
+    WHERE ah.DocStatus<>99 AND ch.DocStatus<>99 
+	GROUP BY ad.BranchCode,ad.AdvNo,ad.ItemNo,ah.AdvDate,ad.IsDuplicate,ad.AdvNet
+) d
+ON a.BranchCode=d.BranchCode and a.AdvNo=d.AdvNo and a.ItemNo=d.ItemNo
+left join Mas_Config AS advStatus ON advStatus.ConfigCode= 'ADV_STATUS' AND advStatus.ConfigKey = c.DocStatus
+WHERE (a.AdvNet-ISNULL(d.TotalCleared,0))>0 AND c.DocStatus IN('2','3','4') AND j.JNo  ='" & jobno & "'"
+
+
+        Using rs = New CUtil(conn).GetTableFromSQL(sqlSource)
+            jsonData = Newtonsoft.Json.JsonConvert.SerializeObject(rs)
+        End Using
+    End If
 End Code
 <style>
     * {
@@ -54,7 +126,7 @@ End Code
 </div>
 <div style="display: flex;">
     <div style="flex:70%"></div>
-    <div id="salesbyLbl" style="flex:10%">Sals by</div>
+    <div id="salesbyLbl" style="flex:10%">CS by</div>
     <div id="salesby" style="flex:20%"></div>
 </div>
 <table class="table table-borderless">
@@ -73,7 +145,7 @@ End Code
             <td>:</td>
             <td id="BLNo"></td>
         </tr>
-        <tr>
+        @*<tr>
             <td id="agentLbl">Vender</td>
             <td>:</td>
             <td id="agent"></td>
@@ -85,7 +157,7 @@ End Code
             <td></td>
             <td></td>
             <td></td>
-        </tr>
+        </tr>*@
         <tr>
             <td id="shipperLbl">Importer/Exporter</td>
             <td>:</td>
@@ -98,22 +170,26 @@ End Code
             <td></td>
             <td></td>
             <td></td>
+	    
+            <td id="bookingLbl">Booking No</td>
+            <td>:</td>
+            <td id="booking"></td>
         </tr>
         <tr>
             <td id="consigneeNameLbl">Consignee</td>
             <td>:</td>
-            <td id="consigneeName"></td>
+            <td id="consigneeName" colspan="4"></td>
 
-            <td id="termLbl">Term</td>
+            <td id="etdLbl">ETD</td>
             <td>:</td>
-            <td id="term"></td>
+            <td id="etd"></td>
 
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="etaLbl">ETA</td>
+            <td>:</td>
+            <td id="eta"></td>
 
         </tr>
-        <tr>
+        @*<tr>
             <td id="shippingAgentLbl">Shipping Agent</td>
             <td>:</td>
             <td id="shippingAgent"></td>
@@ -151,29 +227,33 @@ End Code
             <td id="volumeLbl">Volume</td>
             <td>:</td>
             <td id="volume"></td>
-        </tr>
-        <tr>
-            <td id="remarkLbl">REMARK</td>
-            <td>:</td>
-            <td id="remark"></td>
+        </tr>*@
+    <tr>
+        <td id="remarkLbl">REMARK</td>
+        <td>:</td>
+        <td id="remark" colspan="4"></td>
 
-            <td id="sellUSDTHBLbl">Selling USD:THB</td>
-            <td>:</td>
-            <td id="sellUSDTHB"></td>
+        @*<td id="sellUSDTHBLbl">Selling USD:THB</td>
+        <td>:</td>
+        <td id="sellUSDTHB"></td>
 
-            <td id="buyUSDTHBLbl">Buying USD:THB</td>
-            <td>:</td>
-            <td id="buyUSDTHB"></td>
-        </tr>
+        <td id="buyUSDTHBLbl">Buying USD:THB</td>
+        <td>:</td>
+        <td id="buyUSDTHB"></td>*@
+        <td id="volumeLbl">Volume</td>
+        <td>:</td>
+        <td id="volume"></td>
+    </tr>
     </tbody>
 </table>
 
 <table class="table" border="1" style="width:100%;border-collapse:collapse;border-width:thin;">
     <tr>
         <td rowspan="2" style="width:30%">Description</td>
-        <td class="center" rowspan="2" style="width:8em">Customer Pay</td>
+	<td rowspan="2" style="width:20%">ADV / Bill-PAY NO.</td>
+        @*<td class="center" rowspan="2" style="width:8em">Customer Pay</td>*@
         @*<td class="center" rowspan="2">Settle with</td>*@
-        <td class="center" colspan="8">TOTAL REVENUE</td>
+        <td class="center" colspan="10">TOTAL REVENUE</td>
     </tr>
     <tr>
         <td class="center">Unit price</td>
@@ -181,7 +261,8 @@ End Code
         <td class="center">Curr</td>
         <td class="center">Amount</td>
         <td class="center">VAT</td>
-        <td class="center">WHD</td>
+        <td class="center">WHT</td>
+	<td class="center">RATE</td>
         <td class="center">Advance</td>
         <td class="center">Revenue</td>
         <td class="center">Total</td>
@@ -193,9 +274,10 @@ End Code
 <table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
     <tr>
         <td rowspan="2">Description</td>
-        <td class="center" rowspan="2" style="width:8em">Company Pay</td>
+	<td rowspan="2">ADV / Bill-PAY NO.</td>
+        @*<td class="center" rowspan="2" style="width:8em">Company Pay</td>*@
         @*<td class="center" rowspan="2">Settle with</td>*@
-        <td class="center" colspan="8">TOTAL COST</td>
+        <td class="center" colspan="10">TOTAL COST</td>
     </tr>
     <tr>
         <td class="center">Unit price</td>
@@ -204,6 +286,7 @@ End Code
         <td class="center">Amount</td>
         <td class="center">VAT</td>
         <td class="center">WHD</td>
+	<td class="center">RATE</td>
         <td class="center">Advance</td>
         <td class="center">Cost</td>
         <td class="center">Total</td>
@@ -225,18 +308,104 @@ End Code
     <div class="col-8"></div>
     <div class="col-4">
         <p class="right bold" style="border: 1px solid black; padding:5px">
-            <label id="netProfitLbl">JOB PROFIT</label>
+            <label id="netProfitLbl">NET AMOUNT</label>
             <label id="netProfit"></label>
         </p>
     </div>
 </div>
+<div class="row">
+    <div class="col-8" id="dvLog">
+    </div>
+</div>
+
+<br />
+<table class="table" border="1" style="width:100%;border-width:thin;border-collapse:collapse;">
+    <tr>
+	<th>Adv No.</th>
+        <th>Description</th>
+        <th>Doc Status</th>
+        <th>Net Payment</th>
+    </tr>
+
+    <tbody id="dt3">
+    </tbody>
+    
+</table>
 <script src="~/Scripts/Func/reports.js"></script>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let branch = getQueryString('BranchCode');
     let job = getQueryString('JNo');
+    var jsonData = @Html.Raw(jsonData);
     let commissionCode = 'CST-138,CST-147';
     if (branch != "" && job != "") {
+        $.get(path + 'JobOrder/GetJobOrderLog?Branch=' + branch + '&Code=' + job, (r) => {
+            if (r.joborderlog.data.length > 0) {
+                let htm = '';
+                for (let i = 0; i < r.joborderlog.data.length; i++) {
+                    let d = r.joborderlog.data[i];
+                    if (i > 0) htm += '<br>';
+                    htm += d.TRemark;
+                }
+                $('#dvLog').html(htm);
+           }
+        });
+
+	if (jsonData.length > 0) {
+                let htm = '';
+		let sumAdvNet= 0;
+                for (let i = 0; i < jsonData.length; i++) {
+                    let d = jsonData[i];
+                	htm += '<tr>';
+			htm += '<td>' + (d.AdvNO ?? '') + '</td>';
+			htm += '<td>' + (d.SICode ?? '') + ' ' + (d.SDescription ?? '') +'</td>';
+			htm += '<td>' + (d.advDocStatus ?? '') + '</td>';
+			htm += '<td style="text-align:right">'+ ShowNumber(d.AdvNet,2)+'</td>';
+                	htm += '</tr>';		
+			sumAdvNet += 	d.AdvNet;
+                }
+		htm += '<tr>';
+                htm += '<td colspan="3"><b>TOTAL</b></td>';
+		
+		htm += '<td style="text-align:right">'+ ShowNumber(sumAdvNet,2)+'</td>';
+                htm += '</tr>';		
+		
+		$("#dt3").html(htm);
+
+ 
+           }
+	@*
+
+	 $.get(path + 'Adv/getadvancereport?branchcode=' + branch + '&jobno=' + job, (r) => {
+	    r.adv.data = r.adv.data.filter((data) => {
+                    return data.DocStatus >= 2 && data.DocStatus <= 3  ;
+            });
+            if (r.adv.data.length > 0) {
+                let htm = '';
+		let sumAdvNet= 0;
+                for (let i = 0; i < r.adv.data.length; i++) {
+                    let d = r.adv.data[i];
+                	htm += '<tr>';
+                	htm += '<td>'+d.AdvNo+'</td>';
+			htm += '<td>'+d.SICode+' '+d.SDescription+'</td>';
+			htm += '<td>'+d.advDocStatus+'</td>';
+			htm += '<td style="text-align:right">'+ ShowNumber(d.AdvNet,2)+'</td>';
+                	htm += '</tr>';		
+			sumAdvNet += 	d.AdvNet;
+                }
+		htm += '<tr>';
+                htm += '<td colspan="3"><b>TOTAL</b></td>';
+		
+		htm += '<td style="text-align:right">'+ ShowNumber(sumAdvNet,2)+'</td>';
+                htm += '</tr>';		
+		
+		$("#dt3").html(htm);
+
+                //console.log(r);
+           }
+        });
+	*@
+
         let url = path + 'clr/getclearingreport?branch=' + branch + '&job=' + job;
         $.get(url, (r) => {
             if (r.data.length> 0) {
@@ -252,7 +421,7 @@ End Code
                 ShowCustomerEN(path, h.consigneecode, h.CustBranch, 'consigneeName');
                 $("#term").text(h.JobDesc);
                 ShowVender(path, h.ForwarderCode, '#shippingAgent');
-   		$("#salesby").text(h.SalesEName);
+   		        $("#salesby").text(h.CSName);
                 $("#etd").text(ShowDate(h.ETDDate));
                 $("#eta").text(ShowDate(h.ETADate));
                 ShowUser(path, h.ShippingEmp, '#customsBroker');
@@ -264,6 +433,8 @@ End Code
                 $("#remark").text(h.ShippingCmd);
                 $("#sellUSDTHB").text(h.InvCurRate);
                 $("#buyUSDTHB").text(h.InvCurRate);
+		$("#booking").text(h.BookingNo);
+	
 
                 let d = r.data;
                 let dt1 = d.filter((data) => {
@@ -273,7 +444,8 @@ End Code
                 let html = '';
                 html += '<tr>';
                 html += '<td>{0}</td>';
-                html += `<td class="center"><a href="${path}/acc/voucher?Branch=${branch}&Code={1}" target="_blank" >{1}</a></td>`;
+		html += '<td>{14}</td>';
+                //html += `<td class="center"><a href="${path}/acc/voucher?Branch=${branch}&Code={1}" target="_blank" >{1}</a></td>`;
                 //html += '<td class="">{2}</td>';
                 html += '<td class="right">{3}</td>';
                 html += '<td class="right">{12}</td>';
@@ -282,6 +454,7 @@ End Code
                 //html += '<td class="right">{6}</td>';
                 html += '<td class="right">{7}</td>';
                 html += '<td class="right">{8}</td>';
+		html += '<td class="right">{13}</td>';
                 html += '<td class="right">{9}</td>';
                 html += '<td class="right">{10}</td>';
                 html += '<td class="right">{11}</td>';
@@ -289,10 +462,12 @@ End Code
 
                 let htmlTotal = '';
                 htmlTotal += '<tr>';
+                //htmlTotal += '<td colspan="5"></td>';
                 htmlTotal += '<td colspan="5"></td>';
                 htmlTotal += '<td class="right">{3}</td>';
                 htmlTotal += '<td class="right">{4}</td>';
                 htmlTotal += '<td class="right">{5}</td>';
+		htmlTotal += '<td class="right"></td>';
                 htmlTotal += '<td class="right">{0}</td>';
                 htmlTotal += '<td class="right">{1}</td>';
                 htmlTotal += '<td class="right">{2}</td>';
@@ -310,10 +485,16 @@ End Code
                 for (let i = 0; i < dt1.length; i++) {
                     let tmp = html;
                     tmp =tmp.replaceAll('{0}', dt1[i].SDescription);
+		    if (dt1[i].AdvNO != "") {
+			tmp =tmp.replaceAll('{14}', dt1[i].AdvNO);
+		    } else {
+			tmp =tmp.replaceAll('{14}', dt1[i].VenderBillingNo);
+		    }
+		    
             /*        tmp = tmp.replaceAll('{1}', dt1[i].LinkBillNo);*/
                     //tmp = tmp.replaceAll('{2}', dt1[i].CustCode);
                     //tmp = tmp.replaceAll('{1}', dt1[i].ReceiveRef);
-   	tmp = tmp.replaceAll('{1}', dt1[i].VenderCode);
+   	                //tmp = tmp.replaceAll('{1}', dt1[i].VenderCode);
                     tmp = tmp.replaceAll('{3}', ShowNumber(dt1[i].UnitPrice, 2));
                     tmp = tmp.replaceAll('{12}', dt1[i].Qty);
                     tmp = tmp.replaceAll('{4}', dt1[i].CurrencyCode);
@@ -321,6 +502,7 @@ End Code
                                         //tmp = tmp.replaceAll('{6}', dt1[i].CurRate);
                     tmp = tmp.replaceAll('{7}', ShowNumber(dt1[i].ChargeVAT, 2));
                     tmp = tmp.replaceAll('{8}', ShowNumber(dt1[i].Tax50Tavi, 2));
+		    tmp = tmp.replaceAll('{13}', dt1[i].VATRate+'/'+dt1[i].Tax50TaviRate);
                     tmp = tmp.replaceAll('{9}', dt1[i].IsCredit==1 ? ShowNumber(dt1[i].BNet, 2) : '');
                     tmp = tmp.replaceAll('{10}', dt1[i].IsExpense == 0 && dt1[i].IsCredit == 0 ? ShowNumber(dt1[i].BNet, 2):'');
                     tmp = tmp.replaceAll('{11}', ShowNumber(dt1[i].BNet, 2));
@@ -371,11 +553,17 @@ End Code
                     console.log(commissionCode.indexOf(dt2[i].SICode) );
                     console.log("------------");
                     if (commissionCode.indexOf(dt2[i].SICode) >= 0) {
-                       
+
                         sumcomm += dt2[i].BNet;
                     }
                     let tmp = html;
                     tmp = tmp.replaceAll('{0}', dt2[i].SDescription);
+		    if (dt2[i].AdvNO) {
+   			 tmp = tmp.replaceAll('{14}', dt2[i].AdvNO);
+		    } else {
+			 tmp = tmp.replaceAll('{14}', dt2[i].VenderBillingNo);
+		    }
+		    /*tmp = tmp.replaceAll('{14}', dt2[i].AdvNO);*/
                  /*   tmp = tmp.replaceAll('{1}', dt2[i].LinkBillNo);*/
                     //tmp = tmp.replaceAll('{1}', dt2[i].AdvPay ? dt2[i].AdvPay : dt2[i].ClrPay );
                     tmp = tmp.replaceAll('{1}', dt2[i].VenderCode);
@@ -386,6 +574,7 @@ End Code
                     tmp = tmp.replaceAll('{5}', ShowNumber(dt2[i].UsedAmount, 2));
                     tmp = tmp.replaceAll('{7}', ShowNumber(dt2[i].ChargeVAT, 2));
                     tmp = tmp.replaceAll('{8}', ShowNumber(dt2[i].Tax50Tavi, 2));
+                    tmp = tmp.replaceAll('{13}', dt2[i].VATRate+'/'+dt2[i].Tax50TaviRate);
                     tmp = tmp.replaceAll('{9}', dt2[i].IsCredit == 1 ? ShowNumber(dt2[i].BNet, 2) : '');
                     tmp = tmp.replaceAll('{10}', dt2[i].IsExpense == 1 && dt2[i].IsCredit == 0 ? ShowNumber(dt2[i].BNet, 2) : '');
                     tmp = tmp.replaceAll('{11}', ShowNumber(dt2[i].BNet, 2));
