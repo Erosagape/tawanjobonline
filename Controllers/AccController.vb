@@ -901,11 +901,6 @@ WHERE h.DocType='PAY' AND d.PRType='P' AND h.BranchCode='{0}' AND ISNULL(m.Cance
                 formName = Request.QueryString("Form")
             End If
             Return GetView("Form" + formName)
-            Dim formName As String = "GL"
-            If Not Request.QueryString("Form") Is Nothing Then
-                formName = Request.QueryString("Form").ToString()
-            End If
-            Return GetView("Form" & formName)
         End Function
         Function Expense() As ActionResult
             Return GetView("Expense", "MODULE_ACC")
