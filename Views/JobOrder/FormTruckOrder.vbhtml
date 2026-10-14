@@ -66,8 +66,8 @@ End Code
     <tr>
         <td></td>
         <td></td>
-        <td>บุ้คกิ้ง</td>
-        <td><label id="txtCarrierBooking"></label></td>
+        <td><b>บุ้คกิ้ง<b></td>
+        <td><b><label id="txtCarrierBooking"></label><b></td>
     </tr>
     <tr>
         <td></td>
@@ -80,40 +80,48 @@ End Code
         <th colspan="2">ข้อมูลเกี่ยวกับรถบรรทุก</th>
     </tr>
     <tr>
-        <td>ประเภทการให้บริการ</td>
-        <td><label id="txtServiceType"></label></td>
-        <td>ทะเบียนรถบรรทุก</td>
-        <td><label id="txtTruck"></label></td>
+        <td><b>ประเภทการให้บริการ</b></td>
+        <td><b><label id="txtServiceType"></label></b></td>
+        <td><b>ทะเบียนรถบรรทุก</b></td>
+        <td><b><label id="txtTruck"></label></b></td>
     </tr>
     <tr>
-        <td>ขนาดตู้คอนเทนเนอร์</td>
-        <td><label id="txtContainerType"></label></td>
-        <td>ชื่อคนขับ/โทรศัพท์</td>
-        <td><label id="txtDriverName"></label></td>
+        <td><b>ขนาดตู้คอนเทนเนอร์</b></td>
+        <td><b><label id="txtContainerType"></label></b></td>
+        <td><b>ชื่อคนขับ/โทรศัพท์</b></td>
+        <td><b><label id="txtDriverName"></label></b></td>
     </tr>
     <tr>
-        <td></td>
-        <td></td>
-        <td>หมายเลขตู้คอนเทนเนอร์</td>
-        <td><label id="txtContainer"></label></td>
+        <td>Transporter</td>
+        <td><label id="txtTransport"></label></td>
+        <td><b>หมายเลขตู้คอนเทนเนอร์</b></td>
+        <td><b><label id="txtContainer"></label></b></td>
     </tr>
     <tr>
         <td>หมายเหตุ</td>
         <td><div id="txtRemark"></div></td>
-        <td>หมายเหตุในการส่งตู้ล่าช้า</td>
-        <td><div id="txtDiscrepancyReason"></div></td>
+        <td><b>หมายเหตุในการส่งตู้ล่าช้า<b></td>
+        <td><b><div id="txtDiscrepancyReason"></div></b></td>
     </tr>
     <tr>
         <th></th>
-        <th>สถานที่รับตู้</th>
-        <th>ไปส่งที่</th>
-        <th>สถานที่ส่งคืน</th>
+        <th>สถานที่รับตู้  / VGM Closing</th>
+        <th>ไปส่งที่  / Loading </th>
+        <th>สถานที่ส่งคืน  /  CY Closing</th>
     </tr>
     <tr>
         <td>ชื่อสถานที่</td>
         <td><label id="txtPlace1"></label></td>
         <td><label id="txtPlace2"></label></td>
         <td><label id="txtPlace3"></label></td>
+    </tr>
+    <tr>
+        <td>Commodity</td>
+        <td colspan="3"><label id="txtInvProduct"></label></td>
+    </tr>
+    <tr>
+        <td>Packages Summary</td>
+        <td colspan="3"><label id="txtProjectName"></label></td>
     </tr>
     <tr>
         <td>ที่อยู่</td>
@@ -178,6 +186,11 @@ End Code
             $('#txtContainerType').text(h.CTN_SIZE);
             $('#txtDriverName').text(h.DriverName);
             $('#txtContainer').text(h.CTN_NO);
+
+            $('#txtInvProduct').text(h.InvProduct);
+            $('#txtProjectName').text(h.ProjectName);
+
+            $('#txtTransport').text(h.TransportName);
             $('#txtDiscrepancyReason').html(h.Comment);
             $('#txtRemark').html(CStr(h.Remark));
 
@@ -187,12 +200,12 @@ End Code
             $('#txtAddress1').html(CStr(h.PlaceAddress1));
             $('#txtAddress2').html(CStr(h.PlaceAddress2));
             $('#txtAddress3').html(CStr(h.PlaceAddress3));
-            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate));
-            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate));
-            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate));
-            $('#txtActualDate1').text(ShowDate(h.ActualYardDate));
-            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate));
-            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate));
+            $('#txtTargetDate1').text(ShowDate(h.TargetYardDate) + ' ' + ShowTime(h.TargetYardTime));
+            $('#txtTargetDate2').text(ShowDate(h.TargetDeliveryDate) + ' ' + ShowTime(h.TargetDeliveryTime));
+            $('#txtTargetDate3').text(ShowDate(h.TargetReturnDate) + ' ' + ShowTime(h.TargetReturnTime));
+            $('#txtActualDate1').text(ShowDate(h.ActualYardDate) + ' ' + ShowTime(h.ActualYardTime));
+            $('#txtActualDate2').text(ShowDate(h.ActualDeliveryDate) + ' ' + ShowTime(h.ActualDeliveryTime));
+            $('#txtActualDate3').text(ShowDate(h.ActualReturnDate) + ' ' + ShowTime(h.ActualReturnTime));
             $('#txtContact1').text(h.PlaceContact1);
             $('#txtContact2').text(h.PlaceContact2);
             $('#txtContact3').text(h.PlaceContact3);

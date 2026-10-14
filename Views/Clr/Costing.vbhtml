@@ -109,6 +109,40 @@ End Code
 <a href="#" class="btn btn-info" id="btnPrintJobsum">
     <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Summary</b>
 </a>
+</br></br>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblBillNotClr" style="color:red;">Bill Payment Not Clearing</label>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblTotalBill">Total Bill Payment</label> <label id="lblTotalCTN"></label> 
+         : <input type="text" id="txtSumTTBill" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblTotalClear">Total Bill Clear</label>
+         :<input type="text" id="txtSumTTClear" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblTotalBalance">Total Balance Not Clear</label>
+         :<input type="text" id="txtSumTTBalance" class="form-control" style="color:red;" disabled />
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-3">
+        <label id="lblcBill">Total Count Bill Payment</label>
+         : <input type="text" id="txtSumcBill" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblcClear">Total Count Bill Clear</label>
+         :<input type="text" id="txtSumcClear" class="form-control" disabled />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblcBalance">Total Count Balance Not Clear</label>
+         :<input type="text" id="txtSumcBalance" class="form-control" style="color:red;" disabled />
+    </div>
+</div>
 <div class="modal fade" id="dvEditor" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -187,17 +221,30 @@ End Code
                     return data.BNet !== 0 && data.DocStatus<99;
                 });
                 for (let i = 0; i < d.length; i++){
+<<<<<<< HEAD
                     let amt = CNum(CDbl(d[i].UsedAmount,2)) + CNum(CDbl(d[i].ChargeVAT,2));   
                     let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? CNum(CDbl(d[i].UsedAmount,2)) : 0);
                     let cost = (d[i].IsExpense == 1 ?  CNum(CDbl(d[i].UsedAmount,2)) : 0);
                     let profit = (d[i].IsExpense == 1 ?  CNum(CDbl(d[i].UsedAmount,2))*-1 : (d[i].IsCredit==1 ? 0 : CNum(CDbl(d[i].UsedAmount,2))));
+=======
+                    let amt = (d[i].UsedAmount) + d[i].ChargeVAT;   
+                    let adv = (d[i].IsCredit == 1 && d[i].IsExpense == 0 ? amt : 0);
+                    let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? (d[i].UsedAmount) : 0);
+                    let cost = (d[i].IsExpense == 1 ?  (d[i].UsedAmount) : 0);
+                    let profit = (d[i].IsExpense == 1 ?  (d[i].UsedAmount)*-1 : (d[i].IsCredit==1 ? 0 : (d[i].UsedAmount)));
+>>>>>>> 3x
                     let slipNo = (d[i].IsHaveSlip == 1 && d[i].IsCredit==1 ? ' #' + d[i].SlipNO : '');
 
                     if (d[i].IsCredit == 0 && d[i].IsExpense == 0) {
                         if (d[i].IsTaxCharge > 0) {
+<<<<<<< HEAD
                             amtforvat += CNum(CDbl(d[i].UsedAmount,2));
                             amtvat += CNum(CDbl(d[i].ChargeVAT,2));
+=======
+                            amtforvat += (d[i].UsedAmount);
+                            amtvat += d[i].ChargeVAT;
+>>>>>>> 3x
                             slipNo += '<br/>VAT ' + d[i].VATRate + '%=' + d[i].ChargeVAT;
                         } else {
                             amtnonvat += (d[i].UsedAmount);
@@ -266,6 +313,41 @@ End Code
 
                 $('#txtSumPending').val(ShowNumber(amtpending, 2));
 
+		$.get(path + 'joborder/getjobsql?branch=' + branch + '&jno=' + code)
+        	.done(function (r) {
+            		if (r.job.data.length > 0) {
+                		let j = r.job.data[0];
+                		$.get(path + 'joborder/gettransportdetail?Branch='+ branch +'&Code=' + j.BookingNo + '&Job=' + j.JNo)
+			     	.done(function (r) {
+            				let td = r.transport.detail;
+        	    			if (td.length > 0) {
+						let ttBill = 0;
+						let ttClear = 0;
+						let ttBalance = 0;
+						let ttCtn = 0;
+						let cBill = 0;
+						let cClear = 0;
+						let cBalance = 0;
+						for (let d of td) {
+							ttBill += d.TotalBill;
+							ttClear += d.TotalClear;
+							ttBalance += d.TotalBalance;
+							ttCtn++;
+							cBill += d.CountBill;
+							cClear += d.CountClear;
+							cBalance += d.CountBalance;
+						}
+						$('#txtSumTTBill').val(ttBill.toFixed(2));
+						$('#txtSumTTClear').val(ttClear.toFixed(2));
+						$('#txtSumTTBalance').val(ttBalance.toFixed(2));
+						$('#lblTotalCTN').text('('+ ttCtn + ' Container)' );
+						$('#txtSumcBill').val(cBill);
+						$('#txtSumcClear').val(cClear);
+						$('#txtSumcBalance').val(cBalance);
+            				}
+        			});
+            		}
+        	});
             }
             CloseWait();
         });

@@ -318,7 +318,7 @@ End Code
                                 <div class="col-sm-8">
                                     <label id="lblDescription">Description :</label>
                                     <br/>
-                                    <input type="text" class="form-control" id="txtSDescription" tabindex="13" />
+                                    <textarea type="text" class="form-control" id="txtSDescription" tabindex="13" /></textarea>
                                 </div>
                             </div>
                             <div class="row">
@@ -479,6 +479,8 @@ End Code
     SetEvents();
     SetEnterToTab();
     CheckParam();
+     //$(document).ready(function () {
+	
     //});
     function CheckParam() {
         ClearHeader();
@@ -663,9 +665,9 @@ End Code
         //Combos
         let lists = 'PAYMENT_TYPE=#txtPayType|CA';
         loadCombos(path, lists);
-
+	
         LoadService();
-
+	
         //3 Fields Show
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -783,12 +785,12 @@ End Code
             $('#txtExchangeRate').val(dt.ExchangeRate);
             $('#txtVATRate').val(dt.VATRate);
             $('#txtTaxRate').val(dt.TaxRate);
-            $('#txtTotalExpense').val(CDbl(dt.TotalExpense,2));
-            $('#txtTotalVAT').val(CDbl(dt.TotalVAT,2));
-            $('#txtTotalTax').val(CDbl(dt.TotalTax,2));
-            $('#txtTotalDiscount').val(CDbl(dt.TotalDiscount,2));
-            $('#txtTotalNet').val(CDbl(dt.TotalNet,2));
-            $('#txtForeignAmt').val(CDbl(dt.ForeignAmt,2));
+            $('#txtTotalExpense').val(ShowNumber(dt.TotalExpense,2));
+            $('#txtTotalVAT').val(ShowNumber(dt.TotalVAT,2));
+            $('#txtTotalTax').val(ShowNumber(dt.TotalTax,2));
+            $('#txtTotalDiscount').val(ShowNumber(dt.TotalDiscount,2));
+            $('#txtTotalNet').val(ShowNumber(dt.TotalNet,2));
+            $('#txtForeignAmt').val(ShowNumber(dt.ForeignAmt,2));
             $('#txtRemark').val(dt.Remark);
             $('#txtPaymentBy').val(dt.PaymentBy);
             $('#txtPaymentDate').val(CDateEN(dt.PaymentDate));
@@ -915,6 +917,10 @@ End Code
                 return;
             }
         }
+        if (obj.ForJNo=='') { 
+	    ShowMessage('Please assign job number!',true);
+	    return;
+	}
         if (userRights.indexOf('E') < 0) {
             ShowMessage('You are not allow to edit',true);
             return;

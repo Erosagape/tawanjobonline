@@ -99,8 +99,12 @@ Namespace Controllers
             Dim json = "{""data"":[{0}],""message"":""{1}""}"
             Dim msg = "Complete"
             Dim data = ""
+            Dim id As Integer = 0
+            If Not Request.QueryString("Id") Is Nothing Then
+                id = Convert.ToInt32(Request.QueryString("Id"))
+            End If
             Try
-                Dim o = New CLog(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString).GetData(" WHERE CustID='" & My.MySettings.Default.LicenseTo.ToString & "'")
+                Dim o = New CLog(ConfigurationManager.ConnectionStrings("TawanConnectionString").ConnectionString).GetData(String.Format(" WHERE CustID='" & My.MySettings.Default.LicenseTo.ToString & "' AND LogID={0}", id))
                 data = JsonConvert.SerializeObject(o)
             Catch ex As Exception
                 msg = "[ERROR]:" & ex.StackTrace

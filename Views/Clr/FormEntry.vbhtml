@@ -342,6 +342,11 @@ End Code
                     let noSlip = d[i].IsHaveSlip == 0 && d[i].IsExpense == 1 ? amt : 0;
                     let serv = (d[i].IsCredit == 0 && d[i].IsExpense == 0 ? amt : 0);
                     let profit = (d[i].IsExpense == 1 ? amt * -1 : d[i].IsCredit == 1 ? 0 : d[i].UsedAmount);
+<<<<<<< HEAD
+=======
+                    //amtadv += adv;
+                    //amtserv += serv;
+>>>>>>> 3x
                     customerSlipSum += customerSlip;
                     companySlipSum += companySlip;
                     noSlipSum += noSlip;
@@ -365,6 +370,15 @@ End Code
                     html += '<td style="text-align:right">' + (profit != 0 ? CCurrency(CDbl(profit, 2)) : '') + '</td>';//PROFIT
                     html += '</tr>';
 
+<<<<<<< HEAD
+=======
+
+
+                    //amtcost += cost;
+                    //amttotal += serv + adv;
+                    //amtprofit += profit;
+
+>>>>>>> 3x
                     tb.append(html);
                 }
                 let summary = ` <tr>
@@ -377,7 +391,11 @@ End Code
                <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
            </tr >`;
                 tb.append(summary);
+<<<<<<< HEAD
                 $("#sumService").text(CCurrency(CDbl(customerSlipSum + servSum, 2)));
+=======
+		$("#sumService").text(CCurrency(CDbl(customerSlipSum + servSum , 2)));
+>>>>>>> 3x
                 $("#sumCost").text(CCurrency(CDbl(customerSlipSum + noSlipSum, 2)));
                 $("#sumBalance").text(CCurrency(CDbl(customerSlipSum + servSum - (customerSlipSum + noSlipSum),2)));
             }

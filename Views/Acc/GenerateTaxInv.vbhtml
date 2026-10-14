@@ -16,6 +16,7 @@ End Code
             <div class="col-sm-4">
                 <label id="lblDocType">Type :</label>
                 <br />
+<<<<<<< HEAD
                 <select id="cboType" Class="form-control dropdown">
                     <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                     <option value="SRV">Tax-Invoice (Service only)</option>
@@ -23,6 +24,15 @@ End Code
                     <option value="RET">Receipt Transport</option>
                     <option value="DNR">Debit Note Receipt</option>
                 </select>
+=======
+                 <select id="cboType" class="form-control dropdown">
+                <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
+                <option value="SRV">Tax-Invoice (Service only)</option>
+                <option value="ADV">Receipt Advance</option>
+                @*<option value="RCV">Receipt Transport</option>*@
+                <option value="DNR">Debit Note Receipt</option>
+            </select>
+>>>>>>> 3x
             </div>
         </div>
         <div Class="row">
@@ -766,7 +776,7 @@ ExchangeRate: 1,
     }
     function SaveData() {
         if ($('#txtDocNo').val() !== '') {
-            $.get(path + 'Acc/DelRcpDetail?Branch' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+            $.get(path + 'Acc/DelRcpDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
                 ApproveData();
             });
         } else {
@@ -782,8 +792,11 @@ ExchangeRate: 1,
                     break;
                 case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
+<<<<<<< HEAD
 		 case "RCV": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=RCV', '_blank');
                     break;
+=======
+>>>>>>> 3x
                 default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code, '_blank');
             }
         }

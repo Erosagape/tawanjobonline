@@ -874,9 +874,11 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                         Return Content("{""result"":{""data"":null,""msg"":""Please enter some data""}}", jsonContent)
                     End If
                     data.SetConnect(GetSession("ConnJob"))
-                    If "" & data.CTN_NO <> "" And Main.GetValueConfig("PROFILE", "CHECK_CONTAINER", "Y") = "Y" Then
-                        If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
-                            Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
+                    If Main.GetValueConfig("PROFILE", "CHECK_CONTAINER_DUP", "Y") = "Y" Then
+                        If "" & data.CTN_NO <> "" Then
+                            If data.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND ItemNo<>{2} AND CTN_NO='{3}'", data.BranchCode, data.JNo, data.ItemNo, data.CTN_NO)).Count > 0 Then
+                                Return Content("{""result"":{""data"":null,""msg"":""This Container is duplicate""}}", jsonContent)
+                            End If
                         End If
                     End If
                     Dim msg = data.SaveData(String.Format(" WHERE BranchCode='{0}' AND BookingNo='{1}' AND ItemNo='{2}' ", data.BranchCode, data.BookingNo, data.ItemNo))
@@ -2213,6 +2215,109 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                 Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetDashboard", ex.Message, ex.StackTrace, True)
                 Return Content("{""result"":[],""msg"":""" & ex.Message & """}", jsonContent)
             End Try
+        End Function
+        Function GetDashboardCost() As ActionResult
+            Dim tsqlTotal = "
+select j.JobType,t.JobTypeName,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+where h.DocStatus<>99 {0}
+group by j.JobType,t.JobTypeName
+order by 1
+"
+            If GetValueConfig("SQL", "SelectDashboardCostSummary") <> "" Then
+                tsqlTotal = GetValueConfig("SQL", "SelectDashboardCostSummary")
+            End If
+            Dim onDate As String = "j.DocDate"
+            If Not Request.QueryString("DateWhere") Is Nothing Then
+                onDate = Request.QueryString("DateWhere")
+            End If
+            Dim tsqlW As String = ""
+            If Not Request.QueryString("Branch") Is Nothing Then
+                tsqlW &= String.Format(" AND j.BranchCode='{0}'", Request.QueryString("Branch"))
+            End If
+            If Not Request.QueryString("Year") Is Nothing Then
+                tsqlW &= String.Format(" AND Year(" & onDate & ")={0}", Request.QueryString("Year"))
+            End If
+            If Not Request.QueryString("Month") Is Nothing Then
+                tsqlW &= String.Format(" AND Month(" & onDate & ")={0}", Request.QueryString("Month"))
+            End If
+            If Not Request.QueryString("Cust") Is Nothing Then
+                tsqlW &= String.Format(" AND j.CustCode='{0}'", Request.QueryString("Cust"))
+            End If
+            If Not Request.QueryString("Vend") Is Nothing Then
+                tsqlW &= String.Format(" AND j.ForwarderCode='{0}'", Request.QueryString("Vend"))
+            End If
+            If Not Request.QueryString("Mode") Is Nothing Then
+                If Request.QueryString("Mode").ToString() = "E" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsExpense=1 OR IsCredit=1)"
+                End If
+                If Request.QueryString("Mode").ToString() = "C" Then
+                    tsqlW &= " AND c.SICode not in(select SICode from Job_SrvSingle where IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "A" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=1 AND IsExpense=0)"
+                End If
+                If Request.QueryString("Mode").ToString() = "S" Then
+                    tsqlW &= " AND c.SICode in(select SICode from Job_SrvSingle where IsCredit=0 AND IsExpense=0)"
+                End If
+            End If
+            Dim oTotal = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlTotal, tsqlW))
+            Dim jsChart = "[[""Type"",""Normal"",""Addition""],[""ALL"",0,0]]"
+            If oTotal.Rows.Count > 0 Then
+                jsChart = "[[""Type"",""Normal"",""Addition""]{0}]"
+                Dim str = ""
+                For Each dr As DataRow In oTotal.Rows
+                    str &= ",["
+                    str &= """" & dr("JobTypeName").ToString() & ""","
+                    str &= dr("SumNormalCost").ToString() & ","
+                    str &= dr("SumAdditionCost").ToString() & ""
+                    str &= "]"
+                Next
+                jsChart = String.Format(jsChart, str)
+            End If
+            Dim jsTotal = JsonConvert.SerializeObject(oTotal)
+            Dim tsqlDetail = "
+select j.DocDate,j.DutyDate,j.JNo,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then c.UsedAmount else 0 end) as SumNormalCost,
+sum(case when c.SDescription not like '%Dem%' and c.SDescription not like '%Det%' then 0 else c.UsedAmount end) as SumAdditionCost
+from Job_Order j
+inner join Job_ClearDetail c
+on j.BranchCode=c.BranchCode 
+and j.JNo=c.JobNo
+inner join Job_ClearHeader h
+on c.BranchCode=h.BranchCode 
+and c.ClrNo=h.ClrNo 
+inner join (select ConfigKey as JobType,ConfigValue as JobTypeName 
+from Mas_Config where configCode='JOB_TYPE'
+) t
+on j.JobType=t.JobType
+inner join (select ConfigKey as ShipBy,ConfigValue as ShipByName 
+from Mas_Config where configCode='SHIP_BY'
+) s
+on j.ShipBy=s.ShipBy
+where h.DocStatus<>99 {0}
+group by j.DocDate,j.DutyDate,j.Jno,t.JobTypeName,s.ShipByName,
+j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalContainer
+"
+            If GetValueConfig("SQL", "SelectDashboardCostDetail") <> "" Then
+                tsqlDetail = GetValueConfig("SQL", "SelectDashboardCostDetail")
+            End If
+            Dim oDetail = New CUtil(GetSession("ConnJob")).GetTableFromSQL(String.Format(tsqlDetail, tsqlW))
+            Dim jsDetail = JsonConvert.SerializeObject(oDetail)
+            Return Content("{""data"":{""summary"":" & jsTotal & ",""detail"":" & jsDetail & ",""chart"":" & jsChart & ",""where"":""" & tsqlW & """}}", jsonContent)
         End Function
         Function GetDashboard_V2() As ActionResult
             Try

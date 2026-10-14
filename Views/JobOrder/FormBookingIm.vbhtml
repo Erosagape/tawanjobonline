@@ -237,8 +237,12 @@ End Code
     let br = getQueryString("BranchCode");
     let doc = getQueryString("BookingNo");
         var path = '@Url.Content("~")';
+<<<<<<< HEAD
         $("#imgLogo").hide();
         $("#imgLogoAdd").show();
+=======
+
+>>>>>>> 3x
     $.get(path + 'JobOrder/GetBooking?Branch=' + br + '&Code=' + doc).done(function (r) {
         if (r.booking !== null) {
             let h = r.booking.data[0];

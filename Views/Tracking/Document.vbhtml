@@ -36,6 +36,7 @@ End Code
                         <option value="CLR">Clearing</option>
                         <option value="EXP">Expense Slip</option>
                         <option value="IMG">Images</option>
+                        <option value="CTN">Container</option>
                     </optgroup>
                     <optgroup label="STEP 5">
                         <option value="INV">Invoice</option>
@@ -112,6 +113,7 @@ End Code
                             <option value="TAX">Tax-Invoice</option>
                             <option value="DEC">Declarations</option>
                             <option value="IMG">Images</option>
+                            <option value="CTN">Container</option>
                             <option value="OTH">Others</option>
                         </select>
                     </div>
@@ -224,6 +226,7 @@ End Code
     var path = '@Url.Content("~")';
     let branchcode = getQueryString("BranchCode");
     let jobno = getQueryString("JNo");
+    let note = getQueryString("Note");
     let userGroup = '@ViewBag.UserGroup';
     let user = '@ViewBag.User'; 
     let cust = '';
@@ -407,7 +410,11 @@ End Code
             BranchCode: $('#txtBranchCode').val(),
             JNo: $('#txtJNo').val(),
             ItemNo: 0,
+<<<<<<< HEAD
             DocType: $('#txtDocType').val(),
+=======
+            DocType: note ? 'CTN' : $('#txtDocType').val(),
+>>>>>>> 3x
             FileType: '',
             FilePath: '',
             DocNo: '',
@@ -420,7 +427,11 @@ End Code
             CheckedDate: null,
             ApproveBy : "",
             ApproveDate : null,
+<<<<<<< HEAD
             CheckNote : ''
+=======
+            CheckNote : note ? decodeURIComponent(note) : ''
+>>>>>>> 3x
         };
         return r;
     }
@@ -484,6 +495,7 @@ End Code
             ShowMessage('No data to delete',true);
         }
     }
+<<<<<<< HEAD
     function UploadFile() {
         let count = $('#objFile')[0].files.length;
         if (count == 0) {
@@ -510,10 +522,100 @@ End Code
                         RefreshGrid();
                         $('#dvEditor').modal('hide');
                         return;
+=======
+
+function UploadFile() {
+    let count = $('#objFile')[0].files.length;
+    if (count == 0) {
+        ShowMessage('Data not found', true);
+        return;
+    }
+    let saveTo = 'Resource/Import';
+
+    for (let file of $('#objFile')[0].files) {
+        let data = new FormData();
+        data.append(file.name, file);
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('POST', path + 'Tracking/UploadDocument?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtJNo').val() + '&Type=' + $('#txtDocTypeD').val() + '&Path=' + saveTo);
+        xhr.send(data);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                if (xhr.responseText.substr(0, 1) !== "[") {
+                    let fname = xhr.responseText.split(' ')[1];
+                    if (fname !== '') {
+                        $('#objFile').val('');
+>>>>>>> 3x
                     }
-                    ShowMessage(xhr.responseText,true);
+
+                    ShowMessage(fname);
+                    $('#txtDocNo').val(fname);
+                    $('#dvAddFile').modal('hide');
+                    RefreshGrid();
+                    if (typeof note !== 'undefined' && note) {
+                        AutoSelectAndSaveNote(fname);
+                    } else {
+                        $('#dvEditor').modal('hide');
+                    }
+                    return;
                 }
+                ShowMessage(xhr.responseText, true);
             }
         }
     }
+}
+
+function AutoSelectAndSaveNote(fname) {
+    let maxTry = 20;
+    let tryCount = 0;
+
+    let checkInterval = setInterval(function () {
+        tryCount++;
+        let $targetRow = null;
+        $('table tbody tr').each(function () {
+            if ($(this).text().indexOf(fname) !== -1) {
+                $targetRow = $(this);
+                return false; 
+            }
+        });
+        if ($targetRow && $targetRow.length > 0) {
+            clearInterval(checkInterval);
+            $targetRow.trigger('click');
+            setTimeout(function () {
+                let noteText = note;
+                try { noteText = decodeURIComponent(note); } catch (e) { }
+
+                $('#txtDocTypeD').val('CTN');
+                $('#txtCheckNote').val(noteText);
+
+                if (typeof row !== 'undefined') {
+                    row.DocType = 'CTN';
+                    row.CheckNote = noteText;
+                    if (!row.Description || row.Description === '') {
+                        row.Description = $('#txtDescription').val();
+                    }
+                    $.ajax({
+                        url: path + 'JobOrder/SetDocument',
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify({ data: row }),
+                        success: function (response) {
+                            RefreshGrid();
+                            $('#dvEditor').modal('hide');
+                        },
+                        error: function (e) {
+                            ShowMessage(e, true);
+                            $('#dvEditor').modal('hide');
+                        }
+                    });
+                }
+            }, 300);
+
+        } else if (tryCount >= maxTry) {
+            clearInterval(checkInterval);
+            $('#dvEditor').modal('hide');
+        }
+    }, 250);
+}
 </script>

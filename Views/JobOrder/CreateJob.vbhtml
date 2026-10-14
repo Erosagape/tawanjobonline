@@ -1,277 +1,308 @@
 ﻿@Code
     ViewBag.Title = "Create Job"
 End Code
-    <div Class="panel-body">
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblJobType" style="display:block;width:100%;">Job Type</label>
-                </div>
-                <div style="width:70%">
-                    <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()" style="width:100%" tabindex="0"></select>
-                </div>
+<div Class="panel-body">
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblGroup" onclick="alert(GetJobPrefix())" style="display:block;width:100%;">Group</label>
             </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblShipBy" style="display:block;width:100%;">Ship By</label>
-                </div>
-                <div style="width:70%">
-                    <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="1"></select>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblBranch" style="display:block;width:100%;">Branch</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" style="width:60px" id="txtBranchCode" tabindex="2" />
-                    <input type="button" class="btn btn-default" id="btnBrowseBranch" value="..." onclick="SearchData('branch')" />
-                    <input type="text" class="form-control" style="width:100%" id="txtBranchName" disabled />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblCSCode" style="display:block;width:100%">CS Code:</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCSCode" style="width:120px" tabindex="3" />
-                    <input type="button" class="btn btn-default" id="btnBrowseCS" value="..." onclick="SearchData('user')" />
-                    <input type="text" class="form-control" id="txtCSName" style="width:100%" disabled />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <a href="../Master/Customers"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" style="width:80px" id="txtCustCode" tabindex="4" />
-                    <input type="text" class="form-control" style="width:40px" id="txtCustBranch" tabindex="5" />
-                    <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer')" />
-                    <input type="text" class="form-control" style="width:100%" id="txtCustName" disabled />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <a href="../Master/Customers?Mode=CONSIGNEE"><label id="lblBillingPlace" style="display:block;width:100%;">BILL TO</label></a>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />
-                    <input type="button" class="btn btn-default" id="btnBrowseCons" value="..." onclick="SearchData('consignee')" />
-                    <input type="text" class="form-control" id="txtConsignName" style="width:100%" disabled />
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblContactName" style="display:block;width:100%;">Contact</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtContactPerson" style="width:100%" tabindex="7" />
-                    <input type="button" class="btn btn-default" id="btnBrowseContact" value="..." onclick="SearchData('contact')" />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblQuotation" style="display:block;width:100%;">Quotation</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" style="width:100%" id="txtQNo" tabindex="8" disabled />
-                    <input type="text" class="form-control" style="width:50px" id="txtRevise" tabindex="9" disabled />
-                    <input type="button" class="btn btn-default" id="btnBrowseQuo" value="..." onclick="SearchData('quotation')" />
-                    <input type="hidden" id="txtManagerCode" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblCustInv" style="display:block;width:100%;color:red">Commercial Invoice</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCustInv" style="width:100%" tabindex="10" />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblPoNo" style="display:block;width:100%;">PO/Customer Reference</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" style="width:100%" id="txtCustPO" tabindex="11" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%;color:red">
-                    <label id="lblBookingNo" style="display:block;width:100%;">Booking.No</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtBookingNo" style="width:100%" tabindex="12" />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblDutyDate" style="display:block;width:100%;">Operation Date</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="date" class="form-control" style="width:100%" id="txtDutyDate" tabindex="13" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblHAWB" style="display:block;width:100%;" onclick="CopyFromBooking()">House BL/AWB</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="14" />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblMAWB" style="display:block;width:100%;" onclick="CopyFromHouseBL()">Master BL/AWB</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="15" />
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblVesselName" style="display:block;width:100%;">Vessel Name</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtVesselName" style="width:100%" />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblJobDate" style="display:block;width:100%;">Job Date</label>
-                </div>
-                <div style="display:flex;width:40%">
-                    <input type="date" class="form-control" style="width:100%" id="txtJobDate" tabindex="16" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <a href="../Master/Venders">
-                        <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
-                    </a>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtAgentCode" style="width:120px" />
-                    <input type="button" class="btn btn-default" id="btnBrowseAgent" value="..." onclick="SearchData('agent')" />
-                    <input type="text" class="form-control" id="txtAgentName" style="width:100%" disabled />
-                </div>
-            </div>
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblForwarder" style="display:block;width:100%;">Forwarder/Agent</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtForwarderCode" style="width:120px" />
-                    <input type="button" class="btn btn-default" id="btnBrowseForw" value="..." onclick="SearchData('forwarder')" />
-                    <input type="text" class="form-control" id="txtForwarderName" style="width:100%" disabled />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:50%">
-                    <label id="lblInvFCountry" style="display:block;width:100%;">From Country</label>
-                    <div style="display:flex;">
-                        <input type="text" class="form-control" id="txtInvFCountry" style="width:30%" disabled />
-                        <input type="text" class="form-control" id="txtInvFCountryName" style="width:70%" disabled />
-                        <input type="button" class="btn btn-default" id="btnBrowseFCountry" value="..." onclick="SearchData('country1')" />
-                    </div>
-                </div>
-                <div style="width:50%">
-                    <label id="lblInvCountry" style="display:block;width:100%;">To Country</label>
-                    <div style="display:flex;">
-                        <input type="text" class="form-control" id="txtInvCountry" style="width:30%" disabled />
-                        <input type="text" class="form-control" id="txtInvCountryName" style="width:70%" disabled />
-                        <input type="button" class="btn btn-default" id="btnBrowseCountry" value="..." onclick="SearchData('country2')" />
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <a href="../Master/InterPort">
-                    <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
-                </a>
-                <div style="display:flex;width:100%">
-                    <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
-                    <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />
-                    <input type="button" class="btn btn-default" id="btnBrowsePort" value="..." onclick="SearchData('interport')" />
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-3">
-                <label id="lblLoadDate" style="display:block;width:100%;">Load Date</label>
-                <input type="date" class="form-control" style="width:100%" id="txtLoadDate" />
-            </div>
-            <div class="col-sm-3">
-                <label id="lblETDDate" style="display:block;width:100%;">ETD Date</label>
-                <input type="date" class="form-control" style="width:100%" id="txtETDDate" />
-            </div>
-            <div class="col-sm-3">
-                <label id="lblETADate" style="display:block;width:100%;">ETA Date</label>
-                <input type="date" class="form-control" style="width:100%" id="txtETADate" />
-            </div>
-            <div class="col-sm-3">
-                <label id="lblDeliveryDate" style="display:block;width:100%;">Delivery Date</label>
-                <input type="date" class="form-control" style="width:100%" id="txtEstDeliverDate" />
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-6" style="display:flex">
-                <div style="width:30%">
-                    <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
-                </div>
-                <div style="display:flex;width:70%">
-                    <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" />
-                    <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <br />
-                <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
-                    <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
-                </a>
-                <input type="checkbox" id="chkConfirm" />Confirm Today
+            <div style="width:70%">
+		<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                    <option value=""></option>
+                    @Code
+                        Dim strhtml As String = ""
+                        Dim tmp As String = ""
+                        Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                        For Each dr As System.Data.DataRow In rs.Rows
+                            If tmp <> dr("ConfigCode") Then
+                                If tmp <> "" Then
+                                    strhtml &= "</optgroup>"
+                                End If
+                                tmp = dr("ConfigCode")
+                                strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                            End If
+                            strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                        Next
+                        If tmp <> "" Then
+                            strhtml &= "</optgroup>"
+                        End If
+                    End Code
+                    @Html.Raw(strhtml)
+                </select>    
             </div>
         </div>
     </div>
-    <div id="frmShowJob" class="modal fade" data-backdrop="static" data-keyboard="false">
-        <div class="vertical-alignment-helper">
-            <div class="modal-dialog vertical-align-center">
-                <div class="modal-content">
-                    <div id="dvResp" class="modal-header">
-                        <label id="lblSaveComplete">Save Complete!</label>
-                    </div>
-                    <div class="modal-body" style="text-align:center">
-                        <input id="txtJNo" type="text" style="position:center;font-size:20px;text-align:center;color:red" disabled />
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" id="btnViewJobS" onclick="OpenJob()">Edit Job Data</button>
-                        <button class="btn btn-warning" id="btnViewJobT" onclick="OpenJobT()">Edit Transport Data</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">X</button>
-                    </div>
+    <div class="row" style="display:none;">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblJobType" style="display:block;width:100%;">Job Type</label>
+            </div>
+            <div style="width:70%">
+                <select id="cboJobType" class="form-control dropdown" style="width:100%" tabindex="0" disabled></select>
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblShipBy" style="display:block;width:100%;">Ship By</label>
+            </div>
+            <div style="width:70%">
+                <select id="cboShipBy" class="form-control dropdown" onchange="GetQuotation()" style="width:100%" tabindex="1" disabled></select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblBranch" style="display:block;width:100%;">Branch</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" style="width:60px" id="txtBranchCode" tabindex="2" />
+                <input type="button" class="btn btn-default" id="btnBrowseBranch" value="..." onclick="SearchData('branch')" />
+                <input type="text" class="form-control" style="width:100%" id="txtBranchName" disabled />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblCSCode" style="display:block;width:100%">CS Code:</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtCSCode" style="width:120px" tabindex="3" />
+                <input type="button" class="btn btn-default" id="btnBrowseCS" value="..." onclick="SearchData('user')" />
+                <input type="text" class="form-control" id="txtCSName" style="width:100%" disabled />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <a href="../Master/Customers" target="_blank"><label id="lblCustCode" style="display:block;width:100%;">Customer</label></a>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" style="width:80px" id="txtCustCode" tabindex="4" />
+                <input type="text" class="form-control" style="width:40px" id="txtCustBranch" tabindex="5" />
+                <input type="button" class="btn btn-default" id="btnBrowseCust" value="..." onclick="SearchData('customer')" />
+                <input type="text" class="form-control" style="width:100%" id="txtCustName" disabled />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <a href="../Master/Customers?Mode=CONSIGNEE" target="_blank"><label id="lblBillingPlace" style="display:block;width:100%;">BILL TO</label></a>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtConsignee" style="width:120px" tabindex="6" />
+                <input type="button" class="btn btn-default" id="btnBrowseCons" value="..." onclick="SearchData('consignee')" />
+                <input type="text" class="form-control" id="txtConsignName" style="width:100%" disabled />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblContactName" style="display:block;width:100%;">Contact</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtContactPerson" style="width:100%" tabindex="7" />
+                <input type="button" class="btn btn-default" id="btnBrowseContact" value="..." onclick="SearchData('contact')" />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblQuotation" style="display:block;width:100%;">Quotation</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" style="width:100%" id="txtQNo" tabindex="8" disabled />
+                <input type="text" class="form-control" style="width:50px" id="txtRevise" tabindex="9" disabled />
+                <input type="button" class="btn btn-default" id="btnBrowseQuo" value="..." onclick="SearchData('quotation')" />
+                <input type="hidden" id="txtManagerCode" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblCustInv" style="display:block;width:100%;color:red">Commercial Invoice</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtCustInv" style="width:100%" tabindex="10" />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblPoNo" style="display:block;width:100%;">PO/Customer Reference</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" style="width:100%" id="txtCustPO" tabindex="11" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%;color:red">
+                <label id="lblBookingNo" style="display:block;width:100%;">Booking.No</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtBookingNo" style="width:100%" tabindex="12" />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblDutyDate" style="display:block;width:100%;">Operation Date</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="date" class="form-control" style="width:100%" id="txtDutyDate" tabindex="13" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%;color:red">
+                <label id="lblHAWB" style="display:block;width:100%;" onclick="CopyFromBooking()">House BL/AWB</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtHAWB" style="width:100%" tabindex="14" />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblMAWB" style="display:block;width:100%;" onclick="CopyFromHouseBL()">Master BL/AWB</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" style="width:100%" id="txtMAWB" tabindex="15" />
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblVesselName" style="display:block;width:100%;">Vessel Name</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtVesselName" style="width:100%" />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblJobDate" style="display:block;width:100%;">Job Date</label>
+            </div>
+            <div style="display:flex;width:40%">
+                <input type="date" class="form-control" style="width:100%" id="txtJobDate" tabindex="16" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <a href="../Master/Venders" target="_blank">
+                    <label id="lblTransport" style="display:block;width:100%;">Transporter</label>
+                </a>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtAgentCode" style="width:120px" />
+                <input type="button" class="btn btn-default" id="btnBrowseAgent" value="..." onclick="SearchData('agent')" />
+                <input type="text" class="form-control" id="txtAgentName" style="width:100%" disabled />
+            </div>
+        </div>
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblForwarder" style="display:block;width:100%;">Forwarder/Agent</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtForwarderCode" style="width:120px" />
+                <input type="button" class="btn btn-default" id="btnBrowseForw" value="..." onclick="SearchData('forwarder')" />
+                <input type="text" class="form-control" id="txtForwarderName" style="width:100%" disabled />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:50%">
+                <label id="lblInvFCountry" style="display:block;width:100%;">From Country</label>
+                <div style="display:flex;">
+                    <input type="text" class="form-control" id="txtInvFCountry" style="width:30%" disabled />
+                    <input type="text" class="form-control" id="txtInvFCountryName" style="width:70%" disabled />
+                    <input type="button" class="btn btn-default" id="btnBrowseFCountry" value="..." onclick="SearchData('country1')" />
+                </div>
+            </div>
+            <div style="width:50%">
+                <label id="lblInvCountry" style="display:block;width:100%;">To Country</label>
+                <div style="display:flex;">
+                    <input type="text" class="form-control" id="txtInvCountry" style="width:30%" disabled />
+                    <input type="text" class="form-control" id="txtInvCountryName" style="width:70%" disabled />
+                    <input type="button" class="btn btn-default" id="btnBrowseCountry" value="..." onclick="SearchData('country2')" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <a href="../Master/InterPort" target="_blank">
+                <label id="lblInterPort" style="display:block;width:100%;">International Port</label>
+            </a>
+            <div style="display:flex;width:100%">
+                <input type="text" class="form-control" id="txtInterPort" style="width:120px" disabled />
+                <input type="text" class="form-control" id="txtInterPortName" style="width:100%" disabled />
+                <input type="button" class="btn btn-default" id="btnBrowsePort" value="..." onclick="SearchData('interport')" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <label id="lblLoadDate" style="display:block;width:100%;">Load Date</label>
+            <input type="date" class="form-control" style="width:100%" id="txtLoadDate" />
+        </div>
+        <div class="col-sm-3">
+            <label id="lblETDDate" style="display:block;width:100%;">ETD Date</label>
+            <input type="date" class="form-control" style="width:100%" id="txtETDDate" />
+        </div>
+        <div class="col-sm-3">
+            <label id="lblETADate" style="display:block;width:100%;">ETA Date</label>
+            <input type="date" class="form-control" style="width:100%" id="txtETADate" />
+        </div>
+        <div class="col-sm-3">
+            <label id="lblDeliveryDate" style="display:block;width:100%;">Delivery Date</label>
+            <input type="date" class="form-control" style="width:100%" id="txtEstDeliverDate" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6" style="display:flex">
+            <div style="width:30%">
+                <label id="lblCopyFrom" style="display:block;width:100%;">Copy From</label>
+            </div>
+            <div style="display:flex;width:70%">
+                <input type="text" class="form-control" id="txtCopyFromJob" style="width:100%" />
+                <input type="button" class="btn btn-default" id="btnBrowseJob" value="..." onclick="SearchData('job')" />
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <br />
+            <a href="#" class="btn btn-success" id="btnCreateJob" onclick="CreateJob()">
+                <i class="fa fa-lg fa-save"></i>&nbsp;<b><label id="lblCreateJob">Create Job</label></b>
+            </a>
+            <input type="checkbox" id="chkConfirm" checked />Confirm Today
+        </div>
+    </div>
+</div>
+<div id="frmShowJob" class="modal fade" data-backdrop="static" data-keyboard="false">
+    <div class="vertical-alignment-helper">
+        <div class="modal-dialog vertical-align-center">
+            <div class="modal-content">
+                <div id="dvResp" class="modal-header">
+                    <label id="lblSaveComplete">Save Complete!</label>
+                </div>
+                <div class="modal-body" style="text-align:center">
+                    <input id="txtJNo" type="text" style="position:center;font-size:20px;text-align:center;color:red" disabled />
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btnViewJobS" onclick="OpenJob()">Edit Job Data</button>
+                    <button class="btn btn-warning" id="btnViewJobT" onclick="OpenJobT()">Edit Transport Data</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
             </div>
         </div>
     </div>
-    <div id="dvLOVs"></div>
+</div>
+<div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     //define letiables
@@ -298,7 +329,7 @@ End Code
             $('#txtCustBranch').attr('disabled', 'disabled');
             $('#txtConsignee').attr('disabled', 'disabled');
             $('#btnBrowseCons').attr('disabled', 'disabled');
-            
+
             $.get(path + 'Master/GetCompany?ID=' + user).done(function (r) {
                 if (r.company.data.length > 0) {
                     let dr = r.company.data[0];
@@ -328,6 +359,11 @@ End Code
         SetEvents();
         SetEnterToTab();
     //});
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#cboJobType').val(gstr.substr(0,2));
+	$('#cboShipBy').val(gstr.substr(2,2));
+    }
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
             jt = $('#cboJobType').val();
@@ -415,7 +451,7 @@ End Code
                 $('#txtConsignee').val('');
                 CallBackQueryCustomerSingle(path, $('#txtCustCode').val(), function (dr) {
                     $('#txtCustBranch').val(dr.Branch);
-                    $('#txtCustName').val(dr.NameThai);					
+                    $('#txtCustName').val(dr.NameThai);
                     $('#txtConsignee').val(dr.BillToCustCode);
 					if($('#txtConsignee').val()==''){
 						$('#txtConsignee').val(dr.CustCode);
@@ -484,11 +520,11 @@ End Code
         $('#txtCustBranch').val(dt.Branch);
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
         //if (dt.BillToCustCode !== '') {
-        //    $('#txtConsignee').val(dt.BillToCustCode);            
+        //    $('#txtConsignee').val(dt.BillToCustCode);
         //} else {
-        $('#txtConsignee').val(dt.CustCode);            
+        $('#txtConsignee').val(dt.CustCode);
         //}
-        ShowCompany(path, $('#txtConsignee').val(), '#txtConsignName');  
+        ShowCompany(path, $('#txtConsignee').val(), '#txtConsignName');
         ReadCustRelateData();
         $('#txtCustInv').focus();
     }
@@ -496,7 +532,7 @@ End Code
         //$('#txtContactPerson').val('');
         $('#txtQNo').val('');
         $('#txtRevise').val('');
-        $('#txtManagerCode').val('');      
+        $('#txtManagerCode').val('');
         GetContact();
         GetQuotation();
     }
@@ -589,7 +625,7 @@ End Code
                 let branch = $('#txtBranchCode').val();
                 let cust = $('#txtCustCode').val();
                 let jtype = $('#cboJobType').val();
-                let sby = $('#cboShipBy').val();        
+                let sby = $('#cboShipBy').val();
                 SetGridQuotationDesc(path, '#tbQuo', '?branch=' + branch + '&cust=' + cust + '&jtype=' + jtype + '&sby=' + sby + '&status=1', '#frmSearchQuo', ReadQuo);
                 break;
         }
@@ -634,37 +670,53 @@ End Code
     }
     function CreateJob() {
         if ($('#txtBranchName').val() === '') {
-            ShowMessage('Please input branch',true);
+            ShowMessage('Please input branch', true);
             $('#txtBranchCode').focus();
             return;
         }
         if ($('#cboJobType').val() === '') {
-            ShowMessage('Please select job type',true);
+            ShowMessage('Please select job type', true);
             $('#cboJobType').focus();
             return;
         }
         if ($('#cboShipBy').val() === '') {
-            ShowMessage('Please select ship by',true);
+            ShowMessage('Please select ship by', true);
             $('#cboShipBy').focus();
             return;
         }
         if ($('#txtCSName').val() === '') {
-            ShowMessage('Please select staff',true);
+            ShowMessage('Please select staff', true);
             $('#txtCSCode').focus();
             return;
         }
         if ($('#txtCustName').val() === '') {
-            ShowMessage('Please choose customer first',true);
+            ShowMessage('Please choose customer first', true);
             $('#txtCustCode').focus();
             return;
         }
-        if ($('#txtCustInv').val() === '' && $('#txtBookingNo').val()==='') {
-            ShowMessage('Please input invoice/booking',true);
+        if ($('#txtBookingNo').val() === '') {
+            ShowMessage('Please input BookingNo', true);
+            $('#txtBookingNo').focus();
+            return;
+        }
+        if ($('#txtCustInv').val() === '' && $('#txtBookingNo').val() === '') {
+            ShowMessage('Please input invoice/booking', true);
             $('#txtCustInv').focus();
             return;
         }
+        if ($('#txtETDDate').val() == '' || $('#txtETADate').val() == '') {
+            ShowMessage('Please input ETD/ETA', true);
+            return;
+        }
+        /*if ($('#cboJobType').val() == '01') {
+            if ($('#txtQNo').val() == '') {
+                ShowMessage('Please input Quotation for Import shipment', true);
+                //return;
+            }
+        }*/
+
         //if pass every checked
-        
+
         let strParam = path + 'JobOrder/GetNewJob?';
         strParam += 'Branch=' + $('#txtBranchCode').val();
         strParam += '&JType=' + $('#cboJobType').val().substr(0,2);
@@ -727,7 +779,7 @@ End Code
         dr.InvFCountry = CStr($('#txtInvFCountry').val());
         dr.InvInterPort=CStr($('#txtInterPort').val());
 
-        //--- Default Values 
+        //--- Default Values
         dr.DeclareNumber=CStr(dr.DeclareNumber);
         dr.Commission=0
         dr.TRemark = CStr(dr.TRemark);
@@ -799,11 +851,14 @@ End Code
     function OpenJobT() {
         window.location.href = 'Transport?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
     }
+    function GetJobPrefix() {
+        return $('#cboGroup').val().substr(4,3);
+    }
     function SaveData(obj) {
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);
         $.ajax({
-            url: "@Url.Action("SetJobData", "JobOrder")",
+            url: "@Url.Action("SetJobData", "JobOrder")?Prefix=" + GetJobPrefix(),
             type: "POST",
             contentType: "application/json",
             data: jsonText,

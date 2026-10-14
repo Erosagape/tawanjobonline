@@ -18,11 +18,36 @@ End Code
                 <label for="cboStatus" id="lblStatus">Status</label>
                 <select id="cboStatus" class="form-control dropdown"></select>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-4">
+                <label for="cboGroup" id="lblGroup">Group</label>
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
+            </div>
+            <div class="col-sm-2" style="display:none;">
                 <label for="cboJobType" id="lblJobType">Job Type</label>
                 <select id="cboJobType" class="form-control dropdown" onchange="CheckJobType()"></select>
             </div>
-            <div class="col-sm-2">
+            <div class="col-sm-2" style="display:none;">
                 <label for="cboShipBy" id="lblShipBy">Ship By</label>
                 <select id="cboShipBy" class="form-control dropdown"></select>
             </div>
@@ -104,6 +129,9 @@ End Code
                 <a href="#" class="btn btn-default w3-purple" id="btnGenJob" onclick="CreateNewJob()">
                     <i class="fa fa-lg fa-file-o"></i> &nbsp;<b id="linkCreate">Create Job</b>
                 </a>
+                <a href="#" class="btn btn-info" id="btnImportJob" onclick="ImportJob()">
+                    <i class="fa fa-lg"></i> &nbsp;<b id="linkCreate">Import Data</b>
+                </a>
             </div>
         </div>
         <table id="tblJob" class="table table-bordered">
@@ -112,12 +140,28 @@ End Code
                     <th>JobNo</th>
 		    <th class="desktop">OpenDate</th>
                     <th class="desktop">JobStatus</th>
+<<<<<<< HEAD
+=======
+                    <th class="all">ETD</th>
+		    <th class="all">ETA</th>
+			<th class="desktop">BookingNo</th>
+			<th class="desktop">BLNo</th>
+			<th class="desktop">CS</th>
+>>>>>>> 3x
                     <th class="all">Inv.Customer</th>
+ 		    
                     <th class="desktop">Customer</th>
+<<<<<<< HEAD
                     <th>Consignee</th>
                     <th class="desktop">Booking No.</th>
+=======
+                    <th class="desktop">Consignee</th>
+>>>>>>> 3x
                 </tr>
             </thead>
+	    <tbody>
+
+	    </tbody>
         </table>
     </div>
 <div id="dvLOVs"></div>
@@ -150,6 +194,10 @@ End Code
     let sb = getQueryString("shipby");
     let st = getQueryString("status");
     let custcode = getQueryString("custcode");
+    $('#tblJob tbody').on('dblclick', 'tr', function () {
+          OpenJob();
+    });
+
     loadBranch(path);
     loadCombo();
     $('#txtJobNo').keydown(function (e) {
@@ -195,8 +243,13 @@ End Code
     }
     function getJobdata() {
         //ShowWait();
+<<<<<<< HEAD
         //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
             //CloseWait();
+=======
+        $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
+        //    CloseWait();
+>>>>>>> 3x
             let tb=$('#tblJob').DataTable({
                 "ajax": {
                     //"url": "joborder/getjobjson" + strParam,
@@ -219,10 +272,33 @@ End Code
                             return data.JobStatus;
                         }
                     },
+<<<<<<< HEAD
+=======
+                    {
+                        "data": "ETDDate", "title": "ETD",
+                        "render" : function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+		    {
+                        "data": "ETADate", "title": "ETA",
+                        "render" : function (data) {
+                            return CDateEN(data);
+                        }
+                    },
+                    { "data": "BookingNo", "title": "BookingNo" },
+                    { "data": "HAWB", "title": "BLNo" },
+                    
+>>>>>>> 3x
                     { "data": "InvNo", "title": "Customer Inv." },
+		    { "data": "CSName", "title": "CS" },
                     { "data": "CustTName", "title": "Customer" },
+<<<<<<< HEAD
                     { "data": "ConsigneeName", "title": "Consignee" },
 		    { "data": "BookingNo", "title": "Booking No" }
+=======
+                    { "data": "ConsigneeName", "title": "Consignee" }
+>>>>>>> 3x
                 ]
                 , "pageLength": 100
             });
@@ -234,11 +310,17 @@ End Code
                 let data = $('#tblJob').DataTable().row(this).data();
                 $('#txtJobNo').val(data.JNo);
             });
+<<<<<<< HEAD
             $('#tblJob tbody').on('dblclick', 'tr', function () {
                 OpenJob();
             });
             //CloseWait();
         //});
+=======
+          
+        //    CloseWait();
+        });
+>>>>>>> 3x
     }
     function getJobdata_1() {
         //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
@@ -333,16 +415,19 @@ End Code
         return '?NoLog=Y&ByDate=' + dateWhere + '&' + str;
     }
     function OpenJob() {
-        $.get(path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {
+        //$.get(path + 'joborder/updatejobstatus?NoLog=Y&BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val(), function (r) {
             //ShowMessage(r);
             window.open(path + 'joborder/showjob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val());
-        });
+        //});
     }
     function PrintJob() {
         window.open(path +'joborder/formjob?BranchCode=' + $('#cboBranch').val() + '&JNo=' + $('#txtJobNo').val());
     }
     function PrintPrepareForm() {
         window.open(path + 'joborder/formprepare');
+    }
+    function ImportJob() {
+        window.open(path + 'report/import');
     }
     function CreateNewJob() {
         window.open(path +'joborder/createjob?JType=' + $('#cboJobType').val() + '&SBy=' + $('#cboShipBy').val() + '&Branch=' + $('#cboBranch').val());
@@ -365,5 +450,10 @@ End Code
     function ReadVender(dt) {
         $('#txtVenCode').val(dt.VenCode);
         ShowVender(path, dt.VenCode, '#txtVenName');
+    }
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#cboJobType').val(gstr.substr(0,2));
+	$('#cboShipBy').val(gstr.substr(2,2));
     }
 </script>

@@ -41,7 +41,7 @@ End Code
                         (ที่เป็นผู้ไม่มีเลขประจำตัวบัตรประชาชน) :
                     </div>
                     <div style="flex:1">
-                        <label id="lblTaxNumber1"></label>
+                        <label style="font-size: 18px !important;" id="lblTaxNumber1"></label>
                     </div>
                 </div>
             </div>
@@ -218,15 +218,14 @@ End Code
 <br/>
 <div>
     <div style="width:100%;text-align:center;font-size:16px;float:left">
-        <div style="float:right">
-            <br />
-            <div class="circle"><br />ประทับตรา<br />นิติบุคคล<br />(ถ้ามี)</div>
-            <br />
-        </div>
         ข้าพเจ้าขอรับรองว่า รายการที่แจ้งไว้ข้างต้นนี้ เป็นรายการที่ถูกต้องและครบถ้วนทุกประการ
-        <br />
-        <br />
-        <br />
+@*<p>
+<img src="~/Resource/sign.jpg" width="250px" />
+</p>*@
+<br />
+<br />
+<br />
+<br />
         ลงชื่อ..............................................................................................ผู้จ่ายเงิน
         <br />
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
@@ -310,13 +309,14 @@ End Code
                     let tax = 0;
                     let t = 1;
                     let d = 0;
+                    let rows = 5;
                     for (let r of res.result) {
                         d += r.CountDoc;
                     }
-                    if (d > 7) {
+                    if (d > (rows-1)) {
                         let r = 1;
-                        for (let i = 8; i <= d; i++) {
-                            if (r == 8 || i == d) {
+                        for (let i = rows; i <= d; i++) {
+                            if (r == rows || i == d) {
                                 t += 1;
                                 r = 1;
                             } else {

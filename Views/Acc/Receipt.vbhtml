@@ -321,7 +321,7 @@ End Code
                                             <label id="lblAmt">Amount</label>                                            
                                         </div>
                                         <div style="flex:2">
-                                            <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" disabled />
+                                            <input type="number" id="txtAmt" class="form-control" onchange="CalVATWHT(0)" />
                                         </div>
                                     </div>
                                 </div>
@@ -402,7 +402,7 @@ End Code
                                             <label id="lblNet">Net</label>                                            
                                         </div>
                                         <div style="flex:2">
-                                            <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" disabled />
+                                            <input type="number" id="txtNet" class="form-control" onchange="ChangeAmount()" />
                                         </div>
                                     </div>
                                 </div>

@@ -759,6 +759,10 @@ End Code
                 ShowMessage('Cannot cancel on this document status', true);
                 return;
             }
+	    if (chkmode == true && $('#txtDoc50Tavi').val() !== '') {
+                ShowMessage('Please cancel WH-Tax NO : [' + $('#txtDoc50Tavi').val() + '] before cancel document', true); 
+                return;
+            }
             CallBackAuthorize(path, 'MODULE_ADV', 'Index', 'D', SetCancel);
         });
         $('#txtCurrencyCode').focusout(function (event) {
@@ -849,8 +853,6 @@ End Code
                 if (type == '0'||type=='') type = "1";
                 if (type == "2") {
                     CalVATWHT();
-                } else {
-                    CalTotal();
                 }
             }
         });
@@ -1348,11 +1350,13 @@ End Code
                 }
             }
         }
+if(job!=='') { 
         if ($('#txtCustCode').val() == '') {
             ShowMessage('Please choose customer first',true);
             $('#txtCustCode').focus();
             return false;
         }
+<<<<<<< HEAD
         if ($('#txtPayTo').val() == '') {
             ShowMessage('Please input payment to',true);
             $('#txtPayTo').focus();
@@ -1363,6 +1367,18 @@ End Code
             $('#txtTRemark').focus();
             return false;
         }
+=======
+       // if ($('#txtPayTo').val() == '') {
+       //     ShowMessage('Please input payment to',true);
+       //     $('#txtPayTo').focus();
+       //     return false;
+       //}
+       //if ($('#txtTRemark').val() == '') {
+       //     ShowMessage('Please input some remark',true);
+       //     $('#txtTRemark').focus();
+       //     return false;
+       // }
+>>>>>>> 3x
         if ($('#cboJobType').val() == 0) {
             ShowMessage('please select job type',true);
             $('#cboJobType').focus();
@@ -1373,6 +1389,7 @@ End Code
             $('#cboShipBy').focus();
             return false;
         }
+}
         if ($('#cboAdvType').val() == 0) {
             ShowMessage('Please select type of advance',true);
             $('#cboAdvType').focus();
@@ -2168,7 +2185,10 @@ End Code
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
             case 'servicecode':
+		if($('#cboSTCode').val()=='') {
+		} else {
                 SetGridSICodeByGroup(path, '#tbServ', $('#cboSTCode').val(), '#frmSearchSICode', ReadService);
+		}
                 break;
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', GetParam(), ReadJob);
@@ -2200,9 +2220,9 @@ End Code
     function GetParam() {
         let strParam = '?Status=0,1,2,3,4,5,6,7';
         strParam += '&Branch=' + $('#txtBranchCode').val();
-        strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
-        strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
-        strParam += '&CustCode=' + $('#txtCustCode').val();
+       	if($('#cboJobType').val()!=='00') strParam += '&JType=' + $('#cboJobType').val().substr(0, 2);
+	if($('#cboShipBy').val()!=='00') strParam += '&SBy=' + $('#cboShipBy').val().substr(0, 2);
+        if($('#txtCustCode').val()!=='') strParam += '&CustCode=' + $('#txtCustCode').val();
         return strParam;
     }
     function ShowCaption() {
@@ -2276,7 +2296,10 @@ End Code
     function ReadVender2(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayTo').val(dt.TName);
+<<<<<<< HEAD
 	$('#txtTRemark').val(dt.ContactAcc);
+=======
+>>>>>>> 3x
         $('#txtPayChqTo').val(dt.TName);
         $('#txtPayChqTo').focus();
     }
@@ -2506,7 +2529,7 @@ End Code
             window.open(path + 'Acc/WHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDoc50Tavi').val());
             return;
         }
-        $.get(path + 'master/getcompany?Code=' + $('#txtCustCode').val() + '&Branch' + $('#txtCustBranch').val()).done(function (r) {
+        $.get(path + 'master/getcompany?Code=' + $('#txtCustCode').val() + '&Branch=' + $('#txtCustBranch').val()).done(function (r) {
             let dr = r.company.data;
             if (dr.length > 0) {
                 SaveWHTax(dr[0]);
@@ -2514,10 +2537,10 @@ End Code
         });
     }
     function SaveWHTax(dt) {
-        if ($('#btnSave').attr('disabled') == 'disabled') {
-            ShowMessage('This document is locked',true);
-            return;
-        }
+        //if ($('#btnSave').attr('disabled') == 'disabled') {
+        //    ShowMessage('This document is locked',true);
+        //    return;
+        //}
         let obj = GetWHTaxHeader(dt);
         let jsonText = JSON.stringify({ data: obj });
         //ShowMessage(jsonText);
@@ -2529,8 +2552,9 @@ End Code
             success: function (response) {
                 if (response.result.data != '') {
                     SetWHTaxDetail(response.result.data);
-                    ShowMessage(response.result.msg);
+                    //ShowMessage(response.result.msg);			
                     $('#txtDoc50Tavi').val(response.result.data);
+	            SaveHeader();		
                     //$('#txtDoc50Tavi').focus();
                     window.open(path + 'Acc/WHTax?branch=' + $('#txtBranchCode').val() + '&code=' + $('#txtDoc50Tavi').val());
                     return;

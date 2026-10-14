@@ -4,11 +4,12 @@
 End Code
 <style>
     @@media only screen and (max-width: 600px) {
-        #btnAdd,#btnPrint,#btnSave,#btnAddDoc,#btnDelDoc,#btnUpdateDoc {
-            width:100%;
+        #btnAdd, #btnPrint, #btnSave, #btnAddDoc, #btnDelDoc, #btnUpdateDoc {
+            width: 100%;
         }
+
         #dvTypes .label {
-            width:100% !important;
+            width: 100% !important;
         }
     }
 </style>
@@ -17,7 +18,7 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblBranch">Branch:</label>
-                <br/>
+                <br />
                 <div style="display:flex;flex-direction:row;">
                     <input type="text" class="form-control" id="txtBranchCode" style="width:15%" />
                     <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
@@ -28,17 +29,17 @@ End Code
                 <label id="lblDocNo">Doc No:</label>
                 <br />
                 <div style="display:flex;flex-direction:row;">
-                    <input type="text" class="form-control" id="txtDocNo"/>
+                    <input type="text" class="form-control" id="txtDocNo" />
                     <input type="button" class="btn btn-default" value="..." onclick="SetGridWHTax()" />
                 </div>
             </div>
             <div class="col-sm-4">
                 <label id="lblDocDate">Date:</label>
-                <br/>
+                <br />
                 <div style="display:flex;flex-direction:row;">
-                    <input type="date" class="form-control" id="txtDocDate"/>
+                    <input type="date" class="form-control" id="txtDocDate" />
                 </div>
-                
+
             </div>
         </div>
         <ul class="nav nav-tabs">
@@ -54,7 +55,7 @@ End Code
                 <p>
                     <div class="row">
                         <div class="col-sm-6">
-                            <label id="lblTaxName1">Tax Issuer</label>                            
+                            <label id="lblTaxName1">Tax Issuer</label>
                             <input id="chkVender" type="checkbox" /><label id="lblVend">Venders</label>
                             <br />
                             <div style="display:flex;flex-direction:row;">
@@ -65,14 +66,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber1">Tax Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber1" class="form-control" style="width:100%" />
-                            </div>                                                                                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard1">ID Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard1" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="DN" onclick="MoveData('1','2')" />
@@ -82,14 +83,17 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress1">Address</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
-                                <input type="text" id="txtTAddress1" class="form-control" style="width:100%" />
-                            </div>                            
+                                @*<input type="text" id="txtTAddress1" class="form-control" style="width:100%" />*@
+                                <textarea type="text" id="txtTAddress1" class="form-control" style="width:100%" ></textarea>
+                                @*<button type="button" class="btn btn-default" id="openModalBtn">...</button>*@
+                                <button type="button" class="btn btn-default open-modal-btn" data-target-textarea="txtTAddress1">...</button>
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch1">Branch</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch1" class="form-control" style="width:100%" />
                             </div>
@@ -100,7 +104,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-6">
                             <label id="lblTaxName2">Tax Agent</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTName2" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="..." onclick="GetDefault()" />
@@ -108,14 +112,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber2">Tax Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber2" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard2">ID Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard2" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="DN" onclick="MoveData('2','3')" />
@@ -126,17 +130,19 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress2">Address</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
-                                <input type="text" id="txtTAddress2" class="form-control" style="width:100%" />
-                            </div>                            
+                                @*<input type="text" id="txtTAddress2" class="form-control" style="width:100%" />*@
+                                <textarea type="text" id="txtTAddress2" class="form-control" style="width:100%" placeholder="ที่อยู่"></textarea>
+                                <button type="button" class="btn btn-default open-modal-btn" data-target-textarea="txtTAddress2">...</button>
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch2">Branch</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtBranch2" class="form-control" style="width:100%" />
-                            </div>                            
+                            </div>
                         </div>
                     </div>
                 </p>
@@ -144,7 +150,7 @@ End Code
                     <div class="row">
                         <div class="col-sm-6">
                             <label id="lblTaxName3">Tax Payer</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTName3" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="..." onclick="SearchData('vender')" />
@@ -152,14 +158,14 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblTaxNumber3">Tax Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtTaxNumber3" class="form-control" style="width:100%" />
                             </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblIDCard3">ID Number</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
                                 <input type="text" id="txtIDCard3" class="form-control" style="width:100%" />
                                 <input type="button" class="btn btn-default" value="UP" onclick="MoveData('3','2')" />
@@ -169,28 +175,32 @@ End Code
                     <div class="row">
                         <div class="col-sm-9">
                             <label id="lblAddress3">Address</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
-                                <input type="text" id="txtTAddress3" class="form-control" style="width:100%" />
-                            </div>                            
+                                <textarea type="text" id="txtTAddress3" class="form-control" style="width:100%"></textarea>
+                                @*<input type="button" class="btn btn-default" value="..." onclick="SetAddress()" />*@
+                                @*<button type="button" class="btn btn-default" id="openModalBtn">...</button>*@
+                                @*<button type="button" class="btn btn-primary" id="btnSetData">Set Data</button>*@
+                                <button type="button" class="btn btn-default open-modal-btn" data-target-textarea="txtTAddress3">...</button>
+                            </div>
                         </div>
                         <div class="col-sm-3">
                             <label id="lblBranch3">Branch</label>
-                            <br/>
+                            <br />
                             <div style="display:flex;flex-direction:row;">
-                                <input type="text" id="txtBranch3" class="form-control" style="width:100%" />
-                            </div>                            
+                                <input type="text" id="txtBranch3" class="form-control" style="width:100%"/>
+                            </div>
                         </div>
                     </div>
                 </p>
                 <p>
                     <div class="row">
                         <div class="col-sm-2">
-                            <label id="lblSeqInForm">Number</label>                            
+                            <label id="lblSeqInForm">Number</label>
                             <input type="text" id="txtSeqInForm" class="form-control" />
                         </div>
                         <div class="col-sm-7">
-                            <label id="lblFormType">Type of :</label>                            
+                            <label id="lblFormType">Type of :</label>
                             <label><input type="radio" name="FormType" value="1" /> (1) ภ.ง.ด.1ก.</label>
                             <label><input type="radio" name="FormType" value="2" /> (2) ภ.ง.ด.1ก. พิเศษ</label>
                             <label><input type="radio" name="FormType" value="3" /> (3) ภ.ง.ด.2.</label>
@@ -200,7 +210,7 @@ End Code
                             <label><input type="radio" name="FormType" value="7" checked /> (7) ภ.ง.ด.53.</label>
                         </div>
                         <div class="col-sm-3" style="display:flex;flex-direction:column">
-                            <label id="lblLawNo">Tax Code:</label>                            
+                            <label id="lblLawNo">Tax Code:</label>
                             <select class="form-control dropdown" id="txtTaxLawNo">
                                 <option value="1" selected>3 เตรส</option>
                                 <option value="2">65 จัดวา</option>
@@ -214,10 +224,11 @@ End Code
                         <div class="col-sm-6" style="display:flex;flex-direction:row">
                             <div style="flex:1">
                                 <label style="display:block;width:20%">
-                                <input type="checkbox" id="chkCancel" /><label id="lblCancel" style="color:red"> Cancel</label></label>
+                                    <input type="checkbox" id="chkCancel" /><label id="lblCancel" style="color:red"> Cancel</label>
+                                </label>
                             </div>
                             <div style="flex:4">
-                                <label id="lblReason">Reason :</label>                                
+                                <label id="lblReason">Reason :</label>
                                 <input type="text" id="txtCancelReason" class="form-control" />
                             </div>
                         </div>
@@ -233,6 +244,114 @@ End Code
                         </div>
                     </div>
                 </p>
+
+                @*-------------*@
+                <div class="modal fade" id="frmAddress">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="frmAddressLabel"><label>กรอกข้อมูลที่อยู่</label></h4>
+                                <button type="button" class="btn btn-info mt-2" id="toggleLanguageBtn">สลับภาษา: ไทย</button>
+                            </div>
+                            <div class="modal-body">
+                                <div style="display:flex;flex-wrap:wrap;">
+                                    <div style="flex:1">
+                                        <label id="lblAddNo">Add No:</label> @*#31  เลขที่*@
+                                        <br />
+                                        <input type="text" id="txtAddNo" class="form-control" placeholder="เลขที่ (Address No)" maxlength="20">
+                                    </div>
+                                    <div style="flex:1">
+                                        <label id="lblMooNo">Moo No:</label> @*#32 หมู่ที่*@
+                                        <br />
+                                        <input type="text" id="txtMooNo" class="form-control" placeholder="หมู่ที่ (Moo No)" maxlength="20">
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;">
+                                    <div style="flex:1">
+                                        <label id="lblBuild">Build Name:</label> @*#27 ชื่ออาคาร*@
+                                        <br />
+                                        <input type="text" id="txtBuild" class="form-control" placeholder="อาคาร (Building)" maxlength="40">
+                                    </div>
+                                    <div style="flex:1">
+                                        <label id="lblFloorNo">Floor No:</label> @*#29 ชั้นที่*@
+                                        <br />
+                                        <input type="text" id="txtFloorNo" class="form-control" placeholder="ชั้นที่ (Floor No)" maxlength="20">
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;">
+                                    <div style="flex:1">
+                                        <label id="lblRoomNo">Room No:</label> @*#28 ห้องเลขที่*@
+                                        <br />
+                                        <input type="text" id="txtRoomNo" class="form-control" placeholder="ห้องเลขที่ (Room No)" maxlength="20">
+                                    </div>
+                                    <div style="flex:1">
+                                        <label id="lblVillage">Village Name:</label> @*#30 หมู่บ้าน *@
+                                        <br />
+                                        <input type="text" id="txtVillage" class="form-control" placeholder="หมู่บ้าน (Village)" maxlength="100">
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;">
+                                    <div style="flex:1">
+                                        <label id="lblSoi">Soi:</label> @*#33 ตรอก/ซอย*@
+                                        <br />
+                                        <input type="text" id="txtSoi" class="form-control" placeholder="ตรอก/ซอย (Soi)" maxlength="100">
+                                    </div>
+                                    <div style="flex:1">
+                                        <label id="lblStreetName">Street Name:</label> @*#34 ถนน*@
+                                        <br />
+                                        <input type="text" id="txtStreetName" class="form-control" placeholder="ถนน (Street)" maxlength="100">
+                                    </div>
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;">
+                                    <div style="flex:1">
+                                        <label id="lblSubDistrict">Sub District:</label> @*35 ตำบล/แขวง*@
+                                        <br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtSubDistrict" class="form-control" placeholder="ตำบล/แขวง (Sub-District)" maxlength="50">
+                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('subdistrict')" />
+                                        </div>
+                                    </div>
+                                    <div style="flex:1">
+                                        <label id="lblDistrict">District:</label> @*#36 อำเภอ/เขต*@
+                                        <br />
+                                        <input type="text" id="txtDistrict" class="form-control" placeholder="อำเภอ/เขต (District)" maxlength="50">
+
+                                    </div>
+
+                                </div>
+                                <div style="display:flex;flex-wrap:wrap;">
+
+                                    <div style="flex:1">
+                                        <label id="lblProvince">Province:</label> @*#37 จังหวัด*@
+                                        <br />
+                                        <div style="display:flex">
+                                            <input type="text" id="txtTProvince" class="form-control" style="width: 20%; display:none" tabIndex="29">
+                                            <input type="text" id="txtProvince" class="form-control" placeholder="จังหวัด (Province)">
+                                        </div>
+                                    </div>
+                                    <div style="flex:1">
+                                        <label id="lblPostcode">Postcode:</label> @*#38
+                                        *@
+                                        <br />
+                                        <input type="text" id="txtPostcode" class="form-control" placeholder="รหัสไปรษณีย์ (Postcode)" maxlength="5">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <div style="float:left">
+                                    <a href="#" class="btn btn-success" id="btnUpdateAddress">
+                                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSaveAddress">Save</b>
+                                    </a>
+                                    @*<a href="#" class="btn btn-danger" id="btnDelAddress">
+                                        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelAddress">Delete</b>
+                                    </a>*@
+                                </div>
+                                <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @*-------------*@
                 <div id="dvCommand">
                     <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="ClearData()">
                         <i class="fa fa-lg fa-file-o"></i>&nbsp;<b id="linkNew">Clear Data</b>
@@ -272,63 +391,63 @@ End Code
                     <div style="flex:2;">
                         <div class="row">
                             <div class="col-sm-3">
-                                <label id="lblCondition">Tax Condition:</label>                                
+                                <label id="lblCondition">Tax Condition:</label>
                                 <select class="form-control dropdown" id="txtPayTaxType">
-                                    <option value="1">หัก ณ ที่จ่าย</option>
+                                    <option value="1" selected>หัก ณ ที่จ่าย</option>
                                     <option value="2">ออกภาษีให้ตลอดไป</option>
                                     <option value="3">ออกภาษีให้ครั้งเดียว</option>
                                     <option value="4">อื่นๆ (ระบุ)</option>
                                 </select>
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblPayTaxOther">Condition Note:</label>                                
+                                <label id="lblPayTaxOther">Condition Note:</label>
                                 <input type="text" id="txtPayTaxOther" class="form-control" />
                             </div>
                             <div class="col-sm-5">
-                                <label id="lblIncRate">Control Rate.</label>                                
+                                <label id="lblIncRate">Control Rate.</label>
                                 <input type="text" id="txtIncRate" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-12">
-                                <label id="lblIncOther">Description</label>                                
+                                <label id="lblIncOther">Description</label>
                                 <input type="text" id="txtIncOther" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblSoLicNo">Social Security No.</label>                                
+                                <label id="lblSoLicNo">Social Security No.</label>
                                 <input type="text" id="txtSoLicenseNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblSoTaxNo">Social Payer No.</label>                                
+                                <label id="lblSoTaxNo">Social Payer No.</label>
                                 <input type="text" id="txtSoTaxNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblSoLicAmt">Amount.</label>                                
+                                <label id="lblSoLicAmt">Amount.</label>
                                 <input type="text" id="txtSoLicenseAmount" class="form-control" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-sm-4">
-                                <label id="lblPayeeAccNo">Provident Payer.</label>                                
+                                <label id="lblPayeeAccNo">Provident Payer.</label>
                                 <input type="text" id="txtPayeeAccNo" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblProvidentAmt">Provident Amount.</label>                                
+                                <label id="lblProvidentAmt">Provident Amount.</label>
                                 <input type="text" id="txtSoAccAmount" class="form-control" />
                             </div>
                             <div class="col-sm-4">
-                                <label id="lblTeacherAmt">Teacher Amt.</label>                                
+                                <label id="lblTeacherAmt">Teacher Amt.</label>
                                 <input type="text" id="txtTeacherAmt" class="form-control" />
                             </div>
                         </div>
                     </div>
                     <div style="flex:1;margin-left:10px">
-                        <label id="lblTotalPayAmt">Total Amount :</label>                        
+                        <label id="lblTotalPayAmt">Total Amount :</label>
                         <input type="text" class="form-control" id="txtTotalPayAmount" />
                         <br />
-                        <label id="lblTotalPayTax">Total Tax :</label>                        
+                        <label id="lblTotalPayTax">Total Tax :</label>
                         <input type="text" class="form-control" id="txtTotalPayTax" />
                     </div>
                 </div>
@@ -340,12 +459,12 @@ End Code
                     <div class="modal-body">
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblItemNo">No :</label>                                
+                                <label id="lblItemNo">No :</label>
                                 <br />
                                 <input type="text" id="txtItemNo" class="form-control" value="0" disabled>
                             </div>
                             <div>
-                                <label id="lblDocType">Doc.Type :</label>                                
+                                <label id="lblDocType">Doc.Type :</label>
                                 <br />
                                 <select id="txtDocRefType" class="form-control dropdown">
                                     <option value="1">ADV</option>
@@ -355,8 +474,9 @@ End Code
                                 </select>
                             </div>
                             <div>
-                                <label id="lblRefNo">RefNo :</label>                                
+                                <label id="lblRefNo">RefNo :</label>
                                 <br />
+                                <input type="text" id="txtDocRefNo" class="form-control">
                                 <input type="text" id="txtDocRefNo" class="form-control">
                             </div>
                             <div>
@@ -366,7 +486,7 @@ End Code
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblJNo">Job No :</label>                                
+                                <label id="lblJNo">Job No :</label>
                                 <br />
                                 <input type="text" id="txtJNo" class="form-control">
                             </div>
@@ -375,14 +495,14 @@ End Code
                                 <input type="button" class="btn btn-default" value="..." onclick="GetJobNo()" />
                             </div>
                             <div>
-                                <label id="lblPayDate">Pay.Date :</label>                                
+                                <label id="lblPayDate">Pay.Date :</label>
                                 <br />
                                 <input type="date" id="txtPayDate" class="form-control">
                             </div>
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div>
-                                <label id="lblIncType">Revenue Type :</label>                                
+                                <label id="lblIncType">Revenue Type :</label>
                                 <br />
                                 <select id="txtIncType" class="form-control dropdown">
                                     <option value="1">
@@ -432,24 +552,24 @@ End Code
                         </div>
                         <div style="display:flex;flex-wrap:wrap;">
                             <div style="flex:1">
-                                <label id="lblPayTaxDesc">Description :</label>                                
+                                <label id="lblPayTaxDesc">Description :</label>
                                 <br />
                                 <input type="text" id="txtPayTaxDesc" class="form-control">
                             </div>
                         </div>
                         <div style="display:flex;flex-wrap:wrap">
                             <div style="flex:1">
-                                <label id="lblPayRate">Rate :</label>                                
+                                <label id="lblPayRate">Rate :</label>
                                 <br />
                                 <input type="number" id="txtPayRate" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
-                                <label id="lblAmount">Amount :</label>                                
+                                <label id="lblAmount">Amount :</label>
                                 <br />
                                 <input type="number" id="txtPayAmount" class="form-control" value="0.00" onchange="CalWHT()">
                             </div>
                             <div style="flex:1">
-                                <label id="lblPayTax">Tax :</label>                                
+                                <label id="lblPayTax">Tax :</label>
                                 <br />
                                 <input type="number" id="txtPayTax" class="form-control" value="0.00">
                             </div>
@@ -470,6 +590,7 @@ End Code
                 </div>
             </div>
         </div>
+    
     </div>
 </div>
 <div id="frmHeader" class="modal modal-lg fade">
@@ -504,6 +625,7 @@ End Code
     </div>
 </div>
 <div id="dvLOVs"></div>
+
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
@@ -552,8 +674,11 @@ End Code
             chkmode = this.checked;
             CallBackAuthorize(path, 'MODULE_ACC', 'WHTax', 'D', SetCancel);
         });
-
+        $('#txtTProvince').change(function () {
+            CallBackQueryProvince(path, $('#txtTProvince').val(), ShowProvince);
+        });
     }
+
     function SetLOVs() {
         $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
@@ -562,6 +687,7 @@ End Code
             CreateLOV(dv, '#frmSearchVend', '#tbVend', 'Venders', response, 3);
             CreateLOV(dv, '#frmSearchDoc', '#tbDoc', 'Documents', response, 3);
             CreateLOV(dv, '#frmSearchJob', '#tbJob', 'Job Number', response, 3);
+            CreateLOV(dv, '#frmSearchProvince', '#tbProvince', 'Province/District/Sub District', response, 3);
         });
     }
     function SetEnterToTab() {
@@ -600,6 +726,9 @@ End Code
                 break;
             case 'vender':
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender3);
+                break;
+            case 'subdistrict':
+                SetGridProvinceSub(path, '#tbProvince', '#frmSearchProvince', '', ReadProvince);
                 break;
         }
     }
@@ -660,6 +789,7 @@ End Code
         $('#txtTAddress1').val(dr.TAddress1 + ' ' + dr.TAddress2);
         $('#txtTaxNumber1').val(dr.TaxNumber);
         $('#txtBranch1').val(dr.Branch);
+
     }
     function ReadVender1(dr) {
         $('#txtTName1').val(dr.Title + ' '+dr.TName);
@@ -827,6 +957,7 @@ End Code
         $('#txtBranch1').val(dr.Branch1);
         $('#txtBranch2').val(dr.Branch2);
         $('#txtBranch3').val(dr.Branch3);
+        $('#txtTProvince').val(dr.TProvince);
 
         if (dt.length > 0) {
             LoadGridDetail(dt);
@@ -967,7 +1098,35 @@ End Code
         };
         return obj;
     }
+    @*function SaveHeader(showalert = true) {
+        ShowConfirm('Please confirm to save', function (ask) {
+            if (ask == false) return;
+            let obj = GetDataHeader();
+            let jsonText = JSON.stringify({ data: obj });
+            //ShowMessage(jsonText);
+            $.ajax({
+                url: "@Url.Action("SetWHTaxHeader", "Acc")",
+                type: "POST",
+                contentType: "application/json",
+                data: jsonText,
+                success: function (response) {
+                    if (response.result.data != '') {
+                        $('#txtDocNo').val(response.result.data);
+                        $('#txtDocNo').focus();
+                    }
+                    if(showalert) ShowMessage(response.result.msg);
+                },
+                error: function (e) {
+                    ShowMessage(e,true);
+                }
+            });
+        });
+    }*@
     function SaveHeader(showalert = true) {
+        // ตรวจสอบหมายเลขภาษีก่อนที่จะดำเนินการบันทึก
+        if (!validateTaxNumber()) {
+            return; 
+        }
         ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let obj = GetDataHeader();
@@ -1101,4 +1260,375 @@ End Code
         let tax = CDbl(amt * rate, 2);
         $('#txtPayTax').val(tax);
     }
+
+    function ShowProvince(dr) {
+        $('#txtProvince').val(dr.ProvinceName);
+    }
+
+    function ReadProvince(dr) {
+        $('#txtTProvince').val(dr.ProvinceCode);
+        $('#txtTProvince').change();
+        $('#txtPostcode').val(dr.PostCode);
+        $('#txtDistrict').val(dr.District);
+        $('#txtSubDistrict').val(dr.SubProvince);
+
+        //$('#txtProvince').val(dr.ProvinceName);
+    }
+
+    $(document).ready(function () {
+        let currentLanguage = 'en'; // Initial language is Thai
+        let activeTextareaId = '';
+
+        // Text labels for different languages
+        const labels = {
+            en: {
+                build: 'Building', roomNo: 'Room No', floorNo: 'Floor No', village: 'Village',
+                addNo: 'No.', mooNo: 'Moo', soi: 'Soi', street: 'Street',
+                subDistrict: 'Subdistrict', district: 'District', province: 'Province', postcode: 'Postcode'
+            },
+            th: {
+                build: 'อาคาร', roomNo: 'ห้องที่', floorNo: 'ชั้นที่', village: 'หมู่บ้าน',
+                addNo: 'เลขที่', mooNo: 'หมู่ที่', soi: 'ซอย', street: 'ถนน',
+                subDistrict: 'ตำบล/แขวง', district: 'อำเภอ/เขต', province: 'จังหวัด', postcode: 'รหัสไปรษณีย์'
+            }
+        };
+
+        // Function to toggle language labels on the form
+        function toggleLanguage() {
+            const newLang = currentLanguage === 'th' ? 'en' : 'th';
+            currentLanguage = newLang;
+            const currentLabels = labels[currentLanguage];
+
+            $('#lblBuild').text(currentLabels.build);
+            $('#lblRoomNo').text(currentLabels.roomNo);
+            $('#lblFloorNo').text(currentLabels.floorNo);
+            $('#lblVillage').text(currentLabels.village);
+            $('#lblAddNo').text(currentLabels.addNo);
+            $('#lblMooNo').text(currentLabels.mooNo);
+            $('#lblSoi').text(currentLabels.soi);
+            $('#lblStreetName').text(currentLabels.street);
+            $('#lblSubDistrict').text(currentLabels.subDistrict);
+            $('#lblDistrict').text(currentLabels.district);
+            $('#lblProvince').text(currentLabels.province);
+            $('#lblPostcode').text(currentLabels.postcode);
+
+            $('#linkSaveAddress').text(currentLanguage === 'th' ? 'บันทึก' : 'Save');
+            $('#linkDelAddress').text(currentLanguage === 'th' ? 'ลบ' : 'Delete');
+
+            const buttonText = currentLanguage === 'th' ? 'สลับภาษา: อังกฤษ' : 'สลับภาษา: ไทย';
+            $('#toggleLanguageBtn').text(buttonText);
+        }
+
+        // Function to save and display address
+        function saveAndDisplayAddress() {
+            if (!activeTextareaId) return;
+
+            const addressParts = [];
+
+            // Get all values from the form
+            const buildVal = $('#txtBuild').val().trim();
+            const roomNoVal = $('#txtRoomNo').val().trim();
+            const floorNoVal = $('#txtFloorNo').val().trim();
+            const villageVal = $('#txtVillage').val().trim();
+            const addNoVal = $('#txtAddNo').val().trim();
+            const mooNoVal = $('#txtMooNo').val().trim();
+            const soiVal = $('#txtSoi').val().trim();
+            const streetNameVal = $('#txtStreetName').val().trim();
+            const subDistrictVal = $('#txtSubDistrict').val().trim();
+            const districtVal = $('#txtDistrict').val().trim();
+            const provinceVal = $('#txtProvince').val().trim();
+            const postcodeVal = $('#txtPostcode').val().trim();
+
+            if (currentLanguage === 'en') {
+                // English formatting remains unchanged
+                if (buildVal) addressParts.push(`${buildVal} Building`);
+                if (roomNoVal) addressParts.push(`Room ${roomNoVal}`);
+                if (floorNoVal) addressParts.push(`Floor ${floorNoVal}`);
+                if (villageVal) addressParts.push(`${villageVal} Village`);
+                if (addNoVal) addressParts.push(`No. ${addNoVal}`);
+                if (mooNoVal) addressParts.push(`Moo ${mooNoVal}`);
+                if (soiVal) addressParts.push(`Soi ${soiVal}`);
+                if (streetNameVal) addressParts.push(`${streetNameVal} Road`);
+                if (subDistrictVal) addressParts.push(`${subDistrictVal} Subdistrict`);
+                if (districtVal) addressParts.push(`${districtVal} District`);
+
+                if (provinceVal && postcodeVal) {
+                    addressParts.push(`${provinceVal} ${postcodeVal}`);
+                } else if (provinceVal) {
+                    addressParts.push(provinceVal);
+                } else if (postcodeVal) {
+                    addressParts.push(postcodeVal);
+                }
+                const fullAddress = addressParts.join(', ');
+                $(`#${activeTextareaId}`).val(fullAddress);
+            } else {
+                // Thai formatting
+                if (addNoVal) addressParts.push(`เลขที่${addNoVal}`);
+                if (mooNoVal) addressParts.push(`หมู่ที่${mooNoVal}`);
+                if (buildVal) addressParts.push(`อาคาร${buildVal}`);
+                if (floorNoVal) addressParts.push(`ชั้นที่${floorNoVal}`);
+                if (roomNoVal) addressParts.push(`ห้องที่${roomNoVal}`);
+                if (villageVal) addressParts.push(`หมู่บ้าน${villageVal}`);
+                if (soiVal) addressParts.push(`ซอย${soiVal}`);
+                if (streetNameVal) addressParts.push(`ถนน${streetNameVal}`);
+
+                // Conditionally add prefix based on province
+                const isBangkok = provinceVal.includes('กรุงเทพมหานคร');
+                const subDistrictPrefix = isBangkok ? 'แขวง' : 'ตำบล';
+
+                if (subDistrictVal) addressParts.push(`${subDistrictPrefix}${subDistrictVal}`);
+
+                // The improved logic for district prefix
+                if (districtVal) {
+                    if (isBangkok && districtVal.includes('เขต')) {
+                        addressParts.push(districtVal);
+                    } else {
+                        const districtPrefix = isBangkok ? 'เขต' : 'อำเภอ';
+                        addressParts.push(`${districtPrefix}${districtVal}`);
+                    }
+                }
+
+                const provincePrefix = isBangkok ? '' : 'จังหวัด';
+                if (provinceVal) addressParts.push(`${provincePrefix}${provinceVal}`);
+                if (postcodeVal) addressParts.push(`${postcodeVal}`);
+
+                const fullAddress = addressParts.join(' ');
+                $(`#${activeTextareaId}`).val(fullAddress);
+            }
+            //SaveHeader();
+            $('#frmAddress').modal('hide');
+        }
+
+        // Function to load address from textarea into modal fields (Improved Thai parsing)
+        function LoadAddress() {
+            if (!activeTextareaId) return;
+            let fullAddress = $(`#${activeTextareaId}`).val();
+            if (!fullAddress) {
+                $('#frmAddress input[type="text"]').val('');
+                return;
+            }
+
+            // Clear all fields before parsing
+            $('#frmAddress input[type="text"]').val('');
+
+            if (currentLanguage === 'en') {
+                // English parsing logic remains the same
+                const parts = fullAddress.split(',').map(part => part.trim());
+
+                parts.forEach(part => {
+                    const lowercasePart = part.toLowerCase();
+                    if (lowercasePart.endsWith(' building')) {
+                        const value = part.replace(/ building$/i, '').trim();
+                        $('#txtBuild').val(value);
+                    } else if (lowercasePart.startsWith('room ')) {
+                        const value = part.replace(/^room /i, '').trim();
+                        $('#txtRoomNo').val(value);
+                    } else if (lowercasePart.startsWith('floor ')) {
+                        const value = part.replace(/^floor /i, '').trim();
+                        $('#txtFloorNo').val(value);
+                    } else if (lowercasePart.endsWith(' village')) {
+                        const value = part.replace(/ village$/i, '').trim();
+                        $('#txtVillage').val(value);
+                    } else if (lowercasePart.startsWith('no. ')) {
+                        const value = part.replace(/^no. /i, '').trim();
+                        $('#txtAddNo').val(value);
+                    } else if (lowercasePart.startsWith('moo ')) {
+                        const value = part.replace(/^moo /i, '').trim();
+                        $('#txtMooNo').val(value);
+                    } else if (lowercasePart.startsWith('soi ')) {
+                        const value = part.replace(/^soi /i, '').trim();
+                        $('#txtSoi').val(value);
+                    } else if (lowercasePart.endsWith(' road')) {
+                        const value = part.replace(/ road$/i, '').trim();
+                        $('#txtStreetName').val(value);
+                    } else if (lowercasePart.endsWith(' subdistrict')) {
+                        const value = part.replace(/ subdistrict$/i, '').trim();
+                        $('#txtSubDistrict').val(value);
+                    } else if (lowercasePart.endsWith(' district')) {
+                        const value = part.replace(/ district$/i, '').trim();
+                        $('#txtDistrict').val(value);
+                    } else {
+                        const postcodeRegex = /^(.*)\s(\d{5})$/;
+                        const postcodeMatch = part.match(postcodeRegex);
+                        if (postcodeMatch) {
+                            $('#txtProvince').val(postcodeMatch[1].trim());
+                            $('#txtPostcode').val(postcodeMatch[2].trim());
+                        }
+                    }
+                });
+            } else {
+                // New and improved Thai parsing logic
+
+                // 1. Extract Postcode
+                const postcodeMatch = fullAddress.match(/(\d{5})$/);
+                if (postcodeMatch) {
+                    $('#txtPostcode').val(postcodeMatch[1]);
+                    fullAddress = fullAddress.replace(postcodeMatch[0], '').trim();
+                }
+
+                // 2. Extract Province (handling both "จังหวัด" and "กรุงเทพมหานคร")
+                let provinceMatch = fullAddress.match(/(กรุงเทพมหานคร)$/);
+                if (provinceMatch) {
+                    $('#txtProvince').val(provinceMatch[1].trim());
+                    fullAddress = fullAddress.replace(provinceMatch[0], '').trim();
+                } else {
+                    provinceMatch = fullAddress.match(/(?:จังหวัด)\s*(.*?)$/);
+                    if (provinceMatch) {
+                        $('#txtProvince').val(provinceMatch[1].trim());
+                        fullAddress = fullAddress.replace(provinceMatch[0], '').trim();
+                    }
+                }
+
+                // 3. Extract District
+                const districtRegex = /(?:อำเภอ|เขต)(.*?)$/;
+                const districtMatch = fullAddress.match(districtRegex);
+                if (districtMatch) {
+                    $('#txtDistrict').val(districtMatch[1].trim());
+                    fullAddress = fullAddress.replace(districtMatch[0], '').trim();
+                }
+
+                // 4. Extract Sub-district
+                const subDistrictRegex = /(?:ตำบล|แขวง)(.*?)$/;
+                const subDistrictMatch = fullAddress.match(subDistrictRegex);
+                if (subDistrictMatch) {
+                    $('#txtSubDistrict').val(subDistrictMatch[1].trim());
+                    fullAddress = fullAddress.replace(subDistrictMatch[0], '').trim();
+                }
+
+                // 5. Extract Street Name
+                const streetRegex = /ถนน(.*?)$/;
+                const streetMatch = fullAddress.match(streetRegex);
+                if (streetMatch) {
+                    $('#txtStreetName').val(streetMatch[1].trim());
+                    fullAddress = fullAddress.replace(streetMatch[0], '').trim();
+                }
+
+                // 6. Extract Soi
+                const soiRegex = /ซอย(.*?)$/;
+                const soiMatch = fullAddress.match(soiRegex);
+                if (soiMatch) {
+                    $('#txtSoi').val(soiMatch[1].trim());
+                    fullAddress = fullAddress.replace(soiMatch[0], '').trim();
+                }
+
+                // 9. Extract Village
+                const villageRegex = /หมู่บ้าน(.*?)$/;
+                const villageMatch = fullAddress.match(villageRegex);
+                if (villageMatch) {
+                    $('#txtVillage').val(villageMatch[1].trim());
+                    fullAddress = fullAddress.replace(villageMatch[0], '').trim();
+                }
+
+                // 11. Extract Room No
+                const roomNoRegex = /ห้องที่(.*?)$/;
+                const roomNoMatch = fullAddress.match(roomNoRegex);
+                if (roomNoMatch) {
+                    $('#txtRoomNo').val(roomNoMatch[1].trim());
+                    fullAddress = fullAddress.replace(roomNoMatch[0], '').trim();
+                }
+                // 10. Extract Floor No
+                const floorRegex = /ชั้นที่(.*?)$/;
+                const floorMatch = fullAddress.match(floorRegex);
+                if (floorMatch) {
+                    $('#txtFloorNo').val(floorMatch[1].trim());
+                    fullAddress = fullAddress.replace(floorMatch[0], '').trim();
+                }
+
+                // 12. Extract Building Name
+                const buildRegex = /อาคาร(.*?)$/;
+                const buildMatch = fullAddress.match(buildRegex);
+                if (buildMatch) {
+                    $('#txtBuild').val(buildMatch[1].trim());
+                    fullAddress = fullAddress.replace(buildMatch[0], '').trim();
+                }
+                // 7. Extract Moo No
+                const mooRegex = /หมู่ที่(\d+)(.*)$/;
+                const mooMatch = fullAddress.match(mooRegex);
+                if (mooMatch) {
+                    $('#txtMooNo').val(mooMatch[1].trim());
+                    fullAddress = fullAddress.replace(`หมู่ที่${mooMatch[1]}`, '').trim();
+                }
+
+
+                // 8. Extract Address No
+                const addNoRegex = /เลขที่(.*?)$/;
+                const addNoMatch = fullAddress.match(addNoRegex);
+                if (addNoMatch) {
+                    $('#txtAddNo').val(addNoMatch[1].trim());
+                    fullAddress = fullAddress.replace(addNoMatch[0], '').trim();
+                }
+            }
+        }
+
+        // Event listeners
+        $('#btnUpdateAddress').on('click', saveAndDisplayAddress);
+
+        // Use a class selector to handle all buttons
+        $('.open-modal-btn').on('click', function () {
+            activeTextareaId = $(this).data('target-textarea');
+            LoadAddress();
+            $('#frmAddress').modal('show');
+        });
+
+        $('#btnDelAddress').on('click', function () {
+            // Clear all input fields in the modal
+            $('#frmAddress input[type="text"]').val('');
+            // Clear the active textarea
+            if (activeTextareaId) {
+                $(`#${activeTextareaId}`).val('');
+            }
+            // Hide the modal
+            $('#frmAddress').modal('hide');
+        });
+
+        // Re-map the Set Data button to work with the active textarea
+        $('#btnSetData').on('click', function () {
+            if (!activeTextareaId) return;
+
+            const sampleAddressThai = "ชื่ออาคาร: ตะวัน ห้องที่: 5077 ชั้นที่: 77 หมู่บ้าน: เอเวอร์กรีน เลขที่: 011 หมู่ที่: 145 ตรอก/ซอย: บางนาตราด56 ถนน: กรุงเทพกรีฑา ตำบล/แขวง: หัวหมาก อำเภอ/เขต: บางกะปิ จังหวัด: กรุงเทพมหานคร รหัสไปรษณีย์: 10245";
+            const sampleAddressEnglish = "Tawan Building, Room 5077, Floor 77, Evergreen Village, No. 011, Moo 145, Soi Bangna-Trad 56, Krungthep Kreetha Road, Hua Mak Subdistrict, Bang Kapi District, Bangkok 10245";
+
+            if (currentLanguage === 'th') {
+                $(`#${activeTextareaId}`).val(sampleAddressThai);
+            } else {
+                $(`#${activeTextareaId}`).val(sampleAddressEnglish);
+            }
+        });
+
+        // Function to be called from outside
+        window.SetAddress = function (targetTextareaId) {
+            activeTextareaId = targetTextareaId;
+            LoadAddress();
+            $('#frmAddress').modal('show');
+        };
+
+        $('#toggleLanguageBtn').on('click', toggleLanguage);
+
+        // Call on page load to set initial state
+        toggleLanguage();
+    });
+    function validateTaxNumber() {
+        // ดึงค่าจากช่อง input ทั้งสาม
+        const tax1 = document.getElementById('txtTaxNumber1').value;
+        const tax2 = document.getElementById('txtTaxNumber2').value;
+        const tax3 = document.getElementById('txtTaxNumber3').value;
+
+        // ตรวจสอบว่าแต่ละช่องมีตัวเลขครบ 13 หลักพอดี	
+    	if (tax1 !== "" && (tax1.length !== 13 || isNaN(tax1))) {
+        	ShowMessage("ช่อง Tax Number ที่ 1 ต้องมีตัวเลขครบ 13 หลัก");
+        	return false;
+    	}
+
+    	if (tax2 !== "" && (tax2.length !== 13 || isNaN(tax2))) {
+        	ShowMessage("ช่อง Tax Number ที่ 2 ต้องมีตัวเลขครบ 13 หลัก");
+        	return false;
+    	}
+
+    	if (tax3 !== "" && (tax3.length !== 13 || isNaN(tax3))) {
+        	ShowMessage("ช่อง Tax Number ที่ 3 ต้องมีตัวเลขครบ 13 หลัก");
+        	return false;
+    	}
+	return true;
+    }
+
 </script>

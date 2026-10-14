@@ -1,5 +1,11 @@
 ﻿<!DOCTYPE html>
 <html>
+    <style>
+
+       table[border="1"] th,table[border="1"] td {
+            border-style:solid !important;
+       }
+    </style>
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">

@@ -49,6 +49,7 @@ End Code
             </div>
         </div>
         <p>
+<<<<<<< HEAD
             <ul id="myTabs" class="nav nav-tabs">
                 <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Customers Data</a></li>
                 <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Data</a></li>
@@ -63,6 +64,37 @@ End Code
                 <option id="optTab4" value="#tabtracking">Operation Data</option>
                 <option id="optTab5" value="#tabremark">Others Controls</option>
             </select>
+=======
+            <div class="row">
+                <div class="col-sm-8">
+                    <ul id="myTabs" class="nav nav-tabs">
+                        <li id="tab1" class="active"><a data-toggle="tab" id="linkTab1" href="#tabinfo">Customers Data</a></li>
+                        <li id="tab2"><a data-toggle="tab" href="#tabinv" id="linkTab2">Invoice Data</a></li>
+                        <li id="tab3"><a data-toggle="tab" href="#tabdeclare" id="linkTab3">Customs Data</a></li>
+                        <li id="tab4"><a data-toggle="tab" href="#tabtracking" id="linkTab4">Job Instruction</a></li>
+                        <li id="tab5"><a data-toggle="tab" href="#tabremark" id="linkTab5">Other Controls</a></li>
+                    </ul>
+                    <select id="mySelects" class="form-control" style="display:none" onchange="ChangeTab(this.value);">
+                        <option id="optTab1" value="#tabinfo" selected>Customers Data</option>
+                        <option id="optTab2" value="#tabinv">Invoices Data</option>
+                        <option id="optTab3" value="#tabdeclare">Customs Data</option>
+                        <option id="optTab4" value="#tabtracking">Operation Data</option>
+                        <option id="optTab5" value="#tabremark">Others Controls</option>
+                    </select>
+                </div>
+                <div class="col-sm-4">
+                    <a href="#" class="btn btn-success" id="btnSave" onclick="SaveData()">
+                        <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save</b>
+                    </a>
+                    <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
+                    </a>
+		    <a href="#" class="btn btn-warning" id="btnPrint" onclick="PrintFormPrepare()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
+                    </a> 
+                </div>
+            </div>
+>>>>>>> 3x
             <div class="tab-content">
                 <div id="tabinfo" class="tab-pane fade in active">
                     <div class="row">
@@ -141,10 +173,22 @@ End Code
                                     <input type="text" id="txtQNo" style="width:130px" tabindex="9" />
                                     <input type="text" id="txtQRevise" style="width:40px" tabindex="10" />
                                 </div>
+<<<<<<< HEAD
                                 <div>
                                     <label id="lblManagerName" for="txtManagerName">Sales By :</label>
                                     <input type="text" id="txtManagerName" style="width:130px" disabled />
                                     <input type="button" id="btnBrowseSales" value="..." onclick="SearchData('sales')" />
+=======
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <label id="lblQNo" for="txtQNo">Quotation : </label>
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" class="form-control" id="txtQNo" style="width:100%" tabindex="9" />
+                                            <input type="button" class="btn btn-default" value="..." onclick="SearchData('quotation')" />
+                                            <input type="text" class="form-control" id="txtQRevise" style="width:60px" tabindex="10" />
+                                        </div>
+                                    </div>
+>>>>>>> 3x
                                 </div>
                                 <div>
                                     <label id="lblCommission" for="txtCommission">Commission :</label>
@@ -208,6 +252,7 @@ End Code
                                     <label id="lblExchangeRate" for="txtInvCurRate">Exchange Rate :</label>
                                     <input type="text" id="txtInvCurRate" style="width:80px" tabindex="17" />
                                 </div>
+<<<<<<< HEAD
                                 <div>
                                     <label id="lblBookingNo" for="txtBookingNo" style="color:red">Booking No :</label>
                                     <input type="text" id="txtBookingNo" style="width:250px" tabindex="18" />
@@ -219,15 +264,78 @@ End Code
                                 <div>
                                     <label id="lblHAWB" for="txtHAWB">House BL/AWB :</label>
                                     <input type="text" id="txtHAWB" style="width:200px" tabindex="20" />
+=======
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label id="lblBookingNo" for="txtBookingNo" style="color:red">Booking No :</label>
+                                        <br />
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtBookingNo" class="form-control" style="width:100%" tabindex="18" disabled />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label id="lblBLNo" for="txtBLNo">BL/AWB Status :</label>
+                                        <br />
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtBLNo" class="form-control" style="width:100%" tabindex="19" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label id="lblHAWB" for="txtHAWB" style="color:red">House BL/AWB :</label>
+                                        <br />
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtHAWB" class="form-control" style="width:100%" tabindex="20" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label id="lblMAWB" for="txtMAWB">Master BL/AWB :</label>
+                                        <br />
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtMAWB" class="form-control" style="width:100%" tabindex="21" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label id="lblTotalCTN" for="txtTotalCTN" style="color:red">Total Containers :</label>
+                                        <br />
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtTotalCTN" class="form-control" style="width:100%" tabindex="22" readonly />
+                                            <input type="button" id="btnGetCTN" class="btn btn-default" value="..." onclick="SplitData()" />
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label id="lblMeasurement" for="txtMeasurement" style="font-weight:bold;color:red;">Meas.(CBM) :</label>
+                                        <br />
+                                        <div style="display:flex;flex-direction:row">
+                                            <input type="text" id="txtMeasurement" class="form-control" style="width:100%" tabindex="23" />
+                                        </div>
+                                    </div>
+>>>>>>> 3x
                                 </div>
                                 <div>
                                     <label id="lblMAWB" for="txtMAWB">Master BL/AWB :</label>
                                     <input type="text" id="txtMAWB" style="width:200px" tabindex="21" />
                                 </div>
+<<<<<<< HEAD
                                 <div>
                                     <label id="lblTotalCTN" for="txtTotalCTN">Total Containers :</label>
                                     <input type="text" id="txtTotalCTN" style="width:130px" tabindex="22" />
                                     <input type="button" id="btnGetCTN" value="..." onclick="SplitData()" />
+=======
+                                <div class="row">
+                                    <div class="col-sm-4">
+                                        <a href="../Master/Venders" target="_blank">
+                                            <label id="lblDeliverTo">Sub Agent :</label>
+                                        </a>
+                                    </div>
+                                    <div class="col-sm-8" style="display:flex;flex-direction:row">
+                                        <input type="text" id="txtDeliverTo" class="form-control" style="width:100%" tabindex="25" />
+                                        <input type="button" id="btnBrowseCust3" class="btn btn-default" value="..." onclick="SearchData('NOTIFY')" />
+                                    </div>
+>>>>>>> 3x
                                 </div>
                                 <div>
                                     <label id="lblMeasurement" for="txtMeasurement">Meas.(CBM) :</label>
@@ -289,6 +397,7 @@ End Code
                                     <input type="button" id="btnBrowseFwdr" value="..." onclick="SearchData('forwarder')" />
                                     <input type="text" id="txtForwarderName" style="width:300px" disabled />
                                 </div>
+<<<<<<< HEAD
                                 <div>
                                     <label id="lblVesselName" for="txtVesselName">Vessel Name :</label>
                                     <input type="text" id="txtVesselName" style="width:200px" tabindex="37" />
@@ -312,6 +421,36 @@ End Code
                                 <div>
                                     <label id="lblLoadDate" for="txtLoadDate" style="color:red">Load Date:</label><input type="date" style="width:130px" id="txtLoadDate" tabindex="42" />
                                     <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Unload Date :</label><input type="date" style="width:130px" id="txtDeliveryDate" tabindex="43" />
+=======
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <a href="../Master/Venders" target="_blank"><label style="color:red" id="lblTransport">Transporter:</label></a>
+                                        <div style="display:flex;flex-direction:row">
+
+                                            <input type="text" id="txtTransporter" class="form-control" style="width:130px" tabindex="40" />
+                                            <input type="button" id="btnBrowseTrans" class="btn btn-default" value="..." onclick="SearchData('agent')" />
+                                            <input type="text" id="txtTransporterName" class="form-control" style="width:100%" disabled />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-3">
+                                        <label id="lblETDDate" for="txtETDDate" style="color:red">ETD Date:</label><input type="date" style="width:100%" class="form-control" id="txtETDDate" tabindex="41" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label id="lblETADate" for="txtETADate" style="color:red">ETA Date:</label><input type="date" style="width:100%" class="form-control" id="txtETADate" tabindex="42" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label id="lblLoadDate" for="txtLoadDate" style="color:red">SI Date:</label><input type="date" style="width:100%" class="form-control" id="txtLoadDate" tabindex="43" />
+                                        <br />
+                                        <input type="time" class="form-control" id="txtDeliveryTime" />
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <label id="lblDeliveryDate" for="txtDeliveryDate" style="color:red">Closing Date :</label><input type="date" style="width:100%" class="form-control" id="txtDeliveryDate" tabindex="44" />
+                                        <br />
+                                        <input type="time" class="form-control" id="txtConfirmChqDate" />
+                                    </div>
+>>>>>>> 3x
                                 </div>
                             </div>
                         </div>
@@ -327,12 +466,21 @@ End Code
                 <div id="tabdeclare" class="tab-pane fade">
                     <div class="row">
                         <div class="col-sm-3">
+<<<<<<< HEAD
                             <label id="lblEDIDate" for="txtEDIDate">EDI Date :</label>
                             <input type="date" id="txtEDIDate" style="width:130px" tabindex="45" />
                         </div>
                         <div class="col-sm-3">
                             <label id="lblReadyClearDate" for="txtReadyClearDate">Ready Clear :</label>
                             <input type="date" id="txtReadyClearDate" style="width:130px" tabindex="46" />
+=======
+                            <label id="lblEDIDate" for="txtEDIDate">VGM Date :</label>
+                            <input type="date" id="txtEDIDate" class="form-control" style="width:100%" tabindex="45" />
+                        </div>
+                        <div class="col-sm-3">
+                            <label id="lblReadyClearDate" for="txtReadyClearDate" style="color:red">Ready Clear :</label>
+                            <input type="date" id="txtReadyClearDate" class="form-control" style="width:100%" tabindex="46" />
+>>>>>>> 3x
                         </div>
                         <div class="col-sm-3">
                             <label id="lblDutyDate" for="txtDutyDate" style="color:red">Inspection Date :</label>
@@ -403,9 +551,20 @@ End Code
                                     <input type="button" id="btnBrowseLCPort" value="..." onclick="SearchData('RFARS')" />
                                     <input type="text" id="txtReleasePortName" style="width:200px" disabled />
                                 </div>
+<<<<<<< HEAD
                                 <div>
                                     <label id="lblPortNo" for="txtPortNo">Discharge Port#</label>
                                     <input type="text" id="txtPortNo" style="width:300px" tabindex="54" />
+=======
+                                <div class="col-sm-6">
+			            <label id="lblPortNo" for="txtPortNo">Discharge Port#</label>                                  
+                                    <br />
+                                    <div style="display:flex;flex-direction:row">
+                                    	<input type="text" id="txtPortNo" class="form-control" style="width:60px" tabindex="54" />
+				    	<input type="button" id="btnBrowsePortNo" class="btn btn-default" value="..." onclick="SearchData('RFARS2')" />
+                                    	<input type="text" id="txtPortNoName" class="form-control" style="width:100%" disabled />
+                                    </div>
+>>>>>>> 3x
                                 </div>
                             </div>
                         </div>
@@ -422,6 +581,7 @@ End Code
                             <input type="button" id="btnBrowseShipping" value="..." onclick="SearchData('user')" />
                             <input type="text" id="txtShippingName" style="width:300px" disabled />
                             <br />
+<<<<<<< HEAD
                             <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
                             <select id="cboDBType">
                                 <option id="JANDT">TAWAN</option>
@@ -551,12 +711,34 @@ End Code
                         </div>
                         <div class="col-sm-6">
                             <button id="btnViewChq" class="btn btn-default" onclick="OpenCheque()">Customer Cheque</button>
+=======
+                            <div style="display:flex;flex-direction:row">
+                                <input type="text" id="txtShipping" class="form-control" style="width:130px" tabindex="55" />
+                                <input type="button" id="btnBrowseShipping" class="btn btn-default" value="..." onclick="SearchData('user')" />
+                                <input type="text" id="txtShippingName" style="width:100%" class="form-control" disabled />
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-10" style="display:flex;flex-direction:row">
+                                    <button id="btnLinkPaperless" class="btn btn-success" onclick="LoadPaperless()">Load Data From Paperless</button>
+                                    <select id="cboDBType" class="form-control dropdown">
+                                        <option value="JANDT" selected>TAWAN</option>
+                                        <option value="ECS">ECS</option>
+                                        @*<option value="ETRANSIT">ETRANSIT(ทดสอบระบบ)</option>*@
+                                    </select>
+                                </div>
+                            </div>
+
+>>>>>>> 3x
                         </div>
                     </div>
                 </div>
                 <div id="tabtracking" class="tab-pane fade">
                     <a href="#" class="btn btn-primary" id="btnPrintClr" onclick="PrintForm()">
                         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintClr">Print Form Clear</b>
+                    </a>
+                    <a href="#" class="btn btn-info" id="btnPrintAdvCheck" onclick="PrintAdvCheck()">
+                        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrintAdvCheck">Advance Check</b>
                     </a>
                     <br />
                     Filter :
@@ -606,15 +788,16 @@ End Code
                             <table id="tbLog" class="table table-responsive">
                                 <thead>
                                     <tr>
+                                        <th>#</th>
                                         <th class="desktop">
                                             Date
                                         </th>
-                                        <th class="all">
-                                            Action
-                                        </th>
-                                        <th class="desktop">
+			                <th class="desktop">
                                             User
                                         </th>
+                                        <th class="all">
+						Remark
+                                        </th>                       
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -645,10 +828,12 @@ End Code
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-body">
+                        <input type="hidden" id="txtJobLogId" />
                         <textarea id="txtLogRemark" class="form-control"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="btnSaveLog" onclick="SaveJobLog()">Save Remark</button>
+                        <button type="button" class="btn btn-danger" id="btnDelLog" onclick="DelJobLog()">Delete Remark</button>
                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     </div>
                 </div>
@@ -701,8 +886,12 @@ End Code
     const userRights = '@ViewBag.UserRights';
     const userPosition = '@ViewBag.UserPosition';
     let rec = {};
+<<<<<<< HEAD
     //main function
     //$(document).ready(function () {
+=======
+    let remarks = {};
+>>>>>>> 3x
     SetLOVs();
     SetEvents();
     //check parameters
@@ -714,8 +903,8 @@ End Code
         ShowJob(br, jno);
     }
     SetEnterToTab();
-    if (userPosition == '4' || userPosition == '5') {
-        $('#tab4').hide();
+    if (userPosition == '4' || userPosition == '5' || userPosition == '7') {
+        //$('#tab4').hide();
         $('#btnLinkCost').hide();
     } else {
         if (userGroup == 'C') {
@@ -829,6 +1018,7 @@ End Code
             CreateLOV(dv,'#frmSearchDType', '#tbDType','Declare Type',response,2);
             //Customs Port
             CreateLOV(dv,'#frmSearchCPort', '#tbCPort','Customs Port',response,2);
+            CreateLOV(dv,'#frmSearchCPort2', '#tbCPort2','Customs Port',response,2);
             //Currency
             CreateLOV(dv,'#frmSearchCurr', '#tbCurr','Currency',response,2);
             //Country
@@ -852,7 +1042,13 @@ End Code
             //Inv Units
             CreateLOV(dv,'#frmSearchIUnt', '#tbIUnt','Invoice Units',response,2);
             //Weights Unit
+<<<<<<< HEAD
             CreateLOV(dv,'#frmSearchWUnt', '#tbWUnt', 'Weight Unit',response,2);
+=======
+            CreateLOV(dv, '#frmSearchWUnt', '#tbWUnt', 'Weight Unit', response, 2);
+            //Quotation
+            CreateLOV(dv,'#frmSearchQuo','#tbQuo','Quotation',response,3)
+>>>>>>> 3x
         });
         //load list of values
         let lists = 'CUSTOMS_PRIVILEGE=#cboTyAuthorSp';
@@ -923,6 +1119,11 @@ End Code
         $('#txtReleasePortName').val(dt.AreaName);
         $('#txtReleasePort').focus();
     }
+    function ReadCustomsPort2(dt) {
+        $('#txtPortNo').val(dt.AreaCode);
+        $('#txtPortNoName').val(dt.AreaName);
+        $('#txtPortNo').focus();
+    }
     function ReadCurrency(dt) {
         $('#txtInvCurrency').val(dt.Code);
         $('#txtInvCurrency').focus();
@@ -939,6 +1140,13 @@ End Code
         ShowCustomerFull(path, dt.CustCode, dt.Branch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
         $('#txtConsignee').focus();
     }
+<<<<<<< HEAD
+=======
+    function ReadNotify(dt) {
+        $('#txtDeliverTo').val(dt.English);
+        $('#txtDeliverAddr').val(dt.EAddress1 + dt.EAddress2);
+    }
+>>>>>>> 3x
     function ReadInvProduct(dt) {
         $('#txtInvProduct').val(dt.val);
         $('#txtInvProduct').focus();
@@ -992,6 +1200,9 @@ End Code
             case 'RFARS':
                 SetGridCustomsPort(path, '#tbCPort', '#frmSearchCPort', ReadCustomsPort);
                 break;
+            case 'RFARS2':
+                SetGridCustomsPort(path, '#tbCPort2', '#frmSearchCPort2', ReadCustomsPort2);
+                break;
             case 'CURRENCY':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadCurrency);
                 break;
@@ -1000,8 +1211,16 @@ End Code
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
             case 'CONSIGNEE':
+<<<<<<< HEAD
                 SetGridCompany(path, '#tbCons', '#frmSearchCons', ReadConsignee);
                 
+=======
+                SetGridCompanyByGroup(path, '#tbCons','CUSTOMERS', '#frmSearchCons', ReadConsignee); //'CONSIGNEE'
+                break;
+            case 'NOTIFY':
+                //SetGridCompanyByGroup(path, '#tbNotify', 'NOTIFY_PARTY', '#frmSearchNotify', ReadNotify);
+                SetGridVenderWithTax(path, '#tbNotify', '#frmSearchNotify', ReadNotify);
+>>>>>>> 3x
                 break;
             case 'ProjectName':
                 SetGridProjectName(path, '#tbProj', '#frmSearchProj', ReadProjectName);
@@ -1013,6 +1232,10 @@ End Code
                 SetContainerEdit();
                 break;
             case 'job':
+<<<<<<< HEAD
+=======
+                let dbID = ('@ViewBag.DATABASE' == '1' ? '2' : '1');
+>>>>>>> 3x
                 let invNo = $('#txtCustInvNo').val();
                 let w = '?DBID=1';
                 if (invNo !== '') w += '&InvNo=' + invNo;
@@ -1034,10 +1257,124 @@ End Code
                         }
                     });
 
+<<<<<<< HEAD
+=======
+                });
+                break;
+            case 'quotation':
+                let t = '?JType=' + rec.JobType + '&SBy=' + rec.ShipBy +'&Cust=' + $('#txtCustCode').val();
+                //popup for search data
+                $('#tbQuo').DataTable({
+                    ajax: {
+                        url: path + 'JobOrder/GetQuotationGrid' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+                        dataSrc: 'quotation.data'
+                    },
+                    selected: true, //ให้สามารถเลือกแถวได้
+                    columns: [ //กำหนด property ของ header column
+                        { data: null, title: "#" },
+                        { data: "QNo", title: "Quotation No" },
+                        { data: "ApproveBy", title: "ApproveBy" },
+                        { data: "ApproveDate", title: "ApproveDate" }
+                    ],
+                    "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                        {
+                            "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                            "data": null,
+                            "render": function (data, type, full, meta) {
+                                let html = "<button class='btn btn-warning'>Select</button>";
+                                return html;
+                            }
+                        }
+                    ],
+                    destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                });
+                BindEvent('#tbQuo', '#frmSearchQuo', function (dr) {
+                    $('#txtQNo').val(dr.QNo);
+                    $('#txtConfirmDate').val(CDateEN(dr.ApproveDate));
+                    rec.ManagerCode = dr.ApproveBy;
+                    ShowUser(path, dr.ApproveBy, '#txtManagerName');
+                });
+>>>>>>> 3x
                 break;
 
         }
     }
+<<<<<<< HEAD
+=======
+    //This section for calculate amount of duty payment
+    function CalTotalLtd() {
+        let ltd1 = Number($('#txtComPaidChq').val());
+        let ltd2 = Number($('#txtComPaidCash').val());
+        let ltd3 = Number($('#txtComPaidEPay').val());
+        let ltd4 = Number($('#txtComPaidOthers').val());
+
+        $('#txtComPaidTotal').val(ltd1 + ltd2 + ltd3 + ltd4);
+    }
+    function CalTotalCust() {
+        let cust1 = Number($('#txtCustPaidChq').val());
+        let cust2 = Number($('#txtCustPaidCash').val());
+        let cust3 = Number($('#txtCustPaidCard').val());
+        let cust4 = Number($('#txtCustPaidBank').val());
+        let cust5 = Number($('#txtCustPaidEPay').val());
+        let cust6 = Number($('#txtCustPaidOthers').val());
+
+        $('#txtCustPaidTotal').val(cust1 + cust2 + cust3 + cust4 + cust5 + cust6);
+    }
+    //This section for Load Data And Print data
+    function ShowJob(Branch, Job) {
+        $.get(path + 'joborder/getjobsql?branch=' + Branch + '&jno=' + Job)
+        .done(function (r) {
+            if (r.job.data.length > 0) {
+                let dr = r.job.data[0];
+                rec = dr;
+                $('#txtJNo').val(dr.JNo);
+                $('#txtCustCode').val(dr.CustCode);
+                $('#txtCustBranch').val(dr.CustBranch);
+                $('#txtRevised').val(dr.JRevise);
+                $('#txtDocDate').val(CDateEN(dr.DocDate));
+                $('#txtConfirmDate').val(CDateEN(dr.ConfirmDate));
+                $('#txtCloseDate').val(CDateEN(dr.CloseJobDate));
+                $('#txtCustPoNo').val(dr.CustRefNO);
+                $('#txtCancelReason').val(dr.CancelReson);
+                $('#txtCancelDate').val(CDateEN(dr.CancelDate));
+                $('#txtConsignee').val(dr.Consigneecode);
+                $('#txtConsBranch').val(dr.CustBranch);
+                $('#txtShipping').val(dr.ShippingEmp);
+                $('#txtForwarder').val(dr.ForwarderCode);
+                $('#txtTransporter').val(dr.AgentCode);
+
+                ShowCustomerFull(path,dr.CustCode, dr.CustBranch, '#txtCustName', '#txtTAddress', '#txtEAddress', '#txtPhoneFax');
+                ShowJobTypeShipBy(path, dr.JobType, dr.ShipBy, dr.JobStatus, '#txtJobType', '#txtShipBy', '#txtJobStatus');
+
+                ShowUser(path, dr.ManagerCode, '#txtManagerName');
+                ShowUser(path, dr.CSCode, '#txtCSName');
+                ShowUser(path, dr.CloseJobBy, '#txtCloseBy');
+                ShowUser(path, dr.CancelProve, '#txtCancelBy');
+                ShowUser(path, dr.ShippingEmp, '#txtShippingName');
+
+                ShowVender(path, dr.ForwarderCode, '#txtForwarderName');
+                ShowVender(path, dr.AgentCode, '#txtTransporterName');
+
+                ShowCustomerFull(path, dr.Consigneecode, dr.CustBranch, '#txtConsignName', '#txtBillTAddress', '#txtBillEAddress', '');
+
+                ReadJob(dr);
+
+                if (dr.JobStatus >= 7 && userPosition<='7') {
+                    $('#btnSave').attr('disabled', 'disabled');
+                } else {
+                    $('#btnSave').removeAttr('disabled');
+		}
+
+		if(dr.JobStatus>90){
+		    $('#btnLinkAdv').attr('disabled', 'disabled');
+		    $('#btnLinkClr').attr('disabled', 'disabled');
+		}
+            }
+        });
+        ShowLog(Branch, Job);
+        ShowTracking(Branch, Job);
+    }
+>>>>>>> 3x
     function ReadJob(dr) {
         $('#txtQNo').val(dr.QNo);
         $('#txtQRevise').val(dr.Revise);
@@ -1087,6 +1424,8 @@ End Code
         $('#txtETADate').val(CDateEN(dr.ETADate));
         $('#txtLoadDate').val(CDateEN(dr.LoadDate));
         $('#txtDeliveryDate').val(CDateEN(dr.EstDeliverDate));
+        $('#txtDeliveryTime').val(ShowTime(dr.EstDeliverTime));
+        $('#txtConfirmChqDate').val(ShowTime(dr.ConfirmChqDate));
         $('#txtEDIDate').val(CDateEN(dr.ImExDate));
         $('#txtReadyClearDate').val(CDateEN(dr.ReadyToClearDate));
         $('#txtDutyDate').val(CDateEN(dr.DutyDate));
@@ -1122,6 +1461,7 @@ End Code
 
         ShowDeclareType(path, dr.DeclareType, '#txtDeclareTypeName');
         ShowReleasePort(path, dr.ClearPort, '#txtReleasePortName');
+        ShowReleasePort(path, dr.ClearPortNo, '#txtPortNoName');
 
         CalTotalLtd();
         CalTotalCust();
@@ -1276,11 +1616,27 @@ End Code
         .done(function (r) {
             if (r.job.data.length > 0) {
                 let d = r.job.data;
+<<<<<<< HEAD
                 if ($('#cboDocType').val() !== '') {
                     d = r.job.data.filter(function (data) {
                         return data.DocType == $('#cboDocType').val();
                     });
                 }
+=======
+		if (userPosition == '4' || userPosition == '5' || userPosition == '7') {
+			d = d.filter(function (x) {
+				if (x.DocType === 'ADV')          
+					return true;
+				
+				if (x.DocType === 'PAY')          
+					return true;
+
+				if (x.DocType === 'CLR' && !x.DocNo.includes('SRV'))
+					return true;				
+			});
+		}
+                let br = $('#txtBranchCode').val();
+>>>>>>> 3x
                 let tb=$('#tbTracking').DataTable({
                     data: d,
                     selected: true, //ให้สามารถเลือกแถวได้
@@ -1297,6 +1653,7 @@ End Code
                             render: function (data) {
                                 switch (data.DocType) {
                                     case "CHQ":
+<<<<<<< HEAD
                                         return '<a href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
                                     case "ADV":
@@ -1307,12 +1664,27 @@ End Code
                                         break;
                                     case "INV":
                                         return '<a href="../Acc/Invoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+=======
+                                        return '<a target="_blank" href="../Acc/Cheque?BranchCode=' + br + '&ControlNo=' + data.DocNo +'">' + data.DocNo + '</a>';
+                                        break;
+                                    case "ADV":
+                                        return '<a target="_blank" href="../Adv/Index?BranchCode=' + br + '&AdvNo=' + data.DocNo +'">' + data.DocNo + '</a>';
+                                        break;
+                                    case "CLR":
+                                        return '<a target="_blank" href="../Clr/Index?BranchCode='+ br +'&ClrNo='+ data.DocNo+'">' + data.DocNo + '</a>';
+                                        break;
+                                    case "INV":
+                                        return '<a target="_blank" href="../Acc/Invoice?Branch='+ br +'&Code='+ data.DocNo+ '">' + data.DocNo + '</a>';
+                                        break;
+                                    case "PAY":
+                                        return '<a target="_blank" href="../Acc/Expense?BranchCode='+ br +'&DocNo='+ data.DocNo+ '">' + data.DocNo + '</a>';
+>>>>>>> 3x
                                         break;
                                     case "TAX":
-                                        return '<a href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Acc/TaxInvoice?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
                                     case "RCV":
-                                        return '<a href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
+                                        return '<a target="_blank" href="../Acc/Receipt?Branch=' + br + '&Code=' + data.DocNo + '">' + data.DocNo + '</a>';
                                         break;
                                     default:
                                         return data.DocNo;
@@ -1336,10 +1708,17 @@ End Code
             .done(function (r) {
                 if (r.joborderlog.data.length > 0) {
                     let d = r.joborderlog.data;
+                    remarks = d;
                     let tb=$('#tbLog').DataTable({
                         data: d,
                         selected: true, //ให้สามารถเลือกแถวได้
                         columns: [ //กำหนด property ของ header column
+                            {
+                                data: "ItemNo", title: "#",
+                                render: function (data) {
+                                    return "<button class='btn btn-warning' onclick='ShowJobLog("+ data +");'>Edit</button>";
+                                }
+                            },
                             {
                                 data: "LogDate", title: "Date",
                                 render: function (data) {
@@ -1358,6 +1737,12 @@ End Code
     }
     function PrintData() {
         window.open(path + 'JobOrder/FormJob?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+    }
+    function PrintAdvCheck() {
+        window.open(path + 'JobOrder/FormPrepare?Form=AdvCheckClr&BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
+    }
+    function PrintFormPrepare() {
+        window.open(path + 'JobOrder/FormPrepare?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val(), '', '');
     }
     function PrintDelivery() {
         window.open(path + 'JobOrder/FormDelivery?Branch=' + $('#txtBranchCode').val() + '&Doc=' + $('#txtDeliverNo').val(), '', '');
@@ -1447,6 +1832,8 @@ End Code
         dr.ETADate = CDateEN($('#txtETADate').val());
         dr.LoadDate = CDateEN($('#txtLoadDate').val());
         dr.EstDeliverDate = CDateEN($('#txtDeliveryDate').val());
+        dr.EstDeliverTime = $('#txtDeliveryTime').val();
+        dr.ConfirmChqDate = $('#txtConfirmChqDate').val();
         dr.ImExDate = CDateEN($('#txtEDIDate').val());
         dr.ReadyToClearDate = CDateEN($('#txtReadyClearDate').val());
         dr.DutyDate = CDateEN($('#txtDutyDate').val());
@@ -1547,7 +1934,6 @@ End Code
             SaveData();
             return;
         } else {
-            if (user == rec.CloseJobBy) {
                 if (rec.JobStatus >= 3) {
                     rec.JobStatus = 0;
                     rec.CloseJobBy = null;
@@ -1562,7 +1948,6 @@ End Code
                     });
                     return;
                 }
-            }
         }
         ShowMessage('This job has been closed');
     }
@@ -1695,14 +2080,33 @@ End Code
         $('#frmContainerEdit').modal('hide');
     }
     function AddJobLog() {
+        $('#txtJobLogId').val(0);
         $('#txtLogRemark').val('');
         $('#frmJobOrderLog').modal('show');
+    }
+    function ShowJobLog(id) {
+        if (remarks.length > 0) {
+            let row = remarks[id - 1];
+            if (row.EmpCode !== user && user!=='ADMIN')
+                return;
+            $('#txtJobLogId').val(row.ItemNo);
+            $('#txtLogRemark').val(row.TRemark);
+            $('#frmJobOrderLog').modal('show');
+        }
+    }
+    function DelJobLog(){
+            let branch= $('#txtBranchCode').val();
+            let code=$('#txtJNo').val();
+            let item=$('#txtJobLogId').val();
+            $.get(path + 'JobOrder/DelJobOrderLog?Branch=' + branch + '&Code=' + code + '&Item='+ item).done((r)=>{
+		alert(r.joborderlog.result);
+            });
     }
     function SaveJobLog() {
         let obj = {
             BranchCode: $('#txtBranchCode').val(),
             JNo: $('#txtJNo').val(),
-            ItemNo: 0,
+            ItemNo: $('#txtJobLogId').val(),
             EmpCode: user,
             LogDate:  CDateEN(GetToday()),
             LogTime: GetTime(),
@@ -1736,6 +2140,12 @@ End Code
                     LoadPaperlessECSExport();
                 }
                 break;
+<<<<<<< HEAD
+=======
+            case 'ETRANSIT':
+                LoadPaperlessETRANSIT();
+                break;
+>>>>>>> 3x
         }
     }
     function LoadPaperlessECSExport() {
@@ -1762,7 +2172,7 @@ End Code
                 $('#txtInvUnit').val(r[0].TotalPackageUnit);
 
                 if (r[0].RecDate !== null) $('#txtEDIDate').val(CDateEN(r[0].RecDate));
-                if(r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
+                if (r[0].UDateDeclare !==null) $('#txtReadyClearDate').val(CDateEN(r[0].UDateDeclare));
                 if (r[0].UDateRelease !== null) $('#txtDutyDate').val(CDateEN(r[0].UDateRelease));
                 if (r[0].UDateActual !== null) $('#txtClearDate').val(CDateEN(r[0].UDateActual));
 
@@ -1813,6 +2223,7 @@ End Code
         $.get(path + 'JobOrder/GetPaperless'+ url).done(function (r) {
             if (r.length > 0) {
                 $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
                 $('#txtCustInvNo').val(r[0].invoiceno);
                 if (rec.JobType == 1) {
                     $('#txtInvFCountry').val(r[0].consignmentCTY);
@@ -1820,6 +2231,8 @@ End Code
                     if(r[0].VSLDTE!==null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
                     $('#txtInvTotal').val(r[0].BAHTVAL);
                     $('#txtDutyAmt').val(r[0].ALLDUTY);
+		    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
                 } else {
                     $('#txtInvCountry').val(r[0].DestinationCTY);
@@ -1830,7 +2243,7 @@ End Code
                     if(r[0].LOADEDTIME!==null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
                     $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY!==''? ' V.'+ r[0].VOY:''));
                 }
-                $('#txtReleasePort').val(r[0].ReleasedPort);
+                $('#txtReleasePort').val(r[0].ReleasePort);
                 $('#txtPortNo').val(r[0].LoadedPort);
                 $('#txtHAWB').val(r[0].HBL);
                 $('#txtMAWB').val(r[0].MBL);
@@ -1841,7 +2254,7 @@ End Code
                 $('#txtInvUnit').val(r[0].PCKUNT);
                 $('#txtInvCurrency').val(r[0].CUCVAL);
                 $('#txtInvCurRate').val(r[0].EHRVAL);
-                if(r[0].DECLDATECAL !==null) $('#txtEDIDate').val(ReverseDate(r[0].DECLDATECAL));
+                if(r[0].DECLDATECAL !==null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
                 if(r[0].DECLDATE !==null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
 
                 ShowMessage('Update Complete');
@@ -1854,6 +2267,7 @@ End Code
         let url = '?job=' + rec.JNo + '&type=' + rec.JobType;
         $.get(path + 'JobOrder/GetPaperless' + url).done(function (r) {
             if (r.length > 0) {
+<<<<<<< HEAD
                 $('#txtInvNo').val(r[0].dcl_invno);
                 $('#txtInvProduct').val(r[0].edesc01);
                 $('#txtInvTotal').val(r[0].total_duty);
@@ -1878,6 +2292,50 @@ End Code
                 $('#txtReleasePort').val(r[0].released);
                 $('#txtPortNo').val(r[0].loaded);
 
+=======
+                $('#txtDeclareNo').val(r[0].DECLNO);
+                $('#txtDeclareType').val(r[0].DOCTYPEOLD.split('-')[0]);
+                $('#txtCustInvNo').val(r[0].invoiceno);
+                let d = new Date(r[0].fImp_ArrivalDate);
+                console.log(d);
+                $('#txtEDIDate').val(r[0].fImp_ArrivalDate);
+                $('#txtReadyClearDate').val(r[0].fImp_ArrivalDate);
+                $('#txtClearDate').val(r[0].fImp_ArrivalDate);
+                if (rec.JobType == 1) {
+                    $('#txtInvFCountry').val(r[0].consignmentCTY);
+                    $('#txtInvCountry').val(r[0].OriginCTY);
+                    if (r[0].VSLDTE !== null) $('#txtETADate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].BAHTVAL);
+                    $('#txtDutyAmt').val(r[0].ALLDUTY);
+                    $('#txtComOthersPayBy').val(r[0].PaymentNo);
+                    $('#txtComPaidEPay').val(r[0].ALLDUTY);
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].voy !== '' ? ' V.' + r[0].voy : ''));
+                } else {
+                    $('#txtInvCountry').val(r[0].DestinationCTY);
+                    $('#txtInvFCountry').val(r[0].PurchaseCTY);
+                    if (r[0].VSLDTE !== null) $('#txtETDDate').val(ReverseDate(r[0].VSLDTE));
+                    $('#txtInvTotal').val(r[0].FOREVAL);
+                    $('#txtReadyClearDate').val(r[0].CHECKEDTIME.substring(0, 10));
+                    if (r[0].LOADEDTIME !== null) $('#txtClearDate').val(r[0].LOADEDTIME.substring(0, 10));
+                    $('#txtVesselName').val(r[0].VSLNME + (r[0].VOY !== '' ? ' V.' + r[0].VOY : ''));
+                }
+                $('#txtReleasePort').val(r[0].DischargePort);
+                $('#txtPortNo').val(r[0].LoadedPort);
+                $('#txtHAWB').val(r[0].HBL);
+                $('#txtMAWB').val(r[0].MBL);
+                $('#txtNetWeight').val(r[0].Net);
+                $('#txtGrossWeight').val(r[0].Gross);
+                $('#txtWeightUnit').val(r[0].GrossUnit);
+                $('#txtInvQty').val(r[0].PCK);
+                $('#txtInvUnit').val(r[0].PCKUNT);
+                $('#txtInvCurrency').val(r[0].CUCVAL);
+                $('#txtInvCurRate').val(r[0].EHRVAL);
+                if (r[0].DECLDATECAL !== null) $('#txtReadyClearDate').val(ReverseDate(r[0].DECLDATECAL));
+                if (r[0].DECLDATE !== null) $('#txtDutyDate').val(ReverseDate(r[0].DECLDATE));
+                $('#txtClearTaxReson').val(r[0].fReferenceNumber);
+                $('#txtInvCurrency').val(r[0].CurrencyCode);
+                $('#txtInvProduct').val(r[0].ProductEName);
+>>>>>>> 3x
                 ShowMessage('Update Complete');
             } else {
                 ShowMessage('Data not found', true);

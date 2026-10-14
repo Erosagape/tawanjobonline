@@ -665,7 +665,7 @@ End Code
     }
     function SaveData() {
         if ($('#txtDocNo').val() !== '') {
-            $.get(path + 'Acc/DelRcpDetail?Branch' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
+            $.get(path + 'Acc/DelRcpDetail?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtDocNo').val()).done(function (r) {
                 ApproveData();
             });
         } else {

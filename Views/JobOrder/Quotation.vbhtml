@@ -40,6 +40,18 @@ End Code
         </div>
         <div class="col-sm-6">
             <br />
+<<<<<<< HEAD
+=======
+            <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">
+                <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddQuo">New Quotation</label></b>
+            </a>
+            <a href="#" class="btn btn-warning" id="btnCopy" onclick="CopyData()">
+                <i class="fa fa-lg fa-close"></i>&nbsp;<b><label id="lblCopyQuo">Copy Quotation</label></b>
+            </a>
+            <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+                <i class="fa fa-lg fa-print"></i>&nbsp;<b><label id="lblPrintQuo">Print Quotation</label></b>
+            </a>
+>>>>>>> 3x
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="ShowHeader()">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b><label id="lblSearch">Search</label></b>
             </a>
@@ -65,7 +77,10 @@ End Code
                             <th class="desktop">Doc Date</th>
                             <th class="desktop">Customer</th>
                             <th class="desktop">Billing To</th>
+<<<<<<< HEAD
                             <th class="desktop">Remark</th>
+=======
+>>>>>>> 3x
                             <th class="desktop">Contact Name</th>
                             <th class="desktop">Manager Name</th>
                             <th class="desktop">Approve Date</th>
@@ -98,6 +113,7 @@ End Code
             </div>
         </div>
     </div>
+<<<<<<< HEAD
     <p>
         <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">
             <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddQuo">New Quotation</label></b>
@@ -109,6 +125,8 @@ End Code
             <i class="fa fa-lg fa-print"></i>&nbsp;<b><label id="lblPrintQuo">Print Quotation</label></b>
         </a>
     </p>
+=======
+>>>>>>> 3x
     <div id="frmHeader" class="modal fade">
         <div class="modal-dialog-lg">
             <div class="modal-content">
@@ -139,6 +157,10 @@ End Code
                             <div style="display:flex;flex-direction:row">
                                 <input type="text" id="txtDCustCode" class="form-control" style="width:130px" disabled />
                                 <input type="text" id="txtDCustBranch" class="form-control" style="width:70px" disabled />
+<<<<<<< HEAD
+=======
+                                <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+>>>>>>> 3x
                                 <input type="text" id="txtDCustName" class="form-control" style="width:100%" disabled />
                             </div>
                         </div>
@@ -259,6 +281,7 @@ End Code
                     <div style="display:flex">
                         <h4><b><label id="lblSection">Section And Expenses</label></b></h4>
                     </div>
+<<<<<<< HEAD
                     <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
                         <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">New Section</label></b>
                     </a>
@@ -272,6 +295,52 @@ End Code
                         </div>
                         <div class="col-sm-3">
                             <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
+=======
+		    <div class="row">
+			<div class="col-sm-2">
+				<a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
+                        		<i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">New Section</label></b>
+                    		</a>
+			</div>
+		    </div>
+		    <div class="row">
+			<div class="col-sm-2">
+                            <label id="lblSeqNo">Section No</label>:<br />
+                            <input type="text" id="txtSeqNo" class="form-control" disabled />
+                        </div>
+		    </div>
+                    <div class="row">
+			<div class="col-sm-2">
+                            <label id="lblGroup">Group</label>:<br />
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
+                        </div>
+                        <div class="col-sm-3"  style="display:none;">
+                            <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0" onchange="CheckJobType()" readonly></select>
+                        </div>
+                        <div class="col-sm-3" style="display:none;">
+                            <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0" readonly></select>
+>>>>>>> 3x
                         </div>
                         <div class="col-sm-4">
                             <label id="lblSDescription">Description</label>:
@@ -374,7 +443,12 @@ End Code
                             </div>
                         </div>
                         <div class="col-sm-4">
+<<<<<<< HEAD
                             <label id="lblDescriptionTH">Service Description</label><br />
+=======
+                            <a href="#" onclick="SearchData('route')"><label id="lblDescriptionTH">Service Description</label></a>
+                            <br />
+>>>>>>> 3x
                             <textarea id="txtDescriptionThai" class="form-control"></textarea>
                         </div>
                         <div class="col-sm-2">
@@ -458,6 +532,10 @@ End Code
                             </div>
                         </div>
                         <div class="col-sm-6">
+<<<<<<< HEAD
+=======
+                            <input type="hidden" id="txtIsService" value="0" />
+>>>>>>> 3x
                             <label id="lblVender">Vender</label>
                             <div style="display:flex">
                                 <input type="text" id="txtVenderCode" class="form-control" style="width:150px" disabled />
@@ -560,6 +638,33 @@ End Code
 
     SetLOVs();
 
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#txtJobType').val(gstr.substr(0,2));
+	$('#txtShipBy').val(gstr.substr(2,2));
+	/*let desc = gstr.substr(4,1);
+	
+	switch (desc) {
+		case 'C':
+		    $('#txtDescription').val('Customs');
+		    break;
+		case 'F':
+		    $('#txtDescription').val('Freight');
+		    break;
+		case 'T':
+		    $('#txtDescription').val('Transport');
+		    break;
+		case 'W':
+		    $('#txtDescription').val('Warehouse');
+		    break;
+		case 'G':
+		    $('#txtDescription').val('General');
+		    break;
+		default:
+		    $('#txtDescription').val('');
+		    break;
+	}*/
+    }
     function CheckJobType() {
         if (jt !== $('#txtJobType').val()) {
             jt = $('#txtJobType').val();
@@ -601,6 +706,8 @@ End Code
             row = {};
             row_d = {};
             row_i = {};
+//<th class="desktop">Remark</th>
+//{ data: "TRemark", title: "Remark" },
             let tb= $('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -621,7 +728,7 @@ End Code
                     },
                     { data: "CustCode", title: "Customer" },
                     { data: "BillToCustCode", title: "Billing To" },
-                    { data: "TRemark", title: "Remark" },
+                    
                     { data: "ContactName", title: "Contact Name" },
                     { data: "ManagerCode", title: "Manager Name" },
                     {
@@ -867,6 +974,10 @@ End Code
                 if (response.result.data !== null) {
                     ShowHeader();
                     $('#txtDocNo').val(response.result.data);
+<<<<<<< HEAD
+=======
+                    $('#txtQNo').val(response.result.data);
+>>>>>>> 3x
                     ShowMessage('Save Quotation=>'+response.result.data);
                     return;
                 }
@@ -1148,7 +1259,8 @@ End Code
     function SetLOVs() {
         $('#txtBranchCode').val('@ViewBag.PROFILE_DEFAULT_BRANCH');
         $('#txtBranchName').val('@ViewBag.PROFILE_DEFAULT_BRANCH_NAME');
-
+        $('#txtDocDateF').val(GetFirstDayOfMonth());
+        $('#txtDocDateT').val(GetLastDayOfMonth());
         let lists = 'JOB_TYPE=#txtJobType|,SHIP_BY=#txtShipBy|';
         loadCombos(path, lists);
 
@@ -1308,7 +1420,31 @@ End Code
         $('#txtSeqNo').val(row_d.SeqNo);
         $('#txtJobType').val(CCode(row_d.JobType));
         $('#txtShipBy').val(CCode(row_d.ShipBy));
-        $('#txtDescription').val(row_d.Description);
+        $('#txtDescription').val(row_d.Description);	
+
+	// make groupKey
+        let jt = $('#txtJobType').val();
+    	let sb = $('#txtShipBy').val();
+	//let g = $('#txtDescription').val().substr(0, 1);
+	//let groupKey = jt + sb + g;
+        let groupKey = jt + sb;
+
+	// find cboGroup value like groupKey
+	let option = $('#cboGroup option').filter(function () {
+        
+		return $(this).val().startsWith(groupKey);
+    
+	}).first();
+	
+    	if (option.length > 0) {
+        
+		$('#cboGroup').val(option.val());
+    
+	} else {
+        
+		$('#cboGroup').val('');
+    
+	}
     }
     function ReadItem() {
         $('#lblHeader').text(row_d.Description);
@@ -1365,7 +1501,11 @@ End Code
         $('#txtCommissionPerc').val(dt.CommRate);
         GetContact();
         let w = '?Branch=' + $('#txtBCustBranch').val() + '&Code=' + $('#txtBCustCode').val();
+<<<<<<< HEAD
         //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+=======
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+>>>>>>> 3x
         ShowCustomer(path, dt.BillToCustCode, dt.BillToBranch, '#txtBCustName');
     }
     function ReadContactName(dt) {
@@ -1394,7 +1534,7 @@ End Code
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
         $('#txtSDescription').val(dt.NameThai);
-        $('#txtDescriptionThai').val(dt.NameThai);
+        $('#txtDescriptionThai').val(dt.NameEng);
         $('#txtIsvat').val(dt.IsTaxCharge);
         $('#txtIsTax').val(dt.Is50Tavi);
         $('#txtVatRate').val(dt.IsTaxCharge == 1 ? CDbl(@ViewBag.PROFILE_VATRATE* 100, 0) : 0);
@@ -1430,7 +1570,14 @@ End Code
     function CalAmount() {
         let rate = CNum($('#txtCurrencyRate').val());
         let charge = CDbl(($('#txtChargeAmt').val() * rate), 2);
+<<<<<<< HEAD
         $('#txtTotalAmt').val(CDbl(charge,2));
+=======
+        $('#txtTotalAmt').val(CDbl(charge, 2));
+        if ($('#txtIsService').val() == '0' && CNum($('#txtVenderCost').val())== 0) {
+            $('#txtVenderCost').val(CDbl(charge, 2));
+        }
+>>>>>>> 3x
         CalDiscount();
     }
     function CalDiscount() {
@@ -1505,7 +1652,11 @@ End Code
     function CalProfit() {
         let comm = CNum($('#txtCommissionAmt').val());
         let cost = CNum($('#txtVenderCost').val());
+<<<<<<< HEAD
         let amt = GetNetPrice();
+=======
+        let amt = GetBasePrice();
+>>>>>>> 3x
         $('#txtBaseProfit').val(CDbl(amt - cost, 2));
         $('#txtNetProfit').val(CDbl(amt - comm - cost, 2));
     }

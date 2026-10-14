@@ -4,14 +4,22 @@
     ViewBag.ReportName = ""
     Dim space = "&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;"
 End Code
+<style>
+	* {
+    		text-transform : uppercase !important;
+	}
+</style>
 <table id="tbAdvInfo" style="width:100%">
     <tr>
-        <td colspan="3" style="font-size:11px">
+        <td align="center" colspan="4" style="font-size:11px">
+            <input type="text" value="ADVANCE REQUEST" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+        </td>
+
+    </tr>
+    <tr>
+        <td  style="font-size:11px">
             <b>Advance No : </b>
             <label id="lblAdvNo" style="text-decoration-line:underline"></label>
-        </td>
-        <td align="right" style="font-size:11px">
-            <input type="text" value="ADVANCE REQUEST" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
         </td>
     </tr>
     <tr>
@@ -21,7 +29,7 @@ End Code
             <br />
             <label id="lblCustName" style="text-decoration-line:underline;"></label>
         </td>
-        <td align="right" style="font-size:11px">
+        <td align="left" style="font-size:11px">
             <b>Advance Date : </b>
             <label id="lblAdvDate" style="text-decoration-line:underline;"></label>
         </td>
@@ -34,7 +42,11 @@ End Code
             <label id="lblShipBy" style="text-decoration-line:underline;"></label>
            
         </td>
+<<<<<<< HEAD
         <td align="right" colspan="1" style="font-size:11px">
+=======
+        <td align="left" colspan="1" style="font-size:11px">
+>>>>>>> 3x
 
 
             <b>Advance Type : </b>
@@ -46,7 +58,7 @@ End Code
             <b>Remark</b>
             <label id="lblRemark" style="text-decoration-line:underline;"></label>
         </td>
-        <td align="right" style="font-size:11px">
+        <td align="left" style="font-size:11px">
             <b>Request Date : </b>
             <label id="lblReqDate" style="text-decoration-line:underline;"></label>
         </td>
@@ -60,16 +72,27 @@ End Code
             <b>House BL/AWB :</b>
             <label id="lblHAWBNo" style="text-decoration-line:underline;"></label>
         </td>
-        <td align="right">
+        <td align="left">
             <b>Job No :</b>
             <label id="lblJNo" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
     <tr>
+<<<<<<< HEAD
         <td colspan="4" >
             <b style="font-size:14px">Payment To : </b>
             <label id="lblPayTo" style="text-decoration-line:underline;font-size:14px"></label>
         </td>
+=======
+        <td colspan="3" >
+            <b style="font-size:14px">Payment To : </b>
+            <label id="lblPayTo" style="text-decoration-line:underline;font-size:14px"></label>
+        </td>
+        <td align="left">
+            <b>Operation Date :</b>
+            <label id="lblOperDate" style="text-decoration-line:underline;"></label>
+        </td
+>>>>>>> 3x
     </tr>
 </table>
 <br />
@@ -161,19 +184,19 @@ End Code
             <table style="border-collapse:collapse;width:100%">
                 <tr>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        REQUEST.BY
+                        OPERATION
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        APPROVE.BY
+                        APPROVE
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        RECEIVED.BY
+                        ACCOUNTANT
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        POSTED.BY
+                        PAID
                     </td>
                     <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top">
-                        CLEARED.BY
+                        CLEARED
                     </td>
                 </tr>
                 <tr>
@@ -248,17 +271,18 @@ End Code
         $('#lblCustCode').text(h.CustCode + '/' + h.CustBranch);
         $('#lblRemark').text(h.TRemark);
         $('#lblAdvDate').text(ShowDate(h.AdvDate));
+        $('#lblOperDate').text(ShowDate(h.PayChqDate));
         $('#lblPayTo').html(h.PayChqTo);
         ShowPendingAmount(h.BranchCode, h.EmpCode);
         ShowCustomer(h.CustCode, h.CustBranch);
 
         ShowUserSign(path,h.EmpCode, '#lblReqBy');
         ShowUserSign(path,h.ApproveBy, '#lblAppBy');
-        ShowUserSign(path,h.EmpCode, '#lblPayBy');
+        //ShowUserSign(path,h.EmpCode, '#lblPayBy');
 
         $('#lblRequestDate').text(ShowDate(h.AdvDate));
         $('#lblAppDate').text(ShowDate(h.ApproveDate));
-        $('#lblPayDate').text(ShowDate(h.PaymentDate));
+        //$('#lblPayDate').text(ShowDate(h.PaymentDate));
 
         let jt = h.JobType;
         let sb = h.ShipBy;
@@ -290,9 +314,9 @@ End Code
         $('#txtWHTAmt').val(CCurrency(h.Total50Tavi.toFixed(2)));
 
         //$('#txtTotalAmt').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
-        $('#txtCustomerPayment').text(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
-        $('#txtCustomerPayment2').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
-        $('#txtTotalText').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        //$('#txtCustomerPayment').text(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        //$('#txtCustomerPayment2').val(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2)));
+        $('#txtTotalText').val(CNumEng(CCurrency((h.TotalAdvance + h.Total50Tavi).toFixed(2))));
         //show details
         let d = data.adv.detail;
         let jobno = d[0].ForJNo;
@@ -325,7 +349,7 @@ End Code
         let strAmt = '';
         let strWht = '';
         let totAmt = 0;
-        //let vat = 0;
+        let vat = 0;
         //let wht = 0;
         let r = dr;
         sortData(r, 'TRemark', 'asc');
@@ -345,7 +369,7 @@ End Code
                     return data.SICode === d.SICode;
                 });
                 if (c.length > 0) {
-                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + '<br/>');
+                    strDesc = strDesc + (d.SICode + '-' + d.SDescription + (d.PayChqTo!=''?' / ' + d.PayChqTo:'') + '<br/>');
                 } else {
                     strDesc = strDesc + d.SDescription+ '<br/>';
                 }
@@ -355,13 +379,15 @@ End Code
             strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
             totAmt += d.AdvAmount;
-            //vat += d.ChargeVAT;
+            vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
         $('#divDesc').html(strDesc);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
 	$('#txtAmt').val(CCurrency(totAmt.toFixed(2)))
+	$('#txtCustomerPayment').val(CCurrency((totAmt+vat).toFixed(2)))
+	$('#txtCustomerPayment2').val(CCurrency((totAmt+vat).toFixed(2)))
     }
 
             </script>

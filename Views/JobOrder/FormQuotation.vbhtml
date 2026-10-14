@@ -5,8 +5,17 @@
 End Code
 <style>
     * {
+<<<<<<< HEAD
         font-family: CORDIA NEW;
         font-size: 16px;
+=======
+        font-family: Tahoma;
+        font-size: 11px;
+    }
+
+    td {
+        font-size: 11px;
+>>>>>>> 3x
     }
 
     th {
@@ -26,6 +35,7 @@ End Code
         border-collapse: collapse;
     }
 </style>
+<<<<<<< HEAD
 <table style="width:100%">
 	<tbody>
         <tr>
@@ -55,6 +65,9 @@ End Code
 </table>
 <span id="lblDescriptionH" style='white-space:pre-wrap;width:100%'></span>
 @*<div style="display:flex">
+=======
+<div style="display:flex">
+>>>>>>> 3x
     <div style="flex:1">
         CUSTOMER : <label id="lblCustName"></label>
     </div>
@@ -86,9 +99,21 @@ End Code
             OFFERED TO : <label id="lblContactName"></label>
         </div>
     </div>
+<<<<<<< HEAD
 </div>*@
 
 <table style="margin-top:10px;" border="1" width="100%">
+=======
+</div>
+<br />
+<div style="display:flex">
+    <div style="flex:1">
+        <pre id="lblDescriptionH"></pre>
+    </div>
+</div>
+
+<table style="" border="1" width="100%">
+>>>>>>> 3x
     <thead>
         <tr>
             <th width="5%">NO.</th>
@@ -97,11 +122,16 @@ End Code
             <th width="7%">QTY</th>
             <th width="15%">UNIT PRICE</th>
             <th width="5%">EXC</th>
+<<<<<<< HEAD
             <th width="10%">AMOUNT<br />(THB)</th>
+=======
+            <th width="10%">AMOUNT<br />(FC)</th>
+>>>>>>> 3x
             <th width="10%">NET<br />(THB)</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
+<<<<<<< HEAD
     @*<tfoot>
             <tr>
                 <td colspan="4" class="number">GRAND TOTAL (THB)</td>
@@ -125,6 +155,38 @@ End Code
 <p>
     Best Regards
     <br /><br /><br />
+=======
+    <tfoot>
+        <tr>
+            <td colspan="6" class="number">TOTAL AMOUNT</td>
+            <td colspan="2" style="text-align:right"><label id="lblTotalCharge"></label></td>
+        </tr>
+        <tr>
+            <td colspan="6" class="number">TOTAL VAT</td>
+            <td colspan="2" style="text-align:right"><label id="lblTotalVat"></label></td>
+        </tr>
+        <tr>
+            <td colspan="6" class="number">GRAND TOTAL (THB)</td>
+            <td colspan="2" style="text-align:right"><label id="lblTotalNet"></label></td>
+        </tr>
+    </tfoot>
+</table>
+<p>
+    <br />
+    <div style="display:flex;width:100%">
+ 		<div style="flex:4">
+			<div id="lblDescriptionF" style="word-wrap: break-word;white-space: pre-wrap;" ></div>
+		</div>
+		<div style="flex:6">
+			<div id="lblTRemark" style="word-wrap: break-word;white-space: pre-wrap;width:100%;height:100%"></div>
+		</div>
+    </div>
+    <br />
+</p>
+<p>
+    Best Regards,
+    <br /><br /><br /><br />
+>>>>>>> 3x
     <label id="lblManagerName"></label>
 </p>
 <br />
@@ -148,11 +210,19 @@ End Code
   <table style="width: 100%;" border="1">
         <tbody style="text-align: center;">
             <tr style="text-align: center;background-color:lightgreen;">
+<<<<<<< HEAD
                 <td colspan="2"><label id="lblCmp"></label></td>
+=======
+                <td colspan="3"><label id="lblCmp"></label></td>
+>>>>>>> 3x
                 <td>Order confirmation by customer</td>
             </tr>         
   	    <tr style="text-align: center;background-color:lightgreen;">
 		<td > Quoted by</td>
+<<<<<<< HEAD
+=======
+		<td > Qualify by</td>
+>>>>>>> 3x
                 <td > Approve by</td>
 		
                 <td>Authorize Signature & Company Stamp</td>
@@ -161,6 +231,12 @@ End Code
                 <td>
                     <br> <br> <br> <br> <br>
                 </td>
+<<<<<<< HEAD
+=======
+		<td>
+                    <br> <br> <br> <br> <br>
+                </td>
+>>>>>>> 3x
  		<td>
                     <br> <br> <br> <br> <br>
                 </td>
@@ -171,6 +247,7 @@ End Code
             <tr >
                 <td style="width:25%">
                     (<label id="lblQBy">________________</label>)<br>
+<<<<<<< HEAD
                     <label id="lblQbyPosition">________________</label><br>
                     <label id="lblQDate">Date &nbsp;:________________  </label>
                 </td>
@@ -189,6 +266,34 @@ End Code
             </tr>
         </tbody>
     </table>
+=======
+                    <label id="lblQDate">Date &nbsp;:________________  </label><br>
+                    <label id="lblQbyPosition">________________</label>
+                </td>
+		 <td style="width:25%"> 
+                    (<label id="lblIBy">________________</label>)<br>
+                    <label id="lblIDate">Date &nbsp;:________________  </label><br>
+                    <label id="lblIbyPosition">________________ </label>
+                </td>
+                <td style="width:25%"> 
+                    (<label id="lblABy">________________</label>)<br>
+                    <label id="lblADate">Date &nbsp;:________________  </label><br>
+                    <label id="lblAbyPosition">________________ </label>
+                </td>
+		
+                <td style="text-align: left;">Date &nbsp;: <br>Position &nbsp;: </td>
+            </tr>
+        </tbody>
+    </table>
+<div style="display:flex;">
+<br/>
+การชำระเงิน / Payment<br/>
+KASIKORN BANK<br/>
+Branch : MAXVALU PHATTHANAKAN<br/>
+Account Number : 081-2-99658-4 <br/>
+Account Name : 3X LOGISTICS CO.,LTD.<br/>
+</div>
+>>>>>>> 3x
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
@@ -241,15 +346,25 @@ End Code
 
         let html = '';
         let service = 0;
+<<<<<<< HEAD
+=======
+        let serviceVat = 0;
+        let serviceTotal = 0;
+>>>>>>> 3x
         let rowid=0;
         for (let d of dt.detail) {
 
             html = '<tr style="background-color:lightgreen;"><td>' + d.SeqNo + '</td>';
             html += '<td colspan="3">' + d.Description + '</td>';
+<<<<<<< HEAD
             //html += '<td colspan="2">' + d.JobTypeName + '</td>';
             //html += '<td colspan="2">' + d.ShipByName + '</td>';
             html += '<td colspan="2"></td>';
             html += '<td colspan="2"></td>';
+=======
+            html += '<td colspan="2">' + d.JobTypeName + '</td>';
+            html += '<td colspan="2">' + d.ShipByName + '</td>';
+>>>>>>> 3x
             html += '</tr>';
             rowid++;
             $('#tbDetail').append(html);
@@ -257,9 +372,12 @@ End Code
                 return data.SeqNo == d.SeqNo;
             });
 	    let itemid=0;
+<<<<<<< HEAD
 	    let sumTotalAmt = 0;
 	    let sumAmtTotal = 0;
 
+=======
+>>>>>>> 3x
             for (let i of items) {
 		itemid++;
                 let desc = i.DescriptionThai;
@@ -277,8 +395,13 @@ End Code
 
                 $('#tbDetail').append(html);
                 service += amtTotal;
+<<<<<<< HEAD
 		sumTotalAmt += i.TotalAmt.toFixed(2)-0;
 		sumAmtTotal += amtTotal.toFixed(2)-0;
+=======
+                serviceVat += (i.VatAmt*i.QtyEnd);
+                serviceTotal += (amtTotal+(i.VatAmt*i.QtyEnd));
+>>>>>>> 3x
             }
 	    html = '<tr style="background-color:lightgreen;"><td></td>';
             html += '<td colspan="3"></td>';
@@ -290,5 +413,10 @@ End Code
             $('#tbDetail').append(html);
         }
         $('#lblTotalCharge').text(ShowNumber(service, 2));
+<<<<<<< HEAD
+=======
+        $('#lblTotalVat').text(ShowNumber(serviceVat, 2));
+        $('#lblTotalNet').text(ShowNumber(serviceTotal, 2));
+>>>>>>> 3x
     }
 </script>

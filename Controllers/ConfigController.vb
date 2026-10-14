@@ -621,7 +621,7 @@ Namespace Controllers
                                     .SessionID = Session.SessionID,
                                     .FromIP = Request.UserHostAddress,
                                     .LoginDateTime = DateTime.Now,
-                                    .ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                    .ExpireDateTime = DateTime.Now.AddMinutes(Convert.ToInt32(Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600)))
                                 }
                                 Session("CurrUser") = cName
                                 Session("UserProfiles") = oUser
@@ -766,14 +766,14 @@ Namespace Controllers
                                             Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "LOGIN_SHIPPING", oData(0).UserID, DateTime.UtcNow.ToString(), False)
                                         Else
                                             Dim oNew = New CWebLogin(cnMas) With {
-                                                        .CustID = My.MySettings.Default.LicenseTo.ToString,
-                                                        .AppID = appName,
-                                                        .UserLogIN = oData(0).UserID,
-                                                        .SessionID = Session.SessionID,
-                                                        .FromIP = Request.UserHostAddress,
-                                                        .LoginDateTime = DateTime.Now,
-                                                        .ExpireDateTime = DateTime.Now.AddMinutes(20)
-                                                    }
+                                                .CustID = My.MySettings.Default.LicenseTo.ToString,
+                                                .AppID = appName,
+                                                .UserLogIN = oData(0).UserID,
+                                                .SessionID = Session.SessionID,
+                                                .FromIP = Request.UserHostAddress,
+                                                .LoginDateTime = DateTime.Now,
+                                                .ExpireDateTime = DateTime.Now.AddMinutes(20)
+                                            }
                                             Session("CurrUser") = oData(0).UserID
                                             Session("UserProfiles") = oData(0)
                                             Session("DatabaseID") = dbID

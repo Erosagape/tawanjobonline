@@ -36,6 +36,35 @@ End Code
 </div>
 <div class="row">
     <div class="col-sm-2">
+        <label id="lblGroup"> Job Group</label>
+    </div>
+    <div class="col-sm-4">
+				<select id="cboGroup" class="form-control dropdown" onchange="CheckGroup()" style="width:100%">
+                                <option value=""></option>
+                                @Code
+                                    Dim strhtml As String = ""
+                                    Dim tmp As String = ""
+                                    Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Config WHERE ConfigCode like 'JOB_PREFIX%'")
+                                    For Each dr As System.Data.DataRow In rs.Rows
+                                        If tmp <> dr("ConfigCode") Then
+                                            If tmp <> "" Then
+                                                strhtml &= "</optgroup>"
+                                            End If
+                                            tmp = dr("ConfigCode")
+                                            strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
+                                        End If
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                    Next
+                                    If tmp <> "" Then
+                                        strhtml &= "</optgroup>"
+                                    End If
+                                End Code
+                                @Html.Raw(strhtml)
+                            </select>
+    </div>
+</div>
+<div class="row" style="display:none;">
+    <div class="col-sm-2">
         <label id="lblJobType"> Job Type</label>
     </div>
     <div class="col-sm-4">
@@ -235,5 +264,10 @@ End Code
                 });
                 break;
         }
+    }
+    function CheckGroup() {
+        let gstr=$('#cboGroup').val();
+	$('#txtJobType').val(gstr.substr(0,2));
+	$('#txtShipBy').val(gstr.substr(2,2));
     }
 </script>

@@ -33,6 +33,15 @@ End Code
         <td align="right" style="font-size:11px;">
             <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
         </td>
+<<<<<<< HEAD
+=======
+    </tr>
+    <tr>
+	<td>
+		<div id="txtRVCust" style="font-size:11px;"></div>
+		<label ></label>
+	</td>
+>>>>>>> 3x
     </tr>
 </table>
 <div style="display:none">
@@ -184,6 +193,7 @@ End Code
             <td></td>
         </tr>
     </tbody>
+<<<<<<< HEAD
 </table>
 <br />
 <div>
@@ -252,6 +262,82 @@ End Code
         </td>
     </tr>
 </table>
+=======
+</table>
+<br />
+<div>
+<div id="txtTRemark">
+</div>
+<table width="100%" style="border-collapse:collapse;margin-top:30px">
+    <tbody>
+        <tr>
+            <td  style="vertical-align:top;width:15%">
+                ชำระโดย
+            </td>
+            <td style="width:15%"><span style="border:2px black solid;color:transparent">_____</span>  Cash/Transfer</td>
+            <td> ______________________________</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td ><span style="border:2px black solid;color:transparent">_____</span>  Cheque</td>
+            <td>  ______________________________</td>
+@*	
+            <td style="text-align:center">
+                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                <p>  <br />ธนาคาร/Bank</p>
+            </td>
+            <td style="text-align:center">
+                <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                <p>  <br />เช็คเลขที่/Cheque Number</p>
+            </td>
+*@
+        </tr>
+    </tbody>
+</table>
+</div>
+<br />
+<div style="display:flex;padding-top:10px;">
+    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
+	<br />
+        <br />
+	<br />
+	<br />
+        <br />
+        <p>__________________________________________</p>
+        @*_____________________<br />
+        ___/_______/___<br />*@
+	ผู้มีอำนาจลงนาม<br />
+        AUTHORIZED SIGNATURE
+    </div>
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+
+	<br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <p>__________________________________________</p>
+        @*_____________________<br />
+        ___/_______/___<br />*@
+	<label id="txtSig2"></label><br />
+        AUTHORIZED SIGNATURE
+    </div>
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+
+	<br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <p>__________________________________________</p>
+        @*_____________________<br />
+        ___/_______/___<br />*@
+	<label id="txtSig3"></label><br />
+        AUTHORIZED SIGNATURE
+    </div>
+</div>
+
+>>>>>>> 3x
 </div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -272,11 +358,45 @@ End Code
         let bankName=data.document[0].BankName;
         let bookName=data.document[0].BookName;
 	let sumAllSub = 0;
+<<<<<<< HEAD
+=======
+	$('#txtTRemark').empty();
+
+
+	function addTRemark(text) {
+    
+		if (text) {
+        
+			$('#txtTRemark').append(text + ' | ');
+		}
+
+	}
+>>>>>>> 3x
         if (data.payment !== null) {
-            for(let obj of data.payment) {
+            for(let obj of data.payment) {		
                 if(vcType!==obj.PRType){
                     vcType=obj.PRType;
                 }
+<<<<<<< HEAD
+=======
+  
+
+		if (obj.PRType == 'R') {
+			$('#txtSig2').text('ผู้รับเงิน');
+			$('#txtSig3').text('ผู้รับใบสำคัญรับ');
+			$.get(path + 'Master/GetCompany?branch=' + data.header[0].CustBranch + '&code=' + data.header[0].CustCode, function (r) {
+				let c= r.company.data[0];				
+				$('#txtRVCust').html(
+				'Customer : ' + c.NameThai + ' Branch : ' + c.Branch.toString().padStart(5, '0') +
+				'<br>' + 
+				'Address : ' + c.TAddress1 + ' TAX NUMBER : ' + c.TaxNumber			
+				);			
+			});			
+		} else {
+			$('#txtSig2').text('ผู้จ่ายเงิน');
+			$('#txtSig3').text('ผู้รับใบสำคัญจ่าย');
+		}
+>>>>>>> 3x
                 $('#txtControlNo').text(obj.PRVoucher);
                 vcTypeName = GetVoucherType(vcType);
                 let acType=obj.acType;
@@ -284,9 +404,15 @@ End Code
                 let payType = '';
                 let desc = '';
                 let desc0 = '';
+<<<<<<< HEAD
 		        let totalamt=Number(obj.TotalAmount);
 
                 appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.ControlNo, CCurrency(CDbl(totalamt + Number(CDbl(obj.VatExc, 2)) - + Number(CDbl(obj.WhtExc, 2)),2)));
+=======
+		let totalamt=Number(obj.TotalAmount);
+
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.ControlNo, CCurrency(CDbl(totalamt - Number(CDbl(obj.WhtExc, 2)),2)));
+>>>>>>> 3x
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -296,6 +422,7 @@ End Code
                         if (obj.RecvBank !== '') {
                             payType = 'TRANSFER';
                         }
+<<<<<<< HEAD
                         desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
                         desc0 += obj.RecvBank != '' ? '<br/>BANK ' + bankName + ' BRANCH ' + obj.RecvBranch : '';
                         desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + bookName + ' REF# ' + obj.DocNo : '';
@@ -314,13 +441,34 @@ End Code
                         desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
                         desc0 += obj.TRemark != '' ? '<br/>NOTE : ' + obj.TRemark : '';
                         desc0 += obj.RecvBank != '' ? '<br/>DEP.BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
+=======
+                        addTRemark(obj.PayChqTo !== '' ? 'PAY TO ' + obj.PayChqTo : '');
+                        addTRemark(obj.RecvBank != '' ? 'NOTE : BANK ' + bankName : '');
+                        addTRemark(obj.BookCode != '' ? 'ACCOUNT ' + bookName + ' REF# ' + obj.DocNo : '');
+                        addTRemark(obj.TRemark != '' ? 'DATE : ' + obj.TRemark : '');
+                        break;
+                    case 'CH':
+                        payType = 'TRANSFER';
+                        addTRemark(obj.PayChqTo !== '' ? 'PAY TO ' + obj.PayChqTo : '');
+                        addTRemark(obj.RecvBank != '' ? 'BANK ' + bankName + ' BRANCH ' + obj.RecvBranch : '');
+                        addTRemark(obj.BookCode != '' ? 'ACCOUNT ' + bookName + ' REF# ' + obj.ChqNo : '');
+                        addTRemark(obj.TRemark != '' ? 'DATE : ' + obj.TRemark : '');
+			break;
+                    case 'CU':
+                        payType = 'CUSTOMER CHEQUE';
+                        addTRemark(obj.ChqNo !== '' ? 'NO ' + obj.ChqNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '');
+                        addTRemark(obj.BankCode != '' ? 'BANK ' + bankName + ' BRANCH ' + obj.BankBranch : '');
+                        addTRemark(obj.PayChqTo !== '' ? 'TO ' + obj.PayChqTo : '');
+                        addTRemark(obj.TRemark != '' ? 'NOTE : ' + obj.TRemark : '');
+                        addTRemark(obj.RecvBank != '' ? 'DEP.BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '');
+>>>>>>> 3x
                         break;
                     case 'CR':
                         payType = 'CREDIT';
-                        desc0 += obj.DocNo !== '' ? '<br/>REF ' + obj.DocNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
-                        desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
+                        addTRemark(obj.DocNo !== '' ? 'REF ' + obj.DocNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '');
+                        addTRemark(obj.PayChqTo !== '' ? 'TO ' + obj.PayChqTo : '');
                         break;
-                }
+		}
                 switch (vcType) {
                     case 'P':
                         desc += '<table style="text-align:left;width:100%">';
@@ -331,7 +479,7 @@ End Code
                         desc += '</table>';
 
                         debit += '<table style="text-align:right;width:100%">';
-                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.TotalAmount) + Number(obj.VatExc) + Number(obj.VatInc), 2)) + '</td></tr>';
+                        debit += '<tr><td>' + CCurrency(CDbl(Number(obj.TotalAmount) - Number(obj.VatExc) - Number(obj.VatInc), 2)) + '</td></tr>';
                         debit += '<tr><td>' + CCurrency(CDbl(Number(obj.WhtExc) + Number(obj.WhtInc), 2)) + '</td></tr>';
                         debit += '<tr><td><br/></td></tr>';
                         debit += '<tr><td><br/></td></tr>';
@@ -440,7 +588,7 @@ End Code
                     }
                 }
                 if (obj.SICode !== '') {
-                    desc0 += obj.SICode !== null ? '<br/>FOR ' + obj.SICode : '';
+                    desc0 += obj.SICode !== null ? '<br/>FOR ' + obj.SICode + ' ' + obj.TRemark: '';
                 }
 
                 //summary section
@@ -466,12 +614,20 @@ End Code
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '</table>';
+<<<<<<< HEAD
                 let totalnet = Number(obj.TotalAmount) + Number(obj.VatExc) - Number(obj.WhtExc);
+=======
+                let totalnet = Number(obj.TotalAmount);
+>>>>>>> 3x
 		sumAllSub += totalnet;
                 let desc2 = '<table width="100%">';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
+<<<<<<< HEAD
                 desc2 += CCurrency(CDbl(totalamt,2));
+=======
+                desc2 += CCurrency(CDbl(totalamt-Number(obj.VatExc),2));
+>>>>>>> 3x
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';

@@ -26,46 +26,159 @@ Namespace Controllers
                         System.IO.File.Delete(savePath)
                     End If
                     fileUpload.SaveAs(savePath)
-                    Dim dt = New CUtil(GetSession("ConnJob")).ReadExcelFromFile(savePath)
-                    Dim data = dt.Clone()
                     Dim tbName = "Job_Order"
+                    Dim obj = New CUtil(GetSession("ConnJob"))
+                    Dim dt = obj.ReadExcelFromFile(savePath, tbName)
+
+                    Dim prefix As String = ""
+                    If Not Request.QueryString("Prefix") Is Nothing Then
+                        prefix = Request.QueryString("Prefix")
+                    End If
+
+                    Dim custCode As String = ""
+                    If Not Request.QueryString("CustCode") Is Nothing Then
+                        custCode = Request.QueryString("CustCode")
+                    End If
+
+                    Dim custBr As String = "0000"
+                    If Not Request.QueryString("CustBranch") Is Nothing Then
+                        custBr = Request.QueryString("CustBranch")
+                    End If
+
+                    Dim jobType As Integer = 0
+                    Dim shipBy As Integer = 0
+
+                    If Not Request.QueryString("JobType") Is Nothing Then
+                        jobType = Convert.ToInt32(Request.QueryString("JobType"))
+                    End If
+                    If Not Request.QueryString("ShipBy") Is Nothing Then
+                        shipBy = Convert.ToInt32(Request.QueryString("ShipBy"))
+                    End If
+
+                    If obj.Message = "OK" Then
+                    Else
+                        ViewBag.Message = obj.Message
+                        Return GetView("Import", "MODULE_REP")
+                    End If
+                    Dim data = dt.Clone()
+                    Dim totalRows As Integer = dt.Rows.Count
                     Dim rowUpdate As Long = 0
                     Dim msgUpdate As String = ""
                     Using cn = New SqlClient.SqlConnection(GetSession("ConnJob"))
                         cn.Open()
                         For Each dr As DataRow In dt.Rows
-                            Try
-                                Dim sql As String = "SELECT * FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'"
-                                Using da As New SqlClient.SqlDataAdapter(String.Format(sql, GetSession("CurrBranch"), dr("JNo").ToString), cn)
-                                    Dim cb As New SqlClient.SqlCommandBuilder(da)
-                                    Dim tb As New DataTable
-                                    da.Fill(tb)
-                                    If tb.Rows.Count > 0 Then
-                                        Dim r = tb.Rows(0)
-                                        For Each dc As DataColumn In dt.Columns
-                                            If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
-                                                Try
-                                                    r(dc.ColumnName) = dr(dc.ColumnName)
-                                                Catch ex As Exception
+                            If Not System.DBNull.Value.Equals(dr("DocDate")) Then
+                                If dr("JNo").ToString() = "" Then
+                                    Dim oJob = New CJobOrder(GetSession("ConnJob"))
+                                    Try
+                                        oJob.DocDate = dr("DocDate")
+                                    Catch ex As Exception
+                                        oJob.DocDate = DateTime.Now
+                                        msgUpdate &= vbCrLf & "[ERROR] Process " & dr("JNo").ToString() & " Date=" & dr("DocDate")
+                                    End Try
+                                    Try
+                                        If prefix <> "" Then
+                                            dr("Prefix") = prefix
+                                        End If
+                                        If custCode <> "" Then
+                                            dr("CustCode") = custCode
+                                            dr("CustBranch") = custBr
+                                        End If
+                                        If jobType > 0 Then
+                                            dr("JobType") = jobType
+                                        End If
+                                        If shipBy > 0 Then
+                                            dr("ShipBy") = shipBy
+                                        End If
+                                    Catch ex As Exception
 
-                                                End Try
+                                    End Try
+                                    Try
+                                        If dr("HAWB").ToString().Trim() <> "" Then
+                                            Dim sql As String = " WHERE HAWB='" & dr("HAWB").ToString().Trim() & "' AND JNo like '" & dr("Prefix") & "%'"
+                                            Dim chk = New CJobOrder(GetSession("ConnJob")).GetData(sql)
+                                            If chk.Count > 0 Then
+                                                oJob.JNo = chk(0).JNo
                                             End If
-                                        Next
-                                        da.Update(tb)
-                                        data.ImportRow(r)
-                                        rowUpdate += 1
-                                    Else
-                                        msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")] Job Not Found"
+                                        End If
+                                    Catch ex As Exception
+
+                                    End Try
+
+                                    If oJob.JNo = "" Then
+                                        Dim fmt = Main.GetValueConfig("RUNNING", "JOB")
+                                        If fmt <> "" Then
+                                            If fmt.IndexOf("bb") >= 0 Then
+                                                fmt = fmt.Replace("bb", oJob.DocDate.AddYears(543).ToString("yy"))
+                                            End If
+                                            If fmt.IndexOf("yy") >= 0 Then
+                                                fmt = fmt.Replace("yy", oJob.DocDate.ToString("yy"))
+                                            End If
+                                            If fmt.IndexOf("MM") >= 0 Then
+                                                fmt = fmt.Replace("MM", oJob.DocDate.ToString("MM"))
+                                            End If
+                                        Else
+                                            fmt = oJob.DocDate.ToString("yyMM") & "____"
+                                        End If
+                                        oJob.AddNew(prefix & fmt)
                                     End If
-                                End Using
-                            Catch ex As Exception
-                                msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")]" & ex.Message
-                            End Try
+                                    dr("JNo") = oJob.JNo
+                                End If
+                                msgUpdate &= vbCrLf & "Process " & dr("JNo").ToString()
+                                Try
+                                    Dim sql As String = "SELECT * FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'"
+                                    Using da As New SqlClient.SqlDataAdapter(String.Format(sql, GetSession("CurrBranch"), dr("JNo").ToString), cn)
+                                        Dim cb As New SqlClient.SqlCommandBuilder(da)
+                                        Dim tb As New DataTable
+                                        da.Fill(tb)
+                                        If tb.Rows.Count > 0 Then
+                                            Dim r = tb.Rows(0)
+                                            For Each dc As DataColumn In dt.Columns
+                                                If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                                    Try
+                                                        r(dc.ColumnName) = dr(dc.ColumnName)
+                                                    Catch ex As Exception
+                                                        msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")] " & ex.Message
+                                                    End Try
+                                                End If
+                                            Next
+                                            da.Update(tb)
+                                            data.ImportRow(r)
+                                            rowUpdate += 1
+                                        Else
+                                            Dim r = tb.NewRow
+                                            r("BranchCode") = GetSession("CurrBranch")
+                                            r("JobStatus") = 0
+                                            r("CreateDate") = DateTime.Now
+                                            r("CSCode") = GetSession("CurrUser")
+                                            For Each dc As DataColumn In dt.Columns
+                                                If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                                    Try
+                                                        r(dc.ColumnName) = dr(dc.ColumnName)
+                                                    Catch ex As Exception
+                                                        msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")] " & ex.Message
+                                                    End Try
+                                                End If
+                                            Next
+                                            Try
+                                                tb.Rows.Add(r)
+                                                rowUpdate += 1
+                                                da.Update(tb)
+                                                data.ImportRow(r)
+                                            Catch ex As Exception
+                                                msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")] " & ex.Message
+                                            End Try
+                                        End If
+                                    End Using
+                                Catch ex As Exception
+                                    msgUpdate &= vbCrLf & "[ERROR(" & dr("JNo").ToString & ")]" & ex.Message
+                                End Try
+                            End If
                         Next
                         cn.Close()
                     End Using
                     ViewBag.Data = data
-                    ViewBag.Message = "Upload " & fileUpload.FileName & " Complete (" & rowUpdate & " Updated)" & vbCrLf & msgUpdate
+                    ViewBag.Message = "Upload " & fileUpload.FileName & " Complete Rows=" & totalRows & " (" & rowUpdate & " Updated)" & vbCrLf & msgUpdate
                 Else
                     ViewBag.Message = "You must select some file"
                 End If
@@ -2354,20 +2467,6 @@ FROM Job_Order GROUP BY Year(DocDate),Month(DocDate)
                 Throw ex
             End Try
             Return dt
-        End Function
-        Function TruckProfit() As ActionResult
-            Dim formName As String = ""
-            If Not Request.QueryString("Form") Is Nothing Then
-                formName = Request.QueryString("Form")
-            End If
-            Return GetView("TruckProfit" & formName)
-        End Function
-        Function TruckProfitDetail() As ActionResult
-            Dim formName As String = ""
-            If Not Request.QueryString("Form") Is Nothing Then
-                formName = Request.QueryString("Form")
-            End If
-            Return GetView("TruckProfitDetail" & formName)
         End Function
     End Class
 End Namespace

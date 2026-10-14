@@ -256,6 +256,7 @@ End Code
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
                             </p>
                             <label id="lblRemark">Remark</label>
+<<<<<<< HEAD
                             :
                             <div style="display:flex;flex-direction:row">
                                 <div style="flex:1">
@@ -267,6 +268,20 @@ End Code
                             </div>
                             @*<input type="text" id="txtRemark1" class="form-control" />*@
                             <input type="text" id="txtRemark2" class="form-control" />
+=======
+                            :<br />
+                            <textarea type="text" id="txtRemark1" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark2" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark3" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark4" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark5" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark6" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark7" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark8" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark9" class="form-control" ></textarea>
+                            <textarea type="text" id="txtRemark10" class="form-control" ></textarea>
+                            @*<input type="text" id="txtRemark2" class="form-control" />
+>>>>>>> 3x
                             <input type="text" id="txtRemark3" class="form-control" />
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
@@ -274,7 +289,7 @@ End Code
                             <input type="text" id="txtRemark7" class="form-control" />
                             <input type="text" id="txtRemark8" class="form-control" />
                             <input type="text" id="txtRemark9" class="form-control" />
-                            <input type="text" id="txtRemark10" class="form-control" />
+                            <input type="text" id="txtRemark10" class="form-control" />*@
                         </div>
                     </div>
                 </div>
@@ -638,12 +653,18 @@ End Code
         if (code !== '') {
             let branch = row.BranchCode;
             switch (row.ShippingRemark) {
+<<<<<<< HEAD
                 @*case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;*@
+=======
+                case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
+                    break;
+>>>>>>> 3x
                 case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
                     break;
                 case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
+<<<<<<< HEAD
 		case "EVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
                 case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
@@ -654,6 +675,8 @@ End Code
                     break;
 		case "EVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_EX', '_blank');
                     break;*@
+=======
+>>>>>>> 3x
                 default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
             }
         }

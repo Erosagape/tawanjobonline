@@ -348,9 +348,16 @@ End Code
     function GetDataSave(dt) {
         dt.SICode = $('#txtSICode').val().trim();
         dt.GroupCode = $('#cboType').val();
-        if (dt.SICode == "") dt.SICode = $('#cboType').val() + '-';
-        dt.NameThai=$('#txtNameThai').val();
-        dt.NameEng=$('#txtNameEng').val();
+        //if (dt.SICode == "") dt.SICode = $('#cboType').val() + '-';
+        if (dt.SICode == "") dt.SICode = $('#cboType').val();
+
+        //dt.NameThai=$('#txtNameThai').val();
+        //dt.NameEng=$('#txtNameEng').val();
+    	var nameThai = $('#txtNameThai').val();
+    	var nameEng  = $('#txtNameEng').val();
+   	dt.NameThai = nameThai ? nameThai.toUpperCase() : '';
+    	dt.NameEng  = nameEng  ? nameEng.toUpperCase()  : '';
+
         dt.StdPrice=CNum($('#txtStdPrice').val());
         dt.UnitCharge=$('#txtUnitCharge').val();
         dt.CurrencyCode=$('#txtCurrencyCode').val();

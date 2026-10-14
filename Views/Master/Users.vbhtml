@@ -235,6 +235,7 @@ End Code
     }
     function ReadUser(dr) {
         if (dr.UserID != undefined) {
+<<<<<<< HEAD
             row = dr;
             let u=dr.UserID;
 	    if(userGroup=='V') {		
@@ -242,6 +243,14 @@ End Code
 	    } else {
 	        $('#txtUserID').val(dr.UserID);
 	    }
+=======
+            if(dr.UPassword=='ลาออกแล้ว') {
+		alert('This user is not active anymore');
+		return;
+            }
+            row = dr;	    
+            $('#txtUserID').val(dr.UserID);
+>>>>>>> 3x
             $('#txtUPassword').val(dr.UPassword);
             $('#txtTName').val(dr.TName);
             $('#txtEName').val(dr.EName);
@@ -381,10 +390,34 @@ End Code
         var code = $('#txtUserID').val();
         ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
-            $.get(path + 'master/deluser?code=' + code, function (r) {
-                ShowMessage(r.user.result);
-                ClearData();
-            });
+	    $('#txtUPassword').val('ลาออกแล้ว');
+	    var obj = GetDataSave();
+            if (obj.UserID == '') {
+                ShowMessage('Please input code',true);
+                return;
+            }
+            if (obj.TName == '') {
+                ShowMessage('Please input name',true);
+                return;
+            }
+                var jsonText = JSON.stringify({ data: obj });
+                //ShowMessage(jsonText);
+                $.ajax({
+                    url: "@Url.Action("SetUser", "Master")",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: jsonText,
+                    success: function (response) {
+                        if (response.result.data!=null) {
+                            $('#txtUserID').val(response.result.data);
+                            $('#txtUserID').focus();
+                        }
+                        ShowMessage(response.result.msg);
+                    },
+                    error: function (e) {
+                        ShowMessage(e,true);
+                    }
+                });
         });
     }
     function SaveUserRole(id,role) {

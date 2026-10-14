@@ -5,9 +5,13 @@ End Code
 <style>
 
     * {
+<<<<<<< HEAD
         font-size: 13px;
 	page-break-inside:auto !important;
 	page-break-after:auto !important;
+=======
+        font-size: 11px;
+>>>>>>> 3x
     }
 
     body {
@@ -113,7 +117,11 @@ End Code
             <tbody>
                 <tr>
                     <td>
+<<<<<<< HEAD
                         <label id="invoiceNoLbl">DEBIT NOTE NO.:</label>
+=======
+                        <label id="invoiceNoLbl">INVOICE NO.:</label>
+>>>>>>> 3x
                     </td>
                     <td>
                         <label id="invoiceNo"> </label>
@@ -121,7 +129,11 @@ End Code
                 </tr>
                 <tr>
                     <td>
+<<<<<<< HEAD
                         <label id="invoiceDateLbl">DATE:</label>
+=======
+                        <label id="invoiceDateLbl">INVOICE DATE:</label>
+>>>>>>> 3x
                     </td>
                     <td>
                         <label id="invoiceDate"></label>
@@ -151,6 +163,7 @@ End Code
                         <label id="currency"></label>
                     </td>
                 </tr>
+<<<<<<< HEAD
  		<tr>
                     <td>
                         <label id="exchangeRateLbl">EXCHG.RATE:</label>
@@ -159,6 +172,8 @@ End Code
                         <label id="exchangerate"></label>
                     </td>
                 </tr>
+=======
+>>>>>>> 3x
             </tbody>
         </table>
     </div>
@@ -170,10 +185,17 @@ End Code
             <td><label id="destinyLbl">POL/ POD</label></td>
             <td>:</td>
             <td>
+<<<<<<< HEAD
    		<label id="portfrom"></label>&nbsp; 
    		<label id="origin"></label>
    		to <label id="portto"></label>&nbsp; <label id="destiny"></label>
 	    </td>
+=======
+                <label id="port"></label>
+                <label id="origin"></label>
+                to <label id="destiny"></label>
+            </td>
+>>>>>>> 3x
 
 
 
@@ -226,9 +248,15 @@ End Code
         </tr>
 
         <tr>
+<<<<<<< HEAD
             <td><label id="containerNoLbl">TOTAL CONTAINER</label></td>
             <td>:</td>
             <td><div id="lblTotalCTN"></div></td>
+=======
+            <td><label id="containerNoLbl">CONTANER NO.</label></td>
+            <td>:</td>
+            <td><div id="containerNo"></div></td>
+>>>>>>> 3x
 
             <td><label id="volumeLbl">VOLUME</label></td>
             <td>:</td>
@@ -343,6 +371,7 @@ End Code
 <br />
 <br />
 <table class="table" style="width:100%">
+<<<<<<< HEAD
 	<tr>
 		<td>
 			<div style="width: 70%;border: 1px solid #000000; border-radius: 10px; padding: 10px;">
@@ -365,19 +394,71 @@ End Code
         <td class="bold" style="width: 33%; text-align: center;">Approved By :</td>
 
         <td class="bold" style="width: 33%; text-align: center;">Preapared By </td>
+=======
+    <tr>
+        <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
+
+        <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
+
+        <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
+>>>>>>> 3x
 
     </tr>
     <tr>
         <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
         <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br /><br /> _________________________________________</td>
+<<<<<<< HEAD
         <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> @ViewBag.UserName</td>
+=======
+        <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><br /> _________________________________________</td>
+>>>>>>> 3x
     </tr>
     <tr>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
         <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+<<<<<<< HEAD
         <td class="bold" style="text-align: center;">DATE : @DateTime.Now.ToString("dd/MM/yyyy")</td>
     </tr>
 </table>
+=======
+        <td class="bold" style="text-align: center;">DATE : ________________________________</td>
+    </tr>
+</table>
+<b>
+    <br />
+    1. PLEASE ADVISE YOUR CONFIRMATION BEFORE CLEAR BALANCE
+    <br />
+    2. PLEASE PAY TO OUR BANK:
+    <br />
+</b>
+BANK DETAILS FOR 3X LOGISTICS CO.,LTD.
+<table style="width:100%">
+    <tbody>
+        <tr>
+            <td colspan="2">ACCOUNT NAME </td>
+            <td>: 3X LOGISTICS CO.,LTD.</td>
+        </tr>
+        <tr>
+            <td colspan="2">BANK NAME</td>
+            <td>: KASIKORN BANK PUBLIC CO.,LTD.</td>
+        </tr>
+        <tr>
+            <td colspan="2">BRANCH</td>
+            <td>: MAXVALU PHATTHANAKAN</td>
+        </tr>
+        <tr>
+            <td colspan="2">ACCOUNT No.</td>
+            <td>: 081-2-99658-4</td>
+        </tr>
+        <tr>
+            <td colspan="2">SWIFT BANK CODE</td>
+            <td>: KASITHBK</td>
+        </tr>
+    </tbody>
+
+</table>
+
+>>>>>>> 3x
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
@@ -402,6 +483,7 @@ End Code
 
                 let addr = '';
                 addr += b.EAddress1 + '<br/>' + b.EAddress2;
+<<<<<<< HEAD
                 addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : 0000' + Number(b.Branch);
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
@@ -411,6 +493,16 @@ End Code
                 $("#id").text(h.BillToCustCode);
 	        });
 
+=======
+                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
+		        $("#billAddress1").text(b.EAddress1);
+		        $("#billAddress2").text(b.EAddress2);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#crTerm").text(b.CreditLimit);
+                $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
+	        });
+            $("#id").text(h.CustCode);
+>>>>>>> 3x
             //$("#billName").text(c.NameEng);
             //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
             //console.log(c.EAddress1);
@@ -423,6 +515,7 @@ End Code
             //$("#crTerm").text(c.CreditLimit);
             //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
+<<<<<<< HEAD
             $("#exchangerate").text(h.ExchangeRate);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             $("#remark").text(h.Remark1);
@@ -448,12 +541,26 @@ End Code
                 		$('#portto').text(b.PortName?b.PortName+" ":"");
             		}
              	});
+=======
+            //$("#destiny").text("PASIR GUDANG-BANGKOK");
+            $("#remark").text(h.Remark1);
+            if (j.JobType == 1) {
+                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#port');
+                ShowCountry(path, j.InvFCountry, '#origin');
+                ShowCountry(path, j.InvCountry, '#destiny');
+            } else {
+
+                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#port');
+                ShowCountry(path, j.InvFCountry, '#destiny');
+                ShowCountry(path, j.InvCountry, '#origin');
+>>>>>>> 3x
             }
             $("#jobNo").text(j.JNo);
             $("#vessel").text(j.VesselName);
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
+<<<<<<< HEAD
 	    $("#lblTotalCTN").text(j.TotalContainer);
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
             $("#totpkg").text(j.TotalQty + " PALLETS");
@@ -466,6 +573,16 @@ End Code
                 let b = r.company.data[0];
                 $("#ref").text(b.NameEng);
 	        });
+=======
+            $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
+            $("#totpkg").text(j.TotalQty + " PALLETS");
+            $("#newBlNo").text(j.BookingNo);
+            $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
+            $("#volume").text(j.Measurement);
+            $("#custInvNo").text(j.InvNo);
+            $("#ref").text(j.CustRefNO);
+
+>>>>>>> 3x
 
             ShowVender(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
@@ -481,11 +598,16 @@ End Code
             let sumWht1 = 0;
             let sumWht1_5 = 0;
             let sumWht3 = 0;
+<<<<<<< HEAD
             let totalRows = 8;
+=======
+            let totalRows = 10;
+>>>>>>> 3x
             let blankRows = totalRows - d.length;
             for (let row of d) {
 
                 html += '        <tr>';
+<<<<<<< HEAD
                 html += '            <td class="" style="border-right-color: transparent;">' + row.SDescription + (row.ExpSlipNO!=='' ? ' #' + row.ExpSlipNO : '') + '</td>';
                 html += '            <td>' + row.CurrencyCode + ShowNumber(row.FUnitPrice,2) + '/' + ShowNumber(row.Qty, 3) + ' ' + row.QtyUnit + '</td>';
                 html += '            <td class="right">'+ row.CurrencyCode + ' ' + ShowNumber(row.FAmt,2)  + '</td>';
@@ -505,6 +627,27 @@ End Code
                     vat += row.FAmt;
                 } else {
                     nonVat += row.FAmt;
+=======
+                html += '            <td class="" style="border-right-color: transparent;">' + row.SDescription + ' #' + row.ExpSlipNO + '</td>';
+                html += '            <td>' + row.CurrencyCode + ShowNumber(row.FUnitPrice, 2) + '/' + ShowNumber(row.Qty, 3) + ' ' + row.QtyUnit + '</td>';
+                html += '            <td class="right">'+ row.CurrencyCode + ShowNumber(row.Amt, 2)  + '</td>';
+
+                //html += '            <td class="right">' + row.Rate50Tavi + '</td>';
+                //html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
+                //html += '            <td class="right">' + row.QtyUnit+'</td>';
+                //html += '            <td class="right">' + row.CurrencyCode + '</td>';
+                //html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
+                //html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
+                //html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
+                //html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
+                //html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
+                html += '        </tr>';
+                adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
+                if (row.AmtVat > 0) {
+                    vat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+                } else {
+                    nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
+>>>>>>> 3x
                 }
 
                 switch (row.Rate50Tavi - 0) {
@@ -538,6 +681,7 @@ End Code
                 //html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
+<<<<<<< HEAD
             $('#gross1').text(ShowNumber(sumbaseWht1,2));
             $('#wtAmt1').text(ShowNumber(sumWht1,2));
             $('#gross3').text(ShowNumber(sumbaseWht3,2));
@@ -560,6 +704,30 @@ End Code
 
             $("#totalNet").text(h.CurrencyCode+" "+ShowNumber(vat+nonVat,2));
             $("#grandTotal").text(h.CurrencyCode + " " +ShowNumber(vat+nonVat,2));
+=======
+            $('#gross1').text(ShowNumber(sumbaseWht1, 2));
+            $('#wtAmt1').text(ShowNumber(sumWht1, 2));
+            $('#gross3').text(ShowNumber(sumbaseWht3, 2));
+            $('#wtAmt3').text(ShowNumber(sumWht3, 2));
+            $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
+            $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+
+            $("#advanceAmount").text(ShowNumber(adv,2));
+            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
+            $("#vatAmount").text(ShowNumber(vat, 2));
+            $('#details').html(html);
+            $("#valueAddedTax").text(ShowNumber(h.TotalVAT, 2));
+            $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
+            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
+            $("#netAmount").text(ShowNumber(h.TotalNet, 2));
+            $("#taxRate1").text("1%");
+            $("#taxRate1_5").text("1.5%");
+            $("#taxRate3").text("3%");
+            $("#bahtText").text(CNumEng(CDbl(h.TotalNet, 2)));
+
+            $("#totalNet").text(h.CurrencyCode+" "+ShowNumber(nonVat, 2));
+            $("#grandTotal").text(h.CurrencyCode + " " +ShowNumber(nonVat, 2));
+>>>>>>> 3x
 
 
 

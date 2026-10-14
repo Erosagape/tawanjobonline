@@ -838,6 +838,13 @@ End Code
             }
         });
 
+        $('#txtUnitCode').keydown(function (event) {
+            if (event.which == 13) {
+                CalVATWHT();
+                CalTotal();
+            }
+        });
+
         $('#txtForJNo').keydown(function (event) {
             if (event.which == 13) {
                 //ShowInvNo(path, $('#txtBranchCode').val(), $('#txtForJNo').val(), '#txtInvNo');
@@ -1189,12 +1196,12 @@ End Code
     function EnableSave(b) {
         //$('#btnSave').removeAttr('disabled');
         $('#btnDel').removeAttr('disabled');
-        $('#btnUpdate').removeAttr('disabled');
+        //$('#btnUpdate').removeAttr('disabled');
         if (b == false) {
             //$('#chkCancel').attr('disabled', 'disabled');
             //$('#btnSave').attr('disabled', 'disabled');
             $('#btnDel').attr('disabled', 'disabled');
-            $('#btnUpdate').attr('disabled', 'disabled');
+            //$('#btnUpdate').attr('disabled', 'disabled');
         }
     }
     function AddHeader() {
@@ -1316,15 +1323,19 @@ End Code
         $('#btnPrint').attr('disabled', 'disabled');
         $('#btnAdd').attr('disabled', 'disabled');
         $('#btnDel').attr('disabled', 'disabled');
+<<<<<<< HEAD
         $('#btnUpdate').attr('disabled', 'disabled');
+=======
+        //$('#btnUpdate').attr('disabled', 'disabled');
+>>>>>>> 3x
                 
         if (userRights.indexOf('E') >= 0){
             $('#btnSave').removeAttr('disabled');
-            $('#btnUpdate').removeAttr('disabled');
+            //$('#btnUpdate').removeAttr('disabled');
         }
         if (userRights.indexOf('I') >= 0) {
             $('#btnSave').removeAttr('disabled');
-            $('#btnUpdate').removeAttr('disabled');
+            //$('#btnUpdate').removeAttr('disabled');
             $('#btnAdd').removeAttr('disabled');
         }
         if (userRights.indexOf('D') >= 0) {
@@ -1583,14 +1594,43 @@ End Code
             $('#txtAdvAmount').val(CDbl(dt.AdvAmount, 2));
             $('#txtVenderBillingNo').val(dt.VenderBillingNo);
             $('#txtLinkBillNo').val(dt.LinkBillNo); 
+<<<<<<< HEAD
+=======
+            UnlockField();
+>>>>>>> 3x
             if ($('#txtLinkBillNo').val() !== '') {
-                $('#btnUpdate').attr('disabled', 'disabled');
+                //$('#btnUpdate').attr('disabled', 'disabled');
+                LockField();
             }
             $('#txtLinkItem').val(dt.LinkItem);
             ShowCurrency(path, $('#txtCurrencyCode').val(), '#txtCurrencyName');
             ShowCaption();
             return;
         }
+    }
+    function LockField() {
+            $('#txtQty').attr('disabled','disabled');
+            $('#txtCurRate').attr('disabled','disabled');
+            $('#txtUnitPrice').attr('disabled','disabled');
+            $('#txtVatType').attr('disabled','disabled');
+            $('#txtVATRate').attr('disabled','disabled');
+            $('#txtWHTRate').attr('disabled','disabled');
+            $('#txtAMT').attr('disabled','disabled');
+            $('#txtVAT').attr('disabled','disabled');
+            $('#txtWHT').attr('disabled','disabled');
+            $('#txtNET').attr('disabled','disabled');
+    }
+    function UnlockField() {
+            $('#txtQty').removeAttr('disabled');
+            $('#txtCurRate').removeAttr('disabled');
+            $('#txtUnitPrice').removeAttr('disabled');
+            $('#txtVatType').removeAttr('disabled');
+            $('#txtVATRate').removeAttr('disabled');
+            $('#txtWHTRate').removeAttr('disabled');
+            $('#txtAMT').removeAttr('disabled');
+            $('#txtVAT').removeAttr('disabled');
+            $('#txtWHT').removeAttr('disabled');
+            $('#txtNET').removeAttr('disabled');
     }
     function LoadDetailFromPay(dt) {
         if (dt != undefined) {
@@ -1994,7 +2034,11 @@ End Code
             ShowCurrency(path, dt.CurrencyCode, '#txtCurrencyName');
             ShowCaption();
             //$('#txtVenCode').val(dt.DefaultVender);
+<<<<<<< HEAD
             ShowVender(path, dt.DefaultVender, '#txtPayChqTo');            
+=======
+            ShowVender(path, dt.DefaultVender, '#txtPayChqTo');
+>>>>>>> 3x
             /*
             if (dt.IsTaxCharge == "2") {
                 $('#txtAMT').attr('disabled', 'disabled');
@@ -2014,7 +2058,11 @@ End Code
             if (dt.IsHaveSlip == 0) {
                 $('#txtSlipNo').attr('disabled', 'disabled');
             } else {
+<<<<<<< HEAD
                 $('#txtSlipNo').removeAttr('disabled');
+=======
+		$('#txtSlipNo').removeAttr('disabled');
+>>>>>>> 3x
             }
             CalVATWHT();
         }
@@ -2080,6 +2128,7 @@ End Code
             CalVATWHT();
         }           
     }
+<<<<<<< HEAD
     function CalTotal() {
         let amt = CDbl($('#txtAMT').val(),4);
         let vat = CDbl($('#txtVAT').val(),4);
@@ -2087,8 +2136,19 @@ End Code
 
         $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),4));
         $('#txtAMT').val(CDbl(amt,4));
+=======
+    function CalTotal(dec=4) {
+        let amt = CDbl($('#txtAMT').val(),dec);
+        let vat = CDbl($('#txtVAT').val(),dec);
+        let wht = CDbl($('#txtWHT').val(),dec);
+
+        $('#txtNET').val(CDbl(CNum(amt) + CNum(vat) - CNum(wht),dec));
+        $('#txtVAT').val(CDbl(vat,dec));
+        $('#txtWHT').val(CDbl(wht,dec));
+        $('#txtAMT').val(CDbl(amt,dec));
+>>>>>>> 3x
     }
-    function CalVATWHT() {
+    function CalVATWHT(dec=2) {
         let type = $('#txtVatType').val();
         if (type == ''||type=='0') type = '1';
         let amt = CDbl($('#txtAMT').val(),4);
@@ -2105,8 +2165,11 @@ End Code
             vat = base * vatrate * 0.01;
             wht = base * whtrate * 0.01;
             $('#txtAMT').val(CDbl(CNum(base),4));
+<<<<<<< HEAD
         $('#txtVAT').val(CDbl(vat,4));
         $('#txtWHT').val(CDbl(wht,4));
+=======
+>>>>>>> 3x
             $('#txtNET').val(CDbl(CNum(base) + CNum(vat) - CNum(wht), 4));
         }
         if (type == "1") {
@@ -2115,7 +2178,12 @@ End Code
         $('#txtVAT').val(CDbl(vat,2));
         $('#txtWHT').val(CDbl(wht,2));
         }
+<<<<<<< HEAD
 
+=======
+        $('#txtVAT').val(CDbl(vat,dec));
+        $('#txtWHT').val(CDbl(wht,dec));
+>>>>>>> 3x
         CalTotal();
     }
     function LoadAdvance() {

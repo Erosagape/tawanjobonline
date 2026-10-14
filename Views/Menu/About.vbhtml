@@ -86,15 +86,33 @@ End Code
         <a href="http://www.anydesk.com">1. AnyDesk</a>
         <br/>
         <a href="http://www.teamviewer.com">2. TeamViewer</a>
+        <br/>
+        <a href="https://www.supremocontrol.com">3. Supremo</a>
+        <br/>
+        <a href="https://www.ultraviewer.net/th/">4. Ultraviewer</a>
     </div>
     <div class="row">
         <b>Manual</b>
+	<br/>
+	1. All Manual /คู่มือการใช้โปรแกรมบริหารงานชิปปิ้ง / 所有手册-点击下载用户手册。<a href="http://103.225.168.137/Docs">PDF-คลิ๊ก !downloadคู่มือการใช้งาน</a>
         <br/>
-        1. Setup First-time using <a href="http://103.225.168.137/docs/setupmaster.pdf">PDF</a>
+        2. Setup First-time using <a href="http://103.225.168.137/docs/MAS2-SetupMaster_设置主数据.pdf">PDF</a>
         <br/>
+<<<<<<< HEAD
         2. Full Manual ver 1.0 <a href="http://103.225.168.137/docs/manual.pdf">PDF</a>
 	<br/>
 	3. Manual Data For B/L,AWB <a href="http://103.225.168.137/docs/manualBLAWB.pdf">PDF</a>
+=======
+        3. Full Manual ver 1.0 <a href="http://103.225.168.137/docs//FULL-Manual_V0.1手册.pdf">PDF</a>
+	<br/>
+	4. Manual Data For B/L,AWB <a href="http://103.225.168.137/docs/CS01วิธีจัดทำใบBL%20,AWB,ManualBLAWB_海运空运提单手册.pdf">PDF</a>
+        <br/>
+	5. Manual VDO Youtube. <a href="http://tawantech.co.th/tawantech/pageHome/Manual.html">PDFคลิ๊ก !downloadคู่มือการใช้งาน</a>
+        <br/>
+	6.Tawan Job Workflow <a href="http://103.225.168.137/Docs/TawanJobWorkflow/">IMG</a>
+        <br/>
+	7.คู่มือโปรแกรมช่วยนำส่งข้อมูล SWC User Interface <a href="https://www.rd.go.th/fileadmin/user_upload/WHT/swc1.5.4/swc-ui_manual_1.5.4.pdf">PDF</a>
+>>>>>>> 3x
     </div>
 </div>
 
