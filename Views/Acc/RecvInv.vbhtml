@@ -150,11 +150,7 @@ End Code
                     <div class="col-sm-6">
                         <input type="checkbox" id="chkUseDue" /><label id="lblSearchByDue">Select by Payment Due Date</label>
                         <br />
-<<<<<<< HEAD
-                        <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" /><label id="lblGroupByDoc">Group Documents</label>
-=======
                         <input type="checkbox" id="chkGroupByDoc" onclick="SetVisible()" checked /><label id="lblGroupByDoc">Group Documents</label>
->>>>>>> 3x
                     </div>
                 </div>
                 <div class="row">
@@ -435,13 +431,8 @@ End Code
         $.get(path + 'acc/getinvforreceive?show=OPEN&branch=' + $('#txtBranchCode').val() + w, function (r) {
             if (r.invdetail.data.length == 0) {
                 $('#tbSummary tbody').on('click', 'tr', function () { });
-<<<<<<< HEAD
-                $('#tbHeader').DataTable().clear().draw();
-                $('#tbSummary').DataTable().clear().draw();
-=======
                 $('#tbHeader').hide();
                 $('#tbSummary').hide();
->>>>>>> 3x
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }

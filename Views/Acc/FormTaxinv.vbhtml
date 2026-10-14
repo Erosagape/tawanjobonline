@@ -18,18 +18,6 @@ border-right: 0px solid #000000;
 border-left: 0px solid #000000;
 }
 .border td,th {
-<<<<<<< HEAD
-border-bottom: 1px solid;
-border-top: 1px solid;
-border-right: 1px solid;
-border-left: 1px solid;
-}
-</style>
-<div id="dvheader"></div>
-<table style="width:100%; margin-top:5px" class="text-center">
-    <thead id="theader">
-        <tr style="background-color:lightblue;"  class="border">
-=======
 border-bottom: 0.5px solid;
 border-top: 0.5px solid;
 border-right: 0.5px solid;
@@ -40,7 +28,6 @@ border-left: 0.5px solid;
 <table style="width:100%; margin-top:3px" class="text-center">
     <thead id="theader">
         <tr class="border">
->>>>>>> 3x
             <th height="40" width="240">INV.NO.</th>
             <th width="70">JOB</th>
             <th width="60">NON VAT</th>
@@ -62,11 +49,7 @@ border-left: 0.5px solid;
 	  <td></td>
         <td></td>
     </tr>
-<<<<<<< HEAD
-    <tr class="border" style="background-color:lightblue;text-align:right;">
-=======
     <tr class="border" style="text-align:right;">
->>>>>>> 3x
         <td style="text-align:center"><label id="lblTotalText"></label></td>
         <td>TOTAL AMOUNT</td>
         <td><label id="lblTotalBeforeNOVAT"></label></td>
@@ -76,19 +59,12 @@ border-left: 0.5px solid;
         <td><label id="lblTotalADV"></label></td>
         <td><label id="lblTotalNET"></label></td>
     </tr>
-<<<<<<< HEAD
-    <tr class="border" style="background-color:lightblue;text-align:right;">
-	<td colspan="3">TOTAL SERVICES</td>
-	<td><label id="lblTotalCharge"></label></td>
-        <td colspan="3">TOTAL RECEIPT</td>
-=======
     <tr class="border" style="text-align:right;">
 	<td colspan="1">TOTAL SERVICES</td>
 	<td colspan="1"><label id="lblTotalCharge"></label></td>
 	<td colspan="2">TOTAL AMOUNT VAT</td>
 	<td colspan="1"><label id="lblTotalAmtVat"></label></td>
         <td colspan="2">TOTAL RECEIPT</td>
->>>>>>> 3x
         <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
     </tr>
 </table>
@@ -109,17 +85,6 @@ border-left: 0.5px solid;
             DATE &nbsp;<label id='transferDate' style='text-decoration: underline;'>____________</label> &nbsp; BANK &nbsp;<label id='transferBank'  style='text-decoration: underline;'>____________</label>  &nbsp; AMOUNT &nbsp;<label id='transferAmount' style='text-decoration: underline;'>____________</label> &nbsp;BAHT
         </div>
     </div>
-<<<<<<< HEAD
-<br />
-<div style="display:flex;">
-    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
-
-        FOR THE CUSTOMER
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
-=======
 <div style="display:flex;padding:30px;gap:5px;">
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
 	<br />
@@ -130,26 +95,10 @@ border-left: 0.5px solid;
         @*_____________________<br />
         ___/_______/___<br />*@
 	ผู้มีอำนาจลงนาม<br />
->>>>>>> 3x
         AUTHORIZED SIGNATURE
     </div>
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
-<<<<<<< HEAD
-        FOR THE COMPANY
-        <br /><br /><br />
-        <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
-    </div>
-</div>
-<br/>
-<label>
-	หมายเหตุ :
-	การชำระเงินด้วยเช็คจะสมบูรณ์ต่อเมื่อบริษัทได้รับเงินตามเช็คเรียบร้อยแล้ว<br/><br/>
-
-	กรณีแก้ไขเอกสารกรุณาแจ้งภายใน7วัน<br/>
-=======
 	<br />
         <br />
         <br />
@@ -178,17 +127,12 @@ border-left: 0.5px solid;
 	หมายเหตุ  :
 	การชำระเงินด้วยเช็คจะสมบูรณ์ต่อเมื่อบริษัทได้รับเงินตามเช็คเรียบร้อยแล้ว
 	กรณีแก้ไขเอกสารกรุณาแจ้งภายใน7วัน
->>>>>>> 3x
 	หากพ้นกำหนด บริษัทจะไม่รับผิดชอบใดๆทั้งสิ้น<br/>
 </label>
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let htmlheader = '<div style="text-align:center;width:100%">';
-<<<<<<< HEAD
-    htmlheader += '<h2><label style="font-size:18px;">{doctype}</label></h2>';
-=======
     htmlheader += '<b><label style="font-size:16px;">{doctype}</label></b>';
->>>>>>> 3x
     htmlheader += '</div>';
     htmlheader += '<div style="text-align:right;width:100%">{copy}</div>';
     htmlheader += '<div style="display:flex;">';
@@ -225,19 +169,11 @@ border-left: 0.5px solid;
         switch (h.ReceiptType) {
             case 'TAX':
                 //$('#lblDocType').html('TAX-INVOICE / RECEIPT<br>ใบกำกับภาษี / ใบเสร็จรับเงิน');
-<<<<<<< HEAD
-                htmlheader = htmlheader.replace('{doctype}', 'TAX-INVOICE / RECEIPT<br>ใบกำกับภาษี / ใบเสร็จรับเงิน');
-                break;
-            case 'SRV':
-                //$('#lblDocType').text('TAX-INVOICE / ใบกำกับภาษี');
-                htmlheader = htmlheader.replace('{doctype}', 'TAX-INVOICE / ใบกำกับภาษี');
-=======
                 htmlheader = htmlheader.replace('{doctype}', 'RECEIPT / TAX-INVOICE<br>ใบเสร็จรับเงิน / ใบกำกับภาษี');
                 break;
             case 'SRV':
                 //$('#lblDocType').text('TAX-INVOICE / ใบกำกับภาษี');
                 htmlheader = htmlheader.replace('{doctype}', 'RECEIPT / TAX-INVOICE<br>ใบเสร็จรับเงิน / ใบกำกับภาษี');
->>>>>>> 3x
                 break;
             case 'DNR':
                 //$('#lblDocType').text('DEBIT NOTE RECEIPT / ใบเสร็จรับเงิน');
@@ -343,64 +279,37 @@ border-left: 0.5px solid;
             html += '<td style="text-align:center">' + d.JobNo + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge > 0 ? ShowNumber(d.AmtSrvNOVAT, 2) : '') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.AmtCharge-d.AmtSrvNOVAT,2):'') + '</td>';
-<<<<<<< HEAD
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'') + '</td>';
-            html += '<td style="text-align:right">' + (d.AmtAdvance>0? ShowNumber(d.AmtAdvance,2):'') + '</td>';
-            html += '<td style="text-align:right">' + ShowNumber(d.InvTotal,2) + '</td>';
-=======
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.AmtVAT,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Amt50Tavi,2):'') + '</td>';
             html += '<td style="text-align:right">' + (d.AmtAdvance>0? ShowNumber(d.AmtAdvance,2):'') + '</td>';
             html += '<td style="text-align:right">' + ShowNumber(d.Net,2) + '</td>';
->>>>>>> 3x
             html += '</tr>';
 
             $('#tbDetail').append(html);
             servat += Number(d.AmtCharge - d.AmtSrvNOVAT);
             sernovat += Number(d.AmtSrvNOVAT);
             if (d.AmtCharge > 0) {
-<<<<<<< HEAD
-                service += Number(d.AmtCharge);
-                vat += Number(d.InvVAT);
-                wht += Number(d.Inv50Tavi);
-               
-	     amt += Number(d.InvAmt) + Number(d.InvVAT);
-=======
                 service += d.AmtCharge;
                 vat += d.InvVAT;
                 wht += d.Amt50Tavi;
                
 	        amt += Number(d.Amt) + Number(d.AmtVAT);
->>>>>>> 3x
             } else {
 
             }
 
             adv += Number(d.AmtAdvance);
-<<<<<<< HEAD
-            total +=Number(d.InvTotal);
-		console.log(amt);
-=======
             total +=Number(CDbl(d.Net,2));
 	    //console.log(amt);
->>>>>>> 3x
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(servat, 2));
         $('#lblTotalBeforeNOVAT').text(ShowNumber(sernovat, 2));
         $('#lblTotalCharge').text(ShowNumber(sernovat+servat, 2));
-<<<<<<< HEAD
-=======
         $('#lblTotalAmtVat').text(ShowNumber(servat+vat, 2));
->>>>>>> 3x
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(adv+servat+sernovat+vat, 2));
-<<<<<<< HEAD
-        $('#lblTotalNET').text(ShowNumber(servat+sernovat+vat+adv-wht, 2));
-        $('#lblTotalText').text(CNumThai(CDbl(servat+sernovat+vat+adv-wht,2)));
-=======
         $('#lblTotalNET').text(ShowNumber(total, 2));
         $('#lblTotalText').text(CNumThai(CDbl(total,2)));
 	console.log('adv : ' + adv);
@@ -408,6 +317,5 @@ border-left: 0.5px solid;
 	console.log('sernovat : ' + sernovat);
 	console.log('vat : ' + vat);
 	console.log('wht : ' + wht);
->>>>>>> 3x
     }
 </script>

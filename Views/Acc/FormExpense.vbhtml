@@ -1,5 +1,5 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_ReportT.vbhtml"
+    Layout = "~/Views/Shared/_Report.vbhtml"
     ViewBag.Title = "PAYABLE VOUCHER"
     ViewBag.ReportName = ""
 End Code
@@ -205,12 +205,6 @@ End Code
             <td>
                 <label id="carrier" class=""></label>
             </td>
-            <td>
-                <label id="remarkLbl" class="bold">REMARK</label>
-            </td>
-            <td>
-                <label id="remark"></label>
-            </td>
         </tr>
     </tbody>
 </table>
@@ -400,7 +394,6 @@ End Code
 		ShowVenderAddr(path,h.VenCode);
                 $("#voucherNo").text(h.DocNo);
                 $("#voucherDate").text(ShowDate(h.DocDate));
-		$("#remark").text(h.Remark);
                 $("#jobNo").text(h.ForJNo);
                 $("#totalVatAmount").text(ShowNumber(h.TotalVAT, 2));
                 $("#lessWT").text(ShowNumber(h.TotalTax, 2));
@@ -425,7 +418,7 @@ End Code
                 let sumWht10 = 0
                 let sumWhtother = 0
                 let html = '';
-                let totalRows = 10;
+                let totalRows = 20;
                 let blankRows = totalRows - d.length;
                 
                 for (let row of d) {
@@ -478,15 +471,12 @@ End Code
                             sumbaseWht3 += row.Amt;
                             sumWht3 += row.AmtWHT;
                         }
-<<<<<<< HEAD
-=======
                         if (CDbl((row.AmtWHT * 100) / 5, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 5;
                             sumbaseWht5 += row.Amt;
                             sumWht5 += row.AmtWHT;
                         }
->>>>>>> 3x
                         if (CDbl((row.AmtWHT * 100) / 10, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 10;

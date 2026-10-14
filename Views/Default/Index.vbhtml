@@ -1,5 +1,5 @@
 ﻿@Code
-    Layout = Nothing
+    Layout = "~/Views/Shared/_Layout.vbhtml"
     ViewData("Title") = "Index"
     Dim desktopMode As String = "false"
     If Not Request.QueryString("MODE") Is Nothing Then
@@ -8,11 +8,6 @@
         End If
     End If
 End Code
-<<<<<<< HEAD
-<script type="text/javascript">
-	window.location= '@Url.Action("Index", "Master")';
-</script>
-=======
 <style>
     #imgHeader {
         height: auto;
@@ -111,4 +106,3 @@ function OpenAcc(){
         });
     }
 </script>
->>>>>>> 3x

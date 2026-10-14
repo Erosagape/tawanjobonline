@@ -313,16 +313,6 @@ End Code
     let jt = getQueryString('JType');
     let sb = getQueryString('SBy');
     //$(document).ready(function () {
-        if (userGroup == 'V') {
-            $('#btnBrowseCS').attr('disabled', 'disabled');
-            $('#txtCSCode').val(user);	
-            $('#txtCSName').val('@ViewBag.UserName');	
-            $('#txtCSCode').attr('disabled', 'disabled');
-            $('#txtAgentCode').attr('disabled', 'disabled');
-            $('#btnBrowseAgent').attr('disabled', 'disabled');
-	    $('#txtAgentCode').val('@ViewBag.UserUpline');
-            ShowVender(path,'@ViewBag.UserUpline','#txtAgentName');
-	}
         if (userGroup == 'C') {
             $('#btnBrowseCust').attr('disabled', 'disabled');
             $('#txtCustCode').attr('disabled', 'disabled');
@@ -367,7 +357,6 @@ End Code
     function CheckJobType() {
         if (jt !== $('#cboJobType').val()) {
             jt = $('#cboJobType').val();
-            SetCountry();
             loadShipByByType(path, jt, '#cboShipBy');
             GetQuotation();
             return;
@@ -390,22 +379,11 @@ End Code
 
         $('#cboJobType').val(jt);
         $('#cboShipBy').val(sb);
-        SetCountry();
         if (userGroup == 'S') {
             $('#txtCSCode').val(user);
             ShowUser(path, $('#txtCSCode').val(), '#txtCSName');
         }
         $('#txtJobDate').val(GetToday());
-    }
-    function SetCountry(){
-	    if(jt=='01') { //Import
-		$('#txtInvCountry').val('TH');		
-		$('#txtInvCountryName').val('THAILAND');
-            }
-	    if(jt=='02') { //Export
-		$('#txtInvFCountry').val('TH');		
-		$('#txtInvFCountryName').val('THAILAND');
-            }
     }
     function SetLOVs() {
         //3 Fields Show
@@ -599,10 +577,10 @@ End Code
                 SetGridUser(path, '#tbUser', '#frmSearchUser', ReadUser);
                 break;
             case 'customer':
-                SetGridCompany(path, '#tbCust','#frmSearchCust', ReadCustomer);
+                SetGridCompanyByGroup(path, '#tbCust','CUSTOMERS,INTERNAL,PERSON', '#frmSearchCust', ReadCustomer);
                 break;
             case 'consignee':
-                SetGridCompany(path, '#tbCons','#frmSearchCons', ReadConsignee);
+                SetGridCompanyByGroup(path, '#tbCons','CONSIGNEE' ,'#frmSearchCons', ReadConsignee);
                 break;
             case 'contact':
                 let w = '?Branch=' + $('#txtCustBranch').val() + '&Code=' + $('#txtCustCode').val();

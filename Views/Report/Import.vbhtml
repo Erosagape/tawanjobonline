@@ -46,7 +46,7 @@ End Code
                                             tmp = dr("ConfigCode")
                                             strhtml &= "<optgroup label=""" & dr("ConfigCode").ToString().Replace("JOB_PREFIX_", "") & """>"
                                         End If
-                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """>" & dr("ConfigValue") & "</option>"
+                                        strhtml &= "<option value=""" & dr("ConfigKey").ToString() & """ " & IIf(group.Equals(dr("ConfigKey")), "selected", "") & ">" & dr("ConfigValue") & "</option>"
                                     Next
                                     If tmp <> "" Then
                                         strhtml &= "</optgroup>"
@@ -58,18 +58,26 @@ End Code
 
 </div>
 <div class="row">
-    <div class="col-sm-4">
-        <label>Customer</label>
+    <div class="col-sm-6">
+        <label id="lblCustCode">Customer :</label>
         <br />
-        <select id="cboCustCode" class="form-control dropdown" onchange="CheckGroup()">
-            <option value="|"></option>
-            @Code
-                Dim rs = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL("SELECT * FROM Mas_Company ORDER BY NameThai")
-                For Each dr As Data.DataRow In rs.Rows
-                    @<option value="@dr("CustCode")|@dr("Branch")" @IIf(String.Concat(custcode, "|", custbranch).Equals(String.Concat(dr("CustCode").ToString(), "|", dr("Branch").ToString())), "selected", "")>@dr("NameThai") (@String.Concat(dr("CustCode").ToString(), "|", dr("Branch").ToString()))</option>
-                Next
-            End Code
-        </select>
+        <div style="display:flex;flex-direction:row">
+            <input type="text" id="txtCustCode" class="form-control" style="width:130px" value="@custcode" disabled />
+            <input type="text" id="txtCustBranch" class="form-control" style="width:70px" value="@custbranch" disabled />
+            <button id="btnBrowseCust" type="button" class="btn btn-default" onclick="SearchData('customer')">...</button>
+            @code
+                Dim custName As String = ""
+                If Not String.IsNullOrEmpty(custcode) Then
+                    Dim sql As String = "SELECT NameThai FROM Mas_Company WHERE CustCode = '" & custcode & "' AND Branch = '" & custbranch & "'"
+                    Dim dtCust = New CUtil(ViewBag.CONNECTION_JOB).GetTableFromSQL(sql)
+                    
+                    If dtCust.Rows.Count > 0 Then
+                        custName = dtCust.Rows(0)("NameThai").ToString()
+                    End If
+                End If
+             End Code
+            <input type="text" id="txtCustName" class="form-control" style="width:100%" value="@custName" disabled />
+        </div>
     </div>
 </div>
 <input type="hidden" id="txtJobType" value="@jobtype" />
@@ -99,6 +107,7 @@ End Code
         </table>
     End If
 End Using
+<div id="dvLOVs"></div>
 <script type="text/javascript">
     function CheckGroup() {
         let gstr = $('#cboGroup').val();
@@ -109,5 +118,25 @@ End Using
         let custcode = cust.substr(0, cust.indexOf('|'));
         let custbr = cust.substr(cust.indexOf('|') + 1, 5);
         window.location = window.location.pathname + '?Prefix=' + $('#txtPrefix').val() + '&JobType=' + $('#txtJobType').val() + '&ShipBy=' + $('#txtShipBy').val() + '&CustCode=' + custcode + '&CustBranch=' + custbr;
+    }
+    $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
+        let dv = document.getElementById("dvLOVs");
+        CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
+    });
+    function SearchData(type) {        
+        switch (type) {                        
+            case 'customer':                
+                SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);                
+                break;        
+        }    
+    }
+    function ReadCustomer(dt) {        
+        $('#txtCustCode').val(dt.CustCode);        
+        $('#txtCustBranch').val(dt.Branch);        
+        ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+        $('#frmSearchCust').modal('hide');
+        if (typeof CheckGroup === 'function') {
+            CheckGroup();
+        }
     }
 </script>

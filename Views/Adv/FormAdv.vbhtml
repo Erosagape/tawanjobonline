@@ -42,11 +42,7 @@ End Code
             <label id="lblShipBy" style="text-decoration-line:underline;"></label>
            
         </td>
-<<<<<<< HEAD
-        <td align="right" colspan="1" style="font-size:11px">
-=======
         <td align="left" colspan="1" style="font-size:11px">
->>>>>>> 3x
 
 
             <b>Advance Type : </b>
@@ -78,12 +74,6 @@ End Code
         </td>
     </tr>
     <tr>
-<<<<<<< HEAD
-        <td colspan="4" >
-            <b style="font-size:14px">Payment To : </b>
-            <label id="lblPayTo" style="text-decoration-line:underline;font-size:14px"></label>
-        </td>
-=======
         <td colspan="3" >
             <b style="font-size:14px">Payment To : </b>
             <label id="lblPayTo" style="text-decoration-line:underline;font-size:14px"></label>
@@ -92,7 +82,6 @@ End Code
             <b>Operation Date :</b>
             <label id="lblOperDate" style="text-decoration-line:underline;"></label>
         </td
->>>>>>> 3x
     </tr>
 </table>
 <br />
@@ -108,7 +97,7 @@ End Code
             <b>Amount</b>
         </td>
     </tr>
-    <tr style="height:350px;vertical-align:top">
+    <tr style="height:450px;vertical-align:top">
         <td style="border-style:solid;border-width:thin;text-align:left;position:relative">
             <div id="divDesc" style="font-size:12px;padding-left:5px;"></div>
             @*<div id="lblPayTo" style="position:absolute;bottom:0;font-weight:bold;font-size:14px;padding:5px 5px 5px 5px;">

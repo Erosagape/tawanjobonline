@@ -15,6 +15,8 @@ Namespace Controllers
             ViewBag.JobList = Nothing
             ViewBag.InvList = Nothing
             ViewBag.LoginList = Nothing
+            ViewBag.WebPath = ""
+            ViewBag.StorageUsed = ""
             Return View()
         End Function
         <HttpPost()>
@@ -29,9 +31,19 @@ Namespace Controllers
             ViewBag.JobList = Nothing
             ViewBag.InvList = Nothing
             ViewBag.LoginList = Nothing
+            ViewBag.WebPath = My.MySettings.Default.websiteSourcePath
+            ViewBag.StorageUsed = ""
             If ViewBag.DBSel > 0 And ViewBag.CustSel <> "" Then
                 Dim config = New TWTCustomerApp(My.MySettings.Default.weblicenseConnection).GetData(String.Format(" WHERE CustID='{0}' AND Seq={1}", ViewBag.CustSel, ViewBag.DBSel))
                 If config.Count > 0 Then
+                    Dim cust = New TWTCustomer(My.MySettings.Default.weblicenseConnection).GetData(" WHERE CustId='" & ViewBag.CustSel & "'")(0)
+                    ViewBag.WebPath = Server.MapPath("~/" & cust.CustRemark)
+                    If System.IO.Directory.Exists(Server.MapPath("~/" & cust.CustRemark & "/Resource/Import")) Then
+                        Dim oFolder = New System.IO.DirectoryInfo(Server.MapPath("~/" & cust.CustRemark & "/Resource/Import"))
+                        ViewBag.StorageUsed = ViewBag.WebPath & "=" & (oFolder.EnumerateFiles("*", IO.SearchOption.AllDirectories).Sum(Function(f) f.Length) / (1024.0 * 1024.0)).ToString("N2") & "MB"
+                    Else
+                        ViewBag.StorageUsed = "Not found Folder " & ViewBag.WebPath & "/Resource/Import"
+                    End If
                     Dim oConnStr = config(0).WebTranConnect
                     Dim oConn = New CUtil(oConnStr)
 

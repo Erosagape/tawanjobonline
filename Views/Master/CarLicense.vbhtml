@@ -260,12 +260,8 @@ End Code
 
     function ReadDriver(dr) {
         //popup step3
-<<<<<<< HEAD
-        $('#txtEmpCode').val(dr.Name);
-=======
         $('#txtEmpCode').val(dr.EmpCode);
         $('#txtEmpName').val(dr.Name);
->>>>>>> 3x
     }
 </script>
 

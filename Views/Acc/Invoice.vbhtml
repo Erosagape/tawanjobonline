@@ -101,12 +101,6 @@ End Code
     <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
         <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrint">Print</b>
     </a>
-    <a href="#" class="btn btn-success" id="btnPrintIM" onclick="PrintIM()">
-        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrintIM">Import</b>
-    </a>
-    <a href="#" class="btn btn-warning" id="btnPrintEX" onclick="PrintEX()">
-        <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrintEX">Export</b>
-    </a>
     <div id="frmHeader" class="modal modal-lg fade">
         <div class="modal-dialog-lg">
             <div class="modal-content">
@@ -256,19 +250,6 @@ End Code
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
                             </p>
                             <label id="lblRemark">Remark</label>
-<<<<<<< HEAD
-                            :
-                            <div style="display:flex;flex-direction:row">
-                                <div style="flex:1">
-                                    <div style="display:flex">
-                                        <input type="text" id="txtRemark1" class="form-control" />
-                                        <button class="btn btn-default" onclick="SearchData('remark1')">...</button>
-                                    </div>
-                                </div>
-                            </div>
-                            @*<input type="text" id="txtRemark1" class="form-control" />*@
-                            <input type="text" id="txtRemark2" class="form-control" />
-=======
                             :<br />
                             <textarea type="text" id="txtRemark1" class="form-control" ></textarea>
                             <textarea type="text" id="txtRemark2" class="form-control" ></textarea>
@@ -281,7 +262,6 @@ End Code
                             <textarea type="text" id="txtRemark9" class="form-control" ></textarea>
                             <textarea type="text" id="txtRemark10" class="form-control" ></textarea>
                             @*<input type="text" id="txtRemark2" class="form-control" />
->>>>>>> 3x
                             <input type="text" id="txtRemark3" class="form-control" />
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
@@ -301,13 +281,6 @@ End Code
                         <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
                             <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print</b>
                         </a>
-    			<a href="#" class="btn btn-success" id="btnPrintIM" onclick="PrintIM()">
-        		   <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrintIM">Import</b>
-    			</a>
-    			<a href="#" class="btn btn-warning" id="btnPrintEX" onclick="PrintEX()">
-        		   <i class="fa fa-lg fa-print"></i>&nbsp;<b id="lblPrintEX">Export</b>
-    			</a>
-
                     </div>
                     <button id="btnHide" class="btn btn-danger" data-dismiss="modal">X</button>
                 </div>
@@ -653,107 +626,16 @@ End Code
         if (code !== '') {
             let branch = row.BranchCode;
             switch (row.ShippingRemark) {
-<<<<<<< HEAD
-                @*case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
-                    break;*@
-=======
                 case "IVT-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=transport', '_blank');
                     break;
->>>>>>> 3x
                 case "IVF-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=freight', '_blank');
                     break;
                 case "IVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
-<<<<<<< HEAD
-		case "EVD-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
-                    break;
-                case "IVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
-                    break;
-		case "EVC-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=credit', '_blank');
-                    break;
-		@*case "IVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_IM', '_blank');
-                    break;
-		case "EVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_EX', '_blank');
-                    break;*@
-=======
->>>>>>> 3x
                 default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
             }
         }
     }
-
-
-@*function PrintIM() {
-    let code = row.DocNo;
-    if (code !== '') {
-        let branch = row.BranchCode;
-        window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_IM', '_blank');
-    }
-}
-function PrintEX() {
-    let code = row.DocNo;
-    if (code !== '') {
-        let branch = row.BranchCode;
-        window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_EX', '_blank');
-    }
-}
-*@
- function PrintIM() {
-
-       
-	let code = row.DocNo;
-
-        
-	if (code !== '') {
-
-            
-	    let branch = row.BranchCode;
-
-    
-	    switch (row.ShippingRemark) {
-
-    
-		case "IVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_IM', '_blank');
-                    break;             
-		default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
-
-
-      }
-
-        
-   }
-
-    
- }
-
- function PrintEX() {
-
-       
-	let code = row.DocNo;
-
-        
-	if (code !== '') {
-
-            
-	    let branch = row.BranchCode;
-
-    
-	    switch (row.ShippingRemark) {
-
-    
-		case "EVS-": window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code + '&form=_EX', '_blank');
-                    break;             
-		default: window.open(path + 'Acc/FormInv?Branch=' + branch + '&Code=' + code, '_blank');
-
-
-      }
-
-        
-   }
-
-    
- }
-
     function ShowDetail(branch, code) {
         $('#tbDetail').DataTable().clear().draw();
         $.get(path + 'Acc/GetInvDetail?branch=' + branch + '&code=' + code, function (r) {
@@ -794,17 +676,17 @@ function PrintEX() {
                         },
                         { data: "AmtVat", title: "VAT",
                             render: function (data) {
-                                return ShowNumber(data, 4);
+                                return ShowNumber(data, 2);
                             }
                         },
                         { data: "Amt50Tavi", title: "WHT",
                             render: function (data) {
-                                return ShowNumber(data, 4);
+                                return ShowNumber(data, 2);
                             }
                         },
                         { data: "TotalAmt", title: "NET",
                             render: function (data) {
-                                return ShowNumber(data, 4);
+                                return ShowNumber(data, 2);
                             }
                         }
                     ],
@@ -842,9 +724,6 @@ function PrintEX() {
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response,4);
             //Currency
             CreateLOV(dv, '#frmSearchCurr', '#tbCurr', 'Currency Code', response, 4);
-
-	    //Remark1
-	    CreateLOV(dv, '#frmSearchRemark1', '#tbRem1', 'Remark1', response, 2);
         });
     }
     function LoadDetail(dt) {
@@ -870,17 +749,17 @@ function PrintEX() {
         $('#txtFAmtDiscount').val(ShowNumber(dt.FAmtDiscount, 2));
         $('#txtIs50Tavi').val(dt.Is50Tavi);
         $('#txtRate50Tavi').val(dt.Rate50Tavi);
-        $('#txtAmt50Tavi').val(ShowNumber(dt.Amt50Tavi,4));
+        $('#txtAmt50Tavi').val(ShowNumber(dt.Amt50Tavi,2));
         $('#txtIsTaxCharge').val(dt.IsTaxCharge);
-        $('#txtAmtVat').val(ShowNumber(dt.AmtVat,4));
-        $('#txtTotalAmt').val(ShowNumber(dt.TotalAmt,4));
-        $('#txtFTotalAmt').val(ShowNumber(dt.FTotalAmt,4));
+        $('#txtAmtVat').val(ShowNumber(dt.AmtVat,2));
+        $('#txtTotalAmt').val(ShowNumber(dt.TotalAmt,2));
+        $('#txtFTotalAmt').val(ShowNumber(dt.FTotalAmt,2));
         $('#txtAmtAdvance').val(ShowNumber(dt.AmtAdvance,2));
         $('#txtAmtCharge').val(ShowNumber(dt.AmtCharge, 2));
         $('#txtDVATRate').val(ShowNumber(dt.VATRate,0));
         $('#txtCurrencyCodeCredit').val(dt.CurrencyCodeCredit);
         $('#txtExchangeRateCredit').val(dt.ExchangeRateCredit);
-        $('#txtAmtCredit').val(ShowNumber(dt.AmtCredit,4));
+        $('#txtAmtCredit').val(ShowNumber(dt.AmtCredit,2));
         $('#txtFAmtCredit').val(ShowNumber(dt.FAmtCredit, 2));
 
         $('#frmDetail').modal('show');
@@ -970,9 +849,6 @@ function PrintEX() {
                 break;
             case 'dcurrency':
                 SetGridCurrency(path, '#tbCurr', '#frmSearchCurr', ReadDCurrency);
-                break;
-            case 'remark1':
-                SetGridDataDistinct(path, '#tbRem1', '?Field=Remark1&Table=Job_InvoiceHeader' ,'#frmSearchRemark1', (dt)=>{$('#txtRemark1').val(dt.val);});
                 break;
         }
     }
@@ -1214,10 +1090,10 @@ function PrintEX() {
         let amt = CNum($('#txtAmt').val())-CNum($('#txtAmtDiscount').val());
         if (step == 0) {
             let vat = amt * CNum($('#txtDVATRate').val()) * 0.01;
-            $('#txtAmtVat').val(ShowNumber(vat,4));
+            $('#txtAmtVat').val(ShowNumber(vat,2));
         }
         let wht = amt * CNum($('#txtRate50Tavi').val()) * 0.01;
-        $('#txtAmt50Tavi').val(ShowNumber(wht, 4));
+        $('#txtAmt50Tavi').val(ShowNumber(wht, 2));
         CalNetAmount();
     }
     function CalNetAmount() {
@@ -1226,7 +1102,7 @@ function PrintEX() {
         let wht = CNum($('#txtAmt50Tavi').val());
         let net = amt + vat - wht;
 
-        $('#txtTotalAmt').val(ShowNumber(net, 4));
+        $('#txtTotalAmt').val(ShowNumber(net, 2));
         CalForeignDetail();
     }
     function CreateInvoice() {

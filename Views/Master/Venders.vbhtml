@@ -7,11 +7,7 @@ End Code
         <div class="row">
             <div class="col-sm-4">
                 <label id="lblVenCode">Vender Code:</label>
-<<<<<<< HEAD
-                <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" value="{AUTO}" disabled />
-=======
                 <br /><input type="text" id="txtVenCode" Class="form-control" tabIndex="0" value="{AUTO}" />
->>>>>>> 3x
             </div>
             <div class="col-sm-4">
                 <label id="lblBranchCode">Branch :</label>
@@ -299,27 +295,7 @@ End Code
 
         });
     }
-    function SaveData(){ 
-         $.get(path + 'Master/GetVender').done((r)=> {
-             if(r==null) {
-		SaveDataOK();
-             }
-             let arr = r.vender.data.filter((data) => {
-                 return (data.VenCode !== $('#txtVenCode').val()) && (data.TaxNumber == $('#txtTaxNumber').val());
-             });
-             if(arr.length>0) {
-                for(let a of arr) {
-                  if($('#txtTaxNumber').val()!=='') {
-                      ShowMessage('This TaxNumber ' + $('#txtTaxNumber').val() +' has been used for ' + a.VenCode + ' already!',true);
-                        return;
-                  }            
-                }
-                SaveDataOK(); 
-             }
-         }); 
-    }
-    function SaveDataOK() {
-	
+    function SaveData() {
         var obj = GetDataSave();
         if (obj.VenCode == '') {
             ShowMessage('Please input code',true);
@@ -329,8 +305,6 @@ End Code
             ShowMessage('Please input name',true);
             return;
         }
-<<<<<<< HEAD
-=======
         if (obj.GLAccountCode == '') {
             ShowMessage('Please input GL A/P code',true);
             return;
@@ -340,7 +314,6 @@ End Code
            $('#txtTaxNumber').focus();
            return;
         }
->>>>>>> 3x
         ShowConfirm('Please confirm to save', function (ask) {
             if (ask == false) return;
             let jsonText = JSON.stringify({ data: obj });
@@ -360,7 +333,7 @@ End Code
                 error: function (e) {
                     ShowMessage(e,true);
                 }
-            });        
+            });
         });
     }
     function ReadAccount(dr) {
@@ -458,8 +431,6 @@ End Code
             });
         });
     }
-<<<<<<< HEAD
-=======
 
     function ShowProvince(dr) {
         $('#txtProvince').val(dr.ProvinceName);
@@ -846,5 +817,4 @@ End Code
         toggleLanguage('th');
     });
 
->>>>>>> 3x
 </script>

@@ -12,11 +12,10 @@ page-break-inside:avoid;
     td{
 	overflow:hidden;
     }
-
 </style>
 <div style="display:flex;flex-direction:column;">
 <label id="rptTitle" style="font-size:12px" onclick="ExportData()">Report Title</label>
-<div style="float:right;font-size:12px;" id="rptCliteria">Report Cliteria</div>
+<div style="float:right" id="rptCliteria">Report Cliteria</div>
 <div style="display:flex;flex-direction:column;width:100%">
     <table id="tbResult" style="width:100%;word-break:break-word;">
         <thead></thead>

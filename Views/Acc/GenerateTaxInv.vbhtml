@@ -16,15 +16,6 @@ End Code
             <div class="col-sm-4">
                 <label id="lblDocType">Type :</label>
                 <br />
-<<<<<<< HEAD
-                <select id="cboType" Class="form-control dropdown">
-                    <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
-                    <option value="SRV">Tax-Invoice (Service only)</option>
-                    <option value="RCV">Receipt Advance</option>
-                    <option value="RET">Receipt Transport</option>
-                    <option value="DNR">Debit Note Receipt</option>
-                </select>
-=======
                  <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
                 <option value="SRV">Tax-Invoice (Service only)</option>
@@ -32,13 +23,12 @@ End Code
                 @*<option value="RCV">Receipt Transport</option>*@
                 <option value="DNR">Debit Note Receipt</option>
             </select>
->>>>>>> 3x
             </div>
         </div>
         <div Class="row">
             <div Class="col-sm-6">
                 <Label id = "lblCustCode" > Customer</label>
-                <input type = "checkbox" id="chkBilling" checked><label id="lblBilling">Search For Billing Place</label>
+                <input type = "checkbox" id="chkBilling"><label id="lblBilling">Search For Billing Place</label>
                 <br />
                 <div style = "display:flex;flex-direction:row" >
                     <input type="text" id="txtCustCode" class="form-control" style="width:120px"/>
@@ -162,13 +152,7 @@ End Code
                                 <i class="fa fa-lg fa-save"></i>&nbsp;<b id="linkSave">Save Tax-Invoice</b>
                             </a>
                             <br />
-                            <label id="lblDocNo">Tax-Invoice No :</label><br />
-				<div style="display:flex;flex-direction:row">
-				<input type="text" id="txtDocNo" class="form-control" />
-				
-				<button class="btn btn-default" onclick="SearchData('taxinvoice')">...</button>  <br />
-				</div>
-			    
+                            <label id="lblDocNo">Tax-Invoice No :</label><br /> <input type="text" id="txtDocNo" class="form-control" /><br />
                             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintReceipt()">
                                 <i class="fa fa-lg fa-print"></i>&nbsp;<b id="linkPrint">Print Tax-Invoice</b>
                             </a>
@@ -267,9 +251,6 @@ End Code
             CreateLOV(dv, '#frmSearchBill', '#tbBill', 'Billing Place', response, 3);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
-	
-	      CreateLOV(dv, '#frmSearchTax', '#tbTax', 'Cancelled TaxInvoice', response, 3);
-
         });
     }
     function SetGridAdv(isAlert) {
@@ -280,18 +261,23 @@ End Code
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&billto=' + $('#txtCustCode').val();
             }
+            if ($('#txtDocDateF').val() !== "") {
+                w = w + '&BillDateFrom=' + CDateEN($('#txtDocDateF').val());
+            }
+            if ($('#txtDocDateT').val() !== "") {
+                w = w + '&BillDateTo=' + CDateEN($('#txtDocDateT').val());
+            }
         } else {
             if ($('#txtCustCode').val() !== "") {
                 w = w + '&cust=' + $('#txtCustCode').val();
             }
-        }
             if ($('#txtDocDateF').val() !== "") {
                 w = w + '&DateFrom=' + CDateEN($('#txtDocDateF').val());
             }
             if ($('#txtDocDateT').val() !== "") {
                 w = w + '&DateTo=' + CDateEN($('#txtDocDateT').val());
             }
-
+        }
         let type = $('#cboType').val();
         let url = path + 'acc/getinvforreceive?show=WAIT&type=' + type + '&branch=' + $('#txtBranchCode').val() + w;
         $.get(url, function (r) {
@@ -499,10 +485,6 @@ End Code
         ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
     }
     function AddData(o) {
-	let idx = arr.indexOf(o);
-        if (idx >= 0) {
-            return;
-        }
         arr.push(o);
     }
     function RemoveData(o) {
@@ -704,16 +686,9 @@ ExchangeRate: 1,
             case 'billing':
                 SetGridCompany(path, '#tbBill', '#frmSearchBill', ReadBilling);
                 break;
-            case 'taxinvoice':
-                SetGridTaxinv(path, '#tbTax', '#frmSearchTax', '?cancel=Y' ,ReadTax);
-                break;
 
         }
     }
- 
-   function ReadTax(dt) {
-        $('#txtDocNo').val(dt.ReceiptNo);
-}
     function ReadBranch(dt) {
         $('#txtBranchCode').val(dt.Code);
         $('#txtBranchName').val(dt.BrName);
@@ -792,11 +767,6 @@ ExchangeRate: 1,
                     break;
                 case "DNR": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=debit', '_blank');
                     break;
-<<<<<<< HEAD
-		 case "RCV": window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code + '&form=RCV', '_blank');
-                    break;
-=======
->>>>>>> 3x
                 default: window.open(path + 'Acc/FormTaxInv?Branch=' + branch + '&Code=' + code, '_blank');
             }
         }

@@ -578,11 +578,7 @@ End Code
                 ShowCountry(path, h.InvCountry, '#lblCountry');
             }
             $('#lblProductQty').text(h.TotalContainer);
-<<<<<<< HEAD
-            $('#lblInvProduct').text(h.InvProduct);
-=======
 
->>>>>>> 3x
             ShowInvUnit(path, h.InvProductUnit, '#lblProductUnit');
             $('#lblTotalGW').text(h.TotalGW);
             ShowInvUnit(path, h.GWUnit, '#lblGWUnit');

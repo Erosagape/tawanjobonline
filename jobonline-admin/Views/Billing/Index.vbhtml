@@ -43,6 +43,12 @@ group by b.CustID,b.CustName,Convert(varchar,Year(a.LogDateTime))+'/'+RIGHT('0'+
 "
 End Code
 <h2>Billing</h2>
+<style>
+    td {
+        border-style: solid;
+        border-width: thin;
+    }
+</style>
 <form action="" method="post">
     <input type="hidden" name="sqlJob" value="@sqljob" />
     <input type="hidden" name="sqlInv" value="@sqlInv" />
@@ -57,7 +63,9 @@ End Code
                 @For Each cust In oCusts
                     Dim oFind = CType(oCustData, List(Of TWTCustomerApp)).Where(Function(c) c.CustID.Equals(cust.CustID) And c.WebDBType.Equals(1))
                     If oFind.Count() > 0 Then
-                        @<option value="@cust.CustID">@cust.CustName</option>
+                        @<option value="@cust.CustID">@cust.CustName (1)</option>
+                    Else
+                        @<option value="@cust.CustID">@cust.CustName (0)</option>
                     End If
                 Next
             </select>
@@ -94,7 +102,7 @@ End Code
     Dim groupName = ""
     Dim countJob = 0
 
-    @<table class="table table-bordered">
+    @<table class="table-bordered">
         <thead>
             <tr>
                 <th>#</th>
@@ -148,7 +156,7 @@ End If
 <h2>Total Invoice Issued</h2>
 @If ViewBag.InvList IsNot Nothing Then
 
-    @<table class="table table-bordered">
+    @<table class="table-bordered">
     <thead>
         <tr>
             <th>#</th>
@@ -179,7 +187,7 @@ End If
 <h2>Total User Used</h2>
 @If ViewBag.LoginList IsNot Nothing Then
 
-    @<table class="table table-bordered">
+    @<table class="table-bordered">
         <thead>
             <tr>
                 <th>#</th>
@@ -210,6 +218,8 @@ End If
 <b>Total Invoice : @totalinv document(s) </b>
 <br />
 <b>Total Login : @totalLogin user(s) </b>
+<br />
+<b>Storage Used : @ViewBag.StorageUsed</b>
 <script type = "text/javascript" >
     var dbList = @Html.Raw(oDBLists);
     $('#selCustomer').val('@ViewBag.CustSel');

@@ -1,6 +1,6 @@
 ﻿@Code
     Layout = "~/Views/Shared/_Report.vbhtml"
-    ViewBag.Title = "Credit Note Slip CC"
+    ViewBag.Title = "Credit Note Slip"
     ViewBag.ReportName = ""
 End Code
 <style>
@@ -202,30 +202,11 @@ End Code
     		`;
     		$('#tbDetail').append(html);
 
-<<<<<<< HEAD
-            html = '<tr>' +
-               '<td>' + d.SDescription + '</td>' +
-               '<td style="text-align:center">' + d.BillingNo + '</td>' +
-               '<td style="text-align:center">' + d.TaxInvNo + '</td>' +
-               '<td style="text-align:right">' + (d.OriginalAmt > 0 ? ShowNumber(d.OriginalAmt, 2) : '0.00') + '</td>' +
-               '<td style="text-align:right">' + (d.CorrectAmt > 0 ? ShowNumber(d.CorrectAmt, 2) : '0.00') + '</td>' +
-               '<td style="text-align:right">' + ShowNumber(d.DiffAmt, 2) + '</td>' +
-               '</tr>';
-
-        $('#tbDetail').append(html);
-
-            service += Number(d.DiffAmt);
-            vat += Number(d.VATAmt);
-            wht += Number(d.WHTAmt);
-            total += Number(d.TotalNet);
-        }
-=======
     		service += Number(d.DiffAmt);
     		vat += Number(d.VATAmt);
     		wht += Number(d.WHTAmt);
     		total += Number(d.TotalNet);
 	}
->>>>>>> 3x
         $('#lblTotalDiff').text(ShowNumber(Math.abs(service), 2));
         $('#lblTotalVAT').text(ShowNumber(Math.abs(vat), 2));
         $('#lblTotalWHT').text(ShowNumber(Math.abs(wht), 2));

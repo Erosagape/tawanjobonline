@@ -54,11 +54,7 @@ End Code
                     @*<th class="text-center" width="130" rowspan="2">JOB NO.</th>*@
                     <th class="text-center" colspan="3">AMOUNT</th>
                     <th class="text-center" width="60" rowspan="2">VAT</th>
-<<<<<<< HEAD
-                    <th class="text-center" colspan="2">W/H</th>
-=======
                     <th class="text-center" colspan="3">W/H</th>
->>>>>>> 3x
                     <th class="text-center" width="80" rowspan="2">TOTAL AMOUNT</th>
 		    <th class="text-center" width="80" rowspan="2">PREPAID</th>
                     <th class="text-center" width="100" rowspan="2">NET</th>
@@ -84,20 +80,13 @@ End Code
                     <td style="text-align:right"><label id="lblSumVat"></label></td>
                     <td style="text-align:right"><label id="lblSumWh1"></label></td>
                     <td style="text-align:right"><label id="lblSumWh3"></label></td>
-<<<<<<< HEAD
-=======
                     <td style="text-align:right"><label id="lblSumWh5"></label></td>
->>>>>>> 3x
 		    <td style="text-align:right"><label id="lblSumAmount"></label></td>
                     <td style="text-align:right"><label id="lblSumPrepaid"></label></td>
                     <td style="text-align:right"><label id="lblBillTotal"></label></td>
                 </tr>
                 <tr style="background-color:lightblue">
-<<<<<<< HEAD
-                    <th class="text-center" colspan="13"><label id="lblBillTotalEng"></label></th>
-=======
                     <th class="text-center" colspan="14"><label id="lblBillTotalEng"></label></th>
->>>>>>> 3x
                 </tr>
             </tfoot>
         </table>
@@ -109,17 +98,17 @@ End Code
             <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
         </div>
 
-        <div style="display:flex">
+        <div style="display:flex;padding-top:30px;padding-right:90px;padding-left:90px;gap:5px;">
             <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
                 FOR THE CUSTOMER<br/>
-                <br/><br /><br /><br />
+                <br/><br /><br />
                 __________________________________________<br/>
                 .........................................<br />
                 _____/______/______
             </div>
             <div style="flex:1;border:1px solid black ;border-radius:5px;text-align:center">
                 FOR @ViewBag.PROFILE_COMPANY_NAME<br />
-                <br /><br /><br /><br />
+                <br /><br /><br />
                 __________________________________________<br />
                 .........................................<br />
                 _____/______/______
@@ -176,19 +165,12 @@ if(Number(data.customer[0][0].Branch)>0) {
             let vat = 0;
             let wh1 = 0;
             let wh3 = 0;
-<<<<<<< HEAD
-=======
             let wh5 = 0;
->>>>>>> 3x
 	    let sumAmount = 0 ;
             let prepaid = 0;
             let dv = $('#tbDetail');
             let html = '';
             let dtl=data.detail[0];
-<<<<<<< HEAD
-sortData(dtl,'ItemNo','asc');
-            for (let dr of dtl) {
-=======
 	    sortData(dtl,'ItemNo','asc');
             for (let dr of dtl) {
 		let custInv = "";
@@ -197,7 +179,6 @@ sortData(dtl,'ItemNo','asc');
 		} else {
     			custInv = dr.CustInv;
 		}
->>>>>>> 3x
                 html += '<tr>';
                 html += '<td>' + dr.ItemNo + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
@@ -210,15 +191,6 @@ sortData(dtl,'ItemNo','asc');
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtVAT, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH1, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH3, 2) + '</td>';
-<<<<<<< HEAD
-                /*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3, 2) + '</td>';*/
-                html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet+dr.AmtWH1+dr.AmtWH3, 2) + '</td>';
-                html += '<td style="text-align:right">' + ShowNumber(dr.TotalCustAdv, 2) + '</td>';
-		html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet, 2) + '</td>';
-                html += '</tr>';
-
-                total += Number(dr.TotalNet);
-=======
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtWH5, 2) + '</td>';
                 /*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3+dr.AmtWH5, 2) + '</td>';*/
                 /*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet+dr.AmtWH1+dr.AmtWH3+dr.AmtWH5, 2) + '</td>';*/
@@ -230,18 +202,11 @@ sortData(dtl,'ItemNo','asc');
 
                 //total += Number(dr.TotalNet-dr.TotalCustAdv);
                 total += CNum(ShowNumber(dr.InvHTotalNet,2));
->>>>>>> 3x
                 serv += Number(dr.AmtChargeVAT);
                 nonvat += Number(dr.AmtChargeNonVAT);
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
                 prepaid += Number(dr.TotalCustAdv);
-<<<<<<< HEAD
-                wh1 += Number(ShowNumber(dr.AmtWH1, 2));
-                wh3 += Number(ShowNumber(dr.AmtWH3, 2));
-                //sumAmount += dr.TotalNet-dr.AmtVAT+dr.AmtWH1+dr.AmtWH3;
-		sumAmount += dr.TotalNet+dr.AmtWH1+dr.AmtWH3;
-=======
                 wh1 += Number(dr.AmtWH1, 2);
                 wh3 += Number(dr.AmtWH3, 2);
                 wh5 += Number(dr.AmtWH5, 2);
@@ -249,7 +214,6 @@ sortData(dtl,'ItemNo','asc');
 		sumAmount += dr.TotalNet+dr.AmtWH1+dr.AmtWH3+dr.AmtWH5;
 		console.log('dr.TotalNet :' + dr.TotalNet);
 		console.log('dr.TotalCustAdv :' + dr.TotalCustAdv);
->>>>>>> 3x
             }
             dv.html(html);
 	    console.log('total :' + total);
@@ -260,10 +224,7 @@ sortData(dtl,'ItemNo','asc');
             $('#lblSumVat').text(ShowNumber(vat, 2));
             $('#lblSumWh1').text(ShowNumber(wh1, 2));
             $('#lblSumWh3').text(ShowNumber(wh3, 2));
-<<<<<<< HEAD
-=======
             $('#lblSumWh5').text(ShowNumber(wh5, 2));
->>>>>>> 3x
  	    $('#lblSumAmount').text(ShowNumber(sumAmount , 2));
             $('#lblSumPrepaid').text(ShowNumber(prepaid , 2));
             $('#lblBillTotal').text(ShowNumber(total,2));

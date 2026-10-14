@@ -55,11 +55,7 @@ count(d.DocNo) as TotalDoc,
 CAST(SUM(d.PayAmount) AS DECIMAL(18, 2)) AS TotalPayAmount,
 CAST(SUM(d.PayTax) AS DECIMAL(18, 2)) AS TotalPayTax,
 h.TaxLawNo,h.SeqInForm
-<<<<<<< HEAD
-from Job_WHTax h INNER JOIN Job_WHTaxDetail d
-=======
 from Job_WHTax h inner join Job_WHTaxDetail d
->>>>>>> 3x
 on h.BranchCode=d.BranchCode and h.DocNo=d.DocNo
 where not isnull(h.CancelProve,'')<>'' AND h.FormType=" & frm & " AND Year(h.DocDate)={0} AND Month(h.DocDate)={1} AND h.TaxNumber1='{2}' " & IIf(ty = "2", String.Format(" AND h.TaxNumber2='{0}' ", ta), "") & "
 and h.TaxLawNo=" & tln & "
@@ -75,11 +71,7 @@ CAST(SUM(d.PayAmount) AS DECIMAL(18, 2)) AS PayAmount,
 CAST(SUM(d.PayTax) AS DECIMAL(18, 2)) AS PayTax
 ,MAX(dbo.ProcessAddressSingle(h.TAddress3)) as Address3
 FROM Job_WHTax h
-<<<<<<< HEAD
-INNER JOIN Job_WHTaxDetail d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
-=======
 inner JOIN Job_WHTaxDetail d ON h.BranchCode = d.BranchCode AND h.DocNo = d.DocNo
->>>>>>> 3x
 WHERE NOT isnull(h.CancelProve, '') <> '' AND h.FormType = " & frm & " AND h.TaxLawNo = " & tln & " AND Year(h.DocDate) = {0}
 AND Month(h.DocDate) = {1}
 AND h.TaxNumber1 = '{2}'

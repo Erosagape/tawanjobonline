@@ -65,12 +65,7 @@ End Code
     } 
 </style>
 <div class="center bold">
-<<<<<<< HEAD
-    <br/>
-    <label style="font-size:16px">ใบแจ้งหนี้ / INVOICE</label>
-=======
     <label style="font-size:16px">ใบแจ้งหนี้/INVOICE</label>
->>>>>>> 3x
 </div>
   <br/>
 <div style="display:flex;width:98%" >
@@ -207,15 +202,9 @@ End Code
         </tr>
 
         <tr>
-<<<<<<< HEAD
-            <td><label id="newBlNoLbl">BOOKING NO</label></td>
-            <td>:</td>
-            <td><label id="newBlNo"></label></td>
-=======
             <td><label id="">CONTAINER NO.</label></td>
             <td>:</td>
             <td><label id="containerNo"></label></td>
->>>>>>> 3x
 
             <td><label id="weightLbl">WEIGHT</label></td>
             <td>:</td>
@@ -245,18 +234,11 @@ End Code
             <td><label id="refLbl">REF.</label></td>
             <td>:</td>
             <td><label id="ref"></label></td>
-<<<<<<< HEAD
-
-            <td><label id="freigtcostLbl">FREIGHT COST IN</label></td>
-            <td>:</td>
-            <td><label id="totalQty"></label> <label id="invCurUnit"></label></label></td>
-=======
 	    
             <td><label id="InvProductLbl">PRODUCT</label></td>
             <td>:</td>
             <td><label id="InvProduct"></label></td>
 
->>>>>>> 3x
         </tr>
 
         <tr>
@@ -266,13 +248,6 @@ End Code
             <td><label id="consLbl">FOR:</label></td>
             <td>:</td>
             <td><label id="cons"></label></td>
-<<<<<<< HEAD
-
-	    <td><label id="excLbl">EXC</td>
-            <td>:</td>
-            <td><label id="invCurRate"></label> THB</td>
-=======
->>>>>>> 3x
         </tr>
     </tbody>
 </table>
@@ -285,14 +260,6 @@ End Code
             <th class="center bold underLine" colspan="3">AMOUNT IN THB</th>
         </tr>
         <tr class="upperLine">
-<<<<<<< HEAD
-            <th class="center bold underLine">W/T</th>
-            <th class="center bold underLine">QTYs</th>
-            <th class="center bold underLine">UNIT</th>
-            <th class="center bold underLine">Curr.</th>
-            <th class="center bold underLine">Exc.</th>
-            <th class="center bold underLine">@@ UNIT</th>
-=======
 
             <th class="center bold underLine">QTYs</th>
             <th class="center bold underLine">UNIT</th>
@@ -300,7 +267,6 @@ End Code
             <th class="center bold underLine">Curr.</th>
             <th class="center bold underLine">Exc.</th>
             <th class="center bold underLine">W/T</th>
->>>>>>> 3x
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">ADVANCE</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">NON VAT</th>
             <th style="width:60px;border:1px black solid;border-collapse:collapse" class="center bold">VAT</th>
@@ -357,15 +323,9 @@ End Code
             <td id="lessWithholdingTax" class="right underLine"></td>
         </tr>
         <tr class="">
-<<<<<<< HEAD
-            <td class="center"></td>
-            <td class="center"></td>
-            <td class="center"></td>
-=======
             <td id="taxRate5"></td>
             <td id="gross5" class="center right"></td>
             <td id="wtAmt5" class="center right"></td>
->>>>>>> 3x
             <td id="netAmountLbl" class="right">NET AMOUNT:</td>
             <td class="right"></td>
             <td class="right"></td>
@@ -396,39 +356,6 @@ End Code
     TOTAL AMOUNT IN WORDS:
     <label id="bahtText">   BAHT TWENTY-EIGHT THOUSAND FIVE HUNDRED TWENTY-THREE AND</label>
 </p>
-<<<<<<< HEAD
-@*<p>
-   Remark:<br />
-   <label id="remark"></label>
-</p>*@
-<table class="table" style="width:100%">
-	<tr>
-	   <td> Remark:
-		<label id="remark1"></label><br />
-		<label style="padding-left:40px !important" id="remark2"></label><br />
-	        <label style="padding-left:40px !important" id="remark3"></label><br />
-		
-		@*<label style="padding-left:40px !important" id="remark4"></label><br />
-		<label style="padding-left:40px !important" id="remark5"></label><br />*@
-
-	        <label style="padding-left:40px !important" id="remark6"></label><br /><br />
-               <div style="width: 70%;border: 1px solid #000000; border-radius: 10px; padding: 10px;">
-		 <label style="line-height: 1.3;">
-		 Benificiary Name : CCSCM LOGISTICS (THAILAND) CO ., LTD <br />
-		 Saving Account No. : 653-424770-6 CCSCM LOGISTICS (THAILAND) CO ., LTD <br />
-		   บัญชีออมทรัพย์ เลขที่บัญชี : 653-424770-6 บริษัท ซีซีเอสซีเอ็ม โลจิสติกส์ (ประเทศไทย) จำกัด <br />
-		 Bank Name : Siam Commercial Bank of Thailand <br />
-		 Bank Adress : 53/43-46 Mu 9, Sukhumwit, Tung Sukla, Si Racha, Chon Buri 20230 <br />
-		 Bank Tel : 038-330116-7 <br />
-		 Swift Code : SICOTHBK 
-		</label></div>
-	       @*<label style="padding-left:40px !important" id="remark7"></label><br />
-		<label style="padding-left:40px !important" id="remark8"></label><br />
-	        <label style="padding-left:40px !important" id="remark9"></label><br />
-	        <label style="padding-left:40px !important" id="remark10"></label><br />*@
-	   </td> 
-	</tr>
-=======
 <p>
    <label>Remark :</label><br /><br />
    <label id="remark"></label><br />
@@ -448,7 +375,6 @@ End Code
     <tbody>
     
     </tbody>
->>>>>>> 3x
 </table>
 </p>
 <br /><br />
@@ -474,48 +400,11 @@ End Code
           </tr>
       </table>
 
-<p>
- <table class="table" style="width:98%;border-collapse:collapse ">
-    <thead></thead>
-    <tbody>
-    
-    </tbody>
-</table>
-</p>
-      <table class="table" style="width:100%">
-          <tr>
-              <td class="bold" style="width:33%;text-align:center;">ผู้รับวางบิล / Received By :</td>
-
-              <td class="bold" style="width: 33%; text-align: center;">อนุมัติโดย / Approved By :</td>
-
-              <td class="bold" style="width: 33%; text-align: center;">ผูัจัดทำ /  Preapared By </td>
-
-          </tr>
-          <tr>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br />_________________________________________</td>
-              <td class="textSpace" style="flex: 1; text-align: center;"><br /><br /><br /><br />_________________________________________</td>
-              <td class="center" style="flex: 1; text-align: center;"> <br /><br /><br /><br /><label id="empcode">_________________________________________</label></td>
-          </tr>
-          <tr>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : ________________________________</td>
-              <td class="bold" style="text-align: center;">DATE : <label id="createDate">________________________________</label></td>
-          </tr>
-      </table>
-
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let bShowSlip = false;
     let branch = getQueryString('branch');
     let code = getQueryString('code');
-<<<<<<< HEAD
-    $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
-  let ans = confirm('OK to print Original or Cancel For Copy');
-        if (ans == true) {
-            $('#dvCopy').html('<b style="font-size:30px;color: red !important;">ORIGINAL</b>');
-        } else {
-            $('#dvCopy').html('<b style="font-size:30px;color: red !important;">COPY</b>');
-=======
 	var viewBag = @Html.Raw(Json.Encode(ViewBag))
     console.log(viewBag)
     $("#dvCompLogo").html($("#dvCompLogo").html()+'<div id="dvCopy" style="flex:20;vertical-align:center"></div>');
@@ -524,7 +413,6 @@ End Code
             $('#dvCopy').html('<b style="font-size:30px">ORIGINAL</b>');
         } else {
             $('#dvCopy').html('<b style="font-size:30px">COPY</b>');
->>>>>>> 3x
         }
 /*
     if(confirm("show company header?")==false){
@@ -571,21 +459,6 @@ End Code
             //$("#dueDate").text(AddDate(h.DocDate, c.CreditLimit));
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
-<<<<<<< HEAD
-            $("#remark1").text(h.Remark1);
-	    $("#remark2").text(h.Remark2);
-            $("#remark3").text(h.Remark3);
-	    $("#remark4").text(h.Remark4);
-            $("#remark5").text(h.Remark5);
-	    $("#remark6").text(h.Remark6);
-            $("#remark7").text(h.Remark7);
-	    $("#remark8").text(h.Remark8);
-            $("#remark9").text(h.Remark9);
-	    $("#remark10").text(h.Remark10);
-            $("#empcode").text(h.EmpCode);
-            $("#createDate").text(ShowDate(h.CreateDate));
-            
-=======
             //$("#remark").text(h.Remark1);
            var formattedRemark1 = h.Remark1.replace(/\n/g, "<br /><br />");
 
@@ -603,17 +476,12 @@ End Code
 	    ShowUser(path,h.EmpCode,'#empcode');
             $("#createDate").text(ShowDate(h.CreateDate));
             $("#lblcreateDate").text(ShowDate(h.CreateDate));
->>>>>>> 3x
             if (j.ShipBy == 1) {
                 ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
-<<<<<<< HEAD
-		$("#portto").hide();
-=======
                 $("#portto").hide();
                 $("#destinyLbl").text("ORIGIN / DESTINATION");
->>>>>>> 3x
 		
             } else {
                 ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
@@ -621,32 +489,12 @@ End Code
   		ShowCountry(path, j.InvCountry, '#destiny');
 		$("#portfrom").hide();
             }
-<<<<<<< HEAD
-        $.get(path + 'master/getcustomsunit?Code=' + j.InvProductUnit).done(function (r) {
-            if (r.customsunit.data.length > 0) {
-                let u = r.customsunit.data;
-                let str = '';
-                for (let row of u) {
-			$("#quantity").text(j.InvProductQty + ' ' + row.TName);
-                }
-            }
-        });
             $("#jobNo").text(j.JNo);
-            $("#invCurUnit").text(j.InvCurUnit);
-            $("#invCurRate").text(j.InvCurRate.toFixed(4));
-            $("#totalQty").text(j.TotalQty);
-=======
-            $("#jobNo").text(j.JNo);
->>>>>>> 3x
             $("#vessel").text(j.VesselName);
             $("#etd").text(ShowDate(j.ETDDate));
             $("#eta").text(ShowDate(j.ETADate));
             $("#hblNo").text(j.HAWB);
-<<<<<<< HEAD
-            
-=======
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
->>>>>>> 3x
             $("#totpkg").text(j.TotalQty + " PACKAGE");
             $("#newBlNo").text(j.BookingNo);
             $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
@@ -662,23 +510,11 @@ End Code
                 let b = r.company.data[0];
                 $("#ref").text(b.NameEng);
 	        });
-<<<<<<< HEAD
-		
-  		//$.get(path + 'Joborder/Getjoborderlog?branch='+h.BranchCode+'&job='+j.JNo).done(function (r) {
-                //let d = r.joborderlog.data[0][0];
-                //$("#remark").text(d.TRemark);
-	        //});
-=======
 	$("#InvProduct").text(j.InvProduct); 
->>>>>>> 3x
 
             ShowCustomer(path, j.CustCode,j.CustBranch, '#cons');
             ShowVender(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
-<<<<<<< HEAD
-	    Joborderlog(j.BranchCode, j.JNo)
-=======
->>>>>>> 3x
 		
             let d = r.invoice.detail[0];
             let html = '';
@@ -688,17 +524,11 @@ End Code
             let sumbaseWht1 = 0;
             let sumbaseWht1_5 = 0;
             let sumbaseWht3 = 0;
-<<<<<<< HEAD
-            let sumWht1 = 0;
-            let sumWht1_5 = 0;
-            let sumWht3 = 0;
-=======
             let sumbaseWht5 = 0;
             let sumWht1 = 0;
             let sumWht1_5 = 0;
             let sumWht3 = 0;
             let sumWht5 = 0;
->>>>>>> 3x
             let totalRows = 10;
             let blankRows = totalRows - d.length;
             let varFromSrv = 0;
@@ -711,22 +541,6 @@ End Code
 		html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
                 html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-<<<<<<< HEAD
-                html += '            <td class="right">' + ShowNumber(Math.abs(row.AmtAdvance)>0 ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
-                html += '            <td class="right">' + (Math.abs(row.AmtAdvance)>0 ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat==0?(Math.abs(row.AmtCharge)>0 ?ShowNumber(row.Amt, 2):''):'') + '</td>';
-                html += '            <td class="right">' + (!row.AmtAdvance && Math.abs(row.AmtVat)>0?ShowNumber(row.Amt, 2) : '') + '</td>';
-                html += '        </tr>';
-                
-                if (row.AmtAdvance) {
-                    adv += ((row.Amt + row.AmtVat).toFixed(4) * row.ExchangeRate.toFixed(4));
-                } else {
-                    if (Math.abs(row.AmtVat) > 0) {
-                        vat += row.AmtCharge.toFixed(4) * row.ExchangeRate.toFixed(4);
-                        varFromSrv += row.AmtVat;
-                    } else {
-                        nonVat += row.AmtCharge.toFixed(4) * row.ExchangeRate.toFixed(4);
-=======
                 //html += '            <td class="right">' + ShowNumber(row.AmtAdvance ? row.FUnitPrice + (row.AmtVat / row.Qty) : row.FUnitPrice, 2) + '</td>';
 		html += '            <td class="right">' + row.Rate50Tavi + '</td>';
                 html += '            <td class="right">' + (row.AmtAdvance ? ShowNumber(row.Amt + row.AmtVat,  2):'') + '</td>';
@@ -742,7 +556,6 @@ End Code
                         varFromSrv += row.AmtVat;
                     } else {
                         nonVat += row.AmtCharge * row.ExchangeRate.toFixed(4);
->>>>>>> 3x
                     }
                     switch (row.Rate50Tavi - 0) {
                         case 1:
@@ -757,65 +570,15 @@ End Code
                             sumWht3 += row.Amt50Tavi;
                             sumbaseWht3 += row.Amt;
                             break;
-<<<<<<< HEAD
-=======
                         case 5:
                             sumWht5 += row.Amt50Tavi;
                             sumbaseWht5 += row.Amt;
                             break;
->>>>>>> 3x
                         default:
                             break;
                     }
                 }
             }
-                    // เพิ่ม Remark 6-10
-	   if (h.Remark6) {
-                html += '        <tr>';
-                html += '            <td> ' + h.Remark6 + '</td>';
-        
-                for (let i = 0; i < 9; i++) {
-                    html += '            <td></td>';
-                }
-                html += '        </tr>';
-            }
-            if (h.Remark7) {
-                html += '        <tr>';
-                html += '            <td> ' + h.Remark7 + '</td>';
-        
-                for (let i = 0; i < 9; i++) {
-                    html += '            <td></td>';
-                }
-                html += '        </tr>';
-            }
-            if (h.Remark8) {
-                html += '        <tr>';
-                html += '            <td> ' + h.Remark8 + '</td>';
-        
-                for (let i = 0; i < 9; i++) {
-                    html += '            <td></td>';
-                }
-                html += '        </tr>';
-            }
-
-            if (h.Remark9) {
-                html += '        <tr>';
-                html += '            <td> ' + h.Remark9 + '</td>';
-        
-                for (let i = 0; i < 9; i++) {
-                    html += '            <td></td>';
-                }
-                html += '        </tr>';
-            }
-            if (h.Remark10) {
-                html += '        <tr>';
-                html += '            <td> ' + h.Remark10 + '</td>';
-                for (let i = 0; i < 9; i++) {
-                    html += '            <td></td>';
-                }
-                html += '        </tr>';
-            }
-
             for (let i = 1; i <= blankRows; i++) {
                 html += '        <tr>';
                 html += '            <td><br/></td>';
@@ -836,14 +599,6 @@ End Code
             $('#wtAmt3').text(ShowNumber(sumWht3, 2));
             $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
             $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
-<<<<<<< HEAD
-
-            $("#advanceAmount").text(ShowNumber(h.TotalAdvance,2));
-            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
-            $("#vatAmount").text(ShowNumber(vat, 2));
-            $('#details').html(html);
-            $("#valueAddedTax").text(ShowNumber(h.TotalVAT,2));
-=======
             $('#gross5').text(ShowNumber(sumbaseWht5, 2));
             $('#wtAmt5').text(ShowNumber(sumWht5, 2));
 
@@ -852,7 +607,6 @@ End Code
             $("#vatAmount").text(ShowNumber(vat, 2));
             $('#details').html(html);
             $("#valueAddedTax").text(ShowNumber(varFromSrv,2));
->>>>>>> 3x
             $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
 	     $("#totalAmount2").text(ShowNumber(adv+vat +nonVat + h.TotalVAT, 2));
             $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
@@ -863,47 +617,6 @@ End Code
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
-<<<<<<< HEAD
-            $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
-	    console.log('varFromSrv:' + varFromSrv);
-	    console.log('wht3:' + sumWht3);
-
-        }
-    });
-    function ShowContainer(branch,job) {
-        $.get(path + 'JobOrder/GetTransportReport?Branch=' + branch + '&JobList=' + job).done(function (r) {
-            if (r.transport.data.length > 0) {
-                let t = r.transport.data;
-                let str = '';
-                for (let row of t) {
-                    if (str !== '') str += '<br/>';
-                    str += row.CTN_NO + '/' + row.CTN_SIZE;
-                }
-                $("#containerNo").html(str);
-            }
-        });
-    }
-function Joborderlog(Branch,Job) {
-  	$.get(path + 'joborder/getjoborderlog?branch=' + Branch + '&code=' + Job).done(function (r) {
-        //let d = r.joborderlog.data[0];
-	if (r.joborderlog.data.length > 0) {
-                let d = r.joborderlog.data;
-                let dr = '';
-                for (let row of d) {
-                    if (dr !== '') dr += '<br/>';
-                    dr += row.TRemark;
-                }
-		//let firstLine = dr;
-            
-		//let secondLine = dr;
-            
-                //$("#remark").html(firstLine + '<br/>' + secondLine);
-                $("#remark").html(dr);
-            }
-	});
-    }
-
-=======
 	    $("#taxRate5").text("5%");
             $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
 
@@ -925,5 +638,4 @@ function Joborderlog(Branch,Job) {
         	}
     	     });
 	}
->>>>>>> 3x
 </script>

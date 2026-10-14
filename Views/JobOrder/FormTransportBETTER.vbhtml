@@ -79,11 +79,7 @@ End Code
 </style>
 <div style="width:100%;display:flex;font-size:13px">
   
-<<<<<<< HEAD
-            <div style="width:60%;text-align: center; white-space: nowrap; "><h2>YIFAN SHIPPING (THAILAND) CO.,LTD</h2></div>
-=======
             <div style="width:60%;text-align: center; white-space: nowrap; "><h2>@ViewBag.PROFILE_COMPANY_NAME_EN</h2></div>
->>>>>>> 3x
   
         <div style="width:40%"><h2 style="text-align:center;white-space:nowrap">BILL OF LADING</h2></div>
 </div>
@@ -118,11 +114,7 @@ End Code
                 <br />
                 <br />
                 <br />
-<<<<<<< HEAD
-                <img src="~/Resource/logo-yifan.jpg" style="width:100%;" />
-=======
                 <img src="~/Resource/@ViewBag.PROFILE_LOGO" style="width:100%;" />
->>>>>>> 3x
                 <br />
                 <br />
                 <br />
@@ -277,11 +269,7 @@ End Code
                 <br />
                 <br />
                 <div style="border-top:1px dotted black">
-<<<<<<< HEAD
-                    B.S.R. TRANSPORT (2018) CO., LTD.
-=======
                     @ViewBag.PROFILE_COMPANY_NAME_EN
->>>>>>> 3x
                     <br />
                     AS AGENT FOR THE CARRIER BF CONTAINER LINE
                 </div>

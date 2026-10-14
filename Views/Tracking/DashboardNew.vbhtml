@@ -14,17 +14,10 @@
     Dim dt1_4 As New Data.DataTable
     Dim obj = New CUtil(ViewBag.CONNECTION_JOB)
     Dim showDetail As String = ""
-<<<<<<< HEAD
-    Dim jobtype As Integer = 1
-    Dim shipby As Integer = 1
-    Dim dateFrom As String = New Date(Now.Year - 1, 1, 1).ToString("yyyy-MM-dd")
-    Dim dateTo As String = New Date(Now.Year - 1, 12, 31).ToString("yyyy-MM-dd")
-=======
     Dim jobtype As Integer = 0
     Dim shipby As Integer = 0
     Dim dateFrom As String = New Date(Now.Year - 1, 1, 1).ToString("yyyy-MM-dd")
     Dim dateTo As String = New Date(Now.Year, 12, 31).ToString("yyyy-MM-dd")
->>>>>>> 3x
     Dim sqlSource As String = "
 with tb as
 (
@@ -311,20 +304,12 @@ order by TotalAdvance DESC
     End If
 End Code
 <div class="w3-card">
-<<<<<<< HEAD
-    <div class="w3-container w3-green">
-        <h1>Recap your company @Convert.ToDateTime(dateTo).Year</h1>
-=======
     <div class="w3-container w3-orange">
         <h1>Your company performance</h1>
->>>>>>> 3x
     </div>
     <div class="w3-container">
         <form id="dvCliteria" action="" method="post">
             <div class="row">
-<<<<<<< HEAD
-                <div class="col-sm-3">
-=======
                 <div class="col-sm-6">
                     <label id="lblJobGroup">Job Group </label>
                     <br>
@@ -352,7 +337,6 @@ End Code
                             </select>
                 </div>
                 <div class="col-sm-3" style="display:none;">
->>>>>>> 3x
                     <label id="lblJobType">Job Type </label>
                     : <br />
                     <select id="cboJobType" name="jt" class="form-control dropdown" onchange="Submit()">
@@ -379,11 +363,7 @@ End Code
                         End If
                     </select>
                 </div>
-<<<<<<< HEAD
-                <div Class="col-sm-3">
-=======
                 <div Class="col-sm-3" style="display:none;">
->>>>>>> 3x
                     <Label id="lblShipBy"> Transport By</Label>
                     : <br />
                     <select id="cboShipBy" name="sb" class="form-control dropdown" onchange="Submit();">
@@ -706,10 +686,7 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
     var jobtype = '@jobtype';
     var shipby = '@shipby';
     var detail = '@showDetail';
-<<<<<<< HEAD
-=======
     LoadGroup();
->>>>>>> 3x
     if (detail=='1') {
        $('#dv_1_1').focus();
     }
@@ -731,11 +708,7 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
     if (detail=='7') {
        $('#tb4_1').focus();
     }
-<<<<<<< HEAD
-    $('#txtDetail').val('');    
-=======
     $('#txtDetail').val('');   
->>>>>>> 3x
     function Submit() {
         $('#btnUpdate').click();
     }    
@@ -743,8 +716,6 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
 	$('#txtDetail').val(id);
         Submit();
     }
-<<<<<<< HEAD
-=======
     function CheckGroup() {
         let gstr=$('#cboGroup').val();
 	$('#cboJobType').val(Number(gstr.substr(0,2)));
@@ -772,5 +743,4 @@ and CHARINDEX(a.ConfigKey,ConfigValue,1)>0 and ConfigKey='{0}')", jobtype.ToStri
     
 	}
     }
->>>>>>> 3x
 </script>

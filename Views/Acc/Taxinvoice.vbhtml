@@ -28,15 +28,9 @@ End Code
             <label id="lblDocType">Type of Documents:</label>                
             <select id="cboType" class="form-control dropdown">
                 <option value="TAX" selected>Tax-Invoice (Service+Advance)</option>
-<<<<<<< HEAD
-                @*<option value="SRV">Tax-Invoice (Service only)</option>*@
-                <option value="ADV">Receipt Advance</option>
-                <option value="RCV">Receipt Transport</option>
-=======
                 <option value="SRV">Tax-Invoice (Service only)</option>
                 <option value="ADV">Receipt Advance</option>
                 @*<option value="RCV">Receipt Transport</option>*@
->>>>>>> 3x
                 <option value="DNR">Debit Note Receipt</option>
             </select>
         </div>

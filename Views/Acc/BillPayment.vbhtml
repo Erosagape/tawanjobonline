@@ -74,7 +74,7 @@ End Code
         </table>
     </div>
 </div>
-@*<div class="row">
+<div class="row">
     <div class="col-sm-3">
         Print Approval Form:<br />
         <input type="text" class="form-control" id="txtApproveRef" />
@@ -85,7 +85,7 @@ End Code
             <i class="fa fa-lg fa-print"></i>
         </a>
     </div>
-</div>*@
+</div>
 <div id="dvLOVs"></div>
 <script src="~/Scripts/Func/combo.js"></script>
 <script type="text/javascript">
@@ -245,7 +245,7 @@ End Code
     function EntryExpense() {
         window.open(path + 'acc/expense', '', '');
     }
-    function PrintData() {	
-        window.open(path + 'Acc/FormExpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');
+    function PrintData() {
+        window.open(path + 'acc/formexpense?Branch=' + $('#txtBranchCode').val() + '&Code=' + $('#txtApproveRef').val(), '', '');
     }
 </script>

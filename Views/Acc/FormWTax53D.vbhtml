@@ -164,18 +164,9 @@ End Code
 <br>
 <br>
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
-<<<<<<< HEAD
-                                (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize "/>) <br>
-                                ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="{2}" /> <br>
-                                ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" /> 
-                            </td>
-                            <td colspan="2">
-                                <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
-=======
                                 (<input readonly type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
                                 ตำแหน่ง <input readonly type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
                                 ยื่นวันที่ <input readonly type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
->>>>>>> 3x
                             </td>
                         </tr>
                     </tfoot>
@@ -226,10 +217,6 @@ End Code
                     $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
-                    //$('#lblTaxNumber1').text('@ViewBag.PROFILE_TAXNUMBER');
-                    //$('#lblBranch1').val('@ViewBag.PROFILE_TAXBRANCH');
-                    //$('#lblTName1').text('@ViewBag.PROFILE_COMPANY_NAME_EN');
-                    //$('#lblTAddress1').text('@ViewBag.PROFILE_COMPANY_ADDR1_EN @ViewBag.PROFILE_COMPANY_ADDR2_EN');
                     let n = 0;
                     let c = 0;
                     let p = 1;
@@ -283,11 +270,7 @@ End Code
                                 if ((p == 1 && n == rows) || (((n - rows) % rows) == 0 && p > 1)) {
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
-                                    if (params.ReportCode == 'PRD53AD') {
-                                        htmlFoot = htmlFoot.replace('{2}', 'กระทำการแทน');
-                                    } else {
-                                        htmlFoot = htmlFoot.replace('{2}', '@ViewBag.TaxPosition');
-                                    }
+
                                     htmlAll = htmlAll.replace('{0}', htmlHead);
                                     htmlAll = htmlAll.replace('{1}', template);
                                     htmlAll = htmlAll.replace('{2}', htmlFoot);
@@ -319,7 +302,7 @@ End Code
                             template += '<td style="text-align:center">' + n + '</td>'; 
                             template += '<td>';
                             template += '<p class="text-left">';
-                            template += 'เลขประจำตัวผู้เสียภาษีอากร : ' + r.TaxNumber3;
+                            template += 'เลขประจำตัวผู้เสียอาษีอากร : ' + r.TaxNumber3;
                             template += '<br />';
                             template += 'ชื่อ : ' + r.TName3;
                             template += '<br />';
@@ -357,11 +340,7 @@ End Code
 
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
-                            if (params.ReportCode == 'PRD53AD') {
-                                htmlFoot = htmlFoot.replace('{2}', 'กระทำการแทน');
-                            } else {
-                                htmlFoot = htmlFoot.replace('{2}', '@ViewBag.TaxPosition');
-                            }
+
                             htmlAll = htmlAll.replace('{0}', htmlHead);
                             htmlAll = htmlAll.replace('{1}', template);
                             htmlAll = htmlAll.replace('{2}', htmlFoot);

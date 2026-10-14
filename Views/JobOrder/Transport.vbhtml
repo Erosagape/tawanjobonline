@@ -97,7 +97,7 @@ End Code
         <div id="dvForm">
             <div class="row">
                 <div class="col-sm-6">
-                    <a href="../Master/Customers" target="_blank">
+                    <a href="../Master/Customers?mode=NOTIFY_PARTY" target="_blank">
                         <label id="lblNotify">Notify Party:</label>
                     </a>
                     <br />
@@ -233,13 +233,8 @@ End Code
                 <option value="BS">Booking Confirmation (SEA)</option>
                 <option value="SP">Shipping Instruction</option>
                 @*<option value="BLW">Bill of Lading - WALMAY</option>*@
-<<<<<<< HEAD
-                <option value="BLE">Bill of Lading</option>
-                @*<option value="BFT">Bill of Lading - BETTER</option>*@
-=======
                 @*<option value="BLE">Bill of Lading - UGLOBE</option>*@
                 <option value="BFT">Bill of Lading </option>
->>>>>>> 3x
                 <option value="BLS">Sea Way Bill</option>
                 <option value="HAW">House Air Way Bill</option>
                 <option value="MAW">Master Air Way Bill</option>
@@ -483,11 +478,7 @@ End Code
                     </div>
                     <div style="flex:2">
                         <label id="lblContainerNo">Container </label>
-                        : <a href="Container">Add</a><br />
-                        <div style="display:flex">
-                            <input type="text" id="txtCTN_NO" class="form-control">
-                            <input type="button" id="btnChooseCon" class="btn btn-default" value="..." onclick="SearchData('container')" />
-                        </div>
+                        :<br /><div style="display:flex"><input type="text" id="txtCTN_NO" class="form-control"></div>
                     </div>
                     <div style="flex:1">
                         <label id="lblContainerSize">Size</label>
@@ -839,17 +830,6 @@ End Code
                     </div>
                     <div id="tabDetailTruck" class="tab-pane fade">
                         <div class="row">
-<<<<<<< HEAD
-                            <div class="col-sm-5">
-                                <a href="~/Master/Employee"><label id="lblDriver">Driver</label></a>
-                                :
-                                <br />
-                                <div style="display:flex">
-                                    <input type="text" id="txtDriver" class="form-control">
-                                    <button class="btn btn-default" onclick="SearchData('driver')">...</button>
-                                </div>
-                            </div>
-=======
                            <div class="col-sm-5">
     			     <a href="~/Master/Employee" target="_blank" ><label id="lblDriver">Driver</label></a>
     				:
@@ -860,7 +840,6 @@ End Code
         				<input type="text" id="txtDriverName" class="form-control" style="flex:1;" disabled />
     				</div>
 			    </div>
->>>>>>> 3x
                             <div class="col-sm-3">
                                 <a href="~/Master/CarLicense" target="_blank" ><label id="lblTruckNo">Truck ID</label></a>
                                 :
@@ -876,7 +855,7 @@ End Code
                                 <br />
                                 <div style="display:flex">
                                     <input type="text" id="txtTruckType" class="form-control">
-                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carlicense2')" />
+                                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('carunit')" />
                                 </div>
                             </div>
                         </div>
@@ -975,7 +954,6 @@ End Code
     const user = '@ViewBag.User';
     const userGroup ='@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
-    let jobtype = 0;
     let cust = '';
     let row = {};
     let drivers = [];
@@ -1022,7 +1000,6 @@ End Code
     });
     function AddDetail() {
         ClearDetail();
-        ChangeLabel(jobtype);
         $('#dvContainer').modal('show');
     }
     function SetEvents() {
@@ -1116,11 +1093,8 @@ End Code
             CreateLOV(dv, '#frmSearchPlace3', '#tbPlace3', 'Return', response, 1);
             //Car
             CreateLOV(dv, '#frmSearchCar', '#tbCar', 'Car License', response, 2);
-	        CreateLOV(dv, '#frmSearchCar2', '#tbCar2', 'Car License', response, 2);
             //Emp
             CreateLOV(dv, '#frmSearchEmp', '#tbEmp', 'Driver', response, 2);
-            //Cont
-            CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Container', response, 3);
         });
     }
     function SearchData(type) {
@@ -1130,11 +1104,7 @@ End Code
                 SetGridVender(path, '#tbVend', '#frmSearchVend', ReadVender);
                 break;
             case 'customer':
-<<<<<<< HEAD
-                SetGridCompany(path, '#tbCust','#frmSearchCust', ReadCustomer);
-=======
                 SetGridCompanyByGroup(path, '#tbCust', 'CUSTOMERS','#frmSearchCust', ReadCustomer);
->>>>>>> 3x
                 break;
             case 'branch':
                 SetGridBranch(path, '#tbBranch','#frmSearchBranch', ReadBranch);
@@ -1191,39 +1161,18 @@ End Code
                 break;
             case 'carlicense':
                 SetGridCar(path, '#tbCar', '#frmSearchCar', ReadCar);
-                break;        
-            case 'carlicense2':
-                SetGridCar(path, '#tbCar2', '#frmSearchCar2', ReadCar2);
-                break;                
+                break;            
             case 'driver':
                 SetGridEmployee(path, '#tbEmp', '#frmSearchEmp', ReadEmp);
                 break;
-            case 'container':
-                SetGridContainer(path, '#tbCont', '#frmSearchCont', ReadCont);
-                break;
-
         }
-    }
-    function ReadCont(dt) {
-        $('#txtCTN_NO').val(dt.CTN_NO);
-        $('#txtCTN_SIZE').val(dt.CTN_SIZE);
     }
     function ReadEmp(dt) {
         $('#txtDriver').val(dt.EmpCode);
-<<<<<<< HEAD
-    }
-    function ReadCar(dt) {
-        $('#txtTruckNO').val(dt.CarNo);
-        //$('#txtDriver').val(dt.EmpCode);
-    }
-    function ReadCar2(dt) {
-        $('#txtTruckType').val(dt.CarNo);
-=======
         $('#txtDriverName').val(dt.Name);
     }
     function ReadCar(dt) {
         $('#txtTruckNO').val(dt.CarNo);
->>>>>>> 3x
         //$('#txtDriver').val(dt.EmpCode);
     }
     function ReadRoute(dt) {
@@ -1411,7 +1360,6 @@ End Code
                 LoadData();
             }
         }
-        ChangeLabel(dr.JobType);
     }
     function ReadBooking(dr, loadcont = true) {
         $('#txtBranchCode').val(dr.BranchCode);
@@ -1452,7 +1400,6 @@ End Code
         $('#txtTransMode').val(dr.TransMode);
         $('#txtPaymentCondition').val(CStr(dr.PaymentCondition));
         $('#txtPaymentBy').val(dr.PaymentBy);
-        ChangeLabel(dr.JobType);
         if (loadcont == true) {
             LoadDetail(dr.BranchCode, dr.BookingNo);
         }
@@ -1549,7 +1496,6 @@ End Code
             row = $('#tbDetail').DataTable().row(this).data(); //read current row selected
             ClearDetail();
             ReadDetail(row);
-            ChangeLabel(jobtype);
         });
         $('#tbDetail tbody').on('dblclick', 'tr', function () {
             $('#dvContainer').modal('show');
@@ -1712,15 +1658,9 @@ End Code
             case 'SP':
                 window.open(path + 'JobOrder/FormBooking?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
-<<<<<<< HEAD
-            //case 'BFT':
-            //    window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
-            //    break;
-=======
             case 'BFT':
                window.open(path + 'JobOrder/FormTransport?Type=BETTER&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
->>>>>>> 3x
             case 'BLS':
                 window.open(path + 'JobOrder/FormTransport?Type=SEA&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
@@ -1728,7 +1668,7 @@ End Code
                 window.open(path + 'JobOrder/FormTransport?Type=WALMAY&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'BLE':
-                window.open(path + 'JobOrder/FormTransport?BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
+                window.open(path + 'JobOrder/FormTransport?Type=EASTRONG&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
                 break;
             case 'HAW':
                 window.open(path + 'JobOrder/FormTransport?Type=HAIR&BranchCode=' + $('#txtBranchCode').val() + '&BookingNo=' + $('#txtBookingNo').val(), '', '');
@@ -2410,46 +2350,5 @@ $.get(path + `JobOrder/GetDocument?Branch=${$("#txtBranchCode").val()}&Code=${$(
     }
     function SetTime(id) {
         $(id).val(GetTime());
-    }
-    function ChangeLabel(t) {
-        //Addition by PK for Everbest new transport tracking concept
-        jobtype = t;
-        if (t == 1) {
-            if ($('#cboLanguage').val() == 'TH') {
-                $('#lblPickup').text('ถึงหน้าด่าน');
-                $('#lblPickupTarget').text('วันข้ามด่าน');
-                $('#lblPickupActual').text('ข้ามด่านจริง');
-                $('#lblDeliveryTarget').text('วันโหลดลง');
-                $('#lblDeliveryActual').text('วันโหลดเสร็จ');
-                $('#lblReturnTarget').text('วันคืนตู้ลานไทย');
-                $('#lblReturnActual').text('วันคืนจริง');
-            } else {
-                $('#lblPickup').text('Arrival');
-                $('#lblPickupTarget').text('Border Pass');
-                $('#lblPickupActual').text('Actual Pass');
-                $('#lblDeliveryTarget').text('Unload Target');
-                $('#lblDeliveryActual').text('Unload Actual');
-                $('#lblReturnTarget').text('Return Depot');
-                $('#lblReturnActual').text('Depot Out');
-            }
-        } else {
-            if ($('#cboLanguage').val() == 'TH') {
-                $('#lblReturn').text('ถึงหน้าด่าน');
-                $('#lblPickupTarget').text('วันรับตู้เปล่า');
-                $('#lblPickupActual').text('วันรับตู้จริง');
-                $('#lblDeliveryTarget').text('วันโหลดสินค้า');
-                $('#lblDeliveryActual').text('วันโหลดเสร็จ');
-                $('#lblReturnTarget').text('วันข้ามด่าน');
-                $('#lblReturnActual').text('วันรับตู้กลับ');
-            } else {
-                $('#lblReturn').text('Departure');
-                $('#lblPickupTarget').text('Pickup Target');
-                $('#lblPickupActual').text('Pickup Actual');
-                $('#lblDeliveryTarget').text('Load Target');
-                $('#lblDeliveryActual').text('Load Actual');
-                $('#lblReturnTarget').text('Border Pass');
-                $('#lblReturnActual').text('Depot In');
-            }
-        }
     }
 </script>

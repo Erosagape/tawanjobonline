@@ -63,6 +63,15 @@ Namespace My
                 Return CType(Me("weblicenseConnection"),String)
             End Get
         End Property
+        
+        <Global.System.Configuration.ApplicationScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("D:\WEB")>  _
+        Public ReadOnly Property websiteSourcePath() As String
+            Get
+                Return CType(Me("websiteSourcePath"),String)
+            End Get
+        End Property
     End Class
 End Namespace
 

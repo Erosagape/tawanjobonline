@@ -98,11 +98,6 @@ End Code
         <br/>
         2. Setup First-time using <a href="http://103.225.168.137/docs/MAS2-SetupMaster_设置主数据.pdf">PDF</a>
         <br/>
-<<<<<<< HEAD
-        2. Full Manual ver 1.0 <a href="http://103.225.168.137/docs/manual.pdf">PDF</a>
-	<br/>
-	3. Manual Data For B/L,AWB <a href="http://103.225.168.137/docs/manualBLAWB.pdf">PDF</a>
-=======
         3. Full Manual ver 1.0 <a href="http://103.225.168.137/docs//FULL-Manual_V0.1手册.pdf">PDF</a>
 	<br/>
 	4. Manual Data For B/L,AWB <a href="http://103.225.168.137/docs/CS01วิธีจัดทำใบBL%20,AWB,ManualBLAWB_海运空运提单手册.pdf">PDF</a>
@@ -112,7 +107,6 @@ End Code
 	6.Tawan Job Workflow <a href="http://103.225.168.137/Docs/TawanJobWorkflow/">IMG</a>
         <br/>
 	7.คู่มือโปรแกรมช่วยนำส่งข้อมูล SWC User Interface <a href="https://www.rd.go.th/fileadmin/user_upload/WHT/swc1.5.4/swc-ui_manual_1.5.4.pdf">PDF</a>
->>>>>>> 3x
     </div>
 </div>
 
