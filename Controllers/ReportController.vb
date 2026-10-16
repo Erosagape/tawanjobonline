@@ -23,7 +23,8 @@ Namespace Controllers
                     End If
                     Dim savePath As String = System.IO.Path.Combine(Server.MapPath("~/Resource/Import"), System.IO.Path.GetFileName(fileUpload.FileName))
                     If System.IO.File.Exists(savePath) Then
-                        System.IO.File.Delete(savePath)
+                        ViewBag.Message = "This file is already imported"
+                        Return GetView("Import", "MODULE_REP")
                     End If
                     fileUpload.SaveAs(savePath)
                     Dim tbName = "Job_Order"
@@ -77,8 +78,8 @@ Namespace Controllers
                                         msgUpdate &= vbCrLf & "[ERROR] Process " & dr("JNo").ToString() & " Date=" & dr("DocDate")
                                     End Try
                                     Try
-                                        If dr("HAWB").ToString().Trim() <> "" Then
-                                            Dim sql As String = " WHERE HAWB='" & dr("HAWB").ToString().Trim() & "' AND JNo like '" & dr("Prefix") & "%'"
+                                        If dr("HAWB").ToString().Trim() <> "" And dr("HAWB").ToString().Trim() <> "N/A" Then
+                                            Dim sql As String = " WHERE HAWB='" & dr("HAWB").ToString().Trim() & "' AND JNo like '" & dr("Prefix") & "%' AND JobType=" & jobType & " AND Shipby=" & shipBy
                                             Dim chk = New CJobOrder(GetSession("ConnJob")).GetData(sql)
                                             If chk.Count > 0 Then
                                                 oJob.JNo = chk(0).JNo
