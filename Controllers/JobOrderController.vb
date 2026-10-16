@@ -2500,7 +2500,12 @@ WHERE ISNULL(PlaceName" & place & ",'')<>''
                     Dim dt As New DataTable
                     Using cn As MySqlConnection = New MySqlConnection(connStr)
                         cn.Open()
-                        Dim sql As String = String.Format("Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' ", job)
+                        Dim sqlTemp As String = "Select decl.*,inv.invoiceno from decl inner join inv On decl.referenceno=inv.referenceno where decl.refnocmn='{0}' and decl.refnocmn<>'' and decl.status<>'C' "
+                        If Main.GetValueConfig("SQL", "SelectPaperless") <> "" Then
+                            sqlTemp = Main.GetValueConfig("SQL", "SelectPaperless")
+                        End If
+                        sql = String.Format(sqlTemp, job)
+
                         Using da As New MySqlDataAdapter(sql, cn)
                             da.Fill(dt)
                         End Using
