@@ -77,23 +77,6 @@ Namespace Controllers
                                         msgUpdate &= vbCrLf & "[ERROR] Process " & dr("JNo").ToString() & " Date=" & dr("DocDate")
                                     End Try
                                     Try
-                                        If prefix <> "" Then
-                                            dr("Prefix") = prefix
-                                        End If
-                                        If custCode <> "" Then
-                                            dr("CustCode") = custCode
-                                            dr("CustBranch") = custBr
-                                        End If
-                                        If jobType > 0 Then
-                                            dr("JobType") = jobType
-                                        End If
-                                        If shipBy > 0 Then
-                                            dr("ShipBy") = shipBy
-                                        End If
-                                    Catch ex As Exception
-
-                                    End Try
-                                    Try
                                         If dr("HAWB").ToString().Trim() <> "" Then
                                             Dim sql As String = " WHERE HAWB='" & dr("HAWB").ToString().Trim() & "' AND JNo like '" & dr("Prefix") & "%'"
                                             Dim chk = New CJobOrder(GetSession("ConnJob")).GetData(sql)
@@ -124,6 +107,33 @@ Namespace Controllers
                                     End If
                                     dr("JNo") = oJob.JNo
                                 End If
+                                Try
+                                    If prefix <> "" Then
+                                        dr("Prefix") = prefix
+                                    End If
+                                Catch ex As Exception
+                                    msgUpdate &= vbCrLf & "[ERROR] Process " & ex.Message
+                                End Try
+                                Try
+                                    If custCode <> "" And dr("CustCode").ToString() = "" Then
+                                        dr("CustCode") = custCode
+                                        dr("CustBranch") = custBr
+                                    Else
+
+                                    End If
+                                Catch ex As Exception
+                                    msgUpdate &= vbCrLf & "[ERROR] Process " & ex.Message
+                                End Try
+                                Try
+                                    If jobType > 0 Then
+                                        dr("JobType") = jobType
+                                    End If
+                                    If shipBy > 0 Then
+                                        dr("ShipBy") = shipBy
+                                    End If
+                                Catch ex As Exception
+                                    msgUpdate &= vbCrLf & "[ERROR] Process " & ex.Message
+                                End Try
                                 msgUpdate &= vbCrLf & "Process " & dr("JNo").ToString()
                                 Try
                                     Dim sql As String = "SELECT * FROM Job_Order WHERE BranchCode='{0}' AND JNo='{1}'"
@@ -133,8 +143,8 @@ Namespace Controllers
                                         da.Fill(tb)
                                         If tb.Rows.Count > 0 Then
                                             Dim r = tb.Rows(0)
-                                            For Each dc As DataColumn In dt.Columns
-                                                If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                            For Each dc As DataColumn In tb.Columns
+                                                If dt.Columns.IndexOf(dc.ColumnName) >= 0 Then
                                                     Try
                                                         r(dc.ColumnName) = dr(dc.ColumnName)
                                                     Catch ex As Exception
@@ -150,9 +160,10 @@ Namespace Controllers
                                             r("BranchCode") = GetSession("CurrBranch")
                                             r("JobStatus") = 0
                                             r("CreateDate") = DateTime.Now
+                                            r("ConsigneeCode") = custCode
                                             r("CSCode") = GetSession("CurrUser")
-                                            For Each dc As DataColumn In dt.Columns
-                                                If tb.Columns.IndexOf(dc.ColumnName) >= 0 Then
+                                            For Each dc As DataColumn In tb.Columns
+                                                If dt.Columns.IndexOf(dc.ColumnName) >= 0 Then
                                                     Try
                                                         r(dc.ColumnName) = dr(dc.ColumnName)
                                                     Catch ex As Exception

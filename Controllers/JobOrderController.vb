@@ -2608,7 +2608,6 @@ j.InvProduct,j.InvNo,j.DeclareNumber,j.ETDDate,j.ETADate,j.CloseJobDate,j.TotalC
                             sqlTemp = Main.GetValueConfig("SQL", "SelectPaperless")
                         End If
                         Dim sql As String = String.Format(sqlTemp, job)
-
                         Using da As New MySqlDataAdapter(sql, cn)
                             da.Fill(dt)
                         End Using
