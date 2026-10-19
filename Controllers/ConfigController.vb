@@ -61,8 +61,12 @@ Namespace Controllers
         Function GetDatabase() As ActionResult
             Try
                 Dim companyName As String = ""
+                Dim dbID As Integer = 1
+                If Not Request.QueryString("Database") Is Nothing Then
+                    dbID = Convert.ToInt32(Request.QueryString("Database"))
+                End If
                 Dim oData = Main.GetDatabaseList(My.MySettings.Default.LicenseTo, appName)
-                Using tb As DataTable = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo, "")
+                Using tb As DataTable = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo, dbID)
                     If tb.Rows.Count > 0 Then
                         companyName = tb.Rows(0)("CustName").ToString()
                     End If
@@ -551,14 +555,7 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Database")) Then
                     dbID = Request.QueryString("Database").ToString
                 End If
-                'Load Connections by Database which selected
-                Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)
-                If Main.SetDatabaseMaster(dbConn(1)) Then
-                    Session("ConnMas") = dbConn(1)
-                End If
-                If Main.SetDatabaseJob(dbConn(0)) Then
-                    Session("ConnJob") = dbConn(0)
-                End If
+
                 'Load License Name
                 Using tbLicense = Main.GetDatabaseProfile(My.MySettings.Default.LicenseTo.ToString, dbID)
                     If tbLicense.Rows.Count > 0 Then
@@ -567,7 +564,14 @@ Namespace Controllers
                         Return Content("{""user"":{""session_id"":""" & Session.SessionID & """,""data"":[],""message"":""License " & My.MySettings.Default.LicenseTo.ToString & " Not Found""}}", jsonContent)
                     End If
                 End Using
-
+                'Load Connections by Database which selected
+                Dim dbConn As String() = Main.GetDatabaseConnection(My.MySettings.Default.LicenseTo.ToString, appName, dbID)
+                If Main.SetDatabaseMaster(dbConn(1)) Then
+                    Session("ConnMas") = dbConn(1)
+                End If
+                If Main.SetDatabaseJob(dbConn(0)) Then
+                    Session("ConnJob") = dbConn(0)
+                End If
                 Select Case userGroup
                     Case "C" 'Customer
                         Dim cName As String = ""

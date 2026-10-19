@@ -830,7 +830,7 @@ End Code
         window.location.href = 'Transport?BranchCode=' + $('#txtBranchCode').val() + '&JNo=' + $('#txtJNo').val();
     }
     function GetJobPrefix() {
-        return $('#cboGroup').val().substr(4,3);
+        return $('#cboGroup').val().substr(4,4);
     }
     function SaveData(obj) {
         let jsonText = JSON.stringify({ data: obj });
