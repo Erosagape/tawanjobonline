@@ -288,6 +288,12 @@ function GetVoucherType() {
 
 function LoadCliteria(reportID) {
     $('#tbCode').hide();
+            $('#tbDate').show();
+            $('#tbEmp').show();
+            $('#tbCust').show();
+            $('#tbStatus').show(); //hide
+            $('#tbJob').show(); //hide
+            $('#tbVend').show(); //hide
     switch (reportID) {
         case 'JOBDAILY':
         case 'JOBCS':

@@ -174,7 +174,7 @@ function loadYear(path) {
     $('#cboYear').append($('<option>', { value: '' })
         .text('ALL'));
     $.get(path +'joborder/getjobyear').done(function (r) {
-        let dr = r[0].Table;
+        let dr = r;
         if (dr.length > 0) {
             for (let i = 0; i < dr.length; i++) {
                 $('#cboYear')

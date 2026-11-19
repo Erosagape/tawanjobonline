@@ -9,13 +9,13 @@ End Code
                     <label id="lblBranch">Branch:</label>                    
                     <br />
                     <div style="display:flex;flex-direction:row">
-                        <input type="text" class="form-control" id="txtBranchCode" style="width:15%" disabled />
+                        <input type="text" class="form-control" id="txtBranchCode" style="width:15%" readonly />
                         <input type="button" class="btn btn-default" value="..." onclick="SearchData('branch');" />
-                        <input type="text" class="form-control" id="txtBranchName" style="width:65%" disabled />
+                        <input type="text" class="form-control" id="txtBranchName" style="width:65%" readonly />
                     </div>
                 </div>
                 <div class="col-sm-4">
-                    <b id="linkControlNo">Reference No:</b>
+                    <b id="linkControlNo" ondblclick="SaveData()">Reference No:</b>
                     <br />
                     <div style="display:flex;flex-direction:row">
                         <input type="text" class="form-control" id="txtControlNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
@@ -58,43 +58,43 @@ End Code
                             <u><b id="linkPay">Payment</b></u>
                             <br />
                             <label id="lblPayCash">Cash</label>
-                             : <input type="text" id="txtPayCash" disabled />
+                             : <input type="text" id="txtPayCash" readonly />
                             <br />
                             <label id="lblPayChq">Cheque</label>
-                             : <input type="text" id="txtPayChq" disabled />
+                             : <input type="text" id="txtPayChq" readonly />
                             <br />
                             <label id="lblPayCred">Credit</label>
-                             : <input type="text" id="txtPayCred" disabled />
+                             : <input type="text" id="txtPayCred" readonly />
                         </div>
                         <div class="col-sm-3">
                             <u><b id="linkRcv">Receive</b></u>
                             <br />
                             <label id="lblRcvCash">Cash</label>
-                             : <input type="text" id="txtRcvCash" disabled />
+                             : <input type="text" id="txtRcvCash" readonly />
                             <br />
                             <label id="lblRcvChq">Cheque</label>
-                             : <input type="text" id="txtRcvChq" disabled />
+                             : <input type="text" id="txtRcvChq" readonly />
                             <br />
                             <label id="lblRcvCred">Credit</label>
-                             : <input type="text" id="txtRcvCred" disabled />
+                             : <input type="text" id="txtRcvCred" readonly />
                         </div>
                         <div class="col-sm-3">
                             <u><b id="linkSum">Sum</b></u>
                             <br />
                             <label id="lblSumPay">Payment</label>
-                             : <input type="text" id="txtPaySum" disabled />
+                             : <input type="text" id="txtPaySum" readonly />
                             <br />
                             <label id="lblSumRcv">Receive</label>
-                             : <input type="text" id="txtRcvSum" disabled />
+                             : <input type="text" id="txtRcvSum" readonly />
                         </div>
                         <div class="col-sm-3">
                             <u><b id="linkTotal">Total</b></u>
                             <br />
                             <label id="lblTotalPR">Voucher</label>
-                            : <input type="text" id="txtPRSum" disabled />
+                            : <input type="text" id="txtPRSum" readonly />
                             <br />
                             <label id="lblTotalDoc">Document</label>
-                             : <input type="text" id="txtDocSum" disabled />
+                             : <input type="text" id="txtDocSum" readonly />
                         </div>
                     </div>
 
@@ -142,12 +142,12 @@ End Code
                 <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <label id="lblRecBy">Record By</label>
                     <br />
-                    <input type="text" id="txtRecUser" style="width:250px" disabled />
+                    <input type="text" id="txtRecUser" style="width:250px" readonly />
                     <br />
                     <label id="lblRecDate">Date:</label>                    
-                    <input type="date" id="txtRecDate" disabled />
+                    <input type="date" id="txtRecDate" readonly />
                     <label id="lblRecTime">Time:</label>                    
-                    <input type="text" id="txtRecTime" style="width:80px" disabled />
+                    <input type="text" id="txtRecTime" style="width:80px" readonly />
                 </div>
                 <div class="col-md-4" style="border-style:solid;border-width:1px">
                     <input type="checkbox" id="chkPosted" />
@@ -155,12 +155,12 @@ End Code
                     <input type="text" id="txtPostedBy" style="width:250px" disabled />
                     <br />
                     <label id="lblPostDate">Date:</label>
-                    <input type="date" id="txtPostedDate" disabled />
+                    <input type="date" id="txtPostedDate" />
                     <label id="lblPostTime">Time:</label>
                     <input type="text" id="txtPostedTime" style="width:80px" disabled />
                     <br />
                     <label id="lblPostRefNo" for="txtPostRefNo">Post Ref#</label><br />
-                    <input type="text" id="txtPostRefNo" style="width:250px" disabled />
+                    <input type="text" id="txtPostRefNo" style="width:250px" />
                 </div>
                 <div class="col-md-4" style="border-style:solid;border-width:1px;color:red">
                     <input type="checkbox" id="chkCancel" />
@@ -749,9 +749,9 @@ End Code
     }
     function SetApprove(b) {
         if (b == true) {
-            $('#txtPostRefNo').val(chkmode ? $('#txtPostRefNo').val() : '');
+            //$('#txtPostRefNo').val(chkmode ? $('#txtPostRefNo').val() : '');
             $('#txtPostedBy').val(chkmode ? user : '');
-            $('#txtPostedDate').val(chkmode ? CDateEN(GetToday()) : '');
+            //$('#txtPostedDate').val(chkmode ? CDateEN(GetToday()) : '');
             $('#txtPostedTime').val(chkmode ? ShowTime(GetTime()) : '');
             return;
         }

@@ -53,7 +53,7 @@ Public Class CUtil
                     da.SelectCommand.CommandTimeout = Convert.ToInt32(Main.GetValueConfig("PROFILE", "QUERY_TIMEOUT", 600))
                     da.Fill(dt)
                 End Using
-                If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)
+                'If dt.Rows.Count = 0 Then dt.Rows.Add(dt.NewRow)
             Catch ex As Exception
                 Message = "[ERROR]" & ex.Message
             End Try

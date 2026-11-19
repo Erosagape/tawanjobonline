@@ -1393,8 +1393,8 @@ End Code
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameThai);
-        $('#txtDescriptionThai').val(dt.NameThai);
+        $('#txtSDescription').val(dt.NameEng);
+        $('#txtDescriptionThai').val(dt.NameEng);
         $('#txtIsvat').val(dt.IsTaxCharge);
         $('#txtIsTax').val(dt.Is50Tavi);
         $('#txtIsService').val(dt.IsCredit == 1 || dt.IsExpense == 1 ? '0': '1');

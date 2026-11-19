@@ -24,6 +24,7 @@ border-right: 0.5px solid;
 border-left: 0.5px solid;
 }
 </style>
+<<<<<<< HEAD
 <div id="dvheader"></div>
 <table style="width:100%; margin-top:3px" class="text-center">
     <thead id="theader">
@@ -67,10 +68,70 @@ border-left: 0.5px solid;
         <td colspan="2">TOTAL RECEIPT</td>
         <td colspan="1"><label id="lblTotalAfterVAT"></label></td>
     </tr>
+=======
+<div style="text-align:center;width:100%">
+    <h2><label id="lblDocType" style="font-size:18px;">TAX-INVOICE</label></h2>
+</div>
+<div id="dvCopy" style="text-align:right;width:100%">
+</div>
+<div style="display:flex;">
+    <div style="flex:3;border:1px solid black;border-radius:5px;margin-right:8px;padding:5px 5px 5px 5px;">
+        NAME : <label id="lblCustName"></label><br />
+        ADDRESS : <label id="lblCustAddr"></label><br />
+        TEL : <label id="lblCustTel"></label><br />
+        TAX-ID : <lable id="lblCustTax"></lable>
+    </div>
+    <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px 5px 5px 5px;">
+        NO. : <label id="lblReceiptNo"></label><br />
+        ISSUE DATE : <label id="lblReceiptDate"></label><br />
+    </div>
+</div>
+
+<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
+    <tr style="background-color:lightblue;">
+        <th height="40" width="240">INV.NO.</th>
+        <th width="70">JOB</th>
+        <th width="60">ADVANCE</th>
+        <th width="60">SERVICE</th>
+        <th width="30">VAT</th>
+        <th width="60">TOTAL VAT</th>
+        @*<th width="30">WHT</th>*@
+
+
+    </tr>
+    <tbody id="tbDetail"></tbody>
+        <tr>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+	<td></td>
+        </tr>
+        <tr style="background-color:lightblue;text-align:right;">
+            <td style="text-align:center"><label id="lblTotalText"></label></td>
+            <td>TOTAL AMOUNT</td>
+            <td><label id="lblTotalADV"></label></td>
+            <td><label id="lblTotalBeforeVAT"></label></td>
+
+            <td><label id="lblTotalVAT"></label></td>
+            @*<td><label id="lblTotalWHT"></label></td>*@
+            <td><label id="lblTotal"></label></td>
+            @*<td><label id="lblTotalNET"></label></td>*@
+        </tr>
+        <tr style="background-color:lightblue;text-align:right;">
+            @*<td colspan="2">TOTAL VAT</td>
+        <td colspan="2"><label id="lblTotalAfterVAT"></label></td>*@
+            <td colspan="1"></td>
+            <td colspan="1">GRAND TOTAL</td>
+            <td colspan="4"><label id="lblTotalNET"></label></td>
+        </tr>
+>>>>>>> everbest
 </table>
 <p>
     PAY BY
 </p>
+<<<<<<< HEAD
  <div style="display:flex;flex-direction:column">
         <div>
             <label><input type="checkbox" id='cash' name="vehicle1" value=""> CASH</label>
@@ -129,6 +190,37 @@ border-left: 0.5px solid;
 	กรณีแก้ไขเอกสารกรุณาแจ้งภายใน7วัน
 	หากพ้นกำหนด บริษัทจะไม่รับผิดชอบใดๆทั้งสิ้น<br/>
 </label>
+=======
+<div style="display:flex;flex-direction:column">
+    <div>
+        <label><input type="checkbox" name="vehicle1" id="chkCash" value=""> CASH</label> : 
+        AMOUNT <label id="lblCashAmount">______________</label> BAHT
+    </div>
+    <div>
+        <label><input type="checkbox" name="vehicle2" id="chkCheque" value=""> CHEQUE</label> &nbsp;:&nbsp;
+        NO &nbsp;<label id="lblChqNo">_______________</label> &nbsp;&nbsp;BANK &nbsp;<label id="lblChqBank">_________________</label> &nbsp;&nbsp; AMOUNT <label id="lblChqAmount">______________</label>&nbsp;BAHT&nbsp;&nbsp; DATE <label id="lblChqDate">______________</label><br/>
+        <label><input type="checkbox" name="vehicle3" id="chkTransfer" value=""> TRANSFER</label> &nbsp;:&nbsp;
+        NO &nbsp;<label id="lblTransNo">_______________</label> &nbsp;&nbsp;BANK &nbsp;<label id="lblTransBank">_________________</label> &nbsp;&nbsp; AMOUNT <label id="lblTransAmount">______________</label>&nbsp;BAHT&nbsp;&nbsp; DATE <label id="lblTransDate">______________</label>
+    </div>
+</div>
+<br />
+<div style="display:flex;">
+    <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
+        <br /><br /><br />
+        <p>_____________________</p>
+        _____________________<br />
+        ___/_______/___<br />
+        ผู้รับเงิน / Bill collector
+    </div>
+    <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
+        <br /><br /><br />
+        <p>_____________________</p>
+        _____________________<br />
+        ___/_______/___<br />
+	    ผู้จัดการ / Manager 
+    </div>
+</div>
+>>>>>>> everbest
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let htmlheader = '<div style="text-align:center;width:100%">';
@@ -188,33 +280,49 @@ border-left: 0.5px solid;
                 htmlheader = htmlheader.replace('{doctype}', 'RECEIPT / ใบเสร็จรับเงินทดรองจ่าย');
                 break;
             default:
+<<<<<<< HEAD
                 //$('#lblDocType').text('RECEIPT / ใบเสร็จรับเงิน');
                 htmlheader = htmlheader.replace('{doctype}', 'RECEIPT / ใบเสร็จรับเงิน');
+=======
+                $('#lblDocType').text('TAX-INVOICE/RECEIPT');
+                serviceText = 'Service Charges';
+>>>>>>> everbest
                 break;
         }
         //$('#lblCustCode').text(h.BillToCustCode);
         let branchText = '';
         if (h.UsedLanguage == 'TH') {
+<<<<<<< HEAD
             //$('#lblCustName').text(h.BillTName);
             //$('#lblCustAddr').text(h.BillTAddr);
             htmlheader = htmlheader.replace('{custname}', h.BillTName);
             htmlheader = htmlheader.replace('{custaddr}', h.BillTAddr);
+=======
+            $('#lblCustName').text(h.BillTName);
+            $('#lblCustAddr').text(h.BillTAddr);
+>>>>>>> everbest
             if (Number(h.BillToCustBranch) == 0) {
                 branchText = ' สาขา: สำนักงานใหญ่';
             } else {
                 branchText = ' BRANCH: 000'+CCode(Number(h.BillToCustBranch));
             }
         } else {
+<<<<<<< HEAD
             //$('#lblCustName').text(h.BillEName);
             //$('#lblCustAddr').text(h.BillEAddr);
             htmlheader = htmlheader.replace('{custname}', h.BillEName);
             htmlheader = htmlheader.replace('{custaddr}', h.BillEAddr);
+=======
+            $('#lblCustName').text(h.BillEName);
+            $('#lblCustAddr').text(h.BillEAddr);
+>>>>>>> everbest
             if (Number(h.BillToCustBranch) == 0) {
                 branchText = ' BRANCH: HEAD OFFICE';
             } else {
                 branchText =  ' BRANCH: 000'+CCode(Number(h.BillToCustBranch));
             }
         }
+<<<<<<< HEAD
 	if(h.TRemark){
 	   let payment =  h.TRemark.split(";");
            let ca = payment[0].split(":")[1];
@@ -251,6 +359,61 @@ border-left: 0.5px solid;
         htmlheader = htmlheader.replace('{docno}', h.ReceiptNo);
         htmlheader = htmlheader.replace('{docdate}', ShowDate(CDateTH(h.ReceiveDate)));
         $('#dvheader').html(htmlheader);
+=======
+        $('#tremark').text(h.TRemark);
+	let vRemark = h.TRemark.split(';');
+        for (let t of vRemark) {
+            if (t.indexOf(':') > 0) {
+                let vData = t.split(':');
+		console.log(vData);
+                if (Number(vData[1]) > 0) {
+                    switch (vData[0]) {
+                        case 'CHQ':
+                            $('#chkCheque').prop('checked', true)
+				if (vData[5] == 'TRANSFER') {
+					$('#lblTransAmount').text(ShowNumber(vData[1], 2));
+                            		$('#lblTransAmount').css('text-decoration', 'underline');
+					$('#chkCheque').prop('checked', false);
+                                    	$('#chkTransfer').prop('checked', true);
+ 				    	$('#lblTransNo').text(vData[3]);
+                                    	$('#lblTransNo').css('text-decoration', 'underline');
+				    	$('#lblTransBank').text(vData[2]);
+                                    	$('#lblTransBank').css('text-decoration', 'underline');
+				    	$('#lblTransDate').text(vData[4]);
+				    	$('#lblTransDate').css('text-decoration', 'underline');	
+				}else{
+					$('#lblChqAmount').text(ShowNumber(vData[1], 2));
+                            		$('#lblChqAmount').css('text-decoration', 'underline');
+					 $('#chkCheque').prop('checked', true);
+                                    	$('#chkTransfer').prop('checked', false);
+                                    	$('#lblChqNo').text(vData[3]);
+                                    	$('#lblChqNo').css('text-decoration', 'underline');
+				    	$('#lblChqBank').text(vData[2]);
+                                    	$('#lblChqBank').css('text-decoration', 'underline');
+				    	$('#lblChqDate').text(vData[4]);
+				    	$('#lblChqDate').css('text-decoration', 'underline');
+				}
+                            break;
+                        case 'CASH':
+                            $('#chkCash').prop('checked', true);
+                            $('#lblCashAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblCashAmount').css('text-decoration', 'underline');
+                            break;
+                        case 'CHG':
+                            $('#lblBankChg').text(ShowNumber(vData[1], 2));
+                            $('#lblBankChg').css('text-decoration', 'underline');
+                            break;
+                        default:
+                            break;
+                    }
+                   }
+            }
+        }
+        $('#lblCustTel').text(h.BillPhone);
+        $('#lblCustTax').text(h.BillTaxID + branchText);
+        $('#lblReceiptNo').text(h.ReceiptNo);
+        $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiveDate)));
+>>>>>>> everbest
         let html = '';
         let service = 0;
         let servat = 0;
@@ -262,6 +425,7 @@ border-left: 0.5px solid;
         let adv = 0;
         let icount = 0;
         for (let d of dt) {
+<<<<<<< HEAD
             icount++;
             if (icount == 40) {
                 html = '<tr class="noborder">';
@@ -301,14 +465,41 @@ border-left: 0.5px solid;
             adv += Number(d.AmtAdvance);
             total +=Number(CDbl(d.Net,2));
 	    //console.log(amt);
+=======
+            html = '<tr>';
+            html += '<td style="text-align:center">' + d.InvoiceNo + ' Date :' + ShowDate(d.InvoiceDate) +' '+ serviceText+ '</td>';
+            html += '<td style="text-align:center">' + d.JobNo + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtAdvance > 0 ? ShowNumber(d.AmtAdvance, 2) : '') + '</td>';
+
+            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.AmtCharge,2):'') + '</td>';
+            html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.InvVAT,2):'') + '</td>';
+           // html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'') + '</td>';
+            html += '<td style="text-align:right">' + ShowNumber(d.AmtCharge + d.InvVAT, 2) + '</td>';
+            //html += '<td style="text-align:right">' + ShowNumber(d.AmtCharge+d.AmtAdvance+d.InvVAT-d.Inv50Tavi,2) + '</td>';
+            html += '</tr>';
+
+            $('#tbDetail').append(html);
+            if (d.AmtCharge > 0) {
+                service += Number(CDbl(d.AmtCharge,2));
+                vat += Number(CDbl(d.InvVAT,2));
+                wht += Number(CDbl(d.Inv50Tavi,2));
+                amt += Number(CDbl(d.AmtCharge,2)) + Number(CDbl(d.InvVAT,2));
+            } 
+
+	    if(d.AmtAdvance > 0) {
+                adv +=Number(CDbl(d.AmtAdvance,2));
+            }
+            total +=Number(CDbl(d.InvTotal,2));
+>>>>>>> everbest
         }
         $('#lblTotalBeforeVAT').text(ShowNumber(servat, 2));
         $('#lblTotalBeforeNOVAT').text(ShowNumber(sernovat, 2));
         $('#lblTotalCharge').text(ShowNumber(sernovat+servat, 2));
         $('#lblTotalAmtVat').text(ShowNumber(servat+vat, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
-        $('#lblTotalWHT').text(ShowNumber(wht, 2));
+        //$('#lblTotalWHT').text(ShowNumber(wht, 2));
         $('#lblTotalADV').text(ShowNumber(adv, 2));
+<<<<<<< HEAD
         $('#lblTotalAfterVAT').text(ShowNumber(adv+servat+sernovat+vat, 2));
         $('#lblTotalNET').text(ShowNumber(total, 2));
         $('#lblTotalText').text(CNumThai(CDbl(total,2)));
@@ -317,5 +508,11 @@ border-left: 0.5px solid;
 	console.log('sernovat : ' + sernovat);
 	console.log('vat : ' + vat);
 	console.log('wht : ' + wht);
+=======
+        $('#lblTotal').text(ShowNumber(amt, 2));
+
+        $('#lblTotalNET').text(ShowNumber(amt+adv , 2));
+        $('#lblTotalText').text(CNumThai(CDbl(amt+adv,2)));
+>>>>>>> everbest
     }
 </script>

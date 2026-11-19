@@ -122,7 +122,7 @@ End Code
                 ShowMessage('Data not found',true);
                 return;
             }
-            let h = r.whtax.data[0].Table;
+            let h = r.whtax.data;
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้

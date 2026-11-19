@@ -176,7 +176,11 @@ End Code
                 $('#lblDocType').text('TAX-INVOICE');
                 break;
             default:
+<<<<<<< HEAD
                 $('#lblDocType').text('RECEIPT');
+=======
+                $('#lblDocType').text('RECEIPT TRANSPORT');
+>>>>>>> everbest
                 break;
         }
         //$('#lblCustCode').text(h.CustCode);

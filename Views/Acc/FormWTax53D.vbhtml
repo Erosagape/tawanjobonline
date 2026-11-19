@@ -54,12 +54,20 @@ End Code
 <table>
     <tr>
         <td>
+<<<<<<< HEAD
             <div style="display:flex;width:98%;word-wrap:break-word;">
+=======
+            <div style="display:flex;width:98%;">
+>>>>>>> everbest
                 <div style="flex:15%">
                     ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.53</label>
                 </div>
                 <div style="flex:65%">
+<<<<<<< HEAD
                     เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label style="font-size: 18px !important;" id="lblTaxNumber1"></label>
+=======
+                    เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
+>>>>>>> everbest
                     สาขา : <label id="lblBranch1"></label><br />ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
 
                     ที่อยู่ : <label id="lblTAddress1"></label>
@@ -166,7 +174,14 @@ End Code
                                 ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
                                 (<input readonly type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
                                 ตำแหน่ง <input readonly type="text" style="border-style:none;text-align:center;width:150px" value="@ViewBag.TaxPosition" /> <br>
+<<<<<<< HEAD
                                 ยื่นวันที่ <input readonly type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+=======
+                                ยื่นวันที่ <input readonly type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="{d}" />
+                            </td>
+                            <td colspan="2">
+                                <div class="circle"><br />ตราประทับ<br />นิติบุคคล<br />(ถ้ามี)</div>
+>>>>>>> everbest
                             </td>
                         </tr>
                     </tfoot>
@@ -217,6 +232,7 @@ End Code
                     $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
                     $('#lblTAddress1').text(tb.TAddress1);
+                    let dateIssue=prompt('กรุณาใส่วันที่ออกเอกสาร');
                     let n = 0;
                     let c = 0;
                     let p = 1;
@@ -268,6 +284,10 @@ End Code
                                 template = template.replace('{5}', field5);
 
                                 if ((p == 1 && n == rows) || (((n - rows) % rows) == 0 && p > 1)) {
+<<<<<<< HEAD
+=======
+                                    htmlFoot = htmlFoot.replace('{d}', dateIssue);
+>>>>>>> everbest
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 
@@ -310,7 +330,14 @@ End Code
 
                             template += '</p>';
                             template += '</td>';
-                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+                            //template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+			    let Branch3 = CCode(r.Branch3);
+			    if (Branch3 == '00') {
+				Branch3 = 'สำนักงานใหญ่';
+			    } else {
+			    	Branch3 = '00'+CCode(r.Branch3);
+		 	    }
+			    template += '<td>' + Branch3 + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';
@@ -320,7 +347,7 @@ End Code
                             docno = r.DocNo;
                         }
 
-                        field1 += '<br/>' + ShowDate(r.PayDate);
+                        field1 += '<br/>' + ShowDate(CDateTH(r.PayDate));
                         field2 += '<br/>' + r.PayRate;
                         field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
                         field4 += '<br/>' + ShowNumber(r.PayTax, 2);
@@ -338,6 +365,7 @@ End Code
                             template = template.replace('{4}', field4);
                             template = template.replace('{5}', field5);
 
+                            htmlFoot = htmlFoot.replace('{d}', dateIssue);
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
 

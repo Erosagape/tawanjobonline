@@ -4,6 +4,7 @@
     ViewBag.Title = "Voucher Slip"
 End Code
 <style>
+<<<<<<< HEAD
     #onlyForAccount td,th{
         border:1px black solid;
         padding:5px;
@@ -53,34 +54,135 @@ End Code
                 <label id="lblFromCountry"></label> TO :
                 <label id="lblToCountry"></label>
             </p>
+=======
+    #onlyForAccount td, th {
+        border: 1px black solid;
+        padding: 5px;
+    }
+
+    table tr {
+        page-break-inside: auto;
+        page-break-after: auto;
+    }
+
+    table {
+        page-break-inside: auto;
+    }
+</style>
+<div style="display:flex;flex-direction:column;">
+    <table id="tbAdvInfo" width="100%">
+        <tr>
+
+            <td colspan="2" style="font-size:11px;text-align:center">
+                <input type="text" id="txtVoucherType" value="VOUCHER" style="text-align:center;background-color:yellow;font:bold;font-size:large;" disabled />
+            </td>
+        </tr>
+        <tr>
+            <td style="font-size:11px">
+                <b>Voucher Date : </b><label id="txtVoucherDate" style="text-decoration-line:underline;"></label>
+            </td>
+            <td align="right" style="font-size:11px;">
+                <b>Voucher No : </b><label id="txtControlNo" style="text-decoration-line:underline"></label>
+            </td>
+        </tr>
+    </table>
+    <div style="display:none">
+        <b>Remark</b>
+        <label id="txtRemark" style="text-decoration-line:underline;"></label>
+    </div>
+    <div style="display:flex;border:1px solid black;border-radius:5px;display:none">
+        <div style="flex:2">
+            <div class="row">
+                <p class="col-sm-12">
+                    FROM :
+                    <label id="lblFromCountry"></label> TO :
+                    <label id="lblToCountry"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    PORT :
+                    <label id="lblInterPort"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    FLIGHT/VESSEL :
+                    <label id="lblVesselName"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    QUANTITY :
+                    <label id="lblQtyGross"></label>
+                    <label id="lblQtyUnit"></label>
+                    <br />
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    JOB NO :
+                    <label id="lblJobNo"></label>
+                </p>
+            </div>
+>>>>>>> everbest
         </div>
-        <div class="row">
-            <p class="col-sm-12">
-                PORT :
-                <label id="lblInterPort"></label>
-            </p>
+        <div style="flex:2">
+            <div class="row">
+                <p class="col-sm-12">
+                    ETD :
+                    <label id="lblETDDate"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    HBL/HAWB :
+                    <label id="lblHAWB"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    MEASUREMENT :
+                    <label id="lblMeasurement"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    NET WEIGHT :
+                    <label id="lblNetWeight"></label>
+                    <label id="lblWeightUnit"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CUSTOMER INV :
+                    <label id="lblCustInvNo"></label>
+                </p>
+            </div>
         </div>
-        <div class="row">
-            <p class="col-sm-12">
-                FLIGHT/VESSEL :
-                <label id="lblVesselName"></label>
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                QUANTITY :
-                <label id="lblQtyGross"></label>
-                <label id="lblQtyUnit"></label>
-                <br />
-            </p>
-        </div>
-        <div class="row">
-            <p class="col-sm-12">
-                JOB NO :
-                <label id="lblJobNo"></label>
-            </p>
+        <div style="flex:2">
+            <div class="row">
+                <p class="col-sm-12">
+                    ETA :
+                    <label id="lblETADate"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    MBL/MAWB :
+                    <label id="lblMAWB"></label>
+                </p>
+            </div>
+            <div class="row">
+                <p class="col-sm-12">
+                    CUSTOMER :
+                    <br />
+                    <label id="lblCustName"></label>
+                </p>
+            </div>
         </div>
     </div>
+<<<<<<< HEAD
     <div style="flex:2">
         <div class="row">
             <p class="col-sm-12">
@@ -134,8 +236,127 @@ End Code
                 <label id="lblCustName"></label>
             </p>
         </div>
+=======
+    <br />
+    <table id="tbData" style="border-collapse:collapse;width:100%">
+        <tbody></tbody>
+    </table>
+    <br />
+    <table id="onlyForAccount" style="border-collapse:collapse;width:100%;display:none">
+        <tbody>
+            <tr>
+                <th style="width:15%">รหัสบัญชี</th>
+                <th style="width:40%">ชื่อบัญชี</th>
+                <th style="width:15%">DR</th>
+                <th style="width:15%">CR</th>
+                <th style="width:15%"></th>
+            </tr>
+            <tr>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td rowspan="2">การเงิน</td>
+            </tr>
+            <tr>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td rowspan="2">บันทึกรายการ</td>
+            </tr>
+            <tr>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td rowspan="2">ตรวจสอบ</td>
+            </tr>
+            <tr>
+                <td><br /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <br />
+    <div>
+        <table width="100%" style="border-collapse:collapse;margin-top:30px">
+            <tbody>
+                <tr>
+                    <td style="vertical-align:top;width:15%">
+                        ชำระโดย
+                    </td>
+                    <td style="width:15%"><span style="border:2px black solid;color:transparent">_____</span>  Cash/Transfer</td>
+                    <td> ______________________________</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><span style="border:2px black solid;color:transparent">_____</span>  Cheque</td>
+                    <td>  ______________________________</td>
+                    @*
+                        <td style="text-align:center">
+                            <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                            <p>  <br />ธนาคาร/Bank</p>
+                        </td>
+                        <td style="text-align:center">
+                            <span style="border:2px black solid;color:transparent;font-size:30px">_______________</span>
+                            <p>  <br />เช็คเลขที่/Cheque Number</p>
+                        </td>
+                    *@
+                </tr>
+            </tbody>
+        </table>
+>>>>>>> everbest
     </div>
+    <br />
+
+    <table width="100%" style="border-collapse:collapse;page-break-inside:avoid">
+        <tr>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+                OPERATION/Date
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+                AUDITOR 1/Date
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+                PAID/Date
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+                AUDITOR 2/Date
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:top;width:20%">
+                CLOSE BY/Date
+            </td>
+        </tr>
+        <tr>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom" height="100px">
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            </td>
+            <td style="border-style:solid;border-width:thin;text-align:center;vertical-align:bottom">
+            </td>
+        </tr>
+    </table>
 </div>
+<<<<<<< HEAD
 <br />
 <table id="tbData" style="border-collapse:collapse;width:100%">
     <tbody></tbody>
@@ -265,6 +486,8 @@ End Code
 </div>
 
 </div>
+=======
+>>>>>>> everbest
 <script type="text/javascript">
     let path = '@Url.Content("~")';
     let vcType='P';
@@ -283,6 +506,7 @@ End Code
         let vcTypeName = '';
         let bankName=data.document[0].BankName;
         let bookName=data.document[0].BookName;
+<<<<<<< HEAD
 	let sumAllSub = 0;
 	$('#txtTRemark').empty();
 
@@ -295,11 +519,15 @@ End Code
 		}
 
 	}
+=======
+        let sumAllSub = 0;
+>>>>>>> everbest
         if (data.payment !== null) {
             for(let obj of data.payment) {		
                 if(vcType!==obj.PRType){
                     vcType=obj.PRType;
                 }
+<<<<<<< HEAD
   
 
 		if (obj.PRType == 'R') {
@@ -317,6 +545,8 @@ End Code
 			$('#txtSig2').text('ผู้จ่ายเงิน');
 			$('#txtSig3').text('ผู้รับใบสำคัญจ่าย');
 		}
+=======
+>>>>>>> everbest
                 $('#txtControlNo').text(obj.PRVoucher);
                 vcTypeName = GetVoucherType(vcType);
                 let acType=obj.acType;
@@ -324,9 +554,15 @@ End Code
                 let payType = '';
                 let desc = '';
                 let desc0 = '';
+<<<<<<< HEAD
 		let totalamt=Number(obj.TotalAmount);
 
                 appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.ControlNo, CCurrency(CDbl(totalamt - Number(CDbl(obj.WhtExc, 2)),2)));
+=======
+		        let totalamt=Number(obj.TotalAmount);
+
+                appendLine(div, '<b>' + vcTypeName + ' BY ' + acTypeName + '</b>', obj.ControlNo, CCurrency(CDbl(totalamt + Number(CDbl(obj.VatExc, 2)) - + Number(CDbl(obj.WhtExc, 2)),2)));
+>>>>>>> everbest
                 //desc0 = '<b>TOTAL ' + obj.PRVoucher +'=' +  + ' ' + obj.CurrencyCode + '</b>';
                 let debit = '';
                 let credit = '';
@@ -336,6 +572,7 @@ End Code
                         if (obj.RecvBank !== '') {
                             payType = 'TRANSFER';
                         }
+<<<<<<< HEAD
                         addTRemark(obj.PayChqTo !== '' ? 'PAY TO ' + obj.PayChqTo : '');
                         addTRemark(obj.RecvBank != '' ? 'NOTE : BANK ' + bankName : '');
                         addTRemark(obj.BookCode != '' ? 'ACCOUNT ' + bookName + ' REF# ' + obj.DocNo : '');
@@ -355,6 +592,26 @@ End Code
                         addTRemark(obj.PayChqTo !== '' ? 'TO ' + obj.PayChqTo : '');
                         addTRemark(obj.TRemark != '' ? 'NOTE : ' + obj.TRemark : '');
                         addTRemark(obj.RecvBank != '' ? 'DEP.BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '');
+=======
+                        desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>BANK ' + bankName + ' BRANCH ' + obj.RecvBranch : '';
+                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + bookName + ' REF# ' + obj.DocNo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
+                        break;
+                    case 'CH':
+                        payType = 'TRANSFER';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>PAY TO ' + obj.PayChqTo : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>BANK ' + bankName + ' BRANCH ' + obj.RecvBranch : '';
+                        desc0 += obj.BookCode != '' ? '<br/>ACCOUNT ' + bookName + ' REF# ' + obj.ChqNo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>DATE : ' + obj.TRemark : '';
+                    case 'CU':
+                        payType = 'CUSTOMER CHEQUE';
+                        desc0 += obj.ChqNo !== '' ? '<br/>NO ' + obj.ChqNo + ' DATE ' + ShowDate(CDateTH(obj.ChqDate)) : '';
+                        desc0 += obj.BankCode != '' ? '<br/>BANK ' + bankName + ' BRANCH ' + obj.BankBranch : '';
+                        desc0 += obj.PayChqTo !== '' ? '<br/>TO ' + obj.PayChqTo : '';
+                        desc0 += obj.TRemark != '' ? '<br/>NOTE : ' + obj.TRemark : '';
+                        desc0 += obj.RecvBank != '' ? '<br/>DEP.BANK ' + obj.RecvBank + ' BRANCH ' + obj.RecvBranch : '';
+>>>>>>> everbest
                         break;
                     case 'CR':
                         payType = 'CREDIT';
@@ -414,9 +671,16 @@ End Code
                 //appendLine(div, desc, debit, credit);
                 appendLine(div, '<b>DETAILS OF USAGES</b>', '<b>FOREIGN PAID</b>', '<b>PAID (THB)</b>');
 
+<<<<<<< HEAD
 		let testex = data.document.map(d=>Number(CDbl(d.PaidAmount, 2)));
 		console.log(testex );
 		console.log(testex.reduce((total,p)=>total+p,0) );
+=======
+                let testex = data.document.map(d => Number(CDbl(d.PaidAmount, 2)));
+                console.log(testex);
+                console.log(testex.reduce((total, p) => total + p, 0));
+
+>>>>>>> everbest
                 if (data.document !== null) {
                     let jobno = '';
                     let doc=data.document.filter(function(r){
@@ -507,12 +771,20 @@ End Code
                 desc1 += '</td>';
                 desc1 += '</tr>';
                 desc1 += '</table>';
+<<<<<<< HEAD
                 let totalnet = Number(obj.TotalAmount);
+=======
+                let totalnet = Number(obj.TotalAmount) + Number(obj.VatExc) - Number(obj.WhtExc);
+>>>>>>> everbest
 		sumAllSub += totalnet;
                 let desc2 = '<table width="100%">';
                 desc2 += '<tr>';
                 desc2 += '<td width="20%" style="text-align:right">';
+<<<<<<< HEAD
                 desc2 += CCurrency(CDbl(totalamt-Number(obj.VatExc),2));
+=======
+                desc2 += CCurrency(CDbl(totalamt,2));
+>>>>>>> everbest
                 desc2 += '</td>';
                 desc2 += '</tr>';
                 desc2 += '<tr>';

@@ -1,5 +1,4 @@
-﻿
-@Code
+﻿@Code
     ViewBag.Title = "Advance Information"
 End Code
 <div class="panel-body">
@@ -20,7 +19,7 @@ End Code
                 <br />
                 <div style="display:flex;flex-direction:row">
                     <input type="text" class="form-control" id="txtAdvNo" style="font-weight:bold;font-size:20px;text-align:center;background-color:navajowhite;color:brown" tabindex="1" />
-                    <input type="button" class="btn btn-default" value="..." onclick="SearchData('advance')" />
+                    <input type="button"  id="btnSearchDoc" class="btn btn-default" value="..." onclick="SearchData('advance')" />
                 </div>
             </div>
             <div class="col-sm-3">
@@ -563,6 +562,7 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     const userRights = '@ViewBag.UserRights';
     let serv = []; //must be array of object
     let hdr = {}; //simple object
@@ -571,8 +571,8 @@ End Code
     let isjobmode = false;
     let chkmode = false;
     let jt = '';
+    let sb = '';
     //$(document).ready(function () {
-    SetLOVs();
     SetEvents();
     SetEnterToTab();
     CheckParam();
@@ -586,6 +586,13 @@ End Code
         return;
     }
     function CheckParam() {
+	jt=getQueryString('JobType');
+	sb=getQueryString('ShipBy');
+        if(userGroup!=='S')
+        {
+	  $('#btnSearchDoc').attr('disabled','disabled');
+        }
+        SetLOVs();
         ClearHeader();
         //read query string parameters
         let br = getQueryString('BranchCode');
@@ -633,10 +640,9 @@ End Code
             $('#cboJobType').attr('disabled', 'disabled');
             $('#cboShipBy').attr('disabled', 'disabled');
 
-            $('#txtAdvBy').val(user);
+            $('#txtAdvBy').val(user);           
             ShowUser(path, $('#txtAdvBy').val(), '#txtAdvName');
-
-            $('#txtAdvBy').focus();
+            $('#txtReqBy').val(user);           
         }
     }
     function SetEnterToTab() {
@@ -672,6 +678,7 @@ End Code
         }
         $('#txtAdv' + id.substr(3)).val(val);
         $('#txtAdv' + id.substr(3)).removeAttr('disabled');
+	SaveHeader();
     }
     function SetEvents() {
         if (userRights.indexOf('I') < 0) $('#btnNew').attr('disabled', 'disabled');
@@ -1242,11 +1249,11 @@ End Code
     }
     function SetLOVs() {
         //Combos
-        let lists = 'JOB_TYPE=#cboJobType';
-        lists += ',SHIP_BY=#cboShipBy';
-        lists += ',ADV_STATUS=#cboDocStatus';
+        let lists = 'JOB_TYPE=#cboJobType|' + jt;
+        lists += ',SHIP_BY=#cboShipBy|' + sb;
+        lists += ',ADV_STATUS=#cboDocStatus|01';
         lists += ',ADV_STATUS=#cboStatus|';
-        lists += ',ADV_TYPE=#cboAdvType';
+        lists += ',ADV_TYPE=#cboAdvType|01';
 
         loadCombos(path, lists);
         loadServiceGroup(path, '#cboSTCode',true);
@@ -1349,6 +1356,7 @@ if(job!=='') {
             $('#txtCustCode').focus();
             return false;
         }
+<<<<<<< HEAD
        // if ($('#txtPayTo').val() == '') {
        //     ShowMessage('Please input payment to',true);
        //     $('#txtPayTo').focus();
@@ -1359,6 +1367,18 @@ if(job!=='') {
        //     $('#txtTRemark').focus();
        //     return false;
        // }
+=======
+        if ($('#txtPayTo').val() == '') {
+            ShowMessage('Please input payment to',true);
+            $('#txtPayTo').focus();
+            return false;
+       }
+       if ($('#txtTRemark').val() == '') {
+            ShowMessage('Please input some remark',true);
+            $('#txtTRemark').focus();
+            return false;
+        }
+>>>>>>> everbest
         if ($('#cboJobType').val() == 0) {
             ShowMessage('please select job type',true);
             $('#cboJobType').focus();
@@ -1639,7 +1659,7 @@ if(job!=='') {
         $('#txtAdvDate').val(GetToday());
         $('#txtPayChqDate').val(GetToday());
         $('#txtAdvBy').val(user);
-        $('#txtReqBy').val('');
+        $('#txtReqBy').val(user);
         $('#txtJNo').val('');
         $('#txtContainerNo').val('');
         $('#txtPayTo').val('');
@@ -1693,7 +1713,7 @@ if(job!=='') {
         $('#cboDocStatus').val('01');
 
         ShowUser(path, $('#txtAdvBy').val(), '#txtAdvName');
-        ShowUser(path, '', '#txtReqName');
+        ShowUser(path, $('#txtReqBy').val(), '#txtReqName');
 
         $('#chkApprove').removeAttr('disabled');
         $('#chkCancel').removeAttr('disabled');
@@ -1723,6 +1743,10 @@ if(job!=='') {
         if (userRights.indexOf('P') >= 0) {
             $('#btnPrint').removeAttr('disabled');
         }
+	    if(userGroup!=='S') {
+		$('#txtAdvBy').attr('readonly','readonly');
+		$('#btnBrowseEmp1').attr('disabled','disabled');
+            }
     }
     function SaveDetail() {
 
@@ -2272,6 +2296,10 @@ if(job!=='') {
     function ReadVender2(dt) {
         $('#txtVenCode').val(dt.VenCode);
         $('#txtPayTo').val(dt.TName);
+<<<<<<< HEAD
+=======
+	$('#txtTRemark').val(dt.ContactAcc);
+>>>>>>> everbest
         $('#txtPayChqTo').val(dt.TName);
         $('#txtPayChqTo').focus();
     }
@@ -2297,6 +2325,7 @@ if(job!=='') {
         $('#txtReqName').val(dt.PreName + dt.Name);
     }
     function ReadReqBy(dt) {
+	$('#txtTRemark').val(dt.MobilePhone);
         $('#txtReqBy').val(dt.UserID);
         $('#txtReqName').val(dt.TName);
     }

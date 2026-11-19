@@ -5,7 +5,7 @@ End Code
 <style>
 
     * {
-        font-size: 11px;
+        font-size: 13px;
     }
 
     body {
@@ -160,10 +160,10 @@ End Code
             <td><label id="destinyLbl">POL/ POD</label></td>
             <td>:</td>
             <td>
-                <label id="port"></label>
-                <label id="origin"></label>
-                to <label id="destiny"></label>
-            </td>
+   		<label id="portfrom"></label> 
+   		<label id="origin"></label>
+  		 to <label id="portto"></label> <label id="destiny"></label>
+	    </td>
 
 
 
@@ -216,7 +216,7 @@ End Code
         </tr>
 
         <tr>
-            <td><label id="containerNoLbl">CONTANER NO.</label></td>
+            <td><label id="containerNoLbl">CONTAINER NO.</label></td>
             <td>:</td>
             <td><div id="containerNo"></div></td>
 
@@ -385,14 +385,15 @@ End Code
 
                 let addr = '';
                 addr += b.EAddress1 + '<br/>' + b.EAddress2;
-                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch;
+                addr += '<br/>Tax ID : ' + b.TaxNumber + ' BRANCH : 0' + b.Branch;
 		        $("#billAddress1").text(b.EAddress1);
 		        $("#billAddress2").text(b.EAddress2);
-                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : ' + b.Branch);
+                $("#billContactInfo").text('Tax ID : ' + b.TaxNumber + ' BRANCH : 0' + b.Branch);
                 $("#crTerm").text(b.CreditLimit);
                 $("#dueDate").text(AddDate(h.DocDate, b.CreditLimit));
+                $("#id").text(h.BillToCustCode);
 	        });
-            $("#id").text(h.CustCode);
+
             //$("#billName").text(c.NameEng);
             //$("#billAddress").html(c.EAddress1 + '<br/>' + c.EAddress2);
             //console.log(c.EAddress1);
@@ -407,15 +408,29 @@ End Code
             $("#currency").text(h.CurrencyCode);
             //$("#destiny").text("PASIR GUDANG-BANGKOK");
             $("#remark").text(h.Remark1);
-            if (j.JobType == 1) {
-                ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#port');
+         
+  	 if (j.ShipBy == 1) {
+                //ShowInterPort(path, j.InvFCountry, j.InvInterPort, '#portfrom');
                 ShowCountry(path, j.InvFCountry, '#origin');
                 ShowCountry(path, j.InvCountry, '#destiny');
+		$.get(path + 'Master/GetInterPort?Code=' + j.InvInterPort+ '&Key=' + j.InvFCountry)
+             	.done(function (r) {
+            		if (r.interport.data.length > 0) {
+                		let b = r.interport.data[0];
+                		$('#portfrom').text(b.PortName?b.PortName+" ":"");
+            		}
+             	});
             } else {
-
-                ShowInterPort(path, j.InvCountry, j.InvInterPort, '#port');
-                ShowCountry(path, j.InvFCountry, '#destiny');
-                ShowCountry(path, j.InvCountry, '#origin');
+                //ShowInterPort(path, j.InvCountry, j.InvInterPort, '#portto');
+                ShowCountry(path, j.InvFCountry, '#origin');
+  		ShowCountry(path, j.InvCountry, '#destiny');
+		$.get(path + 'Master/GetInterPort?Code=' + j.InvInterPort+ '&Key=' + j.InvCountry)
+             	.done(function (r) {
+            		if (r.interport.data.length > 0) {
+                		let b = r.interport.data[0];
+                		$('#portto').text(b.PortName?b.PortName+" ":"");
+            		}
+             	});
             }
             $("#jobNo").text(j.JNo);
             $("#vessel").text(j.VesselName);
@@ -425,16 +440,16 @@ End Code
             $("#quantity").text(j.InvProductQty + ' ' + j.InvProductUnit);
             $("#totpkg").text(j.TotalQty + " PALLETS");
             $("#newBlNo").text(j.BookingNo);
-            $("#weight").text(ShowNumber(j.TotalGW, 2) + ' ' + j.GWUnit);
+            $("#weight").text(ShowNumber(j.TotalGW,3) + ' ' + j.GWUnit);
             $("#volume").text(j.Measurement);
             $("#custInvNo").text(j.InvNo);
             $("#ref").text(j.CustRefNO);
-
 
             ShowVender(path, j.ForwarderCode, '#carrier');
             ShowContainer(j.BranchCode, j.JNo);
 
             let d = r.invoice.detail[0];
+            sortData(d, 'ExchangeRate', 'desc');
             let html = '';
             let adv = 0;
             let nonVat = 0;
@@ -451,14 +466,14 @@ End Code
                 html += '        <tr>';
                 html += '            <td class="">' + row.SDescription + ' #' + row.ExpSlipNO +  '</td>';
                 html += '            <td class="right">' + row.Rate50Tavi + '</td>';
-                html += '            <td class="center">' + ShowNumber(row.Qty,2) + '</td>';
+                html += '            <td class="center">' + ShowNumber(row.Qty,3) + '</td>';
                 html += '            <td class="right">' + row.QtyUnit+'</td>';
                 html += '            <td class="right">' + row.CurrencyCode + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.ExchangeRate, 2) + '</td>';
-                html += '            <td class="right">' + ShowNumber(row.FUnitPrice,2) + '</td>';
-                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt, 2):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt, 2):''):'') + '</td>';
-                html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt, 2) : '') + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.ExchangeRate,3) + '</td>';
+                html += '            <td class="right">' + ShowNumber(row.FUnitPrice,3) + '</td>';
+                html += '            <td class="right">' + (row.AmtAdvance?ShowNumber(row.Amt,3):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat==0?(row.AmtCharge?ShowNumber(row.Amt,3):''):'') + '</td>';
+                html += '            <td class="right">' + (row.AmtVat>0?ShowNumber(row.Amt,3) : '') + '</td>';
                 html += '        </tr>';
                 adv += row.AmtAdvance * row.ExchangeRate.toFixed(4);
                 if (row.AmtVat > 0) {
@@ -497,28 +512,28 @@ End Code
                 html += '            <td class="right"></td>';
                 html += '        </tr>';
             }
-            $('#gross1').text(ShowNumber(sumbaseWht1, 2));
-            $('#wtAmt1').text(ShowNumber(sumWht1, 2));
-            $('#gross3').text(ShowNumber(sumbaseWht3, 2));
-            $('#wtAmt3').text(ShowNumber(sumWht3, 2));
-            $('#gross1_5').text(ShowNumber(sumbaseWht1_5, 2));
-            $('#wtAmt1_5').text(ShowNumber(sumWht1_5, 2));
+            $('#gross1').text(ShowNumber(sumbaseWht1,3));
+            $('#wtAmt1').text(ShowNumber(sumWht1,3));
+            $('#gross3').text(ShowNumber(sumbaseWht3,3));
+            $('#wtAmt3').text(ShowNumber(sumWht3,3));
+            $('#gross1_5').text(ShowNumber(sumbaseWht1_5,3));
+            $('#wtAmt1_5').text(ShowNumber(sumWht1_5,3));
 
-            $("#advanceAmount").text(ShowNumber(adv,2));
-            $("#nonVatAmount").text(ShowNumber(nonVat, 2));
-            $("#vatAmount").text(ShowNumber(vat, 2));
+            $("#advanceAmount").text(ShowNumber(adv,3));
+            $("#nonVatAmount").text(ShowNumber(nonVat,3));
+            $("#vatAmount").text(ShowNumber(vat,3));
             $('#details').html(html);
-            $("#valueAddedTax").text(ShowNumber(h.TotalVAT, 2));
-            $("#totalAmount").text(ShowNumber(vat + h.TotalVAT, 2));
-            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi, 2));
-            $("#netAmount").text(ShowNumber(h.TotalNet, 2));
-            $("#custAdv").text(ShowNumber(h.TotalCustAdv, 2));
-            $("#grandTotal").text(ShowNumber(h.TotalNet-h.TotalCustAdv, 2));
+            $("#valueAddedTax").text(ShowNumber(h.TotalVAT,3));
+            $("#totalAmount").text(ShowNumber(vat + h.TotalVAT,3));
+            $("#lessWithholdingTax").text(ShowNumber(h.Total50Tavi,3));
+            $("#netAmount").text(ShowNumber(h.TotalNet,3));
+            $("#custAdv").text(ShowNumber(h.TotalCustAdv,3));
+            $("#grandTotal").text(ShowNumber(h.TotalNet-h.TotalCustAdv,3));
 
             $("#taxRate1").text("1%");
             $("#taxRate1_5").text("1.5%");
             $("#taxRate3").text("3%");
-            $("#bahtText").text(CNumEng(CDbl(h.TotalNet,2)));
+            $("#bahtText").text(CNumEng(CDbl(h.TotalNet,3)));
 
 
         }

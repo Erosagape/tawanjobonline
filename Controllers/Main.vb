@@ -50,7 +50,7 @@ Module Main
                     .Message = msg,
                     .StackTrace = StackTrace,
                     .JsonData = JsonData,
-                    .IsError = isError
+                    .isError = isError
                 }
                     Return oLog.SaveData(" WHERE LogID=0 ")
                 Else
@@ -1382,8 +1382,14 @@ h.TotalVAT=ROUND(d.TotalVAT,2),
 h.Total50Tavi=ROUND(d.Total50Tavi,2),
 h.SumDiscount=ROUND(d.SumDiscount,2),
 h.DiscountCal=ROUND(d.TotalNet*(h.DiscountRate*0.01),2),
-h.TotalNet=ROUND(d.TotalNet-(d.TotalNet*(h.DiscountRate*0.01)),2),
-h.ForeignNet=ROUND((d.TotalNet-(d.TotalNet*(h.DiscountRate*0.01)))/h.ExchangeRate,2)
+h.TotalNet=ROUND(
+(ROUND(d.TotalAdvance,2)+ROUND(d.TotalCharge,2)+ROUND(d.TotalVAT,2)-ROUND(d.Total50Tavi,2)-ROUND(d.SumDiscount,2))
+-ROUND((d.TotalNet*(h.DiscountRate*0.01)),2)-h.TotalCustAdv
+,2),
+h.ForeignNet=ROUND(
+((ROUND(d.TotalAdvance,2)+ROUND(d.TotalCharge,2)+ROUND(d.TotalVAT,2)-ROUND(d.Total50Tavi,2)-ROUND(d.SumDiscount,2))
+-ROUND((d.TotalNet*(h.DiscountRate*0.01)),2)-h.TotalCustAdv)/h.ExchangeRate
+,2)
 from Job_InvoiceHeader h
 inner join (
 	select BranchCode,DocNo,
@@ -1395,11 +1401,11 @@ inner join (
 	sum(case when AmtCharge>0 then Amt50Tavi else 0 end) as Total50Tavi,
     sum(AmtDiscount) as SumDiscount,
 	sum(TotalAmt-AmtCredit) as TotalNet
-	from Job_InvoiceDetail
+	from Job_InvoiceDetail 
 	group by BranchCode,DocNo
 ) d
 on h.BranchCode=d.BranchCode
-and h.DocNo=d.DocNo 
+and h.DocNo=d.DocNo
 "
     End Function
     Function SQLSelectClrForInvoice() As String
@@ -1462,7 +1468,7 @@ a.TotalChargeNonVAT=ISNULL(b.SumChargeNonVAT,0),
 a.TotalVAT=ISNULL(b.SumVAT,0),
 a.TotalWH=ISNULL(b.SumWH,0),
 a.TotalDiscount=ISNULL(b.SumDiscount,0),
-a.TotalNet=ISNULL(b.SumNet,0)
+a.TotalNet=ISNULL(b.SumAdvance,0)+ISNULL(b.SumChargeVAT,0)+ISNULL(b.SumChargeNonVAT,0)+ISNULL(b.SumVAT,0)-ISNULL(b.SumWH,0)-ISNULL(b.SumDiscount,0)-ISNULL(b.SumCustAdvance,0)
 FROM Job_BillAcceptHeader a 
 LEFT JOIN (
     SELECT BranchCode,BillAcceptNo,
@@ -1501,7 +1507,6 @@ AND a.BillAcceptNo=b.BillAcceptNo
         Dim sql As String = "UPDATE a"
         If iscancel Then
             sql &= " SET a.BillAcceptNo=null,a.BillIssueDate=null,a.BillAcceptDate=null"
-            sql &= " ,a.BillToCustCode=null,a.BillToCustBranch=null"
             sql &= " FROM Job_InvoiceHeader a "
             sql &= " WHERE a.BranchCode='{0}' AND a.BillAcceptNo='{1}' "
         Else
@@ -2072,7 +2077,8 @@ SELECT a.BranchCode, a.QNo, a.ReferQNo, a.CustCode,
     c.UnitCheck, c.QtyEnd, c.QtyBegin, c.CalculateType, 
     c.DescriptionThai, c.SICode,
 	d.NameThai as CustTName,d.NameEng as CustEName,
-	e.NameThai as BillTName,e.NameEng as BillEName
+	e.NameThai as BillTName,e.NameEng as BillEName,
+    a.ExpireDate
 FROM dbo.Job_QuotationHeader a INNER JOIN
     dbo.Job_QuotationDetail b ON a.BranchCode = b.BranchCode AND 
     a.QNo = b.QNo INNER JOIN
@@ -2755,10 +2761,10 @@ dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
             Return val
         End If
         Return "
-SELECT j.BranchCode, j.JNo, j.QNo, i.SICode, i.DescriptionThai as TRemark, i.QtyBegin, i.QtyEnd, i.CalculateType, i.UnitCheck, i.CurrencyCode, i.CurrencyRate, i.ChargeAmt, i.Isvat, i.VatRate, i.VatAmt, i.IsTax, 
+SELECT j.BranchCode, j.JNo, j.QNo, i.ItemNo, i.SICode, i.DescriptionThai as TRemark, i.QtyBegin, i.QtyEnd, i.CalculateType, i.UnitCheck, i.CurrencyCode, i.CurrencyRate, i.ChargeAmt, i.Isvat, i.VatRate, i.VatAmt, i.IsTax, 
 i.TaxRate, i.TaxAmt, i.TotalAmt, i.TotalCharge, i.UnitDiscntPerc, i.UnitDiscntAmt, i.VenderCode, i.VenderCost, i.BaseProfit, i.CommissionPerc, i.CommissionAmt, 
 i.NetProfit, i.IsRequired,s.NameThai, s.NameEng
-FROM dbo.Job_QuotationDetail AS d INNER JOIN
+FROM dbo.Job_QuotationDetail AS d LEFT JOIN
 dbo.Job_Order AS j ON d.BranchCode = j.BranchCode AND d.QNo = j.QNo AND d.SeqNo = j.Revise AND d.JobType = j.JobType AND d.ShipBy = j.ShipBy INNER JOIN
 dbo.Job_QuotationItem AS i ON d.BranchCode = i.BranchCode AND d.QNo = i.QNo AND d.SeqNo = i.SeqNo INNER JOIN
 dbo.Job_SrvSingle AS s ON i.SICode = s.SICode
@@ -3152,7 +3158,7 @@ AND DocNo=h.DocNo
     Public Function SQLSelectClearingTotal(sqlW As String) As String
         Dim hSql As String = "
 select DISTINCT b.SICode,s.IsExpense,s.IsCredit,
-ISNULL(s.NameThai,'(N/A)') as Description 
+REPLACE(ISNULL(s.NameThai,'(N/A)'),'''','''''') as Description 
 from Job_ClearDetail b 
 inner join Job_ClearHeader a ON b.BranchCode=a.BranchCode 
 and b.ClrNo=a.ClrNo and b.BNet>0 
@@ -3373,8 +3379,8 @@ WHERE a.DocStatus<>99 {0}
             End If
             tSql &= String.Format("SUM(CASE WHEN b.SICode='{0}' THEN b.AdvNet ELSE 0 END) as '{1}'", dr("SICode").ToString(), dr("Description").ToString())
         Next
-        tSql = "
-SELECT a.CustCode,b.ForJNo as 'Job Number'," & tSql & ",
+        Dim sqlMain = "
+SELECT a.CustCode,b.ForJNo as 'Job Number',{1},
 SUM(b.AdvNet) as 'Advance Paid'
 FROM Job_AdvDetail b
 INNER JOIN Job_AdvHeader a ON b.BranchCode=a.BranchCode 
@@ -3384,7 +3390,10 @@ WHERE a.DocStatus<>99 AND b.AdvNet>0 {0}
 GROUP BY a.CustCode,b.ForJNo
 ORDER BY a.CustCode,b.ForJNo
 "
-        Return String.Format(tSql, sqlW)
+        If GetValueConfig("SQL", "SelectAdvanceTotal") <> "" Then
+            sqlMain = GetValueConfig("SQL", "SelectAdvanceTotal")
+        End If
+        Return String.Format(sqlMain, sqlW, tSql)
     End Function
     Function SQLSelectAdvReport() As String
         Dim val = GetValueConfig("SQL", "SelectAdvReport")
@@ -3815,7 +3824,7 @@ j.DutyLtdPayCashAmt<>a.CashPayment
             Return "<>'" & str.Split("<>")(1).Substring(1) & "'"
         End If
         If str.IndexOf("LIKE%") > 0 Then
-            Return "Like '" & str.Split("LIKE%")(1).Substring(3) & "%'"
+            Return "Like '" & str.Replace("LIKE%", "|").Split("|")(1).Replace("*", "%") & "%'"
         End If
         If str.IndexOf("=") > 0 Then
             Return "='" & str.Split("=")(1) & "'"

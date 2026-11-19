@@ -63,6 +63,7 @@
                     <a href="#" id="mnuCust5" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Overall</a>
                     <a href="#" id="mnuCust6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard3')">Billing Status</a>
                     <a href="#" id="mnuCust7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard4')">Working Status</a>
+		    <a href="#" id="mnuCust8" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard5')">Costing Status</a>
                 </div>
             </div>
             <div id="dvShippingMenu">
@@ -128,7 +129,12 @@
                         <a href="#" id="mnuAcc5" class="w3-bar-item w3-button" onclick="OpenLink('TaxInvoice')">Tax-invoice</a>
                         <a href="#" id="mnuAcc6" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">Bill Payment</a>
                         <a href="#" id="mnuAcc7" class="w3-bar-item w3-button" onclick="OpenLink('CreditNote')">Credit/Debit Note</a>
+<<<<<<< HEAD
                         <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('TrialBalance')">Trial Balance</a>
+=======
+                        <a href="#" id="mnuAcc8" class="w3-bar-item w3-button" onclick="OpenLink('GLNote')">Journal Entry</a>
+                        <a href="#" id="mnuAcc9" class="w3-bar-item w3-button" onclick="OpenLink('GLSum')">General Ledger</a>
+>>>>>>> everbest
                     </div>
                     <div id="mainVend2" class="w3-bar-item w3-button" onclick="w3_accordion('mnuVen')">
                         Vender Works
@@ -146,10 +152,18 @@
                         <a href="#" id="mnuRpt1" class="w3-bar-item w3-button" onclick="OpenLink('Report')">Reports</a>
                         <a href="#" id="mnuRpt2" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport Tracking</a>
                         <a href="#" id="mnuRpt4" class="w3-bar-item w3-button" onclick="OpenLink('Tracking2')">Job Timeline</a>
+<<<<<<< HEAD
                         <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard')">Customer Dashboard</a>
                         <a href="#" id="mnuRpt7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Staff Dashboard</a>
                         <a href="#" id="mnuRpt8" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard3')">Finance Dashboard 1</a>
                         <a href="#" id="mnuRpt9" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard4')">Finance Dashboard 2</a>
+=======
+                        <a href="#" id="mnuRpt3" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard6')">Container Dashboard</a>
+                        <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard2')">Staff Dashboard</a>
+                        <a href="#" id="mnuRpt7" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard3')">Billing Dashboard</a>
+                        <a href="#" id="mnuRpt8" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard4')">Volume Dashboard</a>
+                        <a href="#" id="mnuRpt9" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard5')">Costing Dashboard</a>
+>>>>>>> everbest
                         <a href="#" id="mnuRpt5" class="w3-bar-item w3-button" onclick="OpenLink('Document')">-Document Tracking</a>
                         <a href="#" id="mnuRpt6" class="w3-bar-item w3-button" onclick="OpenLink('Dashboard5')">Container Total</a>
                     </div>
@@ -258,10 +272,14 @@
                     Vender Works
                 </div>
                 <div id="mnuVend" class="w3-hide w3-pale-red w3-card-4">
+                    <a href="#" id="mnuVend6" class="w3-bar-item w3-button" onclick="OpenLink('SearchJob')">Job Order</a>
+                    <a href="#" id="mnuVend5" class="w3-bar-item w3-button" onclick="OpenLink('Advance')">Advance Expenses</a>
+                    <a href="#" id="mnuVend4" class="w3-bar-item w3-button" onclick="OpenLink('Clearing')">Clearing Expenses</a>
                     <a href="#" id="mnuVend0" class="w3-bar-item w3-button" onclick="OpenLink('AppTransport')">Transport Confirm</a>
                     <a href="#" id="mnuVend2" class="w3-bar-item w3-button" onclick="OpenLink('BillPayment')">Bill Payment</a>
                     <a href="#" id="mnuVend1" class="w3-bar-item w3-button" onclick="OpenLink('VenderInv')">Vender Summary</a>
                     <a href="#" id="mnuVend3" class="w3-bar-item w3-button" onclick="OpenLink('Tracking1')">Transport Tracking</a>
+                    <a href="#" id="mnuVend7" class="w3-bar-item w3-button" onclick="OpenLink('users')">Users</a>
                 </div>
             </div>
         </div>
@@ -350,6 +368,7 @@
                                 <button id="mnuMasG5" class="btn btn-default btn-block" onclick="OpenLink('DeclareType')">Declare Type</button>
                                 <button id="mnuMasG6" class="btn btn-default btn-block" onclick="OpenLink('CustomsPort')">Customs Port</button>
                                 <button id="mnuMasG7" class="btn btn-default btn-block" onclick="OpenLink('CustomsUnit')">Product Units</button>
+                                <button id="mnuMasG10" class="btn btn-default btn-block" onclick="OpenLink('Container')">Container</button>
                             </div>
                         </div>
                     </div>
@@ -378,15 +397,24 @@
                             </div>
                         </div>
                         <div class="modal-body">
-                            Data : <select class="form-control dropdown" id="cboDatabase"></select>
-                            <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
-                            Password : <input type="password" class="form-control" id="txtUserPassword" />
+			                <div>
+                                 Data : <select class="form-control dropdown" id="cboDatabase"></select>
+			                </div>
+			                <div id="dvUpline">
+                                 Company Code : <input type="text" class="form-control" id="txtUserUpline" />
+     	                    </div>
+			                <div>
+                                <a id="linkLogout" onclick="ForceLogout()">User ID :</a> <input type="text" class="form-control" id="txtUserLogin" />
+			                </div>
+        			        <div>
+                                Password : <input type="password" class="form-control" id="txtUserPassword" />
+                            </div> 
                         </div>
                         <div class="modal-footer">
                             <div style="display:flex;flex-direction:row;float:left;">
-                                <input type="radio" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
-                                <input type="radio" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
-                                <input type="radio" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
+                                <input type="radio" onclick="CheckRole()" name="optRole" id="optShip" value="S" checked /><label for="optShip" style="padding-right:10px">Shipper</label>
+                                <input type="radio" onclick="CheckRole()" name="optRole" id="optVend" value="V" /><label for="optVend" style="padding-right:10px">Vender</label>
+                                <input type="radio" onclick="CheckRole()" name="optRole" id="optImEx" value="C" /><label for="optImEx" style="padding-right:10px">Importer/Exporter</label>
                             </div>
                             <button class="btn btn-primary" id="btnLogin" onclick="SetVariable()">Log in</button>
                         </div>
@@ -439,7 +467,11 @@
         let dbJob = '@ViewBag.CONNECTION_JOB';
         let userLang = '@ViewBag.PROFILE_DEFAULT_LANG';
         let menuType = '@ViewBag.PROFILE_MENU_TYPE';
+	let userUpline=getQueryString("Upline");
         let base = '@Url.Content("~")';
+        if(userUpline!=='') {
+ 	    $('#txtUserUpline').val(userUpline);
+        }
         if (menuType !== '') {
             $('#cboMenu').val(menuType);
             ChangeMenu();
@@ -451,6 +483,7 @@
         //    userLang = 'EN';
         //    $('#cboLanguage').val(userLang);
         //}
+        $('#dvUpline').hide();
         $('#dvLogin').on('shown.bs.modal', function () {
             $('#txtUserLogin').focus();
         });
@@ -495,11 +528,27 @@
                 return '1';
             }
         }
+        function CheckRole() {
+            userType = $('input[name=optRole]:checked').val();
+	    switch(userType) { 
+               case 'C':
+	         $('#dvUpline').show();
+                 break;
+               case 'V':
+	         $('#dvUpline').show();
+                 break;
+               default:
+	         $('#dvUpline').hide();
+                 break;
+            }	    
+	}
         function SetVariable() {
             userID = $('#txtUserLogin').val();
             dbID = $('#cboDatabase').val();
             userType = $('input[name=optRole]:checked').val();
-
+            if(userType!=='S' && $('#txtUserUpline').val()!=='') {
+		userID=$('#txtUserUpline').val() + '-' + $('#txtUserLogin').val();
+	    }
             let Password = $('#txtUserPassword').val();
             $.get(base + 'Config/SetLogin?Group='+ userType +'&Code=' + userID + '&Pass=' + Password + '&Database=' + dbID)
                 .done(function (r) {
@@ -602,4 +651,4 @@
         }
     </script>
 </body>
-</html> 
+</html>

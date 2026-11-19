@@ -50,7 +50,7 @@ End Code
                     <th class="text-center" width="50" rowspan="2">NO</th>
                     <th class="text-center" width="100" rowspan="2">ISSUE DATE</th>
                     <th class="text-center" width="130" rowspan="2">INVOICE NO.</th>
-                    <th class="text-center" width="130" rowspan="2">CUST INV..</th>
+                    <th class="text-center" width="130" rowspan="2">DECLARE NO.</th>
                     @*<th class="text-center" width="130" rowspan="2">JOB NO.</th>*@
                     <th class="text-center" colspan="3">AMOUNT</th>
                     <th class="text-center" width="60" rowspan="2">VAT</th>
@@ -93,6 +93,15 @@ End Code
 
         <div style="margin-top:60px">
             <p>PAYMENT DUE DATE : <label id="lblPaymentDueDate"></label></p>
+<<<<<<< HEAD
+=======
+	   <p>
+		Please make payment by crossed cheque with "A/C PAYEE ONLY" TO BOP EXPRESS CO.,LTD.<br/>
+		Or bank transfer to account "BOP EXPRESS CO.,LTD."<br/>
+		A/C No.466-1-07285-2 Bank: TMBThanachart Bank<br/>
+		A/C No.354-2-54700-7 Bank: Kasikorn Bank,Laemchabang Branch.<br/>
+	     </p>
+>>>>>>> everbest
             <p>PLEASE PAY CHEQUE IN NAME @ViewBag.PROFILE_COMPANY_NAME_EN</p>
             <p>PAYMENT SHOULD BE PAID BY CROSS CHEQUE IN FAVOR OF  @ViewBag.PROFILE_COMPANY_NAME</p>
             <p>SIGN ON RECEIVER AND ASSIGNED PAYMENT DATE AND SEND THIS PAPER TO @ViewBag.PROFILE_COMPANY_NAME FAX. @ViewBag.PROFILE_COMPANY_FAX</p>
@@ -141,7 +150,11 @@ End Code
             $('#lblTaxNumber').text(data.customer[0][0].TaxNumber);
             if (data.customer[0][0].UsedLanguage == 'TH') {
 if(Number(data.customer[0][0].Branch)>0) {
+<<<<<<< HEAD
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].CustBranch);
+=======
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].Branch);
+>>>>>>> everbest
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :สำนักงานใหญ่');
 }
@@ -149,7 +162,11 @@ if(Number(data.customer[0][0].Branch)>0) {
                 $('#lblCustAddress').text(data.customer[0][0].TAddress1 + '\n' + data.customer[0][0].TAddress2);
             } else {
 if(Number(data.customer[0][0].Branch)>0) {
+<<<<<<< HEAD
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].CustBranch);
+=======
+        $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :' + data.customer[0][0].Branch);
+>>>>>>> everbest
 } else {
         $('#lblTaxNumber').text(data.customer[0][0].TaxNumber + ' BRANCH :HEAD OFFICE');
 }
@@ -170,6 +187,7 @@ if(Number(data.customer[0][0].Branch)>0) {
             let prepaid = 0;
             let dv = $('#tbDetail');
             let html = '';
+<<<<<<< HEAD
             let dtl=data.detail[0];
 	    sortData(dtl,'ItemNo','asc');
             for (let dr of dtl) {
@@ -179,12 +197,21 @@ if(Number(data.customer[0][0].Branch)>0) {
 		} else {
     			custInv = dr.CustInv;
 		}
+=======
+            
+            for (let dr of data.detail[0]) {
+		let caltotal=Number(dr.AmtAdvance)+Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT)+Number(dr.AmtVAT)-Number(dr.AmtWH1)-Number(dr.AmtWH1)-Number(dr.TotalCustAdv);
+>>>>>>> everbest
                 html += '<tr>';
                 html += '<td>' + dr.ItemNo + '</td>';
                 html += '<td>' + ShowDate(CDateTH(dr.InvDate)) + '</td>';
                 html += '<td>' + dr.InvNo + '</td>';
               /*  html += '<td>' + dr.RefNo + '</td>';*/
+<<<<<<< HEAD
                 html += '<td>' + custInv + '</td>';
+=======
+                html += '<td>' + dr.DeclareNumber + '</td>';
+>>>>>>> everbest
                 html += '<td style="text-align:right">' + ShowNumber(dr.AmtAdvance, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeNonVAT), 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(Number(dr.AmtChargeVAT), 2) + '</td>';
@@ -196,6 +223,7 @@ if(Number(data.customer[0][0].Branch)>0) {
                 /*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet+dr.AmtWH1+dr.AmtWH3+dr.AmtWH5, 2) + '</td>';*/
                 html += '<td style="text-align:right">' + ShowNumber(dr.InvHTotalNet+dr.AmtWH1+dr.AmtWH3+dr.AmtWH5, 2) + '</td>';
                 html += '<td style="text-align:right">' + ShowNumber(dr.TotalCustAdv, 2) + '</td>';
+<<<<<<< HEAD
 		/*html += '<td style="text-align:right">' + ShowNumber(dr.TotalNet-dr.TotalCustAdv, 2) + '</td>';*/
 		html += '<td style="text-align:right">' + ShowNumber(dr.InvHTotalNet, 2) + '</td>';
                 html += '</tr>';
@@ -204,6 +232,14 @@ if(Number(data.customer[0][0].Branch)>0) {
                 total += CNum(ShowNumber(dr.InvHTotalNet,2));
                 serv += Number(dr.AmtChargeVAT);
                 nonvat += Number(dr.AmtChargeNonVAT);
+=======
+                html += '<td style="text-align:right">' + ShowNumber(caltotal, 2) + '</td>';
+                html += '</tr>';
+
+                //total += Number(dr.TotalNet);
+                total += caltotal;
+                serv += Number(dr.AmtChargeNonVAT)+Number(dr.AmtChargeVAT);
+>>>>>>> everbest
                 adv += Number(dr.AmtAdvance);
                 vat += Number(dr.AmtVAT);
                 prepaid += Number(dr.TotalCustAdv);

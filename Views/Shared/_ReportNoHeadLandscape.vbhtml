@@ -13,6 +13,22 @@
     <script src="~/Scripts/bootstrap-select.js"></script>
     <script src="~/Scripts/Func/util.js"></script>
     <script src="~/Scripts/Func/reports.js"></script>
+<<<<<<< HEAD
+=======
+    <script src="~/Scripts/Func/xlsx.full.min.js"></script>
+    
+    <style>
+        table {
+            width: 100%;
+        }
+
+            table td {
+                white-space: nowrap; /** added **/
+            }
+
+        
+    </style>
+>>>>>>> everbest
 </head>
 <body class="document">
     <div class="page" contenteditable="false">

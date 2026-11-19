@@ -274,7 +274,7 @@ End Code
                                     <label id="lblJobNo">Job No :</label>                                    
                                     <br/>
                                     <div style="display:flex">
-                                        <input type="text" id="txtForJNo" class="form-control" />
+                                        <input type="text" id="txtForJNo" class="form-control" readonly />
                                         <input type="button" class="btn btn-default" onclick="SearchData('job')" value="..." />
                                     </div>                                    
                                 </div>
@@ -463,7 +463,8 @@ End Code
         $('#btnAdd').hide();
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtVenCode').attr('disabled', 'disabled');
-        $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+    let userUpline='@ViewBag.UserUpline';
+        $.get(path + 'Master/GetVender?Code=' + userUpline).done(function (r) {
             if (r.vender.data.length > 0) {
                 let dr = r.vender.data[0];
                 vend = dr.VenCode;

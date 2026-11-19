@@ -471,12 +471,15 @@ End Code
                             sumbaseWht3 += row.Amt;
                             sumWht3 += row.AmtWHT;
                         }
+<<<<<<< HEAD
                         if (CDbl((row.AmtWHT * 100) / 5, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 5;
                             sumbaseWht5 += row.Amt;
                             sumWht5 += row.AmtWHT;
                         }
+=======
+>>>>>>> everbest
                         if (CDbl((row.AmtWHT * 100) / 10, 2) == CDbl(row.Amt, 2))
                         {
                             rateCal = 10;

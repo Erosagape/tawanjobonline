@@ -27,6 +27,36 @@ End Code
     </div>
 </div>
 <div class="row">
+    <div class="col-sm-2">
+        <label id="lblItemNo">#</label>
+        <br />
+        <input type="text" id="txtItemNo" class="form-control" />
+    </div>
+    <div class="col-sm-3">
+        <label id="lblQNo">Quotation</label>
+        <br />
+        <div style="display:flex;">
+            <input type="text" id="txtQNo" class="form-control" />
+        </div>
+    </div>
+    <div class="col-sm-1">
+        Seq.<br/><input type="text" id="txtQSeqNo" class="form-control" style="width:50px" />
+    </div>
+    <div class="col-sm-1">
+        No.<br/><input type="text" id="txtQItemNo" class="form-control" style="width:50px" />
+    </div>
+    <div class="col-sm-4">
+        <label id="lblClrNo">Clearing</label>
+        <br />
+        <div style="display:flex;">
+            <input type="text" id="txtClrNo" class="form-control" />
+        </div>
+    </div>
+    <div class="col-sm-1">
+        No.<br/><input type="text" id="txtClrItemNo" class="form-control" style="width:50px" />
+    </div>
+</div>
+<div class="row">
     <div class="col-sm-6">
         <label id="lblSICode" for="txtSICode">Code  :</label>
         <br />
@@ -40,7 +70,7 @@ End Code
         <label id="lblRemark">Remark :</label>
         <br />
         <div style="display:flex">
-            <input type="text" id="txtTRemark" class="form-control">
+            <input type="text" id="txtTRemark" class="form-control" />
         </div>
     </div>
     <div class="col-sm-2">
@@ -63,7 +93,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblCurrency">Currency:</label>        
+        <label id="lblCurrency">Currency:</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtCurrencyCode" class="form-control" disabled />
@@ -71,7 +101,7 @@ End Code
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblExchangeRate">Exchange Rate:</label>        
+        <label id="lblExchangeRate">Exchange Rate:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtExchangeRate" class="form-control" value="0.00" onchange="CalTotal()">
@@ -79,14 +109,14 @@ End Code
     </div>
 
     <div class="col-sm-2">
-        <label id="lblQty">Qty:</label>        
+        <label id="lblQty">Qty:</label>
         <br />
         <div style="display:flex">
             <input type="number" id="txtQty" class="form-control" value="0.00" onchange="CalTotal()">
         </div>
     </div>
     <div class="col-sm-2">
-        <label id="lblUnit">Unit:</label>        
+        <label id="lblUnit">Unit:</label>
         <br />
         <div style="display:flex">
             <input type="text" id="txtQtyUnit" class="form-control" disabled />
@@ -206,6 +236,9 @@ End Code
     </div>
 
 </div>
+    <a href="#" class="btn btn-danger" id="btnDeleteAll" onclick="DeleteDataAll()">
+        <i class="fa fa-lg fa-trash"></i>&nbsp;<b id="linkDelete">Delete All Data</b>
+    </a>
 <div id="dvLOVs"></div>
 <script type="text/javascript">
     let path = '@Url.Content("~")';
@@ -258,9 +291,22 @@ End Code
         let branch = $('#txtBranchCode').val();
         let code = $('#txtSICode').val();
         let job = $('#txtJNo').val();
+        let item = $('#txtItemNo').val();
         ShowConfirm('Please confirm to delete', function (ask) {
             if (ask == false) return;
-            $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&job=' + job, function (r) {
+            $.get(path + 'adv/delclearexp?branch=' + branch + '&code=' + code + '&item='+ item +'&job=' + job, function (r) {
+                ShowMessage(r.estimate.result);
+                ClearData();
+                RefreshGrid();
+            });
+        });
+    }
+    function DeleteDataAll() {
+        let branch = $('#txtBranchCode').val();
+        let job = $('#txtJNo').val();
+        ShowConfirm('Please confirm to delete ALL of data in this job', function (ask) {
+            if (ask == false) return;
+            $.get(path + 'adv/delclearexp?branch=' + branch + '&job=' + job, function (r) {
                 ShowMessage(r.estimate.result);
                 ClearData();
                 RefreshGrid();
@@ -270,6 +316,7 @@ End Code
     function ReadData(dr) {
         $('#txtBranchCode').val(dr.BranchCode);
         $('#txtJNo').val(dr.JNo);
+        $('#txtItemNo').val(dr.ItemNo);
         $('#txtSICode').val(dr.SICode);
         $('#txtSDescription').val(dr.SDescription);
         $('#txtTRemark').val(dr.TRemark);
@@ -278,6 +325,11 @@ End Code
         $('#txtCurrencyCode').val(dr.CurrencyCode);
         $('#txtExchangeRate').val(dr.ExchangeRate);
         $('#txtQty').val(dr.Qty);
+        $('#txtQNo').val(dr.QNo);
+        $('#txtClrNo').val(dr.ClrNo);
+        $('#txtQSeqNo').val(dr.QSeqNo);
+        $('#txtQItemNo').val(dr.QItemNo);
+        $('#txtClrItemNo').val(dr.ClrItemNo);
         CalTotal();
         $('#txtQtyUnit').val(dr.QtyUnit);
         $('#txtAmtVatRate').val(dr.AmtVatRate);
@@ -291,7 +343,8 @@ End Code
         let obj = {
             BranchCode: $('#txtBranchCode').val(),
             JNo:$('#txtJNo').val(),
-            SICode:$('#txtSICode').val(),
+            SICode: $('#txtSICode').val(),
+            ItemNo: $('#txtItemNo').val(),
             SDescription:$('#txtSDescription').val(),
             TRemark:$('#txtTRemark').val(),
             AmountCharge:CNum($('#txtAmountCharge').val()),
@@ -304,7 +357,12 @@ End Code
             AmtVat: $('#txtAmtVat').val(),
             AmtWhtRate: $('#txtAmtWhtRate').val(),
             AmtWht: $('#txtAmtWht').val(),
-            AmtTotal: $('#txtAmtTotal').val()
+            AmtTotal: $('#txtAmtTotal').val(),
+            QNo: $('#txtQNo').val(),
+            QSeqNo: $('#txtQSeqNo').val(),
+            QItemNo: $('#txtQItemNo').val(),
+            ClrNo: $('#txtClrNo').val(),
+            ClrItemNo: $('#txtClrItemNo').val()
         };
         if (obj.SICode != "") {
             ShowConfirm('Please confirm to save', function (ask) {
@@ -335,6 +393,7 @@ End Code
     }
     function ClearData() {
         //$('#txtJNo').val('');
+        $('#txtItemNo').val('0');
         $('#txtSICode').val('');
         $('#txtSDescription').val('');
         $('#txtTRemark').val('');
@@ -350,6 +409,11 @@ End Code
         $('#txtAmtWhtRate').val('0');
         $('#txtAmtWht').val('0.00');
         $('#txtAmtTotal').val('0.00');
+        $('#txtQNo').val('');
+        $('#txtClrNo').val('');
+        $('#txtQSeqNo').val('0');
+        $('#txtQItemNo').val('0');
+        $('#txtClrItemNo').val('0');
     }
     function RefreshGrid() {
         let w = '?Branch=' + $('#txtBranchCode').val();
@@ -371,7 +435,7 @@ End Code
                         cost += Number(row.AmtTotal);
                     } else {
                         tot += Number(row.AmtTotal);
-                    }                    
+                    }
                 } else {
                     if (row.IsCredit == 0) {
                         chg += Number(row.AmtTotal);
@@ -413,7 +477,12 @@ End Code
                             return ShowNumber(data, 3);
                         }
                     },
-                    { data: "ClrNo", title: "Clearing No" },
+                    {
+                        data: null, title: "Clearing No",
+                        render: function (data) {
+                            return data.ClrNo + '/' + data.ClrItemNo;
+                        }
+                    },
                     {
                         data: "CostAmount", title: "Clear.Amt",
                         render: function (data) {
@@ -472,7 +541,7 @@ End Code
     }
     function ReadService(dt) {
         $('#txtSICode').val(dt.SICode);
-        $('#txtSDescription').val(dt.NameThai);
+        $('#txtSDescription').val(dt.NameEng);
         $('#txtTRemark').val(dt.NameEng);
         if ($('#txtCurrencyCode').val() == '') {
             $('#txtCurrencyCode').val(dt.CurrencyCode);

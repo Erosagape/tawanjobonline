@@ -30,7 +30,7 @@ End Code
             </div>
             <div class="col-sm-3">
                 <div style="display:flex;flex-direction:row">
-                    <label id="lblJNo">Job Number:</label>
+                    <label id="lblJNo" ondblclick="SaveData()">Job Number:</label>
                     <input type="text" class="form-control" style="width:100%;background-color:yellow;color:red;font-weight:bold" id="txtJNo" disabled />
                     <input type="text" class="form-control" style="width:50px" id="txtRevised" disabled />
                 </div>
@@ -1679,6 +1679,26 @@ End Code
     }
     function CloseJob() {
         if ($('#txtCloseBy').val() == '') {
+            if ($('#txtClearTaxReson').val() == '') {
+                ShowMessage('Please input "Paperless#"', true);
+                $('#txtClearTaxReson').focus();
+                return;
+            }
+            if ($('#txtShipping').val() == '') {
+                ShowMessage('Please input "Shipping Staff"', true);
+                $('#txtShipping').focus();
+                return;
+            }
+            if ($('#txtQNo').val() == '') {
+                ShowMessage('Please input "Quotation"', true);
+                $('#txtQNo').focus();
+                return;
+            }
+            if ($('#txtManagerName').val() == '') {
+                ShowMessage('Please input "Sales By"', true);
+                $('#txtManagerName').focus();
+                return;
+            }
             if ($('#txtDutyDate').val()=='') {
                 ShowMessage('Please input inspection date',true);
                 $('#txtDutyDate').focus();
@@ -1721,6 +1741,7 @@ End Code
     }
     function SaveData() {
         if (rec.JNo != undefined) {
+          
             let obj = GetDataSave(rec);
 
             let jsonText = JSON.stringify({ data: obj });

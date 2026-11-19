@@ -410,7 +410,11 @@ End Code
             BranchCode: $('#txtBranchCode').val(),
             JNo: $('#txtJNo').val(),
             ItemNo: 0,
+<<<<<<< HEAD
             DocType: note ? 'CTN' : $('#txtDocType').val(),
+=======
+            DocType: $('#txtDocType').val(),
+>>>>>>> everbest
             FileType: '',
             FilePath: '',
             DocNo: '',
@@ -423,7 +427,11 @@ End Code
             CheckedDate: null,
             ApproveBy : "",
             ApproveDate : null,
+<<<<<<< HEAD
             CheckNote : note ? decodeURIComponent(note) : ''
+=======
+            CheckNote : ''
+>>>>>>> everbest
         };
         return r;
     }
@@ -487,6 +495,7 @@ End Code
             ShowMessage('No data to delete',true);
         }
     }
+<<<<<<< HEAD
 
 function UploadFile() {
     let count = $('#objFile')[0].files.length;
@@ -510,6 +519,34 @@ function UploadFile() {
                     let fname = xhr.responseText.split(' ')[1];
                     if (fname !== '') {
                         $('#objFile').val('');
+=======
+    function UploadFile() {
+        let count = $('#objFile')[0].files.length;
+        if (count == 0) {
+            ShowMessage('Data not found',true);
+            return;
+        }
+        let saveTo = 'Resource/Import';
+        for (let file of $('#objFile')[0].files) {
+            let data = new FormData();
+            data.append(file.name, file);
+            var xhr = new XMLHttpRequest();
+            xhr.open('POST',path +'Tracking/UploadDocument?Branch='+ $('#txtBranchCode').val() +'&Code='+ $('#txtJNo').val() +'&Type='+ $('#txtDocTypeD').val() +'&Path=' + saveTo);
+            xhr.send(data);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (xhr.responseText.substr(0, 1) !== "[") {
+                        let fname = xhr.responseText.split(' ')[1];
+                        if (fname !== '') {
+                            $('#objFile').val('');
+                        }
+                        ShowMessage(fname);
+                        $('#txtDocNo').val(fname);
+                        $('#dvAddFile').modal('hide');                        
+                        RefreshGrid();
+                        $('#dvEditor').modal('hide');
+                        return;
+>>>>>>> everbest
                     }
 
                     ShowMessage(fname);

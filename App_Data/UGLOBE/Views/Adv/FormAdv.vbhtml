@@ -27,13 +27,16 @@ End Code
         </td>
     </tr>
     <tr>
-        <td colspan="2" style="font-size:11px">
+        <td colspan="3" style="font-size:11px">
             <b>Job Type : </b>
             <label id="lblJobType" style="text-decoration-line:underline;"></label>
             <b>Ship By : </b>
             <label id="lblShipBy" style="text-decoration-line:underline;"></label>
+           
         </td>
-        <td align="right" colspan="2" style="font-size:11px">
+        <td align="right" colspan="1" style="font-size:11px">
+
+
             <b>Advance Type : </b>
             <label id="lblAdvType" style="text-decoration-line:underline;"></label>
         </td>
@@ -62,6 +65,12 @@ End Code
             <label id="lblJNo" style="text-decoration-line:underline;"></label>
         </td>
     </tr>
+    <tr>
+        <td colspan="4" >
+            <b style="font-size:14px">Payment To : </b>
+            <label id="lblPayTo" style="text-decoration-line:underline;font-size:14px"></label>
+        </td>
+    </tr>
 </table>
 <br />
 <table style="border-collapse:collapse;width:100%">
@@ -79,8 +88,8 @@ End Code
     <tr style="height:450px;vertical-align:top">
         <td style="border-style:solid;border-width:thin;text-align:left;position:relative">
             <div id="divDesc" style="font-size:12px;padding-left:5px;"></div>
-            <div id="lblPayTo" style="position:absolute;bottom:0;font-weight:bold;font-size:14px;padding:5px 5px 5px 5px;">
-            </div>
+            @*<div id="lblPayTo" style="position:absolute;bottom:0;font-weight:bold;font-size:14px;padding:5px 5px 5px 5px;">
+            </div>*@
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right">
             <div id="divWht" style="font-size:12px"></div>
@@ -93,7 +102,7 @@ End Code
         <td style="text-align:left;font-size:11px">
             <input type="checkbox" id="chkCash" /> CASH :
             <label id="lblAccNo">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label>
-            <label id="txtAdvCash">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label>
+            <label id="txtAdvCash" style="font-size:14px">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label>
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Amount</td>
         <td style="border-style:solid;border-width:thin" width="150px">
@@ -125,6 +134,7 @@ End Code
     </tr>
     <tr>
         <td style="text-align:left;font-size:11px;">
+            <label>With-holding Tax 1% : </label><label id="lblWht1"></label>
             @*<input type="checkbox" id="chkCredit" /> ACCOUNT PAYABLES :__________________ <label id="txtAdvCred"></label>*@
         </td>
         <td style="border-style:solid;border-width:thin;text-align:right;font-size:11px" width="130px">Net Total</td>
@@ -136,7 +146,7 @@ End Code
         <!--<td style="text-align:left;font-size:11px;">
             <b> Customer payment : ______________  <label id="txtCustomerPayment"> </label></b>
         </td>-->
-        <td></td>
+        <td><label>With-holding Tax 3% : </label><label id="lblWht3"></label></td>
         <td style="border-style: solid; border-width: thin; text-align: right; font-weight: bold;" width="130px"><label style="color: red;font-size: 14px;">Customer Payment</label></td>
         <td style="border-style: solid; border-width: thin; font-size: 16px" width="150px">
             <input type="text" style="border: none; text-align: right; color: red; font-size: 14px; width: 100%; font-weight: bold;" id="txtCustomerPayment2" />
@@ -269,8 +279,10 @@ End Code
             $('#txtAdvChq').text(ShowNumber(h.AdvChq, 2) + ' ' + h.SubCurrency);
         }
         if (h.AdvChqCash > 0) {
-            $('#chkCompChq').prop('checked', true);
-            $('#txtAdvChqCash').text(ShowNumber(h.AdvChqCash, 2) + ' ' + h.SubCurrency);
+            //$('#chkCompChq').prop('checked', true);
+            //$('#txtAdvChqCash').text(ShowNumber(h.AdvChqCash, 2) + ' ' + h.SubCurrency);
+	    $('#chkCustChq').prop('checked', true);
+            $('#txtAdvChq').text(ShowNumber(h.AdvChqCash, 2) + ' ' + h.SubCurrency);
         }
         //if (h.AdvCred > 0) {
         //    $('#chkCredit').prop('checked', true);
@@ -319,6 +331,8 @@ End Code
         //let vat = 0;
         //let wht = 0;
         let r = dr;
+        let wht1 = 0;
+        let wht3 = 0;
         sortData(r, 'TRemark', 'asc');
         let venCode = 'tmp';
         for (i = 0; i < r.length; i++) {
@@ -346,13 +360,22 @@ End Code
             strAmt = strAmt + (CCurrency((d.AdvAmount).toFixed(3)) + '<br/>');
             strWht = strWht + (CCurrency((d.Charge50Tavi).toFixed(3)) + '<br/>');
             totAmt += d.AdvAmount;
+
+            switch (d.Rate50Tavi) {
+                case 1: wht1 += d.Charge50Tavi.toFixed(3);
+                    break;
+                case 3: wht3 += d.Charge50Tavi.toFixed(3);
+                    break;
+            }
+            $('#lblWht1').html(wht1);
+            $('#lblWht3').html(wht3);
             //vat += d.ChargeVAT;
             //wht += d.Charge50Tavi;
         }
         $('#divDesc').html(strDesc);
         $('#divWht').html(strWht);
         $('#divAmt').html(strAmt);
-	$('#txtAmt').val(CCurrency(totAmt.toFixed(2)))
+	    $('#txtAmt').val(CCurrency(totAmt.toFixed(2)))
     }
 
             </script>

@@ -249,6 +249,7 @@ End Code
                                 :<br />
                                 <textarea id="txtShippingRemark" style="width:100%" class="form-control-lg"></textarea>
                             </p>
+<<<<<<< HEAD
                             <label id="lblRemark">Remark</label>
                             :<br />
                             <textarea type="text" id="txtRemark1" class="form-control" ></textarea>
@@ -263,6 +264,13 @@ End Code
                             <textarea type="text" id="txtRemark10" class="form-control" ></textarea>
                             @*<input type="text" id="txtRemark2" class="form-control" />
                             <input type="text" id="txtRemark3" class="form-control" />
+=======
+                            <label id="lblRemark">Remark</label><br/>
+                            :
+                            Shipper : <input type="text" id="txtRemark1" class="form-control" />
+                            Consignee : <input type="text" id="txtRemark2" class="form-control" />
+                            Note : <input type="text" id="txtRemark3" class="form-control" />
+>>>>>>> everbest
                             <input type="text" id="txtRemark4" class="form-control" />
                             <input type="text" id="txtRemark5" class="form-control" />
                             <input type="text" id="txtRemark6" class="form-control" />

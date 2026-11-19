@@ -228,6 +228,34 @@ function SetGridVender(p, g ,d ,ev) {
     });
     BindEvent(g, d, ev);
 }
+function SetGridVenderWithTax(p, g ,d ,ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p+'Master/GetVender', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'vender.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "VenCode", title: "รหัส" },
+            { data: "TName", title: "ชื่อ" },
+            { data: "TaxNumber", title: "Tax ID" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        ,pageLength:100
+    });
+    BindEvent(g, d, ev);
+}
 function SetGridSICode(p, g, t, d, ev) {
     //popup for search data
     $(g).DataTable({
@@ -668,7 +696,7 @@ function SetGridCustContact(p, g, t, d, ev) {
 function SetGridDataDistinct(p, g, t, d, ev) {
     $.get(p + 'joborder/getdatadistinct' + t)
         .done(function (r) {
-            let dr = r
+            let dr = r;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -837,7 +865,7 @@ function SetGridCountry(p, g, d, ev) {
 function SetGridWeightUnit(p, g, d, ev) {
     $.get(p + 'joborder/getjobdatadistinct?field=GWUnit')
         .done(function (r) {
-            let dr = r
+            let dr = r[0].Table;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -1005,7 +1033,7 @@ function SetGridServUnitFilter(p, g, t, d, ev) {
 function SetGridProjectName(p, g, d, ev) {
     $.get(p + 'joborder/getjobdatadistinct?field=ProjectName')
         .done(function (r) {
-            let dr = r
+            let dr = r;
             if (dr.length > 0) {
                 $(g).DataTable({
                     data: dr, //web service ที่จะ call ไปดึงข้อมูลมา
@@ -1635,6 +1663,61 @@ function SetGridEmployee(p, g, d, ev) {
             { data: null, title: "#" },
             { data: "EmpCode", title: mainLanguage == "TH" ? "รหัสพนักงาน" : "Code" },
             { data: "Name", title: mainLanguage == "TH" ? "ชื่อพนักงาน" : "Employee Name" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        , pageLength: 100
+    });
+    BindEvent(g, d, ev);
+}
+function SetGridUserByUpline(p,g,t,d,ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'Master/GetUser?Upline=' + t, //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'user.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "UserID", title: mainLanguage == "TH" ? "รหัส" : "ID" },
+            { data: "TName", title: mainLanguage == "TH" ? "ชื่อ" : "Name" }
+        ],
+        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+            {
+                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                "data": null,
+                "render": function (data, type, full, meta) {
+                    let html = "<button class='btn btn-warning'>Select</button>";
+                    return html;
+                }
+            }
+        ],
+        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+        , pageLength: 100
+    });
+    BindEvent(g, d, ev);
+}
+function SetGridContainer(p, g, d, ev) {
+    $(g).DataTable({
+        ajax: {
+            url: p + 'JobOrder/GetContainer', //web service ที่จะ call ไปดึงข้อมูลมา
+            dataSrc: 'container.data'
+        },
+        selected: true, //ให้สามารถเลือกแถวได้
+        columns: [ //กำหนด property ของ header column
+            { data: null, title: "#" },
+            { data: "CTN_NO", title: mainLanguage == "TH" ? "No" : "No" },
+            { data: "CTN_SIZE", title: mainLanguage == "TH" ? "Size" : "Size" },
+            { data: "VenderCode", title: mainLanguage == "TH" ? "Vender" : "Vender" }
         ],
         "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
             {

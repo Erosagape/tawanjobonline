@@ -1,5 +1,5 @@
 ﻿@Code
-    Layout = "~/Views/Shared/_Layout.vbhtml"
+    Layout = Nothing
     ViewData("Title") = "Index"
     Dim desktopMode As String = "false"
     If Not Request.QueryString("MODE") Is Nothing Then
@@ -8,6 +8,7 @@
         End If
     End If
 End Code
+<<<<<<< HEAD
 <style>
     #imgHeader {
         height: auto;
@@ -106,3 +107,8 @@ function OpenAcc(){
         });
     }
 </script>
+=======
+<script type="text/javascript">
+	window.location= '@Url.Action("Index", "Master")';
+</script>
+>>>>>>> everbest

@@ -130,6 +130,7 @@ End Code
                 if (j.CTN_SIZE !== null) $('#lblCTN_SIZE').text(j.CTN_SIZE);
                 if (j.TName !== null) $('#lblTSP').text(j.TName);
                 if (j.JNo !== null) $('#lblJNo').text(j.JNo);
+<<<<<<< HEAD
                 //if (j.Driver!==null) $('#lblDriver').text(j.Driver);
                 //if (j.DriverName!==null) $('#lblDriver').text(j.DriverName);
                 let driverDisplayName = j.DriverName || j.Driver || "________________________________________________";
@@ -138,6 +139,9 @@ End Code
                 $('#lblComment').text(j.Comment);
              	$('#lblTruckNO').text(truckNoDisplayName);
 
+=======
+                if (j.DriverName!==null) $('#lblDriver').text(j.DriverName);
+>>>>>>> everbest
                 $('#chkTRK4').prop('checked', (j.TruckType == 'TRK4'));
                 $('#chkTRK6').prop('checked', (j.TruckType == 'TRK6'));
                 $('#chkTRK10').prop('checked', (j.TruckType == 'TRK10'));
@@ -146,6 +150,7 @@ End Code
                 //if (j.TruckNO!==null) $('#lblTruckNO').text(j.TruckNO);
                 $('#chk40F').prop('checked', (j.CTN_SIZE.indexOf('40F') >= 0));
                 if (j.CarLicense!==null) $('#lblTruckNO').text(j.CarLicense);
+<<<<<<< HEAD
                 if (j.UnloadDate!==null) $('#lblDeliveryDate').text(ShowDate(j.UnloadDate) + ' ' + ShowTime(j.ActualYardTime));
 		if (j.ActualYardTime!==null) $('#lblDeliveryTime').text(ShowTime(j.ActualYardTime));
                 if (j.DeliveryNo !== null) $('#lblDeliveryNo').text(j.DeliveryNo);
@@ -154,6 +159,12 @@ End Code
                 if (j.PlaceName3 !== null) $('lblPlaceName3').text(j.Placename3);
                 if (j.PlaceContact2!==null) $('#lblDeliveryTo').text(j.PlaceName2);
                 if (j.Location !== null) $('#lblDeliveryAddr').text(j.PlaceAddress2);
+=======
+                if (j.UnloadDate!==null) $('#lblDeliveryDate').text(ShowDate(j.UnloadDate));
+                if (j.DeliveryNo!==null) $('#lblDeliveryNo').text(j.DeliveryNo);
+                if (j.PlaceContact2!==null) $('#lblDeliveryTo').text(j.PlaceContact2);
+                if (j.Location!==null) $('#lblDeliveryAddr').text(j.Location);
+>>>>>>> everbest
                 if (j.InvNo!==null) $('#lblInvNo').text(j.InvNo);
                 if (j.CustRefNO!==null) $('#lblCustRefNo').text(j.CustRefNO);
                 if (j.InvProduct!==null) $('#lblInvProduct').text(j.InvProduct);

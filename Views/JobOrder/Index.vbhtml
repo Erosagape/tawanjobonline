@@ -138,17 +138,25 @@ End Code
             <thead>
                 <tr>
                     <th>JobNo</th>
-                    <th class="desktop">DocDate</th>
+		    <th class="desktop">OpenDate</th>
                     <th class="desktop">JobStatus</th>
+<<<<<<< HEAD
                     <th class="all">ETD</th>
 		    <th class="all">ETA</th>
 			<th class="desktop">BookingNo</th>
 			<th class="desktop">BLNo</th>
 			<th class="desktop">CS</th>
+=======
+>>>>>>> everbest
                     <th class="all">Inv.Customer</th>
  		    
                     <th class="desktop">Customer</th>
+<<<<<<< HEAD
                     <th class="desktop">Consignee</th>
+=======
+                    <th>Consignee</th>
+                    <th class="desktop">Booking No.</th>
+>>>>>>> everbest
                 </tr>
             </thead>
 	    <tbody>
@@ -161,6 +169,12 @@ End Code
     let path = '@Url.Content("~")';
     let user = '@ViewBag.User';
     let userGroup = '@ViewBag.UserGroup';
+    if (userGroup == 'V') {
+        $('#btnBrowseVend').attr('disabled', 'disabled');
+        $('#txtVenCode').attr('disabled', 'disabled');
+        $('#txtVenCode').val('@ViewBag.UserUpline');
+        ShowVender(path, '@ViewBag.UserUpline', '#txtVenName');
+    }
     if (userGroup == 'C') {
         $('#btnBrowseCust').attr('disabled', 'disabled');
         $('#txtCustCode').attr('disabled', 'disabled');
@@ -229,8 +243,13 @@ End Code
     }
     function getJobdata() {
         //ShowWait();
+<<<<<<< HEAD
         $.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
         //    CloseWait();
+=======
+        //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {
+            //CloseWait();
+>>>>>>> everbest
             let tb=$('#tblJob').DataTable({
                 "ajax": {
                     //"url": "joborder/getjobjson" + strParam,
@@ -253,6 +272,7 @@ End Code
                             return data.JobStatus;
                         }
                     },
+<<<<<<< HEAD
                     {
                         "data": "ETDDate", "title": "ETD",
                         "render" : function (data) {
@@ -268,10 +288,17 @@ End Code
                     { "data": "BookingNo", "title": "BookingNo" },
                     { "data": "HAWB", "title": "BLNo" },
                     
+=======
+>>>>>>> everbest
                     { "data": "InvNo", "title": "Customer Inv." },
 		    { "data": "CSName", "title": "CS" },
                     { "data": "CustTName", "title": "Customer" },
+<<<<<<< HEAD
                     { "data": "ConsigneeName", "title": "Consignee" }
+=======
+                    { "data": "ConsigneeName", "title": "Consignee" },
+		    { "data": "BookingNo", "title": "Booking No" }
+>>>>>>> everbest
                 ]
                 , "pageLength": 100
             });
@@ -283,9 +310,17 @@ End Code
                 let data = $('#tblJob').DataTable().row(this).data();
                 $('#txtJobNo').val(data.JNo);
             });
+<<<<<<< HEAD
           
         //    CloseWait();
         });
+=======
+            $('#tblJob tbody').on('dblclick', 'tr', function () {
+                OpenJob();
+            });
+            //CloseWait();
+        //});
+>>>>>>> everbest
     }
     function getJobdata_1() {
         //$.get(path + 'joborder/updatejobstatus' + GetCliteria(), function (r) {

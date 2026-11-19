@@ -72,27 +72,24 @@ Namespace Controllers
                 Dim oData = New CUtil(GetSession("ConnJob")).GetTableFromSQL(SQLSelectExpenseFromClr() & tSqlW)
                 If oData.Rows.Count > 0 Then
                     For Each row As DataRow In oData.Rows
-                        Dim oRow As New CClearExp(GetSession("ConnJob")) With {
-                            .BranchCode = row("BranchCode").ToString,
-                            .JNo = row("JNo").ToString,
-                            .SICode = row("SICode").ToString,
-                            .SDescription = row("NameEng").ToString,
-                            .TRemark = row("TRemark").ToString,
-                            .Status = If(row("IsRequired").ToString = "1", "R", "O"),
-                            .CurrencyCode = row("CurrencyCode").ToString,
-                            .ExchangeRate = row("CurrencyRate"),
-                            .AmountCharge = row("ChargeAmt") / row("CurrencyRate"),
-                            .Qty = row("QtyBegin"),
-                            .QtyUnit = row("UnitCheck").ToString,
-                            .AmtVatRate = row("VatRate"),
-                            .AmtVat = row("VatAmt"),
-                            .AmtWhtRate = row("TaxRate"),
-                            .AmtWht = row("TaxAmt"),
-                            .AmtTotal = row("TotalAmt")
-                        }
-                        If oRow.GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode)).Count = 0 Then
-                            Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
-                        End If
+                        Dim oRow As New CClearExp(GetSession("ConnJob"))
+                        oRow.BranchCode = row("BranchCode").ToString
+                        oRow.JNo = row("JNo").ToString
+                        oRow.SICode = row("SICode").ToString
+                        oRow.SDescription = row("NameThai").ToString
+                        oRow.TRemark = row("TRemark").ToString
+                        oRow.Status = If(row("IsRequired").ToString = "1", "R", "O")
+                        oRow.CurrencyCode = row("CurrencyCode").ToString
+                        oRow.ExchangeRate = row("CurrencyRate")
+                        oRow.AmountCharge = row("ChargeAmt")
+                        oRow.Qty = row("QtyBegin")
+                        oRow.QtyUnit = row("UnitCheck").ToString
+                        oRow.AmtVatRate = row("VatRate")
+                        oRow.AmtVat = row("VatAmt")
+                        oRow.AmtWhtRate = row("TaxRate")
+                        oRow.AmtWht = row("TaxAmt")
+                        oRow.AmtTotal = row("TotalAmt")
+                        Dim msg = oRow.SaveData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' AND SICode='{2}'", oRow.BranchCode, oRow.JNo, oRow.SICode))
                     Next
                 End If
                 Dim oRows = New CClearExp(GetSession("ConnJob")).GetData(String.Format(" WHERE BranchCode='{0}' AND JNo='{1}' ", branch, job))
@@ -100,7 +97,7 @@ Namespace Controllers
                 json = "{""estimate"":{""data"":" & json & "}}"
                 Return Content(json, jsonContent)
             Catch ex As Exception
-                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromQuo", ex.Message, ex.StackTrace, True)
+                Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "GetClearExpFromClr", ex.Message, ex.StackTrace, True)
                 Return Content("{""estimate"":{""data"":[]}}", jsonContent)
             End Try
         End Function
@@ -175,7 +172,7 @@ Namespace Controllers
             Next
 
             If lst <> "" Then
-                Dim tSQL As String = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem=1,ChargeVAT=0,Tax50Tavi=0,FNet=0,BNet=0 WHERE BranchCode+'|'+ClrNo+'|'+Convert(varchar,ItemNo) in({1})", docno, lst)
+                Dim tSQL As String = String.Format("UPDATE Job_ClearDetail SET LinkBillNo='{0}',LinkItem=1,BNet=0 WHERE BranchCode+'|'+ClrNo+'|'+Convert(varchar,ItemNo) in({1})", docno, lst)
                 Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                 If result = "OK" Then
                     Main.UpdateClearStatus()
@@ -214,22 +211,22 @@ Namespace Controllers
             Next
 
             If lst <> "" Then
-                If doctype = "CLR" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99 ", lst)
+                'If doctype = "CLR" Then
+                Dim tSQL As String = String.Format("UPDATE Job_ClearHeader SET DocStatus=3,ReceiveBy='" & user & "',ReceiveRef='" & docno & "',ReceiveDate=GetDate(),ReceiveTime=Convert(varchar(10),GetDate(),108) WHERE BranchCode+'|'+ClrNo in({0}) AND DocStatus<>99 ", lst)
                     Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
                     If result = "OK" Then
                         Main.UpdateClearStatus()
                         Return New HttpResponseMessage(HttpStatusCode.OK)
                     End If
+                'End If
+                'If doctype = "ADV" Then
+                tSQL = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
+                result = Main.DBExecute(GetSession("ConnJob"), tSQL)
+                If result = "OK" Then
+                    Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
+                    Return New HttpResponseMessage(HttpStatusCode.OK)
                 End If
-                If doctype = "ADV" Then
-                    Dim tSQL As String = String.Format("UPDATE Job_AdvHeader SET DocStatus=6 WHERE BranchCode+'|'+AdvNo in({0}) AND DocStatus<>99", lst)
-                    Dim result = Main.DBExecute(GetSession("ConnJob"), tSQL)
-                    If result = "OK" Then
-                        Main.DBExecute(GetSession("ConnJob"), Main.SQLUpdateClrReceiveFromAdvance(user, docno, lst))
-                        Return New HttpResponseMessage(HttpStatusCode.OK)
-                    End If
-                End If
+                'End If
 
             End If
             Return New HttpResponseMessage(HttpStatusCode.NoContent)
@@ -291,7 +288,8 @@ Namespace Controllers
                 If Not IsNothing(Request.QueryString("Condition")) Then
                     Select Case Request.QueryString("Condition").ToString()
                         Case "ERN"
-                            sql &= " AND d.LinkItem=0 AND d.UsedAmount > 0 "
+                            'sql &= " AND d.LinkItem=0 AND d.UsedAmount > 0 "
+                            sql &= " AND isnull(d.LinkBillNo,'')='' AND d.BNet > 0 "
                     End Select
                 End If
                 sql &= " ORDER BY h.BranchCode,h.ClrDate DESC,h.ClrNo,j.CustCode,j.CustBranch,d.ItemNo "
@@ -363,7 +361,15 @@ Namespace Controllers
                     tSqlW &= " AND a.DocStatus<>99 AND a.AdvNo IS NOT NULL  AND h.DocStatus<>99 "
                     tSqlW &= " AND a.AdvNo+'#'+Convert(varchar,a.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                 Else
-                    tSqlW &= " AND h.DocStatus<>99 AND a.AdvNo IS NULL AND h.ClearType<>3 "
+                    tSqlW &= " AND h.DocStatus<>99 AND a.AdvNo IS NULL "
+                    If Not IsNothing(Request.QueryString("All")) Then
+                    Else
+                        If Not IsNothing(Request.QueryString("NoAdv")) Then
+                            tSqlW &= " AND d.SICode not in(select SICode from Job_SrvSingle where IsCredit=0) "
+                        Else
+                            tSqlW &= " AND h.ClearType<>3 "
+                        End If
+                    End If
                     tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT c1.DocNo FROM Job_CashControlDoc c1 inner join Job_CashControl c2 on c1.BranchCode=c2.BranchCode and c1.ControlNo=c2.ControlNo where ISNULL(c2.CancelProve,'')='')"
                     tSqlW &= " AND h.ClrNo+'#'+Convert(varchar,d.ItemNo) NOT IN(SELECT p1.ClrRefNo+'#'+Convert(varchar,p1.ClrItemNo) FROM Job_PaymentDetail p1 INNER JOIN Job_PaymentHeader p2 ON p1.BranchCode=p2.BranchCode AND p1.DocNo=p2.DocNo WHERE ISNULL(p2.CancelProve,'')='' AND p1.ClrRefNo=h.ClrNo AND p1.ClrItemNo=d.ItemNo) "
                 End If
@@ -474,15 +480,24 @@ Namespace Controllers
                         Case "COST"
                             tSqlW &= " AND d.SICode IN(SELECT SICode FROM Job_SrvSingle WHERE IsExpense=1) "
                         Case "SERV"
-                            tSqlW &= " AND (p.ChargeCode + d.DocNo + '#0') NOT IN(SELECT x.SICode+x.VenderBillingNo FROM Job_ClearDetail x INNER JOIN Job_ClearHeader y ON x.BranchCode=y.BranchCode AND x.ClrNo=y.ClrNo WHERE y.DocStatus<>99 AND ISNULL(x.VenderBillingNo,'')<>'') "
+                            tSqlW &= " AND (p.ChargeCode + d.DocNo + '#0') NOT IN(
+SELECT x.SICode+x.VenderBillingNo 
+FROM Job_ClearDetail x INNER JOIN Job_ClearHeader y ON x.BranchCode=y.BranchCode AND x.ClrNo=y.ClrNo 
+WHERE y.DocStatus<>99 AND ISNULL(x.VenderBillingNo,'')<>'') "
                             isForCharge = True
                     End Select
                 End If
                 If Not IsNothing(Request.QueryString("JobNo")) Then
                     tSqlW &= " AND d.ForJNo='" & Request.QueryString("JobNo") & "' "
                 End If
+                If Not IsNothing(Request.QueryString("CustCode")) Then
+                    tSqlW &= " AND d.ForJNo in(select JNo from Job_Order where CustCode='" & Request.QueryString("CustCode") & "') "
+                End If
+                If Not IsNothing(Request.QueryString("ContainerNo")) Then
+                    tSqlW &= " AND h.RefNo='" & Request.QueryString("ContainerNo") & "' "
+                End If
                 If Not IsNothing(Request.QueryString("Vender")) Then
-                    tSqlW &= " AND h.VenCode IN(SELECT UserID FROM Mas_User WHERE DeptID='" & Request.QueryString("Vender") & "')"
+                    tSqlW &= " AND h.VenCode ='" & Request.QueryString("Vender") & "'"
                 End If
                 If Not IsNothing(Request.QueryString("DateFrom")) Then
                     tSqlW &= " AND h.DocDate>='" & Request.QueryString("DateFrom") & " 00:00:00'"
@@ -548,6 +563,15 @@ Namespace Controllers
                 End If
                 If Not IsNothing(Request.QueryString("Status")) Then
                     tSqlW &= " AND c.DocStatus='" & Request.QueryString("Status") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("CustCode")) Then
+                    tSqlW &= " AND c.CustCode='" & Request.QueryString("CustCode") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("AdvBy")) Then
+                    tSqlW &= " AND c.AdvBy='" & Request.QueryString("AdvBy") & "' "
+                End If
+                If Not IsNothing(Request.QueryString("Vend")) Then
+                    tSqlW &= " AND a.VenCode='" & Request.QueryString("Vend") & "' "
                 End If
                 If Not IsNothing(Request.QueryString("AdvNo")) Then
                     tSqlW &= " AND c.AdvNo IN('" & Request.QueryString("AdvNo").ToString().Replace(",", "','") & "') "
@@ -630,17 +654,30 @@ Namespace Controllers
                 End If
 
                 Dim tSqlw As String = " WHERE ClrNo<>'' "
+                Dim tSqlD = ""
+                Dim Branch = ""
                 If Not IsNothing(Request.QueryString("Branch")) Then
                     tSqlw &= String.Format("AND BranchCode ='{0}' ", Request.QueryString("Branch").ToString)
+                    Branch = Request.QueryString("Branch").ToString()
                 End If
                 If Not IsNothing(Request.QueryString("Code")) Then
                     tSqlw &= String.Format("AND ClrNo ='{0}' ", Request.QueryString("Code").ToString)
+                    tSqlD &= String.Format("AND ClrNo ='{0}' ", Request.QueryString("Code").ToString)
                 End If
-
+                If Not IsNothing(Request.QueryString("ClrBy")) Then
+                    tSqlw &= String.Format("AND ClrBy ='{0}' ", Request.QueryString("ClrBy").ToString)
+                    tSqlD &= String.Format("AND ClrBy ='{0}' ", Request.QueryString("ClrBy").ToString)
+                End If
                 Dim oData = New CClrHeader(GetSession("ConnJob")).GetData(tSqlw)
                 Dim json As String = JsonConvert.SerializeObject(oData)
-
-                Dim oDataD = New CClrDetail(GetSession("ConnJob")).GetData(tSqlw)
+                tSqlD = " WHERE ClrNo in(SELECT ClrNo from job_ClearHeader where BranchCode='" & Branch & "' " & tSqlD & ") "
+                If Not IsNothing(Request.QueryString("AdVNo")) Then
+                    tSqlD &= String.Format("AND AdvNO ='{0}' ", Request.QueryString("AdvNO").ToString)
+                End If
+                If Not IsNothing(Request.QueryString("JobNo")) Then
+                    tSqlD &= String.Format("AND JobNo ='{0}' ", Request.QueryString("JobNo").ToString)
+                End If
+                Dim oDataD = New CClrDetail(GetSession("ConnJob")).GetData(tSqlD)
                 Dim jsonD As String = JsonConvert.SerializeObject(oDataD)
 
                 json = "{""clr"":{""header"":" & json & ",""detail"":" & jsonD & "}}"

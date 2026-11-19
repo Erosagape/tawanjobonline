@@ -33,7 +33,7 @@ End Code
 </script>
 @Code
     If ViewBag.User <> "" Then
-        @Html.Raw(ViewBag.DataGrid1)
+        Dim ds = ViewBag.DataSet
     End If
 End Code
 

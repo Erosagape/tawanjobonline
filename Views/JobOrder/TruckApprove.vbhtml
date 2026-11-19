@@ -401,11 +401,12 @@ End Code
             $('#txtStart').removeAttr('disabled');
         }
         if (userGroup == 'V') {
-            $('#txtVenCode').attr('disabled', 'disabled');
+            $('#txtVenCode').attr('readonly', 'readonly');
             $('#txtVenName').attr('disabled', 'disabled');
             $('#btnBrowseVend').attr('disabled', 'disabled');
             $('#btnBrowseLoc').attr('disabled', 'disabled');
-            $.get(path + 'Master/GetVender?ID=' + user).done(function (r) {
+	    let userUpline='@ViewBag.UserUpline';
+            $.get(path + 'Master/GetVender?Code=' + userUpline).done(function (r) {
                 if (r.vender.data.length > 0) {
                     let dr = r.vender.data[0];
                     $('#txtVenCode').val(dr.VenCode);

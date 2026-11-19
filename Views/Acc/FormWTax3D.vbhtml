@@ -39,13 +39,21 @@ End Code
 <table>
     <tr>
         <td>
+<<<<<<< HEAD
             <table style="width:98%;word-wrap:break-word;">
+=======
+            <table style="width:98%">
+>>>>>>> everbest
                 <tr>
                     <td style="width:10%">
                         ใบแนบ <label style="font-size:32px;font-weight:bold">ภ.ง.ด.3</label>
                     </td>
                     <td style="width:60%">
+<<<<<<< HEAD
                         เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label style="font-size: 18px !important;" id="lblTaxNumber1"></label>
+=======
+                        เลขที่ประจำตัวผู้เสียภาษีอากร (ของผู้มีหน้าที่หักภาษี ณ ที่จ่าย) : <label id="lblTaxNumber1"></label>
+>>>>>>> everbest
                         สาขา : <label id="lblBranch1"></label>
                         <br />
                         ชื่อผู้เสียภาษีอากร : <label id="lblTName1"></label><br />
@@ -69,9 +77,9 @@ End Code
                         <td>
                             <p>เลขประจำตัวผู้เสียภาษีอากร (ของผู้มีเงินได้)</p>
                         </td>
-                        <td>
+                        @*<td>
                             <p>สาขา</p>
-                        </td>
+                        </td>*@
                         <td colspan="4">
                             <p>รายละเอียดเกี่ยวกับการจ่ายเงิน</p>
                         </td>
@@ -80,7 +88,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td>
                             ชื่อผู้มีเงินได้
                             (ให้ระบุให้ชัดเจนว่าเป็น นาย นาง นางสาวหรือยศ)
                         </td>
@@ -114,7 +122,7 @@ End Code
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="2">
+                        <td>
                             ที่อยู่ของผู้มีเงินได้ (ให้ระบุเลขที่ ตรอก/ซอย ถนน ตำบล/แขวง อำเภอ/เขต จังหวัด)
                         </td>
                     </tr>
@@ -122,7 +130,7 @@ End Code
                 <tbody></tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="6">
+                        <td colspan="5">
                             <p>รวมยอดเงินได้และภาษีที่นำส่ง (นำไปรวมกับ <b>ใบแนบ ภ.ง.ด.3 </b>แผ่นอื่น(ถ้ามี))</p>
                         </td>
                         <td style="text-align:right">{0}</td>
@@ -130,7 +138,7 @@ End Code
                         <td></td>
                     </tr>
                     <tr>
-                        <td class="text-left" colspan="4">
+                        <td class="text-left" colspan="3">
                             (ให้กรอกลำดับที่ต่อเนื่องกันไปทุกแผ่น)
                             <br>
                             <b>หมายเหตุ</b> 1 ให้ระบุว่าจ่ายเป็นค่าอะไร เช่น ค่าเช่าอาคาร ค่าสอบบัญชี ค่าทนายความ ค่าวิชาชีพของแพทย์<br/>
@@ -151,7 +159,11 @@ End Code
                             ลงชื่อ.....................................................ผู้จ่ายเงิน<br>
                             (<input type="text" style="border-style:none;text-align:center;width:150px" value=" @ViewBag.TaxAuthorize " />) <br>
                             ตำแหน่ง <input type="text" style="border-style:none;text-align:center;width:150px" value="{2}" /> <br>
+<<<<<<< HEAD
                             ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+=======
+                            ยื่นวันที่ <input type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="{d}" />
+>>>>>>> everbest
                         </td>
                     </tr>
                 </tfoot>
@@ -196,6 +208,7 @@ End Code
                 }
                 if (res.result.length > 0) {
                     var tb = res.result[0];
+                    let dateIssue = prompt('กรุณาใส่วันที่ออกเอกสาร');
                     $('#lblTaxNumber1').text(tb.TaxNumber1);
                     $('#lblBranch1').text('00'+CCode(tb.Branch1));
                     $('#lblTName1').text(tb.TName1);
@@ -252,6 +265,10 @@ End Code
                                 template = template.replace('{5}', field5);
 
                                 if ((p == 1 && n == rows) || (((n - rows) % rows) == 0 && p > 1)) {
+<<<<<<< HEAD
+=======
+                                    htmlFoot = htmlFoot.replace('{d}', dateIssue);
+>>>>>>> everbest
                                     htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                                     htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
                                     if (params.ReportCode == 'PRD3AD') {
@@ -297,7 +314,7 @@ End Code
                             template += 'ที่อยู่ : ' + r.TAddress3;
                             template += '</p>';
                             template += '</td>';
-                            template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
+                            //template += '<td>' + '00'+CCode(r.Branch3) + '</td>';
                             template += '<td>{1}</td>';
                             template += '<td>' + r.DocNo + ' / ' + r.JNo + '{5}</td>';
                             template += '<td>{2}</td>';
@@ -307,7 +324,11 @@ End Code
                             docno = r.DocNo;
                         }
 
+<<<<<<< HEAD
                         field1 += '<br/>' + ShowDate(r.PayDate);
+=======
+                        field1 += '<br/>' + ShowDate(CDateTH(r.PayDate));
+>>>>>>> everbest
                         field2 += '<br/>' + r.PayRate;
                         field3 += '<br/>' + ShowNumber(r.PayAmount, 2);
                         field4 += '<br/>' + ShowNumber(r.PayTax, 2);
@@ -325,6 +346,7 @@ End Code
                             template = template.replace('{4}', field4);
                             template = template.replace('{5}', field5);
 
+                            htmlFoot = htmlFoot.replace('{d}', dateIssue);
                             htmlFoot = htmlFoot.replace('{0}', ShowNumber(sumamt, 2));
                             htmlFoot = htmlFoot.replace('{1}', ShowNumber(sumtax, 2));
                             if (params.ReportCode == 'PRD3AD') {

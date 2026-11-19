@@ -3,17 +3,22 @@
     ViewBag.Title = "Tax-Invoice Slip"
 End Code
 <style>
-    td {
-        font-size: 12px;
+    * {
+        font-size: 13px;
     }
 
     #dvFooter {
         display: none;
     }
 
-    table {
+    #taxtable {
         border-width: thin;
         border-collapse: collapse;
+        border: 1px black solid;
+    }
+
+    tr td,tr th {
+        padding: 3px;
     }
 </style>
 <div style="text-align:center;width:100%">
@@ -36,45 +41,46 @@ End Code
 <div id="dvCopy" style="text-align:right;width:100%">
 </div>
 <div style="display:flex;">
-    <div style="flex:3;border:1px solid black;border-radius:5px;">
+    <div style="flex:3;border:1px solid black;border-radius:5px;padding:5px">
         NAME : <label id="lblCustName"></label><br />
         ADDRESS : <label id="lblCustAddr"></label><br />
         TAX-ID : <lable id="lblCustTax"></lable>
     </div>
-    <div style="flex:1;border:1px solid black;border-radius:5px;">
+    <div style="flex:1;border:1px solid black;border-radius:5px;padding:5px">
         NO. : <label id="lblReceiptNo"></label><br />
         ISSUE DATE : <label id="lblReceiptDate"></label><br />
     </div>
 </div>
 
-<table border="1" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
+<table id="taxtable" style="border-style:solid;width:100%; margin-top:5px" class="text-center">
     <thead>
         <tr style="background-color:lightblue;">
             @*<th height="40" width="60">INV.NO.</th>*@
             <th width="150" rowspan="2">DESCRIPTION</th>
             @*<th width="60">JOB</th>*@
-            <th width="40"  rowspan="2">RATE</th>
-            <th width="20"  rowspan="2">CURR</th>
-            <th width="20"  rowspan="2">QTY</th>
-            <th width="20"  rowspan="2">UNIT</th>
+            <th width="40" rowspan="2">RATE</th>
+            <th width="20" rowspan="2">CURR</th>
+            <th width="20" rowspan="2">QTY</th>
+            <th width="20" rowspan="2">UNIT</th>
             <th width="90" colspan="3">AMOUNT</th>
             @*<th width="20">EXC</th>*@
             @*<th width="50">TOTAL</th>
-        <th width="60">SERVICE</th>
-        <th width="30">VAT</th>
-        <th width="30">WHT</th>
-        <th width="50">ADVANCE</th>*@
+                <th width="60">SERVICE</th>
+                <th width="30">VAT</th>
+                <th width="30">WHT</th>
+                <th width="50">ADVANCE</th>*@
         </tr>
-        <tr  style="background-color:lightblue;">
+        <tr style="background-color:lightblue;">
             <th width="120" colspan="3">TRANSPORT</th>
         </tr>
     </thead>
-    <tbody id="tbDetail"></tbody>
+    <tbody id="tbDetail" style="border-bottom: 1px black solid"></tbody>
     <tr>
-        <td rowspan="4" colspan="5">
-            TOTAL PAYMENT (1 <label id="lblCurrencyCode"></label> = <label id="lblExchangeRate"></label> THB)
-            <br />
-            <label id="lblFTotalNet"></label>
+        <td rowspan="4" colspan="5" style="border-right:1px black solid">
+
+
+            JOB NO : <label id="lblRefJob"></label><br />
+            INV NO : <label id="lblRefInv"></label>
         </td>
         <td colspan="2" style="text-align:right;">TOTAL ADVANCE (THB)</td>
         <td style="background-color:lightblue;text-align:right;">
@@ -100,30 +106,37 @@ End Code
         </td>
     </tr>
     <tr>
-        <td colspan="5" > <div style="display:flex;"><div style="width: 30%">Total amount in words </div><div id="lblTotalText" style="text-align:center"></div></div></td>
-        <td colspan="2" style="text-align:right;">TOTAL NET (THB)</td>
-        <td style="background-color:lightblue;text-align:right;">     
-            <label id="lblTotalNet"></label>
-        </td>
+        <td colspan="8" style="border-top: 1px black solid"> <div style="display:flex;"><div style="width: 30%"> TOTAL AMOUNT IN WORDS </div><div id="lblTotalText" style="text-align:center"></div></div></td>
+        @*<td colspan="2" style="text-align:right;">TOTAL NET (THB)</td>
+            <td style="background-color:lightblue;text-align:right;">
+                <label id="lblTotalNet"></label>
+            </td>*@
     </tr>
 </table>
 <p>
     PAY BY
 </p>
-<div style="display:flex;flex-direction:column">
-    <div>
-        <label><input type="checkbox" name="vehicle1" value=""> CASH</label>
-        DATE_____________  AMOUNT______________BAHT
-    </div>
-    <div>
-        <label><input type="checkbox" name="vehicle2" value=""> CHEQUE</label>
-        DATE_____________  NO_______________  BANK_________________  AMOUNT______________BAHT
-    </div>
-    <div>
-        <label><input type="checkbox" name="vehicle3" value=""> TRANSFER</label>
-        DATE_____________  BANK_________________  AMOUNT______________BAHT
-    </div>
-</div>
+<table style="width:100%">
+    <tr>
+        <td colspan="3">
+            <div>
+                PAYMENT DETAIL:
+            </div>
+            <div>
+                <label><input type="checkbox" name="vehicle1" id="chkCash" value=""> CASH</label>&ensp;
+                AMOUNT <label id="lblCashAmount">________________</label> BAHT&ensp;
+                BANK CHARGES  <label id="lblBankChg">________________</label>&ensp;
+            </div>
+            <div>
+                <label><input type="checkbox" name="vehicle3" id="chkTransfer" value=""> TRANSFER</label> &nbsp;
+                <label><input type="checkbox" name="vehicle2" id="chkCheque" value=""> CHEQUE</label>&ensp;
+                NO <label id="lblChqNo">________________</label>&ensp;
+                BANK/BRANCH <label id="lblChqBank">________________</label>&ensp;
+                AMOUNT <label id="lblChqAmount">________________</label> BAHT
+            </div>
+        </td>
+    </tr>
+</table>
 <br />
 <div style="display:flex;">
     <div style="border:1px solid black ;border-radius:5px;flex:1;text-align:center;">
@@ -131,22 +144,22 @@ End Code
         FOR THE CUSTOMER
         <br /><br /><br />
         <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
-        AUTHORIZED SIGNATURE
+
+        <label id="lblCMPAcceptdate"></label><br />
+        COLLECTOR
     </div>
     <div style="border:1px solid black;border-radius:5px;flex:1;text-align:center">
 
         FOR THE COMPANY
         <br /><br /><br />
         <p>_____________________</p>
-        _____________________<br />
-        ___/_______/___<br />
+        <label id="lblCSTAcceptdate"></label><br />
+        AUTHORIZED SIGNATURE
+
     </div>
 </div>
 <br />
-<br />
-<p style="width:100%;text-align:center">
+<p style="width:100%;text-align:center;font-size:12px">
     ใบเสร็จ/ใบกำกับภาษีนี้จะสมบูรณ์ต่อเมื่อมีลายเซ็นของพนักงานรักษาเงินเท่านั้น และต่อเมื่อบริษัทฯ ไปเรียกเก็บเงินจากเช็คครบถ้วนแล้ว<br />
     This Receipt/Tax invoice is not valid unless signed by out bill collector and cashier and the cheque has already been cleared by bank<br /><br />
     บริษัทจะกำหนดเวลาในการแก้ไขใบเสร็จรับเงิน/ใบกำกับภาษี ภายใน 10 วันนับจากวันที่ออกเอกสาร หากพ้นกำหนดทางบริษัทฯ จะถือว่าถูกต้องแล้ว
@@ -180,15 +193,15 @@ End Code
                 break;
         }
         //$('#lblCustCode').text(h.CustCode);
-        if (h.UsedLanguage == 'TH') {
-	        if(Number(h.BillToCustBranch)==0) {
-	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : สำนักงานใหญ่');
-	        } else {
-	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : '+ h.BillToCustBranch);
-	        }
-            $('#lblCustName').text(h.BillTName);
-            $('#lblCustAddr').text(h.BillTAddr);
-        } else {
+        //if (h.UsedLanguage == 'TH') {
+	       // if(Number(h.BillToCustBranch)==0) {
+	       // $('#lblCustTax').text(h.BillTaxID + ' BRANCH : สำนักงานใหญ่');
+	       // } else {
+	       // $('#lblCustTax').text(h.BillTaxID + ' BRANCH : '+ h.BillToCustBranch);
+	       // }
+        //    $('#lblCustName').text(h.BillTName);
+        //    $('#lblCustAddr').text(h.BillTAddr);
+        //} else {
 	        if(Number(h.BillToCustBranch)==0) {
 	        $('#lblCustTax').text(h.BillTaxID + ' BRANCH : HEAD OFFICE');
 	        } else {
@@ -196,11 +209,15 @@ End Code
 	        }
             $('#lblCustName').text(h.BillEName);
             $('#lblCustAddr').text(h.BillEAddr);
-        }
+        //}
         //$('#lblCustTel').text(h.CustPhone);
 
         $('#lblReceiptNo').text(h.ReceiptNo);
         $('#lblReceiptDate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        $('#lblCSTAcceptdate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        $('#lblCMPAcceptdate').text(ShowDate(CDateTH(h.ReceiptDate)));
+        let jobSet = new Set();
+        let invSet = new Set();
         let html = '';
         let adv = 0;
         let service = 0;
@@ -226,7 +243,8 @@ End Code
             //html += '<td style="text-align:right">' + (d.AmtCharge>0? ShowNumber(d.Inv50Tavi,2):'0.00') + '</td>';
             html += '<td style="text-align:right;width:10%">' + (d.AmtCharge > 0 ? ShowNumber(d.InvAmt, 2) : '0.00') + '</td>';
             html += '</tr>';
-
+            jobSet.add(d.JobNo);
+            invSet.add(d.InvoiceNo);
             $('#tbDetail').append(html);
             if (d.AmtCharge > 0) {
                 service += Number(d.InvAmt);
@@ -239,6 +257,20 @@ End Code
             total += Number(d.InvAmt) + Number(d.InvVAT);
             totalf += fnet;
         }
+
+        let invList = Array.from(invSet);
+        let jobList = Array.from(jobSet);
+        $('#lblRefInv').text(invList.map(i => i));
+        $('#lblRefJob').text(jobList.map(i => i));
+        let rowCount = $('#tbDetail >tr').length;
+        let blankRow = '<tr><td><br></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>'
+        let blankRows = "";
+        for (let i = 0; i < 11 - rowCount; i++) {
+            blankRows += blankRow;
+        }
+
+        $('#tbDetail').append(blankRows);
+
         $('#lblTotalBeforeVAT').text(ShowNumber(service, 2));
         $('#lblTotalVAT').text(ShowNumber(vat, 2));
         $('#lblTotalAfterVAT').text(ShowNumber(service+vat, 2));
@@ -253,5 +285,57 @@ End Code
         } else {
             $('#lblTotalText').text(CNumEng(CDbl((totalf),2)));
         }
+	 $('#chkCash').prop('checked', false);
+        $('#chkCheque').prop('checked', false);
+        $('#chkTransfer').prop('checked', false);
+        let vRemark = h.TRemark.split(';');
+        for (let t of vRemark) {
+            if (t.indexOf(':') > 0) {
+                let vData = t.split(':');
+                if (Number(vData[1]) > 0) {
+                    switch (vData[0]) {
+                        case 'CHQ':
+                            $('#chkCheque').prop('checked', true);
+                            $('#lblChqAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblChqAmount').css('text-decoration', 'underline');
+                            break;
+                        case 'CASH':
+                            $('#chkCash').prop('checked', true);
+                            $('#lblCashAmount').text(ShowNumber(vData[1], 2));
+                            $('#lblCashAmount').css('text-decoration', 'underline');
+                            break;
+                        case 'CHG':
+                            $('#lblBankChg').text(ShowNumber(vData[1], 2));
+                            $('#lblBankChg').css('text-decoration', 'underline');
+                            break;
+                        default:
+                            break;
+                    }
+                    switch (vData.length) {
+                        case 3:
+                            if (vData[0] == 'CHQ') {
+                                $('#lblChqBank').text(vData[2]);
+                                $('#lblChqBank').css('text-decoration', 'underline');
+                            }
+                            break;
+                        case 4:
+                            if (vData[0] == 'CHQ') {
+                                if (vData[3] == 'TRANSFER') {
+                                    $('#chkCheque').prop('checked', false);
+                                    $('#chkTransfer').prop('checked', true);
+                                } else {
+                                    $('#chkCheque').prop('checked', true);
+                                    $('#chkTransfer').prop('checked', false);
+                                    $('#lblChqNo').text(vData[3]);
+                                    $('#lblChqNo').css('text-decoration', 'underline');
+                                }
+                                $('#lblChqBank').text(vData[2]);
+                                $('#lblChqBank').css('text-decoration', 'underline');
+                            }
+                            break;
+                    }
+                }
+	    }
+	}
     }
-    </script>
+</script>

@@ -27,23 +27,27 @@ End Code
                 <b>Open Date : </b><label id="lblOpenDate"></label>
             </td>
         </tr>
+        <tr>
+            <td colspan="3"><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
+            <td>
+                <b>Job Shipping No. </b><label id="lblCustRefNO"></label>
+            </td>
+        </tr>
+        <tr>
+            <td id="dvAddr" colspan="4"></td>
+        </tr>
+        <tr>
+            <td colspan="4"><b>Tel : </b><label id="lblTel"></label></td>
+        </tr>
+        <tr>
+            <td colspan="4"><b>Fax : </b><label id="lblFax"></label></td>
+        </tr>
+        <tr>
+            <td colspan="4"><b>Contact : </b><label id="lblContact"></label></td>
+        </tr>
     </table>
     <table>
-        <tr>
-            <td><b>Customer : </b><label id="lblCustCode"></label> / <label id="lblCustName"></label></td>
-        </tr>
-        <tr>
-            <td id="dvAddr"></td>
-        </tr>
-        <tr>
-            <td><b>Tel : </b><label id="lblTel"></label></td>
-        </tr>
-        <tr>
-            <td><b>Fax : </b><label id="lblFax"></label></td>
-        </tr>
-        <tr>
-            <td><b>Contact : </b><label id="lblContact"></label></td>
-        </tr>
+     
     </table>
     <table id="divBillingPlace">
         <tr>
@@ -177,26 +181,26 @@ End Code
                 <th colspan="2" style="border-style:solid;border-width:thin;width:50%">ไม่มีใบเสร็จรับเงินในนามลูกค้า</th>
             </tr>
             <tr>
-                <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
+                <th style="border-style:solid;border-width:thin;width:25%">รายละเอียด</th>
                 <th style="border-style:solid;border-width:thin;width:20%">เลขที่ใบเสร็จ</th>
-                <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
-                <th style="border-style:solid;border-width:thin;width:30%">รายละเอียด</th>
-                <th style="border-style:solid;border-width:thin;width:10%">จำนวนเงิน</th>
+                <th style="border-style:solid;border-width:thin;width:15%">จำนวนเงิน</th>
+                <th style="border-style:solid;border-width:thin;width:25%">รายละเอียด</th>
+                <th style="border-style:solid;border-width:thin;width:15%">จำนวนเงิน</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าธรรมเนียม Paperless</td>
+                <td style="border-style:solid;border-width:thin;">ค่า Paperless</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อยเบย์-จัดเรียงสินค้า</td>
+                <td style="border-style:solid;border-width:thin;">ค่าเคลียร์เหมาจ่าย</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
                 <td style="border-style:solid;border-width:thin;">ค่าภาษีอากร</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อยวาลฟ์</td>
+                <td style="border-style:solid;border-width:thin;">ค่าจ้างชิปปิ้งนอก</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
@@ -217,21 +221,23 @@ End Code
                 <td style="border-style:solid;border-width:thin;">ค่าล่วงเวลาเอเย่นต์</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่านำแรงงานท่าเรือ</td>
+                <td style="border-style:solid;border-width:thin;">ค่าแรงงานท่าเรือ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าแลก D/O</td>
+                <td style="border-style:solid;border-width:thin;">ค่าเครืองมือพิเศษ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">ค่าแรงงานคลังขนถ่ายสินค้า</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าเช่าการท่าเรือ</td>
+                <td style="border-style:solid;border-width:thin;">
+                    PORT CHARGE
+                </td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">จำนวน (คน)</td>
+                <td style="border-style:solid;border-width:thin;">ค่าเครืองมือพิเศษ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
@@ -242,17 +248,17 @@ End Code
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 6ล้อ</td>
+                <td style="border-style:solid;border-width:thin;">ค่า PHYTO CER.</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าปล่อย Print Permit</td>
+                <td style="border-style:solid;border-width:thin;">ค่าใบอนุญาติ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ารถขนส่งสินค้า 4ล้อ</td>
+                <td style="border-style:solid;border-width:thin;">ค่าใบอนุญาตประมง</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่ารถหัวลากต่อระยะ</td>
+                <td style="border-style:solid;border-width:thin;">ค่าชั่งน้ำหนัก</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
@@ -263,7 +269,7 @@ End Code
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าคืนตู้เปล่า</td>
+                <td style="border-style:solid;border-width:thin;">LIFT OFF</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่ อย</td>
@@ -291,18 +297,13 @@ End Code
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่าซ่อมตู้</td>
+                <td style="border-style:solid;border-width:thin;">ค่าผ่านท่าคนขับ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">ค่าเช็คภาษี</td>
+                <td style="border-style:solid;border-width:thin;">ค่าใช้จ่ายเจ้าหน้าที่เกษตร</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
-                <td style="border-style:solid;border-width:thin;">ค่ายื่น C/O หอการค้า</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
-                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
             <tr>
                 <td style="border-style:solid;border-width:thin;"><b>รวมรายจ่าย</b></td>
@@ -316,6 +317,27 @@ End Code
                 <td style="border-style:solid;border-width:thin;"><label id="lblJobNo"></label></td>
                 <td style="border-style:solid;border-width:thin;">ONLY**</td>
                 <td style="border-style:solid;border-width:thin;"><b>รวมทั้งสิ้น</b></td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">เบิก</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">จ่าย</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+            </tr>
+            <tr>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">&nbsp;</td>
+                <td style="border-style:solid;border-width:thin;">คงเหลือ</td>
                 <td style="border-style:solid;border-width:thin;">&nbsp;</td>
             </tr>
         </tbody>
@@ -425,6 +447,8 @@ End Code
         $('#lblDutyAmt').text(j.DutyAmount + ' THB');
         $('#lblTaxPrivilege').text(j.TyClearTaxReson);
         $('#lblShippingCmd').text(j.ShippingCmd);
+        $('#lblCustRefNO').text(j.CustRefNO);
+        
         let str =j.Description.replace(/(?:\r\n|\r|\n)/g, '<br/>');
         $('#lblDescription').html(str);
 
@@ -443,7 +467,7 @@ End Code
 
         ShowCountry(path, j.InvFCountry, '#lblFromCountry');
         ShowCountry(path, j.InvCountry, '#lblToCountry');
-        if (j.JobType == '1') {
+        if (j.ShipBy == '1') {
 
             ShowInterPort(path,j.InvFCountry, j.InvInterPort, '#lblFromPort');
             ShowReleasePort(path,j.ClearPort, '#lblToPort');

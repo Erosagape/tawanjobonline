@@ -308,7 +308,7 @@ Public Class CRcpHeader
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             If da.Update(dt) > 0 Then
                                 If Me.CancelProve <> "" Then
-                                    Main.DBExecute(m_ConnStr, String.Format("DELETE FROM Job_ReceiptDetail WHERE BranchCode='{0}' AND ReceiptNo='{1}'", Me.BranchCode, Me.ReceiptNo))
+                                    'Main.DBExecute(m_ConnStr, String.Format("DELETE FROM Job_ReceiptDetail WHERE BranchCode='{0}' AND ReceiptNo='{1}'", Me.BranchCode, Me.ReceiptNo))
                                 End If
                             End If
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CRcpHeader", "SaveData", Me, False)
@@ -327,7 +327,7 @@ Public Class CRcpHeader
         If pFormatSQL = "" Then
             m_ReceiptNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ReceiptNo) as t FROM Job_ReceiptHeader WHERE BranchCode='{0}' And ReceiptNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(ReceiptNo) as t FROM Job_ReceiptHeader WHERE ReceiptNo Like '%{0}' ", pFormatSQL), pFormatSQL)
             m_ReceiptNo = retStr
         End If
     End Sub

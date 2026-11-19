@@ -488,13 +488,14 @@ End Code
                 let summary = ` <tr>
                <td></td>
                <td></td>
-
+<td></td>
                <td style="text-align:right">${customerSlipSum != 0 ? CCurrency(CDbl(customerSlipSum, 2)) : ""}</td>
                <td style="text-align:right">${companySlipSum != 0 ? CCurrency(CDbl(companySlipSum, 2)) : ""}</td>
                <td style="text-align:right">${noSlipSum != 0 ? CCurrency(CDbl(noSlipSum, 2)) : ""}</td>
                <td style="text-align:right">${servSum != 0 ? CCurrency(CDbl(servSum, 2)) : ""}</td>
-               <td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
+              
            </tr >`;
+                //<td style="text-align:right">${profitSum != 0 ? CCurrency(CDbl(profitSum, 2)) : ""}</td>
 	            $("#sumService").text(CCurrency(CDbl(customerSlipSum+servSum, 2)))
                 tb.append(summary);
                 $("#sumCost").text(CCurrency(CDbl(companySlipSum+customerSlipSum + noSlipSum, 2)));

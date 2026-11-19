@@ -231,7 +231,11 @@ End Code
         (<input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxAuthorize" />)
         <br />
         ตำแหน่ง <input type="text" style="border-style:none;text-align:center" id="txtTaxPosition" value="@ViewBag.TaxPosition" /> <br>
+<<<<<<< HEAD
         ยื่นวันที่ <input type="text" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+=======
+        ยื่นวันที่ <input type="text" id="txtIssueDate" style="border-style:none;text-align:center" value="@ViewBag.TaxIssueDate" />
+>>>>>>> everbest
     </div>
 </div>
 <div style="page-break-before:always">
@@ -285,11 +289,19 @@ End Code
                     return;
                 }
                 if (res.result.length > 0) {
+<<<<<<< HEAD
+=======
+                    let dateIssue = prompt('กรุณาใส่วันที่ออกเอกสาร');
+>>>>>>> everbest
                     if (params.ReportCode == 'PRD3A') {
                         $('#txtTaxPosition').val('กระทำการแทน');
                     } else {
                         $('#txtTaxPosition').val('@ViewBag.TaxPosition');
                     }
+<<<<<<< HEAD
+=======
+                    $('#txtIssueDate').val(dateIssue);
+>>>>>>> everbest
                     var tb = res.result[0];
                     $('#lblIDCard1').text(tb.IDCard1);
                     $('#lblTaxNumber1').text(tb.TaxNumber1);

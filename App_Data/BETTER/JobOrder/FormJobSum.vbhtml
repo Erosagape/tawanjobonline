@@ -233,9 +233,10 @@ End Code
     </td>
     </tr>
     <tr>
-	<td colspan="9" style="text-align:right;font-weight:bold;color:green">
-	   INTERNAL + TOTAL COST = SUMMARY
-	</td>
+        <td colspan="9" style="text-align:right;font-weight:bold;color:green">
+            TOTAL SERVICE - TOTAL COST = SUMMARY
+            @*INTERNAL + TOTAL COST = SUMMARY*@
+        </td>
 	<td style="text-align:right;font-weight:bold;">
          
 	</td>
@@ -426,7 +427,7 @@ End Code
                 let fdt2 = dt2.filter((data) => {
                     return data.CurRate > 1;
                 });
-                $("#buyUSDTHB").text(fdt2.length ? fdt1[0].CurRate : 1);
+                $("#buyUSDTHB").text(fdt2.length ? fdt2[0].CurRate : 1);
 
                 let html2 = '';
                 let suma2 = 0;
@@ -546,7 +547,8 @@ End Code
                         $('#dt3').html($('#dt3').html()+html3);
 	                $("#baseAmount").text(ShowNumber(sum4+sum3, 2));
                         $("#salesAmount").text(ShowNumber(sumc1 - sumv1 - sum3 - sum4, 2));
-                        $("#netAmount").text(ShowNumber(sumc1 - sumv1 - sumt2 , 2));
+                        $("#netAmount").text(ShowNumber(sumc1 - sumv1 - sumt2, 2));
+                        console.log(sumc1 + "-" + sumv1 + "-" + sumt2);
                     }
                 });
                 //$("#netProfit").text(ShowNumber(sumt1 - sumt2 + sumcomm, 2));

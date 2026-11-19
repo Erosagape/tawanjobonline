@@ -5,12 +5,17 @@
 End Code
 <style>
     * {
+<<<<<<< HEAD
         font-family: Tahoma;
         font-size: 11px;
     }
 
     td {
         font-size: 11px;
+=======
+        font-family: CORDIA NEW;
+        font-size: 16px;
+>>>>>>> everbest
     }
 
     th {
@@ -30,7 +35,39 @@ End Code
         border-collapse: collapse;
     }
 </style>
+<<<<<<< HEAD
 <div style="display:flex">
+=======
+<table style="width:100%">
+	<tbody>
+        <tr>
+            <td style="width:60%">
+                CUSTOMER : <label id="lblCustName"></label>
+            </td>
+            <td style="width: 20%">   </td>
+            <td> REF  </td>
+            <td> : </td>
+            <td>
+                <label id="lblQNo"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label id="lblCustAddress"></label>
+            </td>
+            <td style="width: 20%">   </td>
+            <td>DATE </td>
+            <td>:</td>
+            <td> <label id="lblDocDate"></label></td>
+        </tr>
+        @*<tr>
+            <td> <label id="lblCustTelFax"></label></td>
+        </tr>
+	</tbody>*@
+</table>
+<span id="lblDescriptionH" style='white-space:pre-wrap;width:100%'></span>
+@*<div style="display:flex">
+>>>>>>> everbest
     <div style="flex:1">
         CUSTOMER : <label id="lblCustName"></label>
     </div>
@@ -39,6 +76,7 @@ End Code
             REF : <label id="lblQNo"></label>
         </div>
     </div>
+	
 </div>
 
 <div style="display:flex">
@@ -61,6 +99,7 @@ End Code
             OFFERED TO : <label id="lblContactName"></label>
         </div>
     </div>
+<<<<<<< HEAD
 </div>
 <br />
 <div style="display:flex">
@@ -70,6 +109,11 @@ End Code
 </div>
 
 <table style="" border="1" width="100%">
+=======
+</div>*@
+
+<table style="margin-top:10px;" border="1" width="100%">
+>>>>>>> everbest
     <thead>
         <tr>
             <th width="5%">NO.</th>
@@ -78,11 +122,16 @@ End Code
             <th width="7%">QTY</th>
             <th width="15%">UNIT PRICE</th>
             <th width="5%">EXC</th>
+<<<<<<< HEAD
             <th width="10%">AMOUNT<br />(FC)</th>
+=======
+            <th width="10%">AMOUNT<br />(THB)</th>
+>>>>>>> everbest
             <th width="10%">NET<br />(THB)</th>
         </tr>
     </thead>
     <tbody id="tbDetail"></tbody>
+<<<<<<< HEAD
     <tfoot>
         <tr>
             <td colspan="6" class="number">TOTAL AMOUNT</td>
@@ -113,6 +162,31 @@ End Code
 <p>
     Best Regards,
     <br /><br /><br /><br />
+=======
+    @*<tfoot>
+            <tr>
+                <td colspan="4" class="number">GRAND TOTAL (THB)</td>
+                <td style="text-align:right"><label id="lblTotalCharge"></label></td>
+            </tr>
+        </tfoot>*@
+</table>
+<p>
+    <div>
+		<div>
+			<div id="lblTRemark" style="word-wrap: break-word;white-space: pre-wrap;width:100%;height:100%"></div>
+		</div>
+ 		<div>
+<br>
+			<div id="lblDescriptionF" style="word-wrap: break-word;white-space: pre-wrap;" ></div>
+		</div>
+		
+    </div>
+
+</p>
+<p>
+    Best Regards
+    <br /><br /><br />
+>>>>>>> everbest
     <label id="lblManagerName"></label>
 </p>
 <br />
@@ -136,12 +210,19 @@ End Code
   <table style="width: 100%;" border="1">
         <tbody style="text-align: center;">
             <tr style="text-align: center;background-color:lightgreen;">
+<<<<<<< HEAD
                 <td colspan="3"><label id="lblCmp"></label></td>
+=======
+                <td colspan="2"><label id="lblCmp"></label></td>
+>>>>>>> everbest
                 <td>Order confirmation by customer</td>
             </tr>         
   	    <tr style="text-align: center;background-color:lightgreen;">
 		<td > Quoted by</td>
+<<<<<<< HEAD
 		<td > Qualify by</td>
+=======
+>>>>>>> everbest
                 <td > Approve by</td>
 		
                 <td>Authorize Signature & Company Stamp</td>
@@ -150,9 +231,12 @@ End Code
                 <td>
                     <br> <br> <br> <br> <br>
                 </td>
+<<<<<<< HEAD
 		<td>
                     <br> <br> <br> <br> <br>
                 </td>
+=======
+>>>>>>> everbest
  		<td>
                     <br> <br> <br> <br> <br>
                 </td>
@@ -163,6 +247,7 @@ End Code
             <tr >
                 <td style="width:25%">
                     (<label id="lblQBy">________________</label>)<br>
+<<<<<<< HEAD
                     <label id="lblQDate">Date &nbsp;:________________  </label><br>
                     <label id="lblQbyPosition">________________</label>
                 </td>
@@ -189,6 +274,26 @@ Branch : MAXVALU PHATTHANAKAN<br/>
 Account Number : 081-2-99658-4 <br/>
 Account Name : 3X LOGISTICS CO.,LTD.<br/>
 </div>
+=======
+                    <label id="lblQbyPosition">________________</label><br>
+                    <label id="lblQDate">Date &nbsp;:________________  </label>
+                </td>
+                <td style="width:25%"> 
+                    (<label id="lblABy">________________</label>)<br>
+                    <label id="lblAbyPosition">________________ </label><br>
+                    <label id="lblADate">Date &nbsp;:________________  </label>
+                </td>
+		
+                <td style="text-align:center;">
+(________________)
+<br>
+<label id="lblCustEName"></label><br>
+			Date &nbsp;: ________________
+		</td>
+            </tr>
+        </tbody>
+    </table>
+>>>>>>> everbest
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     let branch = getQueryString('branch');
@@ -220,6 +325,7 @@ Account Name : 3X LOGISTICS CO.,LTD.<br/>
             if (r.company.data.length > 0) {
                 let c = r.company.data[0];
                 $('#lblCustName').text(c.Title + ' ' + c.NameThai);
+                $('#lblCustEName').text(c.NameEng);
                 $('#lblCustAddress').text(c.TAddress1 + '\n' + c.TAddress2);
                 $('#lblCustTelFax').text((CStr(c.Phone) == '' ? '' : 'Tel :' + CStr(c.Phone)) + (CStr(c.FaxNumber) == '' ? '' : ' Fax :' + CStr(c.FaxNumber)));
             }
@@ -236,19 +342,29 @@ Account Name : 3X LOGISTICS CO.,LTD.<br/>
         $('#lblDescriptionH').text(h.DescriptionH);
         $('#lblDescriptionF').html(h.DescriptionF);
 
-        ShowUser(path, h.ManagerCode, '#lblManagerName');
+        //ShowUser(path, h.ManagerCode, '#lblManagerName');
 
         let html = '';
         let service = 0;
+<<<<<<< HEAD
         let serviceVat = 0;
         let serviceTotal = 0;
+=======
+>>>>>>> everbest
         let rowid=0;
         for (let d of dt.detail) {
 
             html = '<tr style="background-color:lightgreen;"><td>' + d.SeqNo + '</td>';
             html += '<td colspan="3">' + d.Description + '</td>';
+<<<<<<< HEAD
             html += '<td colspan="2">' + d.JobTypeName + '</td>';
             html += '<td colspan="2">' + d.ShipByName + '</td>';
+=======
+            //html += '<td colspan="2">' + d.JobTypeName + '</td>';
+            //html += '<td colspan="2">' + d.ShipByName + '</td>';
+            html += '<td colspan="2"></td>';
+            html += '<td colspan="2"></td>';
+>>>>>>> everbest
             html += '</tr>';
             rowid++;
             $('#tbDetail').append(html);
@@ -256,6 +372,12 @@ Account Name : 3X LOGISTICS CO.,LTD.<br/>
                 return data.SeqNo == d.SeqNo;
             });
 	    let itemid=0;
+<<<<<<< HEAD
+=======
+	    let sumTotalAmt = 0;
+	    let sumAmtTotal = 0;
+
+>>>>>>> everbest
             for (let i of items) {
 		itemid++;
                 let desc = i.DescriptionThai;
@@ -273,12 +395,28 @@ Account Name : 3X LOGISTICS CO.,LTD.<br/>
 
                 $('#tbDetail').append(html);
                 service += amtTotal;
+<<<<<<< HEAD
                 serviceVat += (i.VatAmt*i.QtyEnd);
                 serviceTotal += (amtTotal+(i.VatAmt*i.QtyEnd));
+=======
+		sumTotalAmt += i.TotalAmt.toFixed(2)-0;
+		sumAmtTotal += amtTotal.toFixed(2)-0;
+>>>>>>> everbest
             }
+	    html = '<tr style="background-color:lightgreen;"><td></td>';
+            html += '<td colspan="3"></td>';
+            html += '<td colspan="2"></td>';
+            html += '<td style="text-align:right">'+ShowNumber(sumTotalAmt,2) +'</td>';
+	    html += '<td style="text-align:right">'+ShowNumber(sumAmtTotal,2) +'</td>';
+            html += '</tr>';
+            //rowid++;
+            $('#tbDetail').append(html);
         }
         $('#lblTotalCharge').text(ShowNumber(service, 2));
+<<<<<<< HEAD
         $('#lblTotalVat').text(ShowNumber(serviceVat, 2));
         $('#lblTotalNet').text(ShowNumber(serviceTotal, 2));
+=======
+>>>>>>> everbest
     }
 </script>

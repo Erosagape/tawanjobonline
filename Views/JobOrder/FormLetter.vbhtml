@@ -71,6 +71,7 @@ End Code
     let br = getQueryString("BranchCode");
     let job = getQueryString("JNo");
     var path = '@Url.Content("~")';
+<<<<<<< HEAD
     $('#dvCompLogo').hide();
     $.get(path + 'JobOrder/GetJobReport?Branch=' + br + '&JNo=' + job).done(function (r) {
         if (r.job.data.length > 0) {
@@ -97,6 +98,11 @@ End Code
             });
 
          
+=======
+    $.get(path + 'JobOrder/GetJobReport?Branch=' + br + '&JNo=' + job).done(function (r) {
+        if (r.job.data.length > 0) {
+            let dr = r.job.data[0];
+>>>>>>> everbest
             let strSub = '';
             let strTo = '';
             if (dr.JobType == 1) {

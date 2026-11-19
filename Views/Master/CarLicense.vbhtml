@@ -260,8 +260,12 @@ End Code
 
     function ReadDriver(dr) {
         //popup step3
+<<<<<<< HEAD
         $('#txtEmpCode').val(dr.EmpCode);
         $('#txtEmpName').val(dr.Name);
+=======
+        $('#txtEmpCode').val(dr.Name);
+>>>>>>> everbest
     }
 </script>
 

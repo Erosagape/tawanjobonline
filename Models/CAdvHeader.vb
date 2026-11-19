@@ -15,7 +15,7 @@ Public Class CAdvHeader
         If pformatSQL = "" Then
             m_AdvNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(AdvNo) as t FROM Job_AdvHeader WHERE BranchCode='{0}' And AdvNo Like '%{1}' ", m_BranchCode, pformatSQL), pformatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(AdvNo) as t FROM Job_AdvHeader WHERE AdvNo Like '%{0}' ", pformatSQL), pformatSQL)
             m_AdvNo = retStr
         End If
     End Sub

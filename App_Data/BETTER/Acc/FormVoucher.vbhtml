@@ -69,11 +69,10 @@ End Code
     <tbody>
         <tr>
             <td style="width:10%" pv="จ่ายให้" class="PVMode">
-                ชำระโดย/เพื่อ:
+              รับจาก:
             </td>
             <td style="width:20%">
                 <label id="lblPayCompany"></label><br/>
-                <label id="lblTRemark"></label>
             </td>
             <td style="width:10%">
                 ชำระเป็น:
@@ -127,6 +126,12 @@ End Code
 
 
 </div>
+<div>
+    <br />
+    NOTE :
+    <br />
+    <label id="lblTRemark"></label>
+</div>
 <br />
 <div>( ผู้จัดทำ ผู้อนุมัติ และบัญชีผู้ตรวจสอบ ลงนามเซ็นชื่อรับทราบ และยืนยันความถูกต้อง ว่าได้มีการตรวจสอบข้อมูลการเบิกจ่ายว่าเป็นข้อมูลที่ใช้ในงานอย่างถูกต้อง ก่อนที่จะให้ผู้บริหารโอนจ่ายหรือทำเช็คจ่าย หากมีความเสียหายเกิดขึ้นหรือข้อมูลที่ให้ไม่เป็นความจริง ยินดีรับผิดชอบความเสียหายนั้นทั้งหมดครบถ้วนสมบูรณ์ )</div>
 <br />
@@ -139,20 +144,18 @@ End Code
             <td style="width:20%" id="person2" pv="ผู้อนุมัติใบขอเบิก" class="PVMode">
                 ผู้จัดทำใบสำคัญรับ
             </td>
-            <td style="width:20%" id="person3" pv="ผู้จัดทำใบสำคัญจ่าย" class="PVMode">
+            <td style="width:20%" id="person3" pv="ฝ่ายการเงินผู้จัดทำใบ   <br />สำคัญจ่าย" class="PVMode">
                 ผู้ตรวจสอบใบสำคัญรับ
             </td>
-            <td style="width:20%" id="person4" pv="ผู้ตรวจสอบใบสำคัญจ่าย" class="PVMode">
+            <td style="width:20%" id="person4" pv="หัวหน้าฝ่ายการเงิน   <br />ตรวจสอบใบสำคัญจ่าย" class="PVMode">
                 ผู้อนุมัติใบสำคัญรับ
             </td>
-            <td style="width:20%" id="person5" pv="ผู้อนุมัติใบสำคัญจ่าย" class="PVMode">
+            <td style="width:20%" id="person5" pv="ฝ่ายบัญชีผู้ตรวจสอบ<br />ใบสำคัญจ่าย" class="PVMode">
                 ผู้ออกใบเสร็จ
             </td>
         </tr>
         <tr>
             <td >
-                <br />
-                <br />
                 <br />
                 <br />
                 <br />
@@ -162,13 +165,9 @@ End Code
                 <br />
                 <br />
                 <br />
-                <br />
-                <br />
                 <label id="signature2"></label><br /><label id="date2"></label>
             </td>
             <td>
-                <br />
-                <br />
                 <br />
                 <br />
                 <br />
@@ -178,13 +177,9 @@ End Code
                 <br />
                 <br />
                 <br />
-                <br />
-                <br />
-                <label id="signature4"></label><br /><label id="date4"></label>
+                <label id="signature4" pv="WANIDA PROMTHONG (AEW)" class="PVMode"></label><br /><label id="date4"></label>
             </td>
             <td>
-                <br />
-                <br />
                 <br />
                 <br />
                 <br />
@@ -247,25 +242,28 @@ End Code
         if (data.header) {
             $('#lblControlNo1').text(data.header[0].ControlNo);
             $('#lblControlNo2').text(data.header[0].ControlNo);
+
             //$('#txtVoucherType').val(vcTypeName + ' VOUCHER');
             $('#lblVoucherDate').text(ShowDate(CDateTH(data.header[0].VoucherDate)));
             $('#lblRecvPayDate').text(ShowDate(data.header[0].RecTime));
             $('#lblTRemark').text(data.header[0].TRemark);
-            $.get(path + 'Master/GetCompany?branch=' + data.header[0].CustBranch + '&code=' + data.header[0].CustCode, function (r) {
-                if (r.company.data) {
-                    $('#lblPayCompany').text(r.company.data[0].NameEng);
-                }
-            });
+            //$.get(path + 'Master/GetCompany?branch=' + data.header[0].CustBranch + '&code=' + data.header[0].CustCode, function (r) {
+            //    if (r.company.data) {
+            //        $('#lblPayCompany').text(r.company.data[0].NameEng);
+            //    }
+            //});
             //$('#txtRemark').text(data.header[0].TRemark);
         }
+       
         if (data.document) {
             $('#lblBankCode').text(data.document[0].BankCode);
-            ShowBank(path, data.document[0].BankCode, '#lblBankName');
+      /*      ShowBank(path, data.document[0].BankCode, '#lblBankName');*/
             $('#lblBankAccount').text(data.document[0].BookName);
         }
-        if (data.payment ) {
+       
+        if (data.payment) {
             $('#lblBankCode').text(data.payment[0].BankCode);
-            ShowBank(path, data.payment[0].BankCode, '#lblBankName');
+            //ShowBank(path, data.payment[0].BankCode, '#lblBankName');
             $('#lblBankAccount').text(data.payment[0].BookCode);
             fetch(path + 'Master/GetBookAccount?Code=' + data.payment[0].BookCode)
                 .then((r) => r.json())
@@ -284,17 +282,18 @@ End Code
             //    $('#lblChqDate').text(ShowDate(CDateTH(data.payment[0].ChqDate)));
             //}
         }
-     
+
         let div = $('#tbData tbody');
         let vcTypeName = '';
         if (data.payment && data.payment.length > 0) {
             let pay = data.payment[0];
             if (pay.PRType == "P") {
                 $(".PVMode").each(function () {
-                    $(this).text(this.getAttribute("pv"));
+                    $(this).html(this.getAttribute("pv"));
                 });
                 $("#imgLogo").prop("src", path + "/Resource/voucher_pv.jpg");
-                $('#lblPayCompany').text(data.payment[0].PayChqTo);
+                /*                $('#lblPayCompany').text(data.payment[0].PayChqTo);*/
+            
                 ShowUser(path, data.header[0].RecUser, "#signature3");
                 $('#date3').text(ShowDate(data.header[0].RecDate));
                 //$('#signature3').text(data.header[0].RecUser);
@@ -304,7 +303,7 @@ End Code
             } else {
                 ShowUser(path, data.header[0].RecUser, "#signature2");
                 $('#date2').text(ShowDate(data.header[0].RecDate));
-                if (data.document) {
+                if (data.document[0].docno!=null) {
                     $.get(path + 'acc/GetInvoice?branch=' + branch + '&code=' + data.document[0].DocRefNo, function (r) {
                         let h = r.invoice.header;
                         if (h) {
@@ -315,6 +314,9 @@ End Code
                             });
                         }
                     });
+                } else {
+                    
+                    $('#lblPayCompany').text(pay.PayChqTo);
                 }
             }
         }
@@ -325,6 +327,7 @@ End Code
             } else {
                 $('#lblVoucherNo').text(pay.PRVoucher);
             }
+
 	    
             if (pay.acType == "CA") {
                 $('#lblRefNo').text(pay.DocNo ? pay.DocNo : "____________");
@@ -333,7 +336,7 @@ End Code
                 $('#lblChqNo').text(pay.ChqNo ? pay.ChqNo : "____________");
                 $('#lblChqDate').text(pay.ChqDate ? ShowDate(pay.ChqDate) : "____________");
                 $('#cheque').prop('checked', true);
-                $('#lblBankCode').text(pay.RecvBranch);
+             /*   $('#lblBankCode').text(pay.RecvBranch);*/
             }
 
             vcTypeName = GetVoucherType(vcType);
@@ -344,6 +347,8 @@ End Code
             if (doc.length > 0) {
                 totalNet = 0;
                 if (pay.PRType == "P") {
+                    //pvจากใบpayเอาvenderมาใส่
+                    $('#lblPayCompany').text(doc[0].InteractCompany ? doc[0].InteractCompany :pay.PayChqTo);
                     ShowUser(path, doc[0].DocRefBy, "#signature1");
                     ShowUser(path, doc[0].DocRefApproveBy, "#signature2");
                     $("#date1").text(ShowDate(doc[0].DocRefDate));
@@ -359,7 +364,9 @@ End Code
                 //$('#signature2').text(doc[0].DocRefApproveBy);
             } 
 
-            
+            let sumAmt = 0;
+            let sumVat = 0;
+            let sumWht = 0;
             for (d of doc) {
                 let tr = "";
                 //<td style="text-align:center;padding:0px 5px;">${i++}</td>
@@ -383,15 +390,30 @@ End Code
                 //totalNet += d.PaidAmount ? d.PaidAmount :d.CashAmoun;
                 totalNet +=  d.Amount + d.VAT - d.WHT;
                 console.log(d.Amount + d.VAT - d.WHT);
+                sumAmt += d.Amount;
+                sumVat += d.VAT;
+                sumWht += d.WHT;
                 //console.log(d.PaidAmount);
                 //console.log(d.TotalAmount);
                             detailTrs += tr;
             }
-            console.log(totalNet + " " + pay.TotalNet);
+            //console.log(totalNet + " " + pay.TotalNet);
+            detailTrs  += `<tr style="height:0px;border-top:1px black solid">
+                           <td style="text-align:center;padding:0px 5px;font-weight:bold">รวมทั้งสิ้น</td>
+                           <td style="text-align:center;padding:0px 5px;"></td>
+                            ${pay.PRType == "R" ?
+                    `<td style="padding: 0px 5px; "></td>` :
+                    ` <td colspan="2" style="padding:0px 5px;"></td>`
+                }
+                            <td style="padding:0px 5px;"></td>
+                            <td style="text-align:right;padding:0px 5px;">${CCurrency(CDbl(sumAmt, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${CCurrency(CDbl(sumVat, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${CCurrency(CDbl(sumWht, 2))}</td>
+                            <td style="text-align:right;padding:0px 5px;">${CCurrency(CDbl(totalNet, 2))}</td></tr>`;
   //          if(totalNet>0){
 		//totPay+=totalNet;
   //          } else {
-		totPay+=pay.TotalNet;
+		    totPay+=pay.TotalNet;
             //}
             $('#lblDiff').text(pay.PRType == "R" ? (Math.round((pay.TotalNet - totalNet) * 100) / 100).toFixed(2) : "");
             console.log(pay.TotalNet + "/" + totalNet);
@@ -406,7 +428,8 @@ End Code
                     }
                     //let str = pay.PRType == "R" ? "PAY BY : " : "PAY TO : ";
                     //desc += pay.PayChqTo !== '' ? str + pay.PayChqTo : '';
-                    desc += pay.PayChqTo;
+                    desc += pay.PayChqTo + "<br> ";
+                    desc += pay.DocNo + "<br> ";
                     //desc += pay.RecvBank != '' ? '<br/>' + pay.RecvBranch : '';
                     //if (data.document[0].BookName !== '') {
                     //    desc += pay.BookCode != '' ? '<br/>ACCOUNT ' + data.document[0].BookName + ' REF# ' + pay.DocNo : '';
@@ -419,10 +442,10 @@ End Code
                     payType = 'CASHIER CHEQUE';
                 case 'CU':
                     payType = 'CUSTOMER CHEQUE';
-                    desc += pay.ChqNo !== '' ? '<br/>NO ' + pay.ChqNo + ' DATE ' + ShowDate(CDateTH(pay.ChqDate)) : '';
-                    desc += pay.BankCode != '' ? '<br/>BANK ' + pay.BankCode + ' BRANCH ' + pay.BankBranch : '';
-                    desc += pay.PayChqTo !== '' ? '<br/>TO ' + pay.PayChqTo : '';
-                    desc += pay.TRemark != '' ? '<br/>NOTE : ' + pay.TRemark : '';
+                    //desc += pay.ChqNo !== '' ? '<br/>NO ' + pay.ChqNo + ' DATE ' + ShowDate(CDateTH(pay.ChqDate)) : '';
+                    //desc += pay.BankCode != '' ? '<br/>BANK ' + pay.BankCode + ' BRANCH ' + pay.BankBranch : '';
+                    desc += pay.PayChqTo !== '' ? '<br/> ' + pay.PayChqTo : '';
+                    //desc += pay.TRemark != '' ? '<br/>NOTE : ' + pay.TRemark : '';
                     desc += pay.RecvBank != '' ? '<br/>DEP.BANK ' + pay.RecvBank + ' BRANCH ' + pay.RecvBranch : '';
                     break;
                 case 'CR':
@@ -439,23 +462,24 @@ End Code
            
             let sumTr = `<tr id="A3">
             <td rowspan="2" style="font-size:13px;">
-                ${ pay.PRType == "P" ? "จ่ายให้:" :"สำหรับ:"}
+                ${pay.PRType == "P" ? "ผู้รับโอน:" : "ผู้โอน:"}
 
             </td>
             <td colspan="4" rowspan="2" style="text-align:left">
                 ${desc}
             </td>
             <td colspan="2" style="font-size:13px;">
-                  ${ pay.PRType == "P" ? "จำนวนเงินที่ต้องจ่าย:" : "รับเงินจำนวน:"}
+                  ${pay.PRType == "P" ? "จำนวนเงินที่ต้องจ่าย:" : "รับเงินจำนวน:"}
 
             </td>
             <td colspan="3">
-                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(totPay, 2))}</label>
+                <label id="lblAmount" style="text-align:center;padding:0px 5px;font-size:16px;">${CCurrency(CDbl(totPay, 2)) + " " + pay.CurrencyCode}</label>
             </td>
         </tr>
         <tr>
-            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${CNumThai(CDbl(Number(totPay), 2))} </td>
+            <td colspan="5" style="text-align:center;padding:0px 5px;"> ${pay.CurrencyCode == "THB" ? CNumThai(CDbl(Number(totPay), 2)) : CNumEng(CDbl(Number(totPay), 2))} </td>
         </tr>`;
+            console.log(totPay);
             let table =
                 `<table id="voucherTable" style="width: 100%; border-collapse: collapse;">
                 <thead>
@@ -504,6 +528,8 @@ End Code
         }
 
         $('#dvFooter').css("display", "block");
+        $('#dvFooter').html($('#dvFooter').html() +"<p>VOUCHER NO : " + $('#lblVoucherNo').text()+ "</p>" )
+     
         console.log($('#dvFooter').html());
 
     }

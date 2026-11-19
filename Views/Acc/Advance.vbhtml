@@ -114,6 +114,9 @@ End Code
                         </tr>
                     </thead>
                 </table>
+<br>
+Total : <input type="text" id="txtSumApprove" readonly />
+
             </div>
         </div>
     </div>
@@ -123,6 +126,7 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     let arr = [];
     let jt = '';
     //$(document).ready(function () {
@@ -180,6 +184,9 @@ End Code
         arr = [];
 
         let w = '';
+        if(userGroup!=='S') {
+            w = w + '&advby=' + user;      
+        }
         if ($('#txtReqBy').val() !== "") {
             w = w + '&reqby=' + $('#txtReqBy').val();
         }
@@ -216,6 +223,7 @@ End Code
                 return;
             }
             let h = r.adv.data;
+	    ShowSummary(h);
             let tb=$('#tbHeader').DataTable({
                 data: h,
                 selected: true, //ให้สามารถเลือกแถวได้
@@ -287,9 +295,19 @@ End Code
     function AddAdvance() {
         window.open(path + 'adv/index', '', '');
     }
+<<<<<<< HEAD
     function CheckGroup() {
         let gstr=$('#cboGroup').val();
 	$('#cboJobType').val(gstr.substr(0,2));
 	$('#cboShipBy').val(gstr.substr(2,2));
+=======
+    function ShowSummary(h) {
+        let tot = 0;
+        for (let i = 0; i < h.length; i++) {
+            let o = h[i];
+            tot += o.TotalAdvance;
+        }
+        $('#txtSumApprove').val(ShowNumber(tot, 2));
+>>>>>>> everbest
     }
 </script>

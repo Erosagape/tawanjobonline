@@ -44,8 +44,8 @@ End Code
                                         *<label id="lblAdvBy">Advance By :</label>
                                     </div>
                                     <div class="col-sm-9" style="display:flex">
-                                        <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" />
-                                        <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')">...</button>
+                                        <input type="text" id="txtAdvBy" class="form-control" style="width:120px" tabindex="2" disabled/>
+                                        <button id="btnBrowseEmp1" class="btn btn-default" onclick="SearchData('advby')" disabled>...</button>
                                         <input type="text" id="txtAdvName" class="form-control" style="width:100%" disabled />
                                     </div>
                                 </div>
@@ -2158,7 +2158,11 @@ End Code
                 SetGridCompany(path, '#tbCust', '#frmSearchCust', ReadCustomer);
                 break;
             case 'servicecode':
-                SetGridSICodeByGroup(path, '#tbServ', $('#cboSTCode').val(), '#frmSearchSICode', ReadService);
+                if ($('#cboSTCode').val() == "EXP") {
+                    ShowMessage("Can't use EXP", true);
+                } else {
+                    SetGridSICodeByGroup(path, '#tbServ', $('#cboSTCode').val(), '#frmSearchSICode', ReadService);
+                }
                 break;
             case 'job':
                 SetGridJob(path, '#tbJob', '#frmSearchJob', GetParam(), ReadJob);

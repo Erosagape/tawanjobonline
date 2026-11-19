@@ -861,17 +861,16 @@ function LoadReport(path, reportID, obj, lang) {
                 if (res.group !== '') {
                     groupField = res.group;
                 }
-
-                let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;width:2%">#</th>';
+                let headerrow = '<tr><th style="border:1px solid black;text-align:center;background-color:lightgrey;width:2%">NO</th>';
                 $.each(tb[0], function (key, value) {
                     if (key !== groupField) {
-                        html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
+                        headerrow += '<th style="border:1px solid black;text-align:center;background-color:lightgrey;';
                         if (colWidth.length > 0) {
                             if (colWidth.length > colCount) {
-                                html += 'width:' + colWidth[colCount] + '%';
+                                headerrow += 'width:' + colWidth[colCount] + '%';
                             }
                         }
-                        html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+                        headerrow += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
                         if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0) {
                             sumGroup.push({ isSummary: false, value: 0 });
                         } else {
@@ -885,8 +884,8 @@ function LoadReport(path, reportID, obj, lang) {
                         colCount++;
                     }
                 });
-
-                html += '</tr></thead><tbody>';
+                headerrow += "</tr>";
+                let html = '<thead>'+headerrow+'</thead><tbody>';
 
                 let groupCount = 0;
                 let groupCaption = GetColumnHeader(groupField, lang);
@@ -913,7 +912,9 @@ function LoadReport(path, reportID, obj, lang) {
                             groupCount++;
 
                             html += '<td colspan="' + (colCount + 1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
-                            html += '</tr><tr>';
+                         
+                            
+                            html += '</tr>'+   headerrow+'<tr>';
                         } else {
                             groupCount++;
                         }
@@ -922,22 +923,45 @@ function LoadReport(path, reportID, obj, lang) {
                     html += '<td style="border:1px solid black;text-align:center;">' + row + '</td>';
                     let col = 0;
                     for (let c in r) {
+                        
                         if (c !== groupField) {
                             if (c.indexOf('Date') >= 0) {
-                                html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
-                            } else {
-                                if (r[c] !== null) {
-                                    if (sumGroup[col].isSummary == true) {
-                                        sumGroup[col].value += Number(r[c]);
-                                        sumTotal[col] += Number(r[c]);
-                                        html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
-                                    } else {
-                                        html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
-                                    }
-                                } else {
-                                    html += '<td style="border:1px solid black;text-align:left;"></td>';
-                                }
-                            }
+                                                                html += '<td name="1" style="border:1px solid black;text-align:left;white-space: nowrap;padding-left:11px;">' + ShowDate(r[c]) + '</td>';
+                                                            } else {
+                                                                if (r[c] !== null) {
+                                                                    if (sumGroup[col].isSummary == true) {
+                                                                        sumGroup[col].value += Number(r[c]);
+                                                                        sumTotal[col] += Number(r[c]);
+                                                                        html += '<td name="2" style="border:1px solid black;text-align:right;white-space: nowrap;min-width:20px;padding-left:11px;">' + ShowNumber(r[c], 2) + '</td>';
+                                                                    } else {
+                                                                        console.log(r[c] + "\n" + r[c].length);
+                                                                        // let whitespace = r[c].length > 20 ? "white-space: normal;" : "white-space: nowrap;";
+                                                                        // html += '<td name="' + c + '" style="border:1px solid black;text-align:left;' + whitespace + 'max-width:60px">' + r[c] + '</td>';
+                                                                         if (r[c].length > 16) {
+                                                                              html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: normal;min-width:60px">' + r[c] + '</td>';
+                                                                        } else {
+                                                                             html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: nowrap;">' + r[c] + '</td>';
+                                                                        }
+                                                                    }
+                                                                } else {
+                                                                    html += '<td style="border:1px solid black;text-align:left;"></td>';
+                                                                }
+                                                            }
+                            // if (c.indexOf('Date') >= 0) {
+                            //     html += '<td style="border:1px solid black;text-align:left;">' + ShowDate(r[c]) + '</td>';
+                            // } else {
+                            //     if (r[c] !== null) {
+                            //         if (sumGroup[col].isSummary == true) {
+                            //             sumGroup[col].value += Number(r[c]);
+                            //             sumTotal[col] += Number(r[c]);
+                            //             html += '<td style="border:1px solid black;text-align:right;">' + ShowNumber(r[c], 2) + '</td>';
+                            //         } else {
+                            //             html += '<td style="border:1px solid black;text-align:left;">' + r[c] + '</td>';
+                            //         }
+                            //     } else {
+                            //         html += '<td style="border:1px solid black;text-align:left;"></td>';
+                            //     }
+                            // }
                             col++;
                         }
                     }
@@ -975,6 +999,171 @@ function LoadReport(path, reportID, obj, lang) {
         }
     });
 }
+// function LoadReport(path, reportID, obj, lang) {
+//     let str = JSON.stringify(obj);
+//     let urlReport = '';
+//     if (obj.ReportType == 'STD' || obj.ReportType == 'FIX') {
+//         urlReport = path + 'Report/GetReport';
+//     } else {
+//         urlReport = path + 'Report/GetReportByConfig';
+//     }
+//     $.ajax({
+//         url: urlReport,
+//         type: "POST",
+//         contentType: "application/json",
+//         data: str,
+//         success: function(response) {
+//             let res = JSON.parse(response);
+//             if (res.msg !== "OK") {
+//                 //alert(r.msg);
+//                 return;
+//             }
+//             if (res.result.length > 0) {
+//                 var tb = res.result;
+//                 let groupField = '';
+//                 let groupVal = null;
+//                 let colCount = 0;
+//                 let sumGroup = [];
+//                 let sumTotal = [];
+//                 let lengthFld = '';
+//                 let colWidth = [];
+//                 let textFields = '';
+//                 if (res.colwidth !== '') {
+//                     lengthFld = res.colwidth;
+//                 }
+//                 if (lengthFld.indexOf(',') > 0) {
+//                     colWidth = lengthFld.split(',');
+//                 }
+//                 if (res.text_field !== '') {
+//                     textFields = res.text_field;
+//                 }
+//                 if (res.group !== '') {
+//                     groupField = res.group;
+//                 }
+
+//                 let html = '<thead><tr><th style="border:1px solid black;text-align:left;background-color:lightgrey;width:2%">#</th>';
+//                 $.each(tb[0], function(key, value) {
+//                     if (groupField.indexOf(key) < 0) {
+//                         html += '<th style="border:1px solid black;text-align:left;background-color:lightgrey;';
+//                         if (colWidth.length > 0) {
+//                             if (colWidth.length > colCount) {
+//                                 html += 'width:' + colWidth[colCount] + '%';
+//                             }
+//                         }
+//                         html += '"><b>' + GetColumnHeader(key, lang) + '</b></th>';
+//                         if (textFields.indexOf(key) >= 0 || key.indexOf('CustCode') >= 0 || key.indexOf('TaxNumber') >= 0) {
+//                             sumGroup.push({ isSummary: false, value: 0 });
+//                         } else {
+//                             if (IsSummaryColumn(key) == true) {
+//                                 sumGroup.push({ isSummary: true, value: 0 });
+//                             } else {
+//                                 sumGroup.push({ isSummary: CheckAllIsNumber(tb, key), value: 0 });
+//                             }
+//                         }
+//                         sumTotal.push(0);
+//                         colCount++;
+//                     }
+//                 });
+
+//                 html += '</tr></thead><tbody>';
+
+//                 let groupCount = 0;
+//                 let groupCaption = GetColumnHeader(groupField, lang);
+//                 if (groupField.indexOf(',') > 0) {
+//                     groupCaption = "Group:";
+//                 }
+//                 let row = 0;
+//                 for (let r of tb) {
+//                     html += '<tr>';
+//                     if (groupField !== '') {
+//                         if (GetGroupValue(groupField, r) !== groupVal) {
+//                             //Show Summary
+//                             if (groupCount > 0) {
+//                                 html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+//                                 for (let i = 1; i < colCount; i++) {
+//                                     if (sumGroup[i].isSummary == true) {
+//                                         html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;padding-left:11px;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+//                                     } else {
+//                                         html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;"></td>';
+//                                     }
+//                                     sumGroup[i].value = 0;
+//                                 }
+//                                 html += '</tr><tr>';
+//                                 groupCount = 0;
+//                             }
+//                             groupVal = GetGroupValue(groupField, r);
+//                             groupCount++;
+
+//                             html += '<td colspan="' + (colCount + 1) + '" style="background-color:lightyellow;border:1px solid black;text-align:left;">' + groupCaption + ' <b>' + GetGroupCaption(res.groupdata, groupField, groupVal) + '<b/></td>';
+//                             html += '</tr><tr>';
+//                         } else {
+//                             groupCount++;
+//                         }
+//                     }
+//                     row++;
+//                     html += '<td name="0" style="border:1px solid black;text-align:center;white-space: nowrap;">' + row + '</td>';
+//                     let col = 0;
+//                     for (let c in r) {
+//                         if (groupField.indexOf(c) < 0) {
+//                             if (c.indexOf('Date') >= 0) {
+//                                 html += '<td name="1" style="border:1px solid black;text-align:left;white-space: nowrap;padding-left:11px;">' + ShowDate(r[c]) + '</td>';
+//                             } else {
+//                                 if (r[c] !== null) {
+//                                     if (sumGroup[col].isSummary == true) {
+//                                         sumGroup[col].value += Number(r[c]);
+//                                         sumTotal[col] += Number(r[c]);
+//                                         html += '<td name="2" style="border:1px solid black;text-align:right;white-space: nowrap;min-width:20px;padding-left:11px;">' + ShowNumber(r[c], 2) + '</td>';
+//                                     } else {
+//                                         console.log(r[c] + "\n" + r[c].length);
+//                                         // let whitespace = r[c].length > 20 ? "white-space: normal;" : "white-space: nowrap;";
+//                                         // html += '<td name="' + c + '" style="border:1px solid black;text-align:left;' + whitespace + 'max-width:60px">' + r[c] + '</td>';
+//                                          if (r[c].length > 16) {
+//                                               html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: normal;min-width:60px">' + r[c] + '</td>';
+//                                         } else {
+//                                              html += '<td name="' + c + '" style="border:1px solid black;text-align:left;white-space: nowrap;">' + r[c] + '</td>';
+//                                         }
+//                                     }
+//                                 } else {
+//                                     html += '<td style="border:1px solid black;text-align:left;"></td>';
+//                                 }
+//                             }
+//                             col++;
+//                         }
+//                     }
+//                     html += '</tr>';
+//                 }
+//                 //Last Total
+//                 if (groupCount > 0) {
+//                     html += '<td colspan="2" style="background-color:lightblue;border:1px solid black;text-align:left;"><u><b>SUB TOTAL</b></u></td>';
+//                     for (let i = 1; i < colCount; i++) {
+//                         if (sumGroup[i].isSummary == true) {
+//                             html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;white-space: nowrap;padding-left:11px;"><u><b>' + ShowNumber(sumGroup[i].value, 2) + '</b></u></td>';
+//                         } else {
+//                             html += '<td style="background-color:lightblue;border:1px solid black;text-align:right;white-space: nowrap"></td>';
+//                         }
+//                     }
+//                     html += '</tr>';
+//                     groupCount = 0;
+//                 }
+//                 html += '</tbody>'
+//                     //Grand Total
+//                 html += '<tfoot><tr style="font-weight:bold;background-color:lightgreen;"><td colspan="2" style="border:1px solid black;text-align:left;"><b>GRAND TOTAL<b/></td>';
+//                 for (let i = 1; i < colCount; i++) {
+//                     if (sumGroup[i].isSummary == true) {
+//                         html += '<td style="border:1px solid black;text-align:right;white-space: nowrap;;padding-left:11px;"><b>' + ShowNumber(sumTotal[i], 2) + '</b></td>';
+//                     } else {
+//                         html += '<td style="border:1px solid black;text-align:right;white-space: nowrap"></td>';
+//                     }
+//                 }
+//                 html += '</tr>';
+
+//                 html += '</tfoot>';
+//                 //ShowMessage(html);
+//                 $('#tbResult').html(html);
+//             }
+//         }
+//     });
+// }
 function LoadReportNoTotal(path, reportID, obj, lang) {
     let str = JSON.stringify(obj);
     let urlReport = '';
@@ -1118,4 +1307,14 @@ function CheckAllIsNumber(arr, colName) {
     } catch {
         return false;
     }
+}
+function ShowBank(path, bank, ControlID) {
+    $(ControlID).text(bank);
+    $.get(path + 'Master/GetBank?Code=' + bank)
+        .done(function (r) {
+            if (r.bank.data.length > 0) {
+                let b = r.bank.data[0];
+                $(ControlID).text(b.BName);
+            }
+        });
 }

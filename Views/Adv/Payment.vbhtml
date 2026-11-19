@@ -129,7 +129,8 @@ End Code
                                     <th>Adv.No</th>
                                     <th class="desktop">Req.date</th>
                                     <th>Job No</th>
-                                    <th class="desktop">Inv.No</th>
+					<th class="desktop">Req.By</th>
+                                    
                                     <th class="desktop">customer</th>
                                     <th class="desktop">Cash/Transfer</th>
                                     <th class="desktop">Company Chq</th>
@@ -137,16 +138,24 @@ End Code
                                     <th class="desktop">Credit</th>
                                     <th class="all">Total</th>
                                     <th class="all">W-Tax</th>
-                                    <th class="desktop">Req.By</th>
+                                    <th class="desktop">Inv.No</th>
                                 </tr>
                             </thead>
                         </table>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
+                    <div class="col-sm-4">
                         <label id="lblListAppr">Payment Document :</label>
                         <br /><input type="text" id="txtListApprove" class="form-control" value="" disabled />
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblSumAppr">Payment Total :</label>
+                        <br /><input type="number" id="txtTotalApprove" class="form-control" value="" disabled />
+                    </div>
+                    <div class="col-sm-4">
+                        <label id="lblSumAll">Request Total :</label>
+                        <br /><input type="number" id="txtTotalAll" class="form-control" value="" disabled />
                     </div>
                 </div>
             </div>
@@ -345,6 +354,8 @@ End Code
     let list = [];
     let docno = '';
     let jt = '';
+    let sumall = 0;
+    let sumpay = 0;
     //$(document).ready(function () {
         SetEvents();
     //});
@@ -503,6 +514,8 @@ End Code
                 if(isAlert==true) ShowMessage('Data not found',true);
                 return;
             }
+            sumpay=0;
+            sumall=0;
             let h = r.adv.data;
             $('#tbHeader').DataTable().destroy();
             $('#tbHeader').empty();
@@ -518,7 +531,8 @@ End Code
                         }
                     },
                     { data: "JobNo", title: "Job Number" },
-                    { data: "CustInvNo", title: "InvNo" },
+                    { data: "EmpCode", title: "Request By" },
+
                     { data: "CustCode", title: "Customer" },
                     {
                         data: "AdvCashCal", title: "Cash/Transfer",
@@ -556,11 +570,16 @@ End Code
                             return ShowNumber(data, 2);
                         }
                     },
-                    { data: "EmpCode", title: "Request By" }
+
+                    { data: "CustInvNo", title: "InvNo" }
                 ],
                 responsive:true,
                 destroy: true
-                , pageLength: 100
+                , pageLength: 100,
+                createdRow: function (row, data, index) {
+		  sumall+=Number(data.TotalAdvance);
+$('#txtTotalAll').val(CDbl(sumall,2));
+                }
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
 
@@ -568,11 +587,13 @@ End Code
                 if ($(this).hasClass('selected') == true) {
                     $(this).removeClass('selected');
                     let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
-                    RemoveData(data); //callback function from caller
+                    sumpay-=Number(data.TotalAdvance);
+                    RemoveData(data); //callback function from caller		
                     return;
                 }
                 $(this).addClass('selected');
                 let data = $('#tbHeader').DataTable().row(this).data(); //read current row selected
+                sumpay+=Number(data.TotalAdvance);
                 AddData(data); //callback function from caller
             });
             $('#tbHeader tbody').on('dblclick', 'tr', function () {
@@ -614,9 +635,8 @@ End Code
         let wtax = 0;
         let doc = '';
         list = [];
-
+	
         for (let i = 0; i < arr.length; i++) {
-
             let o = arr[i];
             wtax += (o.Total50Tavi > 0 ? o.Total50Tavi : 0);
             tot += (o.TotalAdvance > 0 ? o.TotalAdvance+o.Total50Tavi : 0);
@@ -750,6 +770,7 @@ End Code
         $('#txtSumWHTax').val(CDbl(wtax, 4));
 
         $('#txtListApprove').val(doc);
+        $('#txtTotalApprove').val(CDbl(sumpay,2));
         $('#txtTRemark').val(doc);
     }
     function GetSumPayment(type) {

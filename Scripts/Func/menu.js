@@ -24,6 +24,12 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Dashboard4':
             mnuPath = path + 'Tracking/Dashboard?Form=3';
             break;
+        case 'Dashboard5':
+            mnuPath = path + 'Tracking/Dashboard?Form=4';
+            break;
+        case 'Dashboard6':
+            mnuPath = path + 'Tracking/Dashboard?Form=5';
+            break;
         case 'Advance':
             mnuPath = path + 'Acc/Advance';
             break;
@@ -187,7 +193,7 @@ function OpenMenu(mnuID, newpage = true) {
             mnuPath = path + 'Adv/EstimateCost';
             break;
         case 'Import':
-            mnuPath = path + 'Report/Import';
+            mnuPath = path + 'Report/ImportExcel';
             break;
         case 'Export':
             mnuPath = path + 'Report/Export';
@@ -216,29 +222,23 @@ function OpenMenu(mnuID, newpage = true) {
         case 'Planing':
             mnuPath = path + 'Tracking/Planing';
             break;
-	case 'CarLicense':
-            mnuPath = path + 'Master/Carlicense';
+        case 'CarLicense':
+            mnuPath = path + 'Master/CarLicense';
             break;
-	case 'Employee':
+        case 'Employee':
             mnuPath = path + 'Master/Employee';
-            break;
-        case 'CreateTransport':
-            mnuPath = path + 'JobOrder/CreateTransport';
             break;
         case 'AddFuel':
             mnuPath = path + 'JobOrder/CloseFuel';
             break;
-        case 'SumJob':
-            mnuPath = path + 'JobOrder/Summary';
+        case 'CreateTransport':
+            mnuPath = path + 'JobOrder/CreateTransport';
             break;
-        case 'SumAdv':
-            mnuPath = path + 'Adv/Summary';
+        case 'GLSum':
+            mnuPath = path + 'Tracking/Dashboard?form=7';
             break;
-        case 'SumClr':
-            mnuPath = path + 'Clr/Summary';
-            break;
-        case 'SumAcc':
-            mnuPath = path + 'Acc/Summary';
+        case 'Container':
+            mnuPath = path + 'JobOrder/Container';
             break;
         default:
             ShowMessage('Under Development');
@@ -246,12 +246,12 @@ function OpenMenu(mnuID, newpage = true) {
     }
     if (userID !== '') {
         if (mnuPath !== '') {
-            //window.location.href = mnuPath;
-            if (newpage == true) {
-                window.open(mnuPath, '', '');
-            } else {
-                window.location.href=mnuPath;
-            }
+            window.location.href = mnuPath;
+            //if (newpage == true) {
+            //    window.open(mnuPath, '', '');
+            //} else {
+            //    window.location.href=mnuPath;
+            //}
         }
     } else {
         ShowMessage('Please login first',true);

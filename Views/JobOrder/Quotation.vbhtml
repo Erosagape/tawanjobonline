@@ -40,6 +40,7 @@ End Code
         </div>
         <div class="col-sm-6">
             <br />
+<<<<<<< HEAD
             <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">
                 <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddQuo">New Quotation</label></b>
             </a>
@@ -49,6 +50,8 @@ End Code
             <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
                 <i class="fa fa-lg fa-print"></i>&nbsp;<b><label id="lblPrintQuo">Print Quotation</label></b>
             </a>
+=======
+>>>>>>> everbest
             <a href="#" class="btn btn-primary" id="btnSearch" onclick="ShowHeader()">
                 <i class="fa fa-lg fa-filter"></i>&nbsp;<b><label id="lblSearch">Search</label></b>
             </a>
@@ -74,6 +77,10 @@ End Code
                             <th class="desktop">Doc Date</th>
                             <th class="desktop">Customer</th>
                             <th class="desktop">Billing To</th>
+<<<<<<< HEAD
+=======
+                            <th class="desktop">Remark</th>
+>>>>>>> everbest
                             <th class="desktop">Contact Name</th>
                             <th class="desktop">Manager Name</th>
                             <th class="desktop">Approve Date</th>
@@ -106,6 +113,20 @@ End Code
             </div>
         </div>
     </div>
+<<<<<<< HEAD
+=======
+    <p>
+        <a href="#" class="btn btn-default w3-purple" id="btnAdd" onclick="AddHeader()">
+            <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblAddQuo">New Quotation</label></b>
+        </a>
+        <a href="#" class="btn btn-warning" id="btnCopy" onclick="CopyData()">
+            <i class="fa fa-lg fa-close"></i>&nbsp;<b><label id="lblCopyQuo">Copy Quotation</label></b>
+        </a>
+        <a href="#" class="btn btn-info" id="btnPrint" onclick="PrintData()">
+            <i class="fa fa-lg fa-print"></i>&nbsp;<b><label id="lblPrintQuo">Print Quotation</label></b>
+        </a>
+    </p>
+>>>>>>> everbest
     <div id="frmHeader" class="modal fade">
         <div class="modal-dialog-lg">
             <div class="modal-content">
@@ -136,7 +157,10 @@ End Code
                             <div style="display:flex;flex-direction:row">
                                 <input type="text" id="txtDCustCode" class="form-control" style="width:130px" disabled />
                                 <input type="text" id="txtDCustBranch" class="form-control" style="width:70px" disabled />
+<<<<<<< HEAD
                                 <button id="btnBrowseCust" class="btn btn-default" onclick="SearchData('customer')">...</button>
+=======
+>>>>>>> everbest
                                 <input type="text" id="txtDCustName" class="form-control" style="width:100%" disabled />
                             </div>
                         </div>
@@ -257,6 +281,7 @@ End Code
                     <div style="display:flex">
                         <h4><b><label id="lblSection">Section And Expenses</label></b></h4>
                     </div>
+<<<<<<< HEAD
 		    <div class="row">
 			<div class="col-sm-2">
 				<a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
@@ -301,6 +326,21 @@ End Code
                         </div>
                         <div class="col-sm-3" style="display:none;">
                             <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0" readonly></select>
+=======
+                    <a href="#" class="btn btn-default w3-purple" id="btnAddDetail" onclick="AddDetail()">
+                        <i class="fa fa-lg fa-file-o"></i>&nbsp;<b><label id="lblNewSection">New Section</label></b>
+                    </a>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <label id="lblSeqNo">Section No</label>:<br />
+                            <input type="text" id="txtSeqNo" class="form-control" disabled />
+                        </div>
+                        <div class="col-sm-3">
+                            <label id="lblJobType">Job Type</label> :<br /><select id="txtJobType" class="form-control dropdown" value="0" onchange="CheckJobType()"></select>
+                        </div>
+                        <div class="col-sm-3">
+                            <label id="lblShipBy">Ship By</label> :<br /><select id="txtShipBy" class="form-control dropdown" value="0"></select>
+>>>>>>> everbest
                         </div>
                         <div class="col-sm-4">
                             <label id="lblSDescription">Description</label>:
@@ -403,8 +443,12 @@ End Code
                             </div>
                         </div>
                         <div class="col-sm-4">
+<<<<<<< HEAD
                             <a href="#" onclick="SearchData('route')"><label id="lblDescriptionTH">Service Description</label></a>
                             <br />
+=======
+                            <label id="lblDescriptionTH">Service Description</label><br />
+>>>>>>> everbest
                             <textarea id="txtDescriptionThai" class="form-control"></textarea>
                         </div>
                         <div class="col-sm-2">
@@ -488,7 +532,10 @@ End Code
                             </div>
                         </div>
                         <div class="col-sm-6">
+<<<<<<< HEAD
                             <input type="hidden" id="txtIsService" value="0" />
+=======
+>>>>>>> everbest
                             <label id="lblVender">Vender</label>
                             <div style="display:flex">
                                 <input type="text" id="txtVenderCode" class="form-control" style="width:150px" disabled />
@@ -693,7 +740,6 @@ End Code
                 ],
                 responsive:true,
                 destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
-                , pageLength: 100
             });
             ChangeLanguageGrid('@ViewBag.Module', '#tbHeader');
             $('#tbHeader tbody').on('click', 'tr', function () {
@@ -778,8 +824,7 @@ End Code
                         }
                     ],
                     responsive:true,
-                    destroy: true
-                    , pageLength: 100
+                    destroy:true
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbItem');
                 $('#tbItem tbody').on('click', 'tr', function () {
@@ -827,8 +872,7 @@ End Code
                         { data: "Description", title: "Description" }
                     ],
                     responsive:true,
-                    destroy: true
-                    , pageLength: 100
+                    destroy:true
                 });
                 ChangeLanguageGrid('@ViewBag.Module', '#tbDetail');
                 $('#tbDetail tbody').on('click', 'tr', function () {
@@ -930,7 +974,10 @@ End Code
                 if (response.result.data !== null) {
                     ShowHeader();
                     $('#txtDocNo').val(response.result.data);
+<<<<<<< HEAD
                     $('#txtQNo').val(response.result.data);
+=======
+>>>>>>> everbest
                     ShowMessage('Save Quotation=>'+response.result.data);
                     return;
                 }
@@ -1159,7 +1206,6 @@ End Code
         $('#txtVatRate').val('0');
         $('#txtVatAmt').val('0');
         $('#txtIsTax').val('0');
-        $('#txtIsService').val('0');
         $('#txtTaxRate').val('0');
         $('#txtTaxAmt').val('0');
         $('#txtTotalAmt').val('0');
@@ -1218,7 +1264,7 @@ End Code
         let lists = 'JOB_TYPE=#txtJobType|,SHIP_BY=#txtShipBy|';
         loadCombos(path, lists);
 
-        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name,desc1,desc2', function (response) {
+        $.get(path + 'Config/ListValue?ID=tbX&Head=cpX&FLD=code,key,name', function (response) {
             let dv = document.getElementById("dvLOVs");
             //Customers
             CreateLOV(dv, '#frmSearchCust', '#tbCust', 'Customers', response, 3);
@@ -1231,8 +1277,6 @@ End Code
             CreateLOV(dv, '#frmSearchUser', '#tbUser', 'Users', response, 2);
             //Contact
             CreateLOV(dv, '#frmSearchCont', '#tbCont', 'Contact Person', response, 3);
-            //routes
-            CreateLOV(dv, '#frmSearchRoute', '#tbRoute', 'Service Routes', response, 4);
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
             //Service
@@ -1267,7 +1311,33 @@ End Code
                 SetGridUser(path, '#tbUser', '#frmSearchUser', ReadManager);
                 break;
             case 'service':
-                SetGridSICode(path, '#tbServ','', '#frmSearchServ', ReadService);
+                $.get(path + 'Master/GerServiceCode').done((r) => {
+                    let d = r.servicecode.data.filter(function (dt) {
+                        return dt.IsExpense == 0;
+                    });
+                    $('#tbServ').DataTable({
+                        data: d,
+                        selected: true, //ให้สามารถเลือกแถวได้
+                        columns: [ //กำหนด property ของ header column
+                            { data: null, title: "#" },
+                            { data: "SICode", title: mainLanguage == "TH" ? "รหัส" : "Service Code" },
+                            { data: "NameThai", title: mainLanguage == "TH" ? "ความหมาย" : "Description" }
+                        ],
+                        "columnDefs": [ //กำหนด control เพิ่มเติมในแต่ละแถว
+                            {
+                                "targets": 0, //column ที่ 0 เป็นหมายเลขแถว
+                                "data": null,
+                                "render": function (data, type, full, meta) {
+                                    let html = "<button class='btn btn-warning'>Select</button>";
+                                    return html;
+                                }
+                            }
+                        ],
+                        destroy: true //ให้ล้างข้อมูลใหม่ทุกครั้งที่ reload page
+                    });
+                    BindEvent('#tbServ', '#frmSearchServ', ReadService);
+                });
+                //SetGridSICode(path, '#tbServ','', '#frmSearchServ', ReadService);
                 break;
             case 'contact':
                 let w = '?Branch=' + $('#txtBCustBranch').val() + '&Code=' + $('#txtBCustCode').val();
@@ -1284,9 +1354,6 @@ End Code
                 break;
             case 'desc':
                 SetGridDataDistinct(path, '#tbDesc', '?Table=Job_QuotationDetail&Field=Description', '#frmSearchDesc', ReadDesc);
-                break;
-            case 'route':
-                SetGridTransportPrice(path, '#tbRoute', '#frmSearchRoute', '?Branch=' + $('#txtBranchCode').val() + '&Cust=' + $('#txtCustCode').val(), ReadPrice);
                 break;
             case 'unit':
                 SetGridServUnit(path, '#tbUnit', '#frmSearchUnit', ReadUnit);
@@ -1379,17 +1446,6 @@ End Code
     
 	}
     }
-    function ReadPrice(dt) {
-        if (dt !== undefined) {
-            $('#txtSICode').val(dt.ChargeCode);
-            ShowServiceCode(path, dt.ChargeCode, '#txtSDescription');
-            $('#txtDescriptionThai').val(dt.Location);
-            $('#txtChargeAmt').val(CDbl(dt.ChargeAmount, 2));
-            $('#txtVenderCost').val(CDbl(dt.CostAmount, 2));
-            $('#txtVenderCode').val(dt.VenderCode);
-            CalAmount();
-        }
-    }
     function ReadItem() {
         $('#lblHeader').text(row_d.Description);
         $('#txtItemNo').val(row_i.ItemNo);
@@ -1418,12 +1474,7 @@ End Code
         $('#txtUnitDiscntAmt').val(CDbl(row_i.UnitDiscntAmt,2));
         $('#txtVenderCode').val(row_i.VenderCode);
         ShowVender(path, row_i.VenderCode, '#txtVenderName');
-        $('#txtVenderCost').val(CDbl(row_i.VenderCost, 2));
-        if (row_i.VenderCost > 0) {
-            $('#txtIsService').val('0');
-        } else {
-            $('#txtIsService').val('1');
-        }
+        $('#txtVenderCost').val(CDbl(row_i.VenderCost,2));
         $('#txtBaseProfit').val(CDbl(row_i.BaseProfit,2));
         $('#txtCommissionType').val((row_i.CommissionPerc > 0 ? '0' : '1'));
         ShowCommission();
@@ -1450,7 +1501,11 @@ End Code
         $('#txtCommissionPerc').val(dt.CommRate);
         GetContact();
         let w = '?Branch=' + $('#txtBCustBranch').val() + '&Code=' + $('#txtBCustCode').val();
+<<<<<<< HEAD
         ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+=======
+        //ShowCustomer(path, dt.CustCode, dt.Branch, '#txtCustName');
+>>>>>>> everbest
         ShowCustomer(path, dt.BillToCustCode, dt.BillToBranch, '#txtBCustName');
     }
     function ReadContactName(dt) {
@@ -1482,7 +1537,6 @@ End Code
         $('#txtDescriptionThai').val(dt.NameEng);
         $('#txtIsvat').val(dt.IsTaxCharge);
         $('#txtIsTax').val(dt.Is50Tavi);
-        $('#txtIsService').val(dt.IsCredit == 1 || dt.IsExpense == 1 ? '0': '1');
         $('#txtVatRate').val(dt.IsTaxCharge == 1 ? CDbl(@ViewBag.PROFILE_VATRATE* 100, 0) : 0);
         $('#txtTaxRate').val(dt.Rate50Tavi);
         $('#txtUnitCheck').val(dt.UnitCharge);
@@ -1516,10 +1570,14 @@ End Code
     function CalAmount() {
         let rate = CNum($('#txtCurrencyRate').val());
         let charge = CDbl(($('#txtChargeAmt').val() * rate), 2);
+<<<<<<< HEAD
         $('#txtTotalAmt').val(CDbl(charge, 2));
         if ($('#txtIsService').val() == '0' && CNum($('#txtVenderCost').val())== 0) {
             $('#txtVenderCost').val(CDbl(charge, 2));
         }
+=======
+        $('#txtTotalAmt').val(CDbl(charge,2));
+>>>>>>> everbest
         CalDiscount();
     }
     function CalDiscount() {
@@ -1584,7 +1642,7 @@ End Code
     function CalCommission() {
         let type = $('#txtCommissionType').val();
         let rate = CNum($('#txtCommissionPerc').val());
-        let comm = CDbl((GetBasePrice()-CNum($('#txtVenderCost').val())) * (rate * 0.01), 2);
+        let comm = CDbl((GetNetPrice()-CNum($('#txtVenderCost').val())) * (rate * 0.01), 2);
         if (type == 1) {
             comm = CNum($('#txtCommissionAmt').val());
         }
@@ -1594,7 +1652,11 @@ End Code
     function CalProfit() {
         let comm = CNum($('#txtCommissionAmt').val());
         let cost = CNum($('#txtVenderCost').val());
+<<<<<<< HEAD
         let amt = GetBasePrice();
+=======
+        let amt = GetNetPrice();
+>>>>>>> everbest
         $('#txtBaseProfit').val(CDbl(amt - cost, 2));
         $('#txtNetProfit').val(CDbl(amt - comm - cost, 2));
     }

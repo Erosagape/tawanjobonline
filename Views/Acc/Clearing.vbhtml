@@ -90,6 +90,7 @@ End Code
 <script type="text/javascript">
     const path = '@Url.Content("~")';
     const user = '@ViewBag.User';
+    const userGroup = '@ViewBag.UserGroup';
     let arr = [];
     //$(document).ready(function () {
     SetEvents();
@@ -127,6 +128,12 @@ End Code
             //Branch
             CreateLOV(dv, '#frmSearchBranch', '#tbBranch', 'Branch', response, 2);
         });
+	if(userGroup!=='S') {
+		$('#txtClrBy').val(user);
+		$('#txtClrByName').val('@ViewBag.UserName');
+		$('#txtClrBy').attr('readonly','readonly');
+		$('#btnBrowseEmp2').attr('disabled','disabled');
+	}
     }
     function SetGridClr(isAlert) {
         arr = [];

@@ -215,12 +215,15 @@ Module Main
         Return db
     End Function
     Function GetSession(sName As String) As String
-        Return HttpContext.Current.Session(sName).ToString
+        If Not IsNothing(HttpContext.Current.Session(sName)) Then
+            Return HttpContext.Current.Session(sName).ToString
+        End If
+        Return ""
     End Function
     Function ReadExcelFromFile(fname As String, Optional tbName As String = "") As DataTable
         Dim dt As New DataTable
         Try
-            Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 8.0;HDR={1}'"
+            Dim connXLS As String = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source={0};Extended Properties='Excel 12.0;HDR={1};IMEX=1'"
             Using cnExcel = New OleDbConnection(String.Format(connXLS, fname, "YES"))
                 cnExcel.Open()
                 Dim cnSchemaTable = cnExcel.GetOleDbSchemaTable(OleDb.OleDbSchemaGuid.Tables, Nothing)
@@ -234,7 +237,7 @@ Module Main
                 End If
             End Using
         Catch ex As Exception
-
+            Throw ex
         End Try
         Return dt
     End Function

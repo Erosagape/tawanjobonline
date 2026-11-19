@@ -533,7 +533,7 @@ Public Class CInvHeader
                             If Me.CancelProve <> "" Then
                                 CancelData(cn)
                             Else
-                                Main.DBExecute(cn.ConnectionString, SQLUpdateInvoiceHeader() & " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'")
+                                'Main.DBExecute(cn.ConnectionString, SQLUpdateInvoiceHeader() & " WHERE h.BranchCode='" + Me.BranchCode + "' and h.DocNo='" + Me.DocNo + "'")
                             End If
                             msg = "Save Complete"
                         End Using
@@ -550,7 +550,7 @@ Public Class CInvHeader
         If pFormatSQL = "" Then
             m_DocNo = ""
         Else
-            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(DocNo) as t FROM Job_InvoiceHeader WHERE BranchCode='{0}' And DocNo Like '%{1}' ", m_BranchCode, pFormatSQL), pFormatSQL)
+            Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(DocNo) as t FROM Job_InvoiceHeader WHERE DocNo Like '%{0}' ", pFormatSQL), pFormatSQL)
             m_DocNo = retStr
         End If
     End Sub
@@ -733,10 +733,10 @@ Public Class CInvHeader
                     cm.CommandType = CommandType.Text
                     cm.ExecuteNonQuery()
 
-                    Sql = String.Format("DELETE FROM Job_CashControlDoc WHERE DocType='INV' AND BranchCode='{0}' AND DocNo Like '{1}%'", Me.BranchCode, Me.DocNo)
-                    cm.CommandText = Sql
-                    cm.CommandType = CommandType.Text
-                    cm.ExecuteNonQuery()
+                    'Sql = String.Format("DELETE FROM Job_CashControlDoc WHERE DocType='INV' AND BranchCode='{0}' AND DocNo Like '{1}%'", Me.BranchCode, Me.DocNo)
+                    'cm.CommandText = Sql
+                    'cm.CommandType = CommandType.Text
+                    'cm.ExecuteNonQuery()
 
                     Main.SaveLog(My.MySettings.Default.LicenseTo.ToString, appName, "CInvHeader", "UpdateClrDetail", cm.CommandText, False)
                 End If

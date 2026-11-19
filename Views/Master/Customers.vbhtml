@@ -1,13 +1,34 @@
 ﻿@Code
     ViewBag.Title = "Customers"
 End Code
+<div id="mdlChange" class="modal fade" role="dialog">
+   <div class="modal-dialog">
+      <div class="modal-content">
+         <div class="modal-header">
+		Change Customer To
+         </div>
+         <div class="modal-body">
+		<input type="text" id="txtCustCodeTo" /> / <input type="text" id="txtBranchTo" />
+         </div>
+         <div class="modal-footer">
+		<input type="button" class="btn btn-success" value="Change" onclick="ChangeCustomer()" />
+         </div>
+      </div>
+   </div>
+</div>
 <div class="panel-body">
     <div class="container">
         <div class="row">
             <div class="col-sm-3">
+<<<<<<< HEAD
                 <label id="lblCustCode">Customer Code:</label>
                 <br />
                 <input type="text" id="txtCustCode" class="form-control" tabIndex="0" value="" />
+=======
+                <label id="lblCustCode">Customer Code:</label>		
+                <br />
+                <input type="text" id="txtCustCode" class="form-control" tabIndex="0" value=""/>
+>>>>>>> everbest
             </div>
             <div class="col-sm-3">
                 <label id="lblBranch">Branch :</label>
@@ -36,13 +57,17 @@ End Code
                     <option value="นางสาว">นางสาว</option>
                 </select>
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <label id="lblNameThai">Name (TH) :</label>
                 <br /><input type="text" id="txtNameThai" class="form-control" tabIndex="5">
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-4">
                 <label id="lblNameEng" onclick="CopyName()">English :</label>
                 <br /><input type="text" id="txtNameEng" class="form-control" tabIndex="6">
+            </div>
+	    <div class="col-sm-2">
+               <br/>
+               <input type="button" class="btn btn-warning" onclick="ChangeData()" value="Change Code" />
             </div>
         </div>
         <ul class="nav nav-tabs">
@@ -856,6 +881,7 @@ End Code
                 ShowMessage('Please input name',true);
                 return;
             }
+<<<<<<< HEAD
             if (obj.GLAccountCode == '') {
                 ShowMessage('Please select GL A/R Code',true);
                 return;
@@ -872,6 +898,8 @@ End Code
 		ShowMessage('Please input Billing Branch same as Company Branch1.',true);
 		return;
 	    }*@
+=======
+>>>>>>> everbest
             ShowConfirm('Please confirm to save', function (ask) {
                 if (ask == false) return;
                 var jsonText = JSON.stringify({ data: obj });
@@ -926,9 +954,21 @@ End Code
     function CopyName() {
         $('#txtNameEng').val($('#txtNameThai').val());
     }
+<<<<<<< HEAD
 
     function ShowProvince(dr) {
         $('#txtProvince').val(dr.ProvinceName);
+=======
+    function ChangeData() {
+$('#txtCustCodeTo').val($('#txtCustCode').val());
+$('#txtBranchTo').val($('#txtBranch').val());
+	$('#mdlChange').modal('show');
+    }
+    function ChangeCustomer() {
+	$.get(path + 'Master/ChangeCustomer?FromCode=' + $('#txtCustCode').val() +'&FromBranch=' + $('#txtBranch').val() +'&ToCode=' + $('#txtCustCodeTo').val() + '&ToBranch=' + $('#txtBranchTo').val()).done(function(r){
+		alert(r);
+        });
+>>>>>>> everbest
     }
 
     function ReadProvince(dr) {

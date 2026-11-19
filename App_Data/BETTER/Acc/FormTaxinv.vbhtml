@@ -98,7 +98,7 @@ End Code
         </tr>
     </tbody>
 </table>
-<table style="border-style:solid;width:100%;" class="text-center">
+<table style="border-style:solid;width:100%;page-break-inside:auto" class="text-center">
     <tr style="background-color: #FFFFCC;">
         <th class="border" height="40" width="40">NO.</th>
         <th class="border" height="40" width="80">INV.NO.</th>
@@ -165,14 +165,20 @@ End Code
             ผู้รับชำระเงิน
         </div>
     </div>*@
-<table style="width:70%";>
+<table style="width:100%;">
     <tbody>
         <tr>
             <td rowspan="2" style="width:10%;vertical-align: central; font-size: 16px; white-space: nowrap">PAY BY:</td>
             <td style="width: 10%; white-space: nowrap">TRANSFER</td>
-            <td id="lblPayRef" contenteditable="true" style="border-bottom:1px #66FFCC solid;white-space:pre;"></td>
+            <td  contenteditable="true" >
+                <div id="lblPayRef" style="border-bottom:1px #66FFCC solid;white-space:pre;padding-bottom:5px;font-size:12px"></div>
+            </td>
             <td style="width: 10%; white-space: nowrap">RV NO.</td>
-            <td id="lblPRVoucher" contenteditable="true" style="border-bottom: 1px #66FFCC solid; white-space: pre;"></td>
+            <td  contenteditable="true" >
+                <div id="lblPRVoucher" style="border-bottom:1px #66FFCC solid;padding-bottom:5px;font-size:12px"></div>
+
+            </td>
+        
         </tr>
         <tr>
             <td style="width: 10%; white-space: nowrap ">CHEQUE NO.</td>

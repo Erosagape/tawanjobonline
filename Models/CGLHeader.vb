@@ -165,6 +165,24 @@ Public Class CGLHeader
             m_CancelReason = value
         End Set
     End Property
+    Private m_CommentNote As String
+    Public Property CommentNote As String
+        Get
+            Return m_CommentNote
+        End Get
+        Set(value As String)
+            m_CommentNote = value
+        End Set
+    End Property
+    Private m_Project As String
+    Public Property Project As String
+        Get
+            Return m_Project
+        End Get
+        Set(value As String)
+            m_Project = value
+        End Set
+    End Property
     Public Function SaveData(pSQLWhere As String) As String
         Dim msg As String = ""
         Using cn As New SqlConnection(m_ConnStr)
@@ -196,7 +214,8 @@ Public Class CGLHeader
                             dr("CancelDate") = Main.GetDBDate(Me.CancelDate)
                             dr("CancelBy") = Main.GetDBString(Me.CancelBy, dt.Columns("CancelBy"))
                             dr("CancelReason") = Main.GetDBString(Me.CancelReason, dt.Columns("CancelReason"))
-
+                            dr("CommentNote") = Main.GetDBString(Me.CommentNote, dt.Columns("CommentNote"))
+                            dr("Project") = Main.GetDBString(Me.Project, dt.Columns("Project"))
                             If dr.RowState = DataRowState.Detached Then dt.Rows.Add(dr)
                             da.Update(dt)
                             Main.SaveLogFromObject(My.MySettings.Default.LicenseTo.ToString, appName, "CGLHeader", "SaveData", Me, False)
@@ -215,7 +234,7 @@ Public Class CGLHeader
         If pformatSQL = "" Then
             pformatSQL = "GL" & DateTime.Today.ToString("yyMM") & "____"
         End If
-        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(GLRefNo) as t FROM Job_GLHeader WHERE BranchCode='{0}' And GLRefNo Like '%{1}' ", m_BranchCode, pformatSQL), pformatSQL)
+        Dim retStr As String = Main.GetMaxByMask(m_ConnStr, String.Format("SELECT MAX(GLRefNo) as t FROM Job_GLHeader WHERE GLRefNo Like '%{0}' ", pformatSQL), pformatSQL)
         m_GLRefNo = retStr
     End Sub
     Public Function GetData(pSQLWhere As String) As List(Of CGLHeader)
@@ -277,6 +296,12 @@ Public Class CGLHeader
                     End If
                     If IsDBNull(rd.GetValue(rd.GetOrdinal("CancelReason"))) = False Then
                         row.CancelReason = rd.GetString(rd.GetOrdinal("CancelReason")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("CommentNote"))) = False Then
+                        row.CommentNote = rd.GetString(rd.GetOrdinal("CommentNote")).ToString()
+                    End If
+                    If IsDBNull(rd.GetValue(rd.GetOrdinal("Project"))) = False Then
+                        row.Project = rd.GetString(rd.GetOrdinal("Project")).ToString()
                     End If
                     lst.Add(row)
                 End While

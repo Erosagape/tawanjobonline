@@ -6,8 +6,8 @@
     <title>@ViewBag.Title</title>
     <link rel="stylesheet" type="text/css" href="~/Content/sheets-of-paper-a4.css">
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/Func/util.js"></script>
-    <script src="~/Scripts/Func/reports.js"></script>
+    <script src="~/Scripts/Func/util.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
+    <script src="~/Scripts/Func/reports.js?@DateTime.Now.ToString("yyyyMMddHHMMss")"></script>
     <style>
         * {
             font-size: 11px;
@@ -115,9 +115,9 @@
         </table>
 
         </div>
-        @*<div id="dvFooter" style="width:100%;font-size:8px">
+        <div id="dvFooter" style="width:100%;font-size:8px;display:none">
             <p style="text-align:left">Printed By : @ViewBag.User Printed Date : @DateTime.Now</p>
-        </div>*@
+        </div>
     </div>
 </body>
 </html>
