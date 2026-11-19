@@ -218,6 +218,7 @@
     <Compile Include="Models\CCompany.vb" />
     <Compile Include="Models\CConfig.vb" />
     <Compile Include="Models\CContact.vb" />
+    <Compile Include="Models\CContainer.vb" />
     <Compile Include="Models\CController.vb" />
     <Compile Include="Models\CCountry.vb" />
     <Compile Include="Models\CCreditNote.vb" />
